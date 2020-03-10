@@ -62,7 +62,7 @@ public class ModContainerFactories {
     	});
     	
     	ScreenProviderRegistry.INSTANCE.registerFactory(ACCESSORY, (AccessoryContainer c) -> {
-    		return new AccessoryScreen(c, MinecraftClient.getInstance().player, new LiteralText("Maggie is my love"));
+    		return new AccessoryScreen(c, MinecraftClient.getInstance().player, new LiteralText("Hello is my love"));
     	});
     	
     	ScreenProviderRegistry.INSTANCE.registerFactory(PERSONAL_CHEST, (PersonalChestContainer c) -> {

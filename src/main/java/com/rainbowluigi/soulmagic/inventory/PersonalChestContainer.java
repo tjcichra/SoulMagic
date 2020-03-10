@@ -38,6 +38,6 @@ public class PersonalChestContainer extends Container {
 	}
 
 	public Text getDisplayName() {
-		return new LiteralText("Maggie is my love");
+		return new LiteralText("HELLo");
 	}
 }
