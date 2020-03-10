@@ -346,7 +346,6 @@ public class SoulInfuserBlockEntity extends LockableContainerBlockEntity impleme
 
 	@Override
 	public CompoundTag toClientTag(CompoundTag tag) {
-		System.out.println("tanner343");
 		ListTag cookSoulMap = new ListTag();
 		for(Entry<SoulType, Double> entry : this.cookSoulMap.entrySet()) {
 			CompoundTag tag2 = new CompoundTag();

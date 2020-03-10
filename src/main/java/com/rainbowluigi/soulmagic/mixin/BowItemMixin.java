@@ -11,13 +11,13 @@ public class BowItemMixin {
 
 	@ModifyVariable(method = "onStoppedUsing", at = @At(value = "STORE"))
 	public boolean hasSoulQuiver(boolean base) {
-		System.out.println("tanner is real");
+		System.out.println("onStoppedUsing");
 		return base;
 	}
 	
 	@ModifyVariable(method = "use", at = @At(value = "STORE"))
 	public boolean hasSoulQuiverOnUse(boolean base) {
-		System.out.println("tanner is real use");
+		System.out.println("use");
 		return base;
 	}
 }
