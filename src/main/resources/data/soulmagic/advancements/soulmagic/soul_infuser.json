@@ -1,0 +1,26 @@
+{
+	"parent": "soulmagic:soulmagic/soul_essence_staff",
+	"display": {
+		"icon": {
+			"item": "soulmagic:soul_infuser"
+		},
+		"title": {
+			"translate": "advancements.soulmagic.soul_infuser.title"
+		},
+		"description": {
+			"translate": "advancements.soulmagic.soul_infuser.description"
+		}
+	},
+	"criteria": {
+		"soul_infuser": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "soulmagic:soul_infuser"
+					}
+				]
+			}
+		}
+	}
+}

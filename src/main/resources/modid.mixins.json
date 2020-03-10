@@ -1,0 +1,23 @@
+{
+	"required": true,
+	"package": "com.rainbowluigi.soulmagic.mixin",
+	"compatibilityLevel": "JAVA_8",
+	"mixins": [
+		"SoulStaffMixin",
+		"TestMixin1",
+		"ServerPlayerInteractionManagerMixin",
+		"BowItemMixin",
+		"ItemMixin"
+	],
+	"client": [
+		"ItemDynamicRendererMixin",
+		"ItemRendererMixin",
+		"DefaultCraftingCategoryMixin",
+		"InGameHudMixin",
+		"InventoryScreenMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	},
+	"refmap": "soulmagic-refmap.json"
+}

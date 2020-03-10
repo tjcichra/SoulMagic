@@ -1,0 +1,23 @@
+{
+	"type": "soulmagic:soul_separation",
+	"ingredient": {
+		"item": "minecraft:soul_sand"
+	},
+	"result": {
+		"item": "minecraft:sand"
+	},
+	"souls": [
+		{
+			"soul": "soulmagic:light",
+			"min": 1,
+			"max": 3			
+		},
+		{
+			"soul": "soulmagic:dark",
+			"min": 1,
+			"max": 3
+		}
+	],
+	"chance": 0.15,
+	"cookingtime": 60
+}

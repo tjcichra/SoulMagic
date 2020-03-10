@@ -1,0 +1,64 @@
+{
+	"item.soulmagic.soul_essence_staff": "Soul Essence Staff",
+	"item.soulmagic.greater_soul_essence_staff": "Greater Soul Essence Staff",
+	"item.soulmagic.creative_soul_essence_staff": "Creative Soul Essence Staff",
+	"item.soulmagic.soul_gem": "Empty Soul Gem",
+	"item.soulmagic.soul_gem.spell_type.soulmagic.fiery": "Fiery Soul Gem",
+	"item.soulmagic.soul_gem.spell_type.soulmagic.icy": "Icy Soul Gem",
+	"item.soulmagic.soul_gem.spell_type.soulmagic.earthen": "Earthen Soul Gem",
+	"item.soulmagic.soul_gem.spell_type.soulmagic.windy": "Windy Soul Gem",
+	"item.soulmagic.soul_gem.spell_type.soulmagic.binding": "Binding Soul Gem",
+	"item.soulmagic.soul_gem.spell_type.soulmagic.lightened": "Lightened Soul Gem",
+	"item.soulmagic.soul_gem.spell_type.soulmagic.darkened": "Darkened Soul Gem",
+	"item.soulmagic.earring": "Earring",
+	"item.soulmagic.amulet_of_blinded_rage": "Amulet of Blinded Rage",
+	"item.soulmagic.light_soul_powder": "Light Soul Powder",
+	"item.soulmagic.dark_soul_powder": "Dark Soul Powder",
+	"item.soulmagic.prideful_soul_powder": "Prideful Soul Powder",
+	"item.soulmagic.light_soul_ingot": "Light Soul Ingot",
+	"item.soulmagic.dark_soul_ingot": "Dark Soul Ingot",
+	"item.soulmagic.prideful_soul_ingot": "Prideful Soul Ingot",
+	"item.soulmagic.iron_brace": "Iron Brace",
+	"item.soulmagic.soul_brace": "Soul Brace",
+	"item.soulmagic.creative_brace": "Creative Brace",
+	"item.soulmagic.reference_staff": "Reference Staff",
+	
+	"enchantment.soulmagic.soul_stealer": "Soul Stealer",
+	
+	"block.soulmagic.soul_infuser": "Soul Infuser",
+	
+	"spell.soulmagic.fireball": "Fireball",
+	"spell.soulmagic.flaming_touch": "Flaming Touch",
+	
+	"soul_type.soulmagic.light": "Light",
+	"soul_type.soulmagic.dark": "Dark",
+	"soul_type.soulmagic.prideful": "Prideful",
+	
+	"container.soulmagic.soul_infuser": "Soul Infuser",
+	"container.soulmagic.inventory": "Inventory",
+	"container.soulmagic.accessories": "Accessories",
+	
+	"itemGroup.soulmagic.creative_tab": "Soul Magic",
+	
+	"soulmagic.key.category": "Soul Magic",
+	"soulmagic.key.select_spell": "Select Spell",
+	
+	"soulmagic.soul_essence_staff.amount": "%s: %s/%s",
+	"soulmagic.select_spell": "'%s' selected.",
+	
+	"soulmagic.rei.category.soul_infusion": "Soul Infusion",
+	"soulmagic.rei.category.soul_separation": "Soul Separation",
+	"soulmagic.rei.required": "Required:",
+	"soulmagic.rei.soul_amount": "%s: %s",
+	
+	"advancements.soulmagic.root.title": "Soul Magic",
+	"advancements.soulmagic.root.description": "Using souls to create magical tools and weapons",
+	"advancements.soulmagic.soul_essence_staff.title": "Your Soul Is Mine!",
+	"advancements.soulmagic.soul_essence_staff.description": "Craft a soul essence staff to capture the soul essence of killed mobs",
+	"advancements.soulmagic.soul_infuser.title": "Infusion Confusion",
+	"advancements.soulmagic.soul_infuser.description": "Create a soul infuser",
+	"advancements.soulmagic.soul_gem.title": "Gemstone Magic!",
+	"advancements.soulmagic.soul_gem.description": "Create a fiery soul gem with a soul infuser",
+	"advancements.soulmagic.all_soul_gem.title": "Spellmaster",
+	"advancements.soulmagic.all_soul_gem.description": "Create every type of soul gem"
+}

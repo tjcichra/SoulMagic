@@ -1,0 +1,15 @@
+{
+	"type": "soulmagic:soul_separation",
+	"ingredient": {
+		"item": "minecraft:rotten_flesh"
+	},
+	"souls": [
+		{
+			"soul": "soulmagic:dark",
+			"min": 1,
+			"max": 2			
+		}
+	],
+	"chance": 0.15,
+	"cookingtime": 60
+}

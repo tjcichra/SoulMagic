@@ -1,0 +1,39 @@
+{
+	"type": "soulmagic:soul_infusion",
+	"ingredients": [
+		{
+			"item": "minecraft:fire_charge"
+		},
+		{
+			"item": "minecraft:netherrack"
+		},
+		{
+			"item": "minecraft:blaze_rod"
+		},
+		{
+			"item": "minecraft:netherrack"
+		},
+		{
+			"item": "minecraft:fire_charge"
+		},
+		{
+			"item": "minecraft:netherrack"
+		},
+		{
+			"item": "minecraft:blaze_rod"
+		},
+		{
+			"item": "minecraft:netherrack"
+		},
+		{
+			"item": "minecraft:gunpowder"
+		}
+	],
+	"result": {
+		"item": "minecraft:iron_ingot"
+	},
+	"soul": {
+		"soulmagic:light": 25,
+		"soulmagic:dark": 25
+	}
+}

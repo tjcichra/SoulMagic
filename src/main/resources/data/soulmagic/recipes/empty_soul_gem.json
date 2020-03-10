@@ -1,0 +1,23 @@
+{
+	"type": "soulmagic:soul_staff_shaped",
+	"pattern": [
+		" G ",
+		"GSG",
+		" G "
+	],
+	"key": {
+		"G": {
+			"item": "minecraft:glass"
+		},
+		"S": {
+			"tag": "soulmagic:soul_essence_staffs"
+		}
+	},
+	"soul": {
+		"soulmagic:light": 15,
+		"soulmagic:dark": 15
+	},
+	"result": {
+		"item": "soulmagic:soul_gem"
+	}
+}

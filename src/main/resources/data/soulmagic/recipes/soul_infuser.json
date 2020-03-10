@@ -1,0 +1,29 @@
+{
+	"type": "soulmagic:soul_staff_shaped",
+	"pattern": [
+		"MLM",
+		"TST",
+		"TTT"
+	],
+	"key": {
+		"L": {
+			"item": "minecraft:smooth_stone_slab"
+		},
+		"M": {
+			"item": "minecraft:smooth_stone"
+		},
+		"T": {
+			"item": "minecraft:stone"
+		},
+		"S": {
+			"tag": "soulmagic:soul_essence_staffs"
+		}
+	},
+	"soul": {
+		"soulmagic:light": 35,
+		"soulmagic:dark": 35
+	},
+	"result": {
+		"item": "soulmagic:soul_infuser"
+	}
+}

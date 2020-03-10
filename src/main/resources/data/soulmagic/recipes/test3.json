@@ -1,0 +1,38 @@
+{
+	"type": "soulmagic:spell_infusion",
+	"ingredients": [
+		{
+			"item": "minecraft:fire_charge"
+		},
+		{
+			"item": "minecraft:netherrack"
+		},
+		{
+			"item": "minecraft:blaze_rod"
+		},
+		{
+			"item": "minecraft:netherrack"
+		},
+		{
+			"item": "minecraft:fire_charge"
+		},
+		{
+			"item": "minecraft:netherrack"
+		},
+		{
+			"item": "minecraft:blaze_rod"
+		},
+		{
+			"item": "minecraft:netherrack"
+		},
+		{
+			"item": "soulmagic:soul_gem"
+		}
+	],
+	"spell": "soulmagic:fireball",
+	"soul": {
+		"soulmagic:light": 25,
+		"soulmagic:dark": 25
+	},
+	"color": 16766660
+}

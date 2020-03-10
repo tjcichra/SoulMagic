@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "soulmagic:soul_essence_staff",
+    "soulmagic:greater_soul_essence_staff",
+    "soulmagic:reference_staff"
+  ]
+}

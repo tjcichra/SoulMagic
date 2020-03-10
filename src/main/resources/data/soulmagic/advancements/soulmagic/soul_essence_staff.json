@@ -1,0 +1,26 @@
+{
+	"parent": "soulmagic:soulmagic/root",
+	"display": {
+		"icon": {
+			"item": "soulmagic:soul_essence_staff"
+		},
+		"title": {
+			"translate": "advancements.soulmagic.soul_essence_staff.title"
+		},
+		"description": {
+			"translate": "advancements.soulmagic.soul_essence_staff.description"
+		}
+	},
+	"criteria": {
+		"soul_essence_staff": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "soulmagic:soul_essence_staff"
+					}
+				]
+			}
+		}
+	}
+}

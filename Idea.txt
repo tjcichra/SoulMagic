@@ -1,0 +1,9 @@
+Charm that takes durability for a tool
+Charm that makes a "bubble death"
+
+Fireball ignites TNT
+
+Soaring Chest (Chest that follows you)
+Renaming the soarting chest gives the chest a name tag
+
+Disarming enchantment for fishing rod. Treasure.

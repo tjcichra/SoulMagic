@@ -1,0 +1,39 @@
+{
+	"type": "soulmagic:soul_infusion",
+	"ingredients": [
+		{
+			"item": "minecraft:netherite_scrap"
+		},
+		{
+			"item": "minecraft:air"
+		},
+		{
+			"item": "minecraft:air"
+		},
+		{
+			"item": "minecraft:netherite_scrap"
+		},
+		{
+			"item": "minecraft:air"
+		},
+		{
+			"item": "minecraft:netherite_scrap"
+		},
+		{
+			"item": "minecraft:air"
+		},
+		{
+			"item": "minecraft:air"
+		},
+		{
+			"item": "minecraft:gold_block"
+		}
+	],
+	"result": {
+		"item": "minecraft:netherite_ingot"
+	},
+	"soul": {
+		"soulmagic:dark": 15
+	},
+	"color": 13540754
+}

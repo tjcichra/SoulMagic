@@ -1,0 +1,38 @@
+{
+	"type": "soulmagic:spell_infusion",
+	"ingredients": [
+		{
+			"item": "minecraft:flint_and_steel"
+		},
+		{
+			"item": "minecraft:stone"
+		},
+		{
+			"item": "minecraft:flint_and_steel"
+		},
+		{
+			"item": "minecraft:stone"
+		},
+		{
+			"item": "minecraft:flint_and_steel"
+		},
+		{
+			"item": "minecraft:stone"
+		},
+		{
+			"item": "minecraft:flint_and_steel"
+		},
+		{
+			"item": "minecraft:stone"
+		},
+		{
+			"item": "soulmagic:soul_gem"
+		}
+	],
+	"spell": "soulmagic:flaming_touch",
+	"soul": {
+		"soulmagic:light": 25,
+		"soulmagic:dark": 25
+	},
+	"color": 14737372
+}

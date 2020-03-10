@@ -1,0 +1,7 @@
+{
+    "parent": "item/handheld",
+    "textures": {
+        "layer0": "soulmagic:item/greater_soul_essence_staff",
+        "layer1": "soulmagic:item/soul_essence_staff_overlay"
+    }
+}

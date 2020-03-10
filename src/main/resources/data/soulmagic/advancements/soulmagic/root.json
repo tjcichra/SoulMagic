@@ -1,0 +1,29 @@
+{
+	"display": {
+		"icon": {
+			"item": "minecraft:soul_sand"
+		},
+		"title": {
+			"translate": "advancements.soulmagic.root.title"
+		},
+		"description": {
+			"translate": "advancements.soulmagic.root.description"
+		},
+		"show_toast": false,
+		"hidden": false,
+		"announce_to_chat": false,
+		"background": "minecraft:textures/gui/advancements/backgrounds/adventure.png"
+	},
+	"criteria": {
+		"soul_sand": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"tag": "soulmagic:soul_sand"
+					}
+				]
+			}
+		}
+	}
+}

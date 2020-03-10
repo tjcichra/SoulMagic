@@ -1,0 +1,18 @@
+{
+	"type": "soulmagic:soul_separation",
+	"ingredient": {
+		"item": "minecraft:egg"
+	},
+	"result": {
+		"item": "minecraft:feather"
+	},
+	"souls": [
+		{
+			"soul": "soulmagic:light",
+			"max": 3,
+			"min": 1
+		}
+	],
+	"chance": 0.15,
+	"cookingtime": 80
+}

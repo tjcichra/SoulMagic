@@ -1,0 +1,22 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		" IP",
+		"ISI",
+		"PI "
+	],
+	"key": {
+		"I": {
+			"tag": "soulmagic:soul_ingots"
+		},
+		"P": {
+			"tag": "soulmagic:soul_powders"
+		},
+		"S": {
+			"item": "soulmagic:soul_essence_staff"
+		}
+	},
+	"result": {
+		"item": "soulmagic:greater_soul_essence_staff"
+	}
+}

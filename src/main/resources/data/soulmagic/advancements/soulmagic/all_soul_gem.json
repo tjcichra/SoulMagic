@@ -1,0 +1,91 @@
+{
+	"parent": "soulmagic:soulmagic/soul_gem",
+	"display": {
+		"icon": {
+			"item": "soulmagic:soul_gem"
+		},
+		"title": {
+			"translate": "advancements.soulmagic.all_soul_gem.title"
+		},
+		"description": {
+			"translate": "advancements.soulmagic.all_soul_gem.description"
+		},
+		"frame": "challenge"
+	},
+	"rewards": {
+		"experience": 100
+	},
+	"criteria": {
+		"fiery": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "soulmagic:soul_gem",
+						"nbt": "{spelltype:'soulmagic:fiery'}"
+					}
+				]
+			}
+		}, "icy": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "soulmagic:soul_gem",
+						"nbt": "{spelltype:'soulmagic:icy'}"
+					}
+				]
+			}
+		}, "earthen": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "soulmagic:soul_gem",
+						"nbt": "{spelltype:'soulmagic:earthen'}"
+					}
+				]
+			}
+		}, "windy": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "soulmagic:soul_gem",
+						"nbt": "{spelltype:'soulmagic:windy'}"
+					}
+				]
+			}
+		}, "binding": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "soulmagic:soul_gem",
+						"nbt": "{spelltype:'soulmagic:binding'}"
+					}
+				]
+			}
+		}, "lightened": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "soulmagic:soul_gem",
+						"nbt": "{spelltype:'soulmagic:lightened'}"
+					}
+				]
+			}
+		}, "darkened": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "soulmagic:soul_gem",
+						"nbt": "{spelltype:'soulmagic:darkened'}"
+					}
+				]
+			}
+		}
+	}
+}

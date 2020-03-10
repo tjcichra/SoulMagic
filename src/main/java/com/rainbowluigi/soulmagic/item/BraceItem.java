@@ -1,0 +1,29 @@
+package com.rainbowluigi.soulmagic.item;
+
+import java.util.List;
+
+import me.sargunvohra.mcmods.autoconfig1u.shadowed.blue.endless.jankson.annotation.Nullable;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.item.TooltipContext;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
+import net.minecraft.world.World;
+
+public class BraceItem extends Item {
+
+	private final double MULTIPLIER;
+	
+	public BraceItem(double multiplier, Settings item$Settings_1) {
+		super(item$Settings_1);
+		this.MULTIPLIER = multiplier;
+	}
+
+	@Environment(EnvType.CLIENT)
+	@Override
+	public void appendTooltip(ItemStack itemStack_1, @Nullable World world_1, List<Text> list, TooltipContext tooltipContext_1) {
+		list.add(new LiteralText(this.MULTIPLIER + "x"));
+	}
+}

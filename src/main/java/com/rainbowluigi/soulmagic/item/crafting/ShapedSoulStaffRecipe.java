@@ -1,0 +1,155 @@
+package com.rainbowluigi.soulmagic.item.crafting;
+
+import java.util.Map;
+import java.util.Map.Entry;
+
+import com.google.common.collect.Maps;
+import com.google.gson.JsonObject;
+import com.rainbowluigi.soulmagic.item.SoulEssenceStaff;
+import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
+import com.rainbowluigi.soulmagic.soultype.SoulType;
+import com.rainbowluigi.soulmagic.util.SoulUtils;
+
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.inventory.CraftingInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.recipe.Ingredient;
+import net.minecraft.recipe.RecipeSerializer;
+import net.minecraft.recipe.ShapedRecipe;
+import net.minecraft.util.DefaultedList;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.JsonHelper;
+import net.minecraft.util.PacketByteBuf;
+import net.minecraft.world.World;
+
+public class ShapedSoulStaffRecipe extends ShapedRecipe {
+
+	private final Map<SoulType, Integer> soulMap;
+	
+	public ShapedSoulStaffRecipe(ShapedRecipe srecipe, Map<SoulType, Integer> soulMap) {
+		super(srecipe.getId(), srecipe.getGroup(), srecipe.getWidth(), srecipe.getHeight(), srecipe.getPreviewInputs(), srecipe.getOutput());
+		this.soulMap = soulMap;
+	}
+	
+	@Override
+	public DefaultedList<ItemStack> getRemainingStacks(CraftingInventory inv) {
+		DefaultedList<ItemStack> nonnulllist = DefaultedList.ofSize(inv.getInvSize(), ItemStack.EMPTY);
+
+		for (int i = 0; i < nonnulllist.size(); ++i) {
+			ItemStack stack = inv.getInvStack(i);
+			
+			if(stack.getItem() instanceof SoulEssenceStaff) {
+				SoulEssenceStaff staff = (SoulEssenceStaff) stack.getItem();
+				
+				for(Entry<SoulType, Integer> e : this.soulMap.entrySet()) {
+					staff.subtractSoul(stack, MinecraftClient.getInstance().world, e.getKey(), e.getValue());
+				}
+				nonnulllist.set(i, stack.copy());
+			} else if (stack.getItem().hasRecipeRemainder()) {
+				nonnulllist.set(i, new ItemStack(stack.getItem().getRecipeRemainder()));
+			}
+		}
+
+		return nonnulllist;
+	}
+	
+	@Override
+	public boolean matches(CraftingInventory inv, World worldIn) {
+		for (int i = 0; i <= inv.getWidth() - inv.getWidth(); ++i) {
+			for (int j = 0; j <= inv.getHeight() - this.getHeight(); ++j) {
+				if (this.checkMatch(inv, i, j, true)) {
+					return true;
+				}
+
+				if (this.checkMatch(inv, i, j, false)) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Checks if the region of a crafting inventory is match for the recipe.
+	 */
+	private boolean checkMatch(CraftingInventory craftingInventory, int p_77573_2_, int p_77573_3_, boolean p_77573_4_) {
+		for (int i = 0; i < craftingInventory.getWidth(); ++i) {
+			for (int j = 0; j < craftingInventory.getHeight(); ++j) {
+				int k = i - p_77573_2_;
+				int l = j - p_77573_3_;
+				Ingredient ingredient = Ingredient.EMPTY;
+				if (k >= 0 && l >= 0 && k < this.getWidth() && l < this.getHeight()) {
+					if (p_77573_4_) {
+						ingredient = this.getPreviewInputs().get(this.getWidth() - k - 1 + l * this.getWidth());
+					} else {
+						ingredient = this.getPreviewInputs().get(k + l * this.getWidth());
+					}
+				}
+
+				
+				if (!ingredient.test(craftingInventory.getInvStack(i + j * craftingInventory.getWidth()))) {
+					return false;
+				} else if(ingredient.getMatchingStacksClient().length > 0 && ingredient.getMatchingStacksClient()[0].getItem() instanceof SoulEssenceStaff) {
+					ItemStack stack = craftingInventory.getInvStack(i + j * craftingInventory.getWidth());
+					SoulEssenceStaff staff = (SoulEssenceStaff) stack.getItem();
+					
+					for(Entry<SoulType, Integer> e : this.soulMap.entrySet()) {
+						//TODO FIX
+						if(staff.getSoul(stack, MinecraftClient.getInstance().world, e.getKey()) < e.getValue()) {
+							return false;
+						}
+					}
+				}
+			}
+		}
+
+		return true;
+	}
+	
+	public Map<SoulType, Integer> getSoulMap() {
+		return this.soulMap;
+	}
+	
+	@Override
+	public RecipeSerializer<?> getSerializer() {
+		return ModRecipes.SOUL_STAFF_SHAPED;
+	}
+
+	public static class Serializer implements RecipeSerializer<ShapedSoulStaffRecipe> {
+		
+		@Override
+		public ShapedSoulStaffRecipe read(Identifier recipeId, JsonObject json) {
+			ShapedRecipe shaped = RecipeSerializer.SHAPED.read(recipeId, json);
+			Map<SoulType, Integer> soulMap = SoulUtils.deserializeSoulMap(JsonHelper.getObject(json, "soul"));
+			
+			return new ShapedSoulStaffRecipe(shaped, soulMap);
+		}
+
+		@Override
+		public ShapedSoulStaffRecipe read(Identifier recipeId, PacketByteBuf buffer) {
+			ShapedRecipe shaped = RecipeSerializer.SHAPED.read(recipeId, buffer);
+			
+			int n = buffer.readInt();
+			Map<SoulType, Integer> soulMap = Maps.newHashMap();
+			for(int l = 0; l < n; l++) {
+				soulMap.put(ModSoulTypes.SOUL_TYPE_REG.get(buffer.readIdentifier()), buffer.readInt());
+			}
+			
+			return new ShapedSoulStaffRecipe(shaped, soulMap);
+		}
+
+		@Override
+		public void write(PacketByteBuf buffer, ShapedSoulStaffRecipe recipe) {
+			if(recipe instanceof ShapedSoulStaffRecipe) {
+				ShapedSoulStaffRecipe ssrecipe = (ShapedSoulStaffRecipe) recipe;
+				buffer.writeInt(ssrecipe.getSoulMap().size());
+				
+				for(Entry<SoulType, Integer> entry : ssrecipe.getSoulMap().entrySet()) {
+					buffer.writeIdentifier(ModSoulTypes.SOUL_TYPE_REG.getId(entry.getKey()));
+					buffer.writeInt(entry.getValue());
+				}
+			}
+		}
+	}
+}

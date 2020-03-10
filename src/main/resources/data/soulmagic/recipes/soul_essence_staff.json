@@ -1,0 +1,22 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		" TG",
+		"TST",
+		"GT "
+	],
+	"key": {
+		"T": {
+			"item": "minecraft:stick"
+		},
+		"G": {
+			"item": "minecraft:gold_ingot"
+		},
+		"S": {
+			"item": "minecraft:soul_sand"
+		}
+	},
+	"result": {
+		"item": "soulmagic:soul_essence_staff"
+	}
+}

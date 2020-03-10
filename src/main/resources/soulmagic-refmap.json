@@ -1,0 +1,22 @@
+{
+	"mappings": {
+		"com/rainbowluigi/soulmagic/mixin/TestMixin1": {
+			"interactBlock": "interactBlock(Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/world/World;Lnet/minecraft/item/ItemStack;Lnet/minecraft/util/Hand;Lnet/minecraft/util/hit/BlockHitResult;)Lnet/minecraft/util/ActionResult;"
+		},
+		"com/rainbowluigi/soulmagic/mixin/ItemRendererMixin": {
+			"renderGuiItemOverlay": "renderGuiItemOverlay(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/item/ItemStack;IILjava/lang/String;)V"
+		},
+		"com/rainbowluigi/soulmagic/mixin/BowItemMixin": {
+			"onStoppedUsing": "onStoppedUsing(Lnet/minecraft/item/ItemStack;Lnet/minecraft/world/World;Lnet/minecraft/entity/LivingEntity;I)V",
+			"use": "use(Lnet/minecraft/world/World;Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/util/Hand;)Lnet/minecraft/util/TypedActionResult;"
+		},
+		"com/rainbowluigi/soulmagic/mixin/DefaultCraftingCategoryMixin": {
+			"setupDisplay": "setupDisplay(Ljava/util/function/Supplier;Lme/shedaniel/math/api/Rectangle;)Ljava/util/List;"
+		},
+		"com/rainbowluigi/soulmagic/mixin/InGameHudMixin": {
+			"render": "render(F)V",
+			"renderStatusEffectOverlay": "renderStatusEffectOverlay()V"
+			
+		}
+	}
+}
