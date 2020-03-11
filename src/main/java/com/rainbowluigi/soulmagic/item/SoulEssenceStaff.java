@@ -137,4 +137,26 @@ public interface SoulEssenceStaff {
     	}
     	return true;
     }
+    
+    public static boolean hasAtLeastSoul(PlayerEntity player, World world, Object... objects) {
+    	if(!player.isCreative()) {
+	    	for (int i = 0; i < player.inventory.getInvSize(); i++) {
+	    		if(player.inventory.getInvStack(i).getItem() instanceof SoulEssenceStaff) {
+					ItemStack stack = player.inventory.getInvStack(i);
+					for(int j = 0; j < objects.length; j += 2) {
+						SoulEssenceStaff staff = (SoulEssenceStaff) stack.getItem();
+						//if(staff.getSoul(stack, (SoulType) objects[j]) < (Integer) objects[j + 1]) {
+						//	return false;
+						//}
+						if(staff.getSoul(stack, world, (SoulType) objects[j]) < (Integer) objects[j + 1]) {
+							return false;
+						}
+					}
+					return true;
+				}
+	    	}
+	    	return false;
+    	}
+    	return true;
+    }
 }

@@ -15,12 +15,14 @@ public class ModEntityTypes {
     public static final EntityType<BarrageEntity> BARRAGE = FabricEntityTypeBuilder.<BarrageEntity>create(EntityCategory.MISC, BarrageEntity::new).size(EntityDimensions.changing(3, 3)).trackable(64, 1, true).build();
     public static final EntityType<TendrilEntity> TENDRIL = FabricEntityTypeBuilder.<TendrilEntity>create(EntityCategory.MISC, TendrilEntity::new).size(EntityDimensions.changing(1, 1)).trackable(64, 1, true).build();
     public static final EntityType<UniverseRingEntity> UNIVERSE_RING = FabricEntityTypeBuilder.<UniverseRingEntity>create(EntityCategory.MISC, UniverseRingEntity::new).size(EntityDimensions.fixed(1, 1)).trackable(64, 1, true).build();
-
+    public static final EntityType<SoulArrowEntity> SOUL_ARROW_ENTITY = FabricEntityTypeBuilder.<SoulArrowEntity>create(EntityCategory.MISC, SoulArrowEntity::new).size(EntityDimensions.fixed(0.5f, 0.5f)).trackable(4, 20, true).build();
+    
     public static void registerEntityTypes() {
     	registerEntityType(MAGIC_FIREBALL, "magic_fireball");
     	registerEntityType(UNIVERSE_RING, "universe_ring");
     	registerEntityType(BARRAGE, "barrage");
     	registerEntityType(TENDRIL, "trendril");
+    	registerEntityType(SOUL_ARROW_ENTITY, "soul_arrow");
     }
 
     private static void registerEntityType(EntityType<?> entityType, String name) {

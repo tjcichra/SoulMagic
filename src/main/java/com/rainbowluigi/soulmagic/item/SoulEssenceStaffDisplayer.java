@@ -7,5 +7,9 @@ import net.minecraft.item.ItemStack;
 
 public interface SoulEssenceStaffDisplayer {
 
+	public default boolean showDisplay(ItemStack stack, PlayerEntity player) {
+		return true;
+	}
+	
 	public SoulType[] getSoulTypesToShow(ItemStack stack, PlayerEntity player);
 }

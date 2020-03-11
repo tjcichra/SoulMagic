@@ -1,15 +1,23 @@
 package com.rainbowluigi.soulmagic.item.bound;
 
+import java.util.function.Consumer;
+
+import com.rainbowluigi.soulmagic.item.SoulEssenceStaff;
 import com.rainbowluigi.soulmagic.item.SoulEssenceStaffDisplayer;
 import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
 import com.rainbowluigi.soulmagic.soultype.SoulType;
 
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Material;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.PickaxeItem;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class BoundPickaxeItem extends PickaxeItem implements SoulEssenceStaffDisplayer {
@@ -28,6 +36,15 @@ public class BoundPickaxeItem extends PickaxeItem implements SoulEssenceStaffDis
 			player.setStackInHand(hand, gem);
 		}
 		return new TypedActionResult<ItemStack>(ActionResult.PASS, stack);
+	}
+	
+	@Override
+	public boolean postMine(ItemStack stack, World world, BlockState blockState_1, BlockPos blockPos_1, LivingEntity entity) {
+		if(entity instanceof PlayerEntity) {
+			SoulEssenceStaff.hasSoul((PlayerEntity) entity, world, ModSoulTypes.LIGHT, 5);
+			super.postMine(stack, world, blockState_1, blockPos_1, entity);
+		}
+		return true;
 	}
 	
 	@Override

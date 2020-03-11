@@ -101,7 +101,7 @@ public class InGameHudMixin extends DrawableHelper {
 	
 	private ItemStack getHoldingSoulItem() {
 		for(ItemStack stack : client.player.getItemsEquipped()) {
-			if(stack.getItem() instanceof SoulEssenceStaffDisplayer) {
+			if(stack.getItem() instanceof SoulEssenceStaffDisplayer && ((SoulEssenceStaffDisplayer) stack.getItem()).showDisplay(stack, client.player)) {
 				return stack;
 			}
 		}

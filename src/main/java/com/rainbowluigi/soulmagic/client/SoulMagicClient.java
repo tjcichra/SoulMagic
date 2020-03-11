@@ -18,6 +18,7 @@ import com.rainbowluigi.soulmagic.spelltype.ModSpellTypes;
 import com.rainbowluigi.soulmagic.spelltype.SpellType;
 import com.rainbowluigi.soulmagic.util.Reference;
 import com.rainbowluigi.soulmagic.util.SoulGemHelper;
+import com.rainbowluigi.soulmagic.util.SoulQuiverHelper;
 
 import io.netty.buffer.Unpooled;
 import net.fabricmc.api.ClientModInitializer;
@@ -33,8 +34,10 @@ import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.entity.ArrowEntityRenderer;
 import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.entity.EntityType;
 import net.minecraft.item.DyeableItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
@@ -57,6 +60,7 @@ public class SoulMagicClient implements ClientModInitializer {
 		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.UNIVERSE_RING, (manager, context) -> new BlankRender(manager));
 		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.BARRAGE, (manager, context) -> new BlankRender(manager));
 		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.TENDRIL, (manager, context) -> new BlankRender(manager));
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.SOUL_ARROW_ENTITY, (manager, context) -> new SoulArrowEntityRenderer(manager));
 		
 		KeyBindingRegistry.INSTANCE.addCategory(Reference.MOD_ID);
 		KeyBindingRegistry.INSTANCE.register(SPELL_SELECT);
@@ -77,6 +81,10 @@ public class SoulMagicClient implements ClientModInitializer {
 		ColorProviderRegistry.ITEM.register((stack, tint) -> {
 			return 0xFFFFFF;
 		}, ModItems.SOUL_ESSENCE_STAFF);
+		
+		ColorProviderRegistry.ITEM.register((stack, tint) -> {
+			return SoulQuiverHelper.getSoulType(stack).getColor();
+		}, ModItems.SOUL_QUIVER);
 		
 		ColorProviderRegistry.ITEM.register((stack, tint) -> {
 			SpellType st = SoulGemHelper.getSpellType(stack);

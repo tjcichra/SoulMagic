@@ -45,6 +45,7 @@
 	
 	"soulmagic.soul_essence_staff.amount": "%s: %s/%s",
 	"soulmagic.select_spell": "'%s' selected.",
+	"soulmagic.soul_quiver.text": "%s soul arrows selected.",
 	
 	"soulmagic.rei.category.soul_infusion": "Soul Infusion",
 	"soulmagic.rei.category.soul_separation": "Soul Separation",
