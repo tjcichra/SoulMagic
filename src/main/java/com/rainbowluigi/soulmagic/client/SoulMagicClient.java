@@ -102,7 +102,11 @@ public class SoulMagicClient implements ClientModInitializer {
 		
 		ColorProviderRegistry.ITEM.register((stack, tint) -> {
 			return tint == 1 ? ((DyeableItem) stack.getItem()).getColor(stack) : 0xFFFFFF;
-		}, ModItems.SOUL_LANTERN);
+		}, ModItems.SOUL_LANTERN, ModItems.MAGICAL_BALL_OF_YARN);
+		
+		ColorProviderRegistry.ITEM.register((stack, tint) -> {
+			return tint == 0 ? ((DyeableItem) stack.getItem()).getColor(stack) : 0xFFFFFF;
+		}, ModItems.MAGICAL_BALL_OF_YARN);
 		
 		ClientTickCallback.EVENT.register(e -> {
 			if(SPELL_SELECT.isPressed() && !(MinecraftClient.getInstance().currentScreen instanceof SelectSpellScreen)) {

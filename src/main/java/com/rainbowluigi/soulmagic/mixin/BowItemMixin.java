@@ -71,7 +71,6 @@ public class BowItemMixin implements SoulEssenceStaffDisplayer {
 				if(!world.isClient)
 					player.playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS, 0.1F, (world.random.nextFloat() - world.random.nextFloat()) * 0.35F + 0.9F);
 				
-				player.swingHand(hand);
 				info.setReturnValue(TypedActionResult.fail(player.getStackInHand(hand)));
 			}
 		}
