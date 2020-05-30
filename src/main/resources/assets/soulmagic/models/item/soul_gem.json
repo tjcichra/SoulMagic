@@ -1,6 +1,14 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "soulmagic:items/soul_gem"
-    }
+        "layer0": "soulmagic:item/soul_gem"
+    },
+    "overrides": [
+        {
+            "predicate": {
+                "brace": 1
+            },
+            "model": "soulmagic:item/soul_gem_brace"
+        }
+    ]
 }

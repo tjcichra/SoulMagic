@@ -101,4 +101,17 @@ public class SoulGemHelper {
         }
         return 0;
     }
+	
+	public static void setBrace(ItemStack gem, ItemStack brace) {
+		CompoundTag tag = gem.getOrCreateSubTag("brace");
+		brace.toTag(tag);
+	}
+	
+	public static ItemStack getBrace(ItemStack gem) {
+		CompoundTag tag = gem.getSubTag("brace");
+		if(tag != null) {
+			return ItemStack.fromTag(tag);
+		}
+		return null;
+	}
 }

@@ -37,9 +37,11 @@ public class ModItems {
     public static final Item DARK_SOUL_INGOT = new Item(new Item.Settings().group(SoulMagic.ITEM_GROUP));
     public static final Item PRIDEFUL_SOUL_INGOT = new Item(new Item.Settings().group(SoulMagic.ITEM_GROUP));
     
-    public static final Item IRON_BRACE = new BraceItem(1.5, new Item.Settings().group(SoulMagic.ITEM_GROUP));
-    public static final Item SOUL_BRACE = new BraceItem(2, new Item.Settings().group(SoulMagic.ITEM_GROUP));
-    public static final Item CREATIVE_BRACE = new BraceItem(9000.1, new Item.Settings().group(SoulMagic.ITEM_GROUP));
+    public static final Item IRON_BRACE = new BraceItem(1.5, 0xFFFFFF, new Item.Settings().group(SoulMagic.ITEM_GROUP));
+    public static final Item LIGHT_SOUL_BRACE = new BraceItem(2, 0xEEC56A, new Item.Settings().group(SoulMagic.ITEM_GROUP));
+    public static final Item DARK_SOUL_BRACE = new BraceItem(3, 0x3D2E4C, new Item.Settings().group(SoulMagic.ITEM_GROUP));
+    public static final Item PRIDEFUL_SOUL_BRACE = new BraceItem(5, 0xFF55FF, new Item.Settings().group(SoulMagic.ITEM_GROUP));
+    public static final Item CREATIVE_BRACE = new BraceItem(9000.1, 0xE100FF, new Item.Settings().group(SoulMagic.ITEM_GROUP));
     
     public static final Item BOUND_PICKAXE = new BoundPickaxeItem(new Item.Settings());
     public static final Item BOUND_AXE = new BoundAxeItem(new Item.Settings());
@@ -72,7 +74,9 @@ public class ModItems {
         registerItem(PRIDEFUL_SOUL_INGOT, "prideful_soul_ingot");
         
         registerItem(IRON_BRACE, "iron_brace");
-        registerItem(SOUL_BRACE, "soul_brace");
+        registerItem(LIGHT_SOUL_BRACE, "light_soul_brace");
+        registerItem(DARK_SOUL_BRACE, "dark_soul_brace");
+        registerItem(PRIDEFUL_SOUL_BRACE, "prideful_soul_brace");
         registerItem(CREATIVE_BRACE, "creative_brace");
         
         registerItem(BOUND_PICKAXE, "bound_pickaxe");

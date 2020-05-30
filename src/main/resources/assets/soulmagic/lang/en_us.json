@@ -20,7 +20,9 @@
 	"item.soulmagic.dark_soul_ingot": "Dark Soul Ingot",
 	"item.soulmagic.prideful_soul_ingot": "Prideful Soul Ingot",
 	"item.soulmagic.iron_brace": "Iron Brace",
-	"item.soulmagic.soul_brace": "Soul Brace",
+	"item.soulmagic.light_soul_brace": "Light Soul Brace",
+	"item.soulmagic.dark_soul_brace": "Dark Soul Brace",
+	"item.soulmagic.prideful_soul_brace": "Prideful Soul Brace",
 	"item.soulmagic.creative_brace": "Creative Brace",
 	"item.soulmagic.reference_staff": "Reference Staff",
 	"item.soulmagic.magical_ball_of_yarn": "Magical Ball of Yarn",
@@ -48,6 +50,7 @@
 	"soulmagic.soul_essence_staff.amount": "%s: %s/%s",
 	"soulmagic.select_spell": "'%s' selected.",
 	"soulmagic.soul_quiver.text": "%s soul arrows selected.",
+	"soulmagic.magical_ball_of_yarn.text": "Destination set for (%s, %s, %s).",
 	
 	"soulmagic.rei.category.soul_infusion": "Soul Infusion",
 	"soulmagic.rei.category.soul_separation": "Soul Separation",

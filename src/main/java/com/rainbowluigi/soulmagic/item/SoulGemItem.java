@@ -17,12 +17,14 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
+import net.minecraft.item.Items;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.DefaultedList;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
@@ -30,6 +32,10 @@ public class SoulGemItem extends Item implements SoulEssenceStaffDisplayer {
 
 	public SoulGemItem(Item.Settings settings) {
 		super(settings);
+		
+		this.addPropertyGetter(new Identifier("brace"), (stack, world, player) -> {
+			return SoulGemHelper.getBrace(stack) != null ? 1 : 0;
+		});
 	}
 
 	@Override

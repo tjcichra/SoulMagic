@@ -8,6 +8,7 @@ import com.rainbowluigi.soulmagic.block.ModBlocks;
 import com.rainbowluigi.soulmagic.block.entity.ModBlockEntity;
 import com.rainbowluigi.soulmagic.client.screen.SelectSpellScreen;
 import com.rainbowluigi.soulmagic.entity.ModEntityTypes;
+import com.rainbowluigi.soulmagic.item.BraceItem;
 import com.rainbowluigi.soulmagic.item.ModItems;
 import com.rainbowluigi.soulmagic.item.SoulGemItem;
 import com.rainbowluigi.soulmagic.network.EntityRenderMessage;
@@ -83,17 +84,29 @@ public class SoulMagicClient implements ClientModInitializer {
 		}, ModItems.SOUL_ESSENCE_STAFF);
 		
 		ColorProviderRegistry.ITEM.register((stack, tint) -> {
+			return ((BraceItem) stack.getItem()).getColor(stack);
+		}, ModItems.IRON_BRACE, ModItems.LIGHT_SOUL_BRACE, ModItems.DARK_SOUL_BRACE, ModItems.PRIDEFUL_SOUL_BRACE, ModItems.CREATIVE_BRACE);
+		
+		ColorProviderRegistry.ITEM.register((stack, tint) -> {
 			return SoulQuiverHelper.getSoulType(stack).getColor();
 		}, ModItems.SOUL_QUIVER);
 		
 		ColorProviderRegistry.ITEM.register((stack, tint) -> {
-			SpellType st = SoulGemHelper.getSpellType(stack);
-			
-			if(st != null) {
-				if(st != ModSpellTypes.ULTIMATE) {
-					return st.getColor();
-				} else {
-					return Color.HSBtoRGB(System.currentTimeMillis() % 10000 / 9999f, 1, 1);
+			if(tint == 0) {
+				SpellType st = SoulGemHelper.getSpellType(stack);
+				
+				if(st != null) {
+					if(st != ModSpellTypes.ULTIMATE) {
+						return st.getColor();
+					} else {
+						return Color.HSBtoRGB(System.currentTimeMillis() % 10000 / 9999f, 1, 1);
+					}
+				}
+			} else {
+				ItemStack brace = SoulGemHelper.getBrace(stack);
+				
+				if(brace != null) {
+					return ((BraceItem) brace.getItem()).getColor(brace);
 				}
 			}
 			

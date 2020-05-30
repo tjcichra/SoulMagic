@@ -32,7 +32,7 @@ public class InGameHudMixin extends DrawableHelper {
 	
 	private static Identifier SOUL_STAFF_TEXTURE = new Identifier(Reference.MOD_ID, "textures/gui/soul_essence_staff.png");
 	
-	@Inject(method = "render", at = @At(value = "INVOKE", target = "renderStatusEffectOverlay"), cancellable = true)
+	@Inject(method = "render", at = @At(value = "INVOKE", target = "isEmpty"), cancellable = true)
 	public void render(CallbackInfo callback) {
 		//if(timer < 30) {
 		if(this.getHoldingSoulItem() != null) {
