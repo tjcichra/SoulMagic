@@ -1,0 +1,38 @@
+{
+	"type": "soulmagic:soul_infusion",
+	"ingredients": [
+		{
+			"item": "minecraft:string"
+		},
+		{
+			"item": "minecraft:string"
+		},
+		{
+			"item": "minecraft:string"
+		},
+		{
+			"item": "minecraft:string"
+		},
+		{
+			"item": "minecraft:string"
+		},
+		{
+			"item": "minecraft:string"
+		},
+		{
+			"item": "minecraft:string"
+		},
+		{
+			"item": "minecraft:string"
+		},
+		{
+			"item": "minecraft:white_wool"
+		}
+	],
+	"result": {
+		"item": "soulmagic:magical_ball_of_yarn"
+	},
+	"soul": {
+		"soulmagic:light": 30
+	}
+}
