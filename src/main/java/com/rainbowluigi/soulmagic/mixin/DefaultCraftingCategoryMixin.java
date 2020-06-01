@@ -24,10 +24,10 @@ import net.minecraft.text.LiteralText;
 public class DefaultCraftingCategoryMixin {
 
 	@Inject(method = "setupDisplay", at = @At("RETURN"))
-	public <T> void setupDisplay(Supplier<DefaultCraftingDisplay> recipeDisplaySupplier, Rectangle bounds, CallbackInfoReturnable<List<Widget>> call) {
+	public <T> void setupDisplay(DefaultCraftingDisplay display, Rectangle bounds, CallbackInfoReturnable<List<Widget>> call) {
 		
-		if (recipeDisplaySupplier.get().getOptionalRecipe().orElse(null) instanceof ShapedSoulStaffRecipe) {
-			ShapedSoulStaffRecipe recipe = (ShapedSoulStaffRecipe) recipeDisplaySupplier.get().getOptionalRecipe().orElse(null);
+		if (display.getOptionalRecipe().orElse(null) instanceof ShapedSoulStaffRecipe) {
+			ShapedSoulStaffRecipe recipe = (ShapedSoulStaffRecipe) display.getOptionalRecipe().orElse(null);
 			
 			String s = "| ";
 			for(Entry<SoulType, Integer> e : recipe.getSoulMap().entrySet()) {
