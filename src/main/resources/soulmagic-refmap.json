@@ -1,29 +1,27 @@
 {
 	"mappings": {
-		"com/rainbowluigi/soulmagic/mixin/TestMixin1": {
-			"interactBlock": "interactBlock(Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/world/World;Lnet/minecraft/item/ItemStack;Lnet/minecraft/util/Hand;Lnet/minecraft/util/hit/BlockHitResult;)Lnet/minecraft/util/ActionResult;"
-		},
 		"com/rainbowluigi/soulmagic/mixin/ItemRendererMixin": {
-			"renderGuiItemOverlay": "renderGuiItemOverlay(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/item/ItemStack;IILjava/lang/String;)V"
+			"renderGuiItemOverlay": "Lnet/minecraft/client/render/item/ItemRenderer;renderGuiItemOverlay(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/item/ItemStack;IILjava/lang/String;)V"
 		},
 		"com/rainbowluigi/soulmagic/mixin/BowItemMixin": {
-			"onStoppedUsing": "onStoppedUsing(Lnet/minecraft/item/ItemStack;Lnet/minecraft/world/World;Lnet/minecraft/entity/LivingEntity;I)V",
-			"incrementStat": "incrementStat(Lnet/minecraft/stat/Stat;)V",
-			"use": "use(Lnet/minecraft/world/World;Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/util/Hand;)Lnet/minecraft/util/TypedActionResult;"
+			"onStoppedUsing": "Lnet/minecraft/item/BowItem;onStoppedUsing(Lnet/minecraft/item/ItemStack;Lnet/minecraft/world/World;Lnet/minecraft/entity/LivingEntity;I)V",
+			"incrementStat": "Lnet/minecraft/entity/player/PlayerEntity;incrementStat(Lnet/minecraft/stat/Stat;)V",
+			"use": "Lnet/minecraft/item/BowItem;use(Lnet/minecraft/world/World;Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/util/Hand;)Lnet/minecraft/util/TypedActionResult;"
 		},
 		"com/rainbowluigi/soulmagic/mixin/DefaultCraftingCategoryMixin": {
-			"setupDisplay": "setupDisplay(Lme/shedaniel/rei/plugin/crafting/DefaultCraftingDisplay;Lme/shedaniel/math/Rectangle;)Ljava/util/List;"
+			"setupDisplay": "Lme/shedaniel/rei/plugin/crafting/DefaultCraftingCategory;setupDisplay(Lme/shedaniel/rei/plugin/crafting/DefaultCraftingDisplay;Lme/shedaniel/math/Rectangle;)Ljava/util/List;"
 		},
 		"com/rainbowluigi/soulmagic/mixin/InGameHudMixin": {
-			"render": "render(Lnet/minecraft/client/util/math/MatrixStack;F)V",
-			"renderStatusEffectOverlay": "renderStatusEffectOverlay(Lnet/minecraft/client/util/math/MatrixStack;)V"
+			"render": "Lnet/minecraft/client/gui/hud/InGameHud;render(Lnet/minecraft/client/util/math/MatrixStack;F)V",
+			"renderStatusEffectOverlay": "Lnet/minecraft/client/gui/hud/InGameHud;renderStatusEffectOverlay(Lnet/minecraft/client/util/math/MatrixStack;)V"
 		},
 		"com/rainbowluigi/soulmagic/mixin/AnvilContainerMixin": {
-			"getItem": "getItem()Lnet/minecraft/item/Item;"
+			"updateResult": "Lnet/minecraft/screen/AnvilScreenHandler;updateResult()V",
+			"getItem": "Lnet/minecraft/item/ItemStack;getItem()Lnet/minecraft/item/Item;"
 		},
 		"com/rainbowluigi/soulmagic/mixin/SoulStaffMixin": {
-			"updateItems": "updateItems()V",
-			"dropAll": "dropAll()V"
+			"updateItems": "Lnet/minecraft/entity/player/PlayerInventory;updateItems()V",
+			"dropAll": "Lnet/minecraft/entity/player/PlayerInventory;dropAll()V"
 		}
 	}
 }
