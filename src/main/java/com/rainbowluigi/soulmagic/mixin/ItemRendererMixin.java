@@ -51,7 +51,7 @@ public abstract class ItemRendererMixin {
 			SoulEssenceStaff staff = (SoulEssenceStaff) stack.getItem();
 			
             int total = 0;
-            for (SoulType type : ModSoulTypes.SOUL_TYPE_REG) {
+            for (SoulType type : ModSoulTypes.SOUL_TYPE) {
 				if (staff.getSoul(stack, MinecraftClient.getInstance().world, type) > 0) {
 					total += staff.getMaxSoul(stack, MinecraftClient.getInstance().world, type);
 				}
@@ -69,7 +69,7 @@ public abstract class ItemRendererMixin {
             	this.renderGuiQuad(bufferBuilder_1, x + 2, y + 13, 13, 2, 0, 0, 0, 255);
             	
             	double start = 0;
-				for (SoulType type : ModSoulTypes.SOUL_TYPE_REG) {
+				for (SoulType type : ModSoulTypes.SOUL_TYPE) {
 					if (staff.getSoul(stack, MinecraftClient.getInstance().world, type) > 0) {
 						int color = type.getColor();
 						

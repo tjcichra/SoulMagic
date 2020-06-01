@@ -1,15 +1,11 @@
 package com.rainbowluigi.soulmagic.item.bound;
 
-import java.util.function.Consumer;
-
 import com.rainbowluigi.soulmagic.item.SoulEssenceStaff;
 import com.rainbowluigi.soulmagic.item.SoulEssenceStaffDisplayer;
 import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
 import com.rainbowluigi.soulmagic.soultype.SoulType;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Material;
-import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;

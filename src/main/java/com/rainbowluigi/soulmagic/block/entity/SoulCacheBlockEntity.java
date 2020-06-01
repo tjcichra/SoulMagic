@@ -1,20 +1,21 @@
 package com.rainbowluigi.soulmagic.block.entity;
 
-import com.rainbowluigi.soulmagic.inventory.SoulCacheContainer;
+import com.rainbowluigi.soulmagic.inventory.SoulCacheScreenHandler;
 import com.rainbowluigi.soulmagic.item.ReferenceStaffItem;
 import com.rainbowluigi.soulmagic.item.SoulEssenceStaff;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.LockableContainerBlockEntity;
-import net.minecraft.container.Container;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
-import net.minecraft.util.DefaultedList;
+import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.Direction;
 
 public class SoulCacheBlockEntity extends LockableContainerBlockEntity implements SidedInventory {
@@ -29,9 +30,9 @@ public class SoulCacheBlockEntity extends LockableContainerBlockEntity implement
 	}
 	
 	@Override
-	public void fromTag(CompoundTag compound) {
-		super.fromTag(compound);
-		this.inventory = DefaultedList.ofSize(this.getInvSize(), ItemStack.EMPTY);
+	public void fromTag(BlockState state, CompoundTag compound) {
+		super.fromTag(state, compound);
+		this.inventory = DefaultedList.ofSize(this.size(), ItemStack.EMPTY);
 		Inventories.fromTag(compound, this.inventory);
 	}
 	
@@ -43,12 +44,12 @@ public class SoulCacheBlockEntity extends LockableContainerBlockEntity implement
 	}
 
 	@Override
-	public int getInvSize() {
+	public int size() {
 		return this.inventory.size();
 	}
 
 	@Override
-	public boolean isInvEmpty() {
+	public boolean isEmpty() {
 		for(ItemStack stack : this.inventory) {
 			if(!stack.isEmpty()) {
 				return false;
@@ -58,29 +59,29 @@ public class SoulCacheBlockEntity extends LockableContainerBlockEntity implement
 	}
 
 	@Override
-	public ItemStack getInvStack(int i) {
+	public ItemStack getStack(int i) {
 		return i >= 0 && i < this.inventory.size() ? this.inventory.get(i) : ItemStack.EMPTY;
 	}
 
 	@Override
-	public ItemStack takeInvStack(int i1, int i2) {
+	public ItemStack removeStack(int i1, int i2) {
 		return Inventories.splitStack(this.inventory, i1, i2);
 	}
 
 	@Override
-	public ItemStack removeInvStack(int i) {
+	public ItemStack removeStack(int i) {
 		return Inventories.removeStack(this.inventory, i);
 	}
 
 	@Override
-	public void setInvStack(int i, ItemStack stack) {
+	public void setStack(int i, ItemStack stack) {
 		if(i >= 0 && i < this.inventory.size()) {
 			this.inventory.set(i, stack);
 		}
 	}
 
 	@Override
-	public boolean canPlayerUseInv(PlayerEntity playerEntity_1) {
+	public boolean canPlayerUse(PlayerEntity playerEntity_1) {
 		if (this.world.getBlockEntity(this.pos) != this) {
 			return false;
 		} else {
@@ -94,22 +95,22 @@ public class SoulCacheBlockEntity extends LockableContainerBlockEntity implement
 	}
 
 	@Override
-	public int[] getInvAvailableSlots(Direction d) {
+	public int[] getAvailableSlots(Direction d) {
 		return ALL_SLOTS;
 	}
 
 	@Override
-	public boolean canInsertInvStack(int var1, ItemStack var2, Direction var3) {
-		return this.isValidInvStack(var1, var2);
+	public boolean canInsert(int var1, ItemStack var2, Direction var3) {
+		return this.isValid(var1, var2);
 	}
 
 	@Override
-	public boolean canExtractInvStack(int var1, ItemStack var2, Direction var3) {
+	public boolean canExtract(int var1, ItemStack var2, Direction var3) {
 		return true;
 	}
 
 	@Override
-	public boolean isValidInvStack(int slot, ItemStack stack) {
+	public boolean isValid(int slot, ItemStack stack) {
 		return stack.getItem() instanceof SoulEssenceStaff && !(stack.getItem() instanceof ReferenceStaffItem);
 	}
 	
@@ -119,7 +120,7 @@ public class SoulCacheBlockEntity extends LockableContainerBlockEntity implement
 	}
 
 	@Override
-	protected Container createContainer(int i, PlayerInventory pi) {
-		return new SoulCacheContainer(i, pi, this);
+	protected ScreenHandler createScreenHandler(int i, PlayerInventory pi) {
+		return new SoulCacheScreenHandler(i, pi, this);
 	}
 }

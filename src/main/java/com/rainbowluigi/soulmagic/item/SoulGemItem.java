@@ -17,15 +17,13 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
-import net.minecraft.item.Items;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.DefaultedList;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 
 public class SoulGemItem extends Item implements SoulEssenceStaffDisplayer {
@@ -33,9 +31,9 @@ public class SoulGemItem extends Item implements SoulEssenceStaffDisplayer {
 	public SoulGemItem(Item.Settings settings) {
 		super(settings);
 		
-		this.addPropertyGetter(new Identifier("brace"), (stack, world, player) -> {
-			return SoulGemHelper.getBrace(stack) != null ? 1 : 0;
-		});
+		//this.addPropertyGetter(new Identifier("brace"), (stack, world, player) -> {
+		//	return SoulGemHelper.getBrace(stack) != null ? 1 : 0;
+		//});
 	}
 
 	@Override
@@ -56,10 +54,10 @@ public class SoulGemItem extends Item implements SoulEssenceStaffDisplayer {
 			//Add the empty soul gem
 			items.add(new ItemStack(this));
 			
-			for (SpellType st : ModSpellTypes.SPELL_TYPE_REG) {
+			for (SpellType st : ModSpellTypes.SPELL_TYPE) {
 				ItemStack stack = new ItemStack(this);
 				SoulGemHelper.setSpellType(stack, st);
-				for(Spell s : ModSpells.SPELL_REG) {
+				for(Spell s : ModSpells.SPELL) {
 					if(s.isBase() && s.getParent() == st) {
 						SoulGemHelper.addSpell(stack, s);
 					}
@@ -68,7 +66,7 @@ public class SoulGemItem extends Item implements SoulEssenceStaffDisplayer {
 				
 				ItemStack stack2 = new ItemStack(this);
 				SoulGemHelper.setSpellType(stack2, st);
-				for(Spell s : ModSpells.SPELL_REG) {
+				for(Spell s : ModSpells.SPELL) {
 					if(s.getParent() == st || st == ModSpellTypes.ULTIMATE) {
 						SoulGemHelper.addSpell(stack2, s);
 					}
@@ -88,7 +86,7 @@ public class SoulGemItem extends Item implements SoulEssenceStaffDisplayer {
 			if(s != null) {
 				return s.use(world, player, hand);
 			} else {
-				player.sendMessage(new TranslatableText("soulmagic.spell.error"));
+				player.sendMessage(new TranslatableText("soulmagic.spell.error"), true);
 			}
 		}
 		
@@ -105,7 +103,7 @@ public class SoulGemItem extends Item implements SoulEssenceStaffDisplayer {
 			if(s != null) {
 				return s.useOnBlock(iuc);
 			} else {
-				iuc.getPlayer().sendMessage(new TranslatableText("soulmagic.spell.error"));
+				iuc.getPlayer().sendMessage(new TranslatableText("soulmagic.spell.error"), true);
 			}
 		}
 		

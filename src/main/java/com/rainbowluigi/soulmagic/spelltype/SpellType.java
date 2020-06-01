@@ -26,7 +26,7 @@ public class SpellType {
 	
 	public String getOrCreateTranslationKey() {
 		if (this.translationKey == null) {
-			this.translationKey = Util.createTranslationKey("spell_type", ModSpellTypes.SPELL_TYPE_REG.getId(this));
+			this.translationKey = Util.createTranslationKey("spell_type", ModSpellTypes.SPELL_TYPE.getId(this));
 		}
 
 		return this.translationKey;

@@ -18,7 +18,7 @@ public class SoulGemHelper {
 
 	public static SpellType getSpellType(ItemStack stack) {
         if(stack.hasTag() && stack.getTag().contains("spelltype")) {
-            return ModSpellTypes.SPELL_TYPE_REG.get(new Identifier(stack.getTag().getString("spelltype")));
+            return ModSpellTypes.SPELL_TYPE.get(new Identifier(stack.getTag().getString("spelltype")));
         }
         return null;
     }
@@ -28,7 +28,7 @@ public class SoulGemHelper {
         	stack.setTag(new CompoundTag());
         }
 		
-		stack.getTag().putString("spelltype", ModSpellTypes.SPELL_TYPE_REG.getId(st).toString());
+		stack.getTag().putString("spelltype", ModSpellTypes.SPELL_TYPE.getId(st).toString());
     }
 	
 	public static void addSpell(ItemStack stack, Spell s) {
@@ -43,7 +43,7 @@ public class SoulGemHelper {
 		ListTag nbtTagList = getSpells(stack);
 		
 		CompoundTag tag = new CompoundTag();
-		tag.putString("spell", ModSpells.SPELL_REG.getId(s).toString());
+		tag.putString("spell", ModSpells.SPELL.getId(s).toString());
 		nbtTagList.add(tag);
 	}
 	
@@ -52,7 +52,7 @@ public class SoulGemHelper {
 			ListTag list = getSpells(stack);
 			
 			for(Tag t : list) {
-				Spell s2 = ModSpells.SPELL_REG.get(new Identifier(((CompoundTag)t).getString("spell")));
+				Spell s2 = ModSpells.SPELL.get(new Identifier(((CompoundTag)t).getString("spell")));
 				if(s.equals(s2)) {
 					return true;
 				}
@@ -66,7 +66,7 @@ public class SoulGemHelper {
 			ListTag list = getSpells(stack);
 			
 			int spellIndex = getCurrentSpellIndex(stack);
-			return ModSpells.SPELL_REG.get(new Identifier(((CompoundTag)list.get(spellIndex)).getString("spell")));
+			return ModSpells.SPELL.get(new Identifier(((CompoundTag)list.get(spellIndex)).getString("spell")));
 		}
 		return null;
 	}
@@ -85,7 +85,7 @@ public class SoulGemHelper {
 			ListTag list = getSpells(stack);
 			
 			for(int i = 0; i < list.size(); i++) {
-				spells.add(ModSpells.SPELL_REG.get(new Identifier(((CompoundTag)list.get(i)).getString("spell"))));
+				spells.add(ModSpells.SPELL.get(new Identifier(((CompoundTag)list.get(i)).getString("spell"))));
 			}
 		}
 		return spells;

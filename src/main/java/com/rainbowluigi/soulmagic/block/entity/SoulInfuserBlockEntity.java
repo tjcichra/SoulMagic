@@ -5,7 +5,7 @@ import java.util.Map.Entry;
 import java.util.Optional;
 
 import com.google.common.collect.Maps;
-import com.rainbowluigi.soulmagic.inventory.SoulInfuserContainer;
+import com.rainbowluigi.soulmagic.inventory.SoulInfuserScreenHandler;
 import com.rainbowluigi.soulmagic.item.SoulEssenceStaff;
 import com.rainbowluigi.soulmagic.item.SoulGemItem;
 import com.rainbowluigi.soulmagic.item.crafting.ModRecipes;
@@ -14,18 +14,19 @@ import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
 import com.rainbowluigi.soulmagic.soultype.SoulType;
 
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.LockableContainerBlockEntity;
-import net.minecraft.container.Container;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
-import net.minecraft.util.DefaultedList;
 import net.minecraft.util.Tickable;
+import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.Direction;
 
 public class SoulInfuserBlockEntity extends LockableContainerBlockEntity implements SidedInventory, BlockEntityClientSerializable, Tickable {
@@ -46,8 +47,8 @@ public class SoulInfuserBlockEntity extends LockableContainerBlockEntity impleme
 	}
 	
 	@Override
-	public void fromTag(CompoundTag compound) {
-		super.fromTag(compound);
+	public void fromTag(BlockState state, CompoundTag compound) {
+		super.fromTag(state, compound);
 		this.inventory = DefaultedList.ofSize(11, ItemStack.EMPTY);
 		this.fromClientTag(compound);
 		Inventories.fromTag(compound, this.inventory);
@@ -113,7 +114,7 @@ public class SoulInfuserBlockEntity extends LockableContainerBlockEntity impleme
 	}
 	
 	public boolean hasCenterItem() {
-		return !this.getInvStack(8).isEmpty();
+		return !this.getStack(8).isEmpty();
 	}
 	
 	public ItemStack getStaffCap() {
@@ -182,12 +183,12 @@ public class SoulInfuserBlockEntity extends LockableContainerBlockEntity impleme
 	}
 
 	@Override
-	public int getInvSize() {
+	public int size() {
 		return this.inventory.size();
 	}
 
 	@Override
-	public boolean isInvEmpty() {
+	public boolean isEmpty() {
 		for(ItemStack stack : this.inventory) {
 			if(!stack.isEmpty()) {
 				return false;
@@ -197,29 +198,29 @@ public class SoulInfuserBlockEntity extends LockableContainerBlockEntity impleme
 	}
 
 	@Override
-	public ItemStack getInvStack(int i) {
+	public ItemStack getStack(int i) {
 		return i >= 0 && i < this.inventory.size() ? this.inventory.get(i) : ItemStack.EMPTY;
 	}
 
 	@Override
-	public ItemStack takeInvStack(int i1, int i2) {
+	public ItemStack removeStack(int i1, int i2) {
 		return Inventories.splitStack(this.inventory, i1, i2);
 	}
 
 	@Override
-	public ItemStack removeInvStack(int i) {
+	public ItemStack removeStack(int i) {
 		return Inventories.removeStack(this.inventory, i);
 	}
 
 	@Override
-	public void setInvStack(int i, ItemStack stack) {
+	public void setStack(int i, ItemStack stack) {
 		if(i >= 0 && i < this.inventory.size()) {
 			this.inventory.set(i, stack);
 		}
 	}
 
 	@Override
-	public boolean canPlayerUseInv(PlayerEntity playerEntity_1) {
+	public boolean canPlayerUse(PlayerEntity playerEntity_1) {
 		if (this.world.getBlockEntity(this.pos) != this) {
 			return false;
 		} else {
@@ -233,7 +234,7 @@ public class SoulInfuserBlockEntity extends LockableContainerBlockEntity impleme
 	}
 
 	@Override
-	public int[] getInvAvailableSlots(Direction d) {
+	public int[] getAvailableSlots(Direction d) {
 		switch (d) {
 		case DOWN:
 			return BOTTOM_SLOTS;
@@ -245,17 +246,17 @@ public class SoulInfuserBlockEntity extends LockableContainerBlockEntity impleme
 	}
 
 	@Override
-	public boolean canInsertInvStack(int var1, ItemStack var2, Direction var3) {
-		return this.isValidInvStack(var1, var2);
+	public boolean canInsert(int var1, ItemStack var2, Direction var3) {
+		return this.isValid(var1, var2);
 	}
 
 	@Override
-	public boolean canExtractInvStack(int var1, ItemStack var2, Direction var3) {
+	public boolean canExtract(int var1, ItemStack var2, Direction var3) {
 		return true;
 	}
 
 	@Override
-	public boolean isValidInvStack(int slot, ItemStack stack) {
+	public boolean isValid(int slot, ItemStack stack) {
 		if(slot == 9) {
 			return false;
 		} else if(slot != 10) {
@@ -271,8 +272,8 @@ public class SoulInfuserBlockEntity extends LockableContainerBlockEntity impleme
 	}
 
 	@Override
-	protected Container createContainer(int i, PlayerInventory pi) {
-		return new SoulInfuserContainer(i, pi, this);
+	protected ScreenHandler createScreenHandler(int i, PlayerInventory pi) {
+		return new SoulInfuserScreenHandler(i, pi, this);
 	}
 
 	@Override
@@ -281,20 +282,20 @@ public class SoulInfuserBlockEntity extends LockableContainerBlockEntity impleme
 		
 		CompoundTag cookSoul = tag.getCompound("cookSoul");
 		
-		for(SoulType st : ModSoulTypes.SOUL_TYPE_REG) {
+		for(SoulType st : ModSoulTypes.SOUL_TYPE) {
 			//if(cookSoul.contains(ModSoulTypes.SOUL_TYPE_REG.getId(e).toString())) {
 				//System.out.println(e + " = " + cookSoul.getInt(ModSoulTypes.SOUL_TYPE_REG.getId(e).toString()));
 				
-			this.cookSoulMap.put(st, cookSoul.getInt(ModSoulTypes.SOUL_TYPE_REG.getId(st).toString()));
+			this.cookSoulMap.put(st, cookSoul.getInt(ModSoulTypes.SOUL_TYPE.getId(st).toString()));
 			//}
 		}
 		
 		CompoundTag recipeSoul = tag.getCompound("recipeSoul");
-		for(SoulType st : ModSoulTypes.SOUL_TYPE_REG) {
+		for(SoulType st : ModSoulTypes.SOUL_TYPE) {
 			//if(recipeSoul.contains(ModSoulTypes.SOUL_TYPE_REG.getId(e).toString())) {
 				//System.out.println(e + " = " + cookSoul.getInt(ModSoulTypes.SOUL_TYPE_REG.getId(e).toString()));
 				
-			this.recipeSoulMap.put(st, recipeSoul.getInt(ModSoulTypes.SOUL_TYPE_REG.getId(st).toString()));
+			this.recipeSoulMap.put(st, recipeSoul.getInt(ModSoulTypes.SOUL_TYPE.getId(st).toString()));
 			//}
 		}
 	}
@@ -302,17 +303,17 @@ public class SoulInfuserBlockEntity extends LockableContainerBlockEntity impleme
 	@Override
 	public CompoundTag toClientTag(CompoundTag tag) {
 		CompoundTag cookSoul = new CompoundTag();
-		for(SoulType st : ModSoulTypes.SOUL_TYPE_REG) {
+		for(SoulType st : ModSoulTypes.SOUL_TYPE) {
 			//System.out.println("Cook Soul: " + e);
 			int x = this.cookSoulMap.get(st) != null ? this.cookSoulMap.get(st) : 0;
-			cookSoul.putInt(ModSoulTypes.SOUL_TYPE_REG.getId(st).toString(), x);
+			cookSoul.putInt(ModSoulTypes.SOUL_TYPE.getId(st).toString(), x);
 		}
 		
 		CompoundTag recipeSoul = new CompoundTag();
-		for(SoulType st : ModSoulTypes.SOUL_TYPE_REG) {
+		for(SoulType st : ModSoulTypes.SOUL_TYPE) {
 			//System.out.println("Recipe Soul: " + e);
 			int x = this.recipeSoulMap.get(st) != null ? this.recipeSoulMap.get(st) : 0;
-			recipeSoul.putInt(ModSoulTypes.SOUL_TYPE_REG.getId(st).toString(), x);
+			recipeSoul.putInt(ModSoulTypes.SOUL_TYPE.getId(st).toString(), x);
 			//recipeSoul.putInt(ModSoulTypes.SOUL_TYPE_REG.getId(e.getKey()).toString(), e.getValue());
 		}
 		

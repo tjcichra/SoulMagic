@@ -1,7 +1,5 @@
 package com.rainbowluigi.soulmagic.entity;
 
-import java.util.Iterator;
-
 import com.rainbowluigi.soulmagic.client.SoulMagicClient;
 import com.rainbowluigi.soulmagic.network.EntityRenderMessage;
 import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
@@ -18,7 +16,6 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.network.Packet;
-import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
 public class SoulArrowEntity extends ArrowEntity {
@@ -40,7 +37,7 @@ public class SoulArrowEntity extends ArrowEntity {
 	}
 	
 	public void setSoulType(SoulType type) {
-		this.dataTracker.set(TYPE, ModSoulTypes.SOUL_TYPE_REG.getRawId(type));
+		this.dataTracker.set(TYPE, ModSoulTypes.SOUL_TYPE.getRawId(type));
 		
 		SoulType st = this.getSoulType();
 		if(st == ModSoulTypes.DARK) {
@@ -65,7 +62,7 @@ public class SoulArrowEntity extends ArrowEntity {
 	
 	public SoulType getSoulType() {
 		if(this.dataTracker.get(TYPE) != -1)
-			return ModSoulTypes.SOUL_TYPE_REG.get(this.dataTracker.get(TYPE));
+			return ModSoulTypes.SOUL_TYPE.get(this.dataTracker.get(TYPE));
 		return null;
 	}
 	

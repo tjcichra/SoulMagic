@@ -4,7 +4,7 @@ import com.rainbowluigi.soulmagic.inventory.ModContainerFactories;
 
 import net.fabricmc.fabric.api.network.PacketContext;
 import net.fabricmc.fabric.impl.container.ContainerProviderImpl;
-import net.minecraft.util.PacketByteBuf;
+import net.minecraft.network.PacketByteBuf;
 
 public class OpenBabulesMessage {
 	

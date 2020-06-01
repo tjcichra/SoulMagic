@@ -9,7 +9,7 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.util.DefaultedList;
+import net.minecraft.util.collection.DefaultedList;
 
 public class AccessoriesInventory implements Inventory {
 
@@ -27,12 +27,12 @@ public class AccessoriesInventory implements Inventory {
 	}
 
 	@Override
-	public int getInvSize() {
+	public int size() {
 		return this.accessories.size();
 	}
 
 	@Override
-	public boolean isInvEmpty() {
+	public boolean isEmpty() {
 		for(ItemStack stack : this.accessories) {
 			if(!stack.isEmpty()) {
 				return false;
@@ -42,22 +42,22 @@ public class AccessoriesInventory implements Inventory {
 	}
 
 	@Override
-	public ItemStack getInvStack(int slot) {
+	public ItemStack getStack(int slot) {
 		return this.accessories.get(slot);
 	}
 
 	@Override
-	public ItemStack takeInvStack(int var1, int var2) {
+	public ItemStack removeStack(int var1, int var2) {
 		return Inventories.splitStack(this.accessories, var1, var2);
 	}
 
 	@Override
-	public ItemStack removeInvStack(int var1) {
+	public ItemStack removeStack(int var1) {
 		return Inventories.removeStack(this.accessories, var1);
 	}
 
 	@Override
-	public void setInvStack(int var1, ItemStack var2) {
+	public void setStack(int var1, ItemStack var2) {
 		this.accessories.set(var1, var2);
 	}
 
@@ -67,7 +67,7 @@ public class AccessoriesInventory implements Inventory {
 	}
 
 	@Override
-	public boolean canPlayerUseInv(PlayerEntity var1) {
+	public boolean canPlayerUse(PlayerEntity var1) {
 		return true;
 	}
 

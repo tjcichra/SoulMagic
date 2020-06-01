@@ -10,7 +10,7 @@ import com.rainbowluigi.soulmagic.spelltype.ModSpellTypes;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.inventory.BasicInventory;
+import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.particle.ParticleTypes;
@@ -33,7 +33,7 @@ public class SpellFlamingTouch extends Spell {
 	public ActionResult useOnBlock(ItemUsageContext iuc) {
 		if(SoulEssenceStaff.hasSoul(iuc.getPlayer(), iuc.getWorld(), ModSoulTypes.LIGHT, 5, ModSoulTypes.DARK, 5)) {
 			BlockState state = iuc.getWorld().getBlockState(iuc.getBlockPos());
-			BasicInventory inv = new BasicInventory(new ItemStack(state.getBlock()));
+			SimpleInventory inv = new SimpleInventory(new ItemStack(state.getBlock()));
 			
 			SmeltingRecipe irecipe = iuc.getWorld().getRecipeManager().getFirstMatch(RecipeType.SMELTING, inv, iuc.getWorld()).orElse(null);
 			

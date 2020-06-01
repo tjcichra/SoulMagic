@@ -18,7 +18,9 @@ import com.rainbowluigi.soulmagic.util.Reference;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.hud.InGameHud;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.LiteralText;
 import net.minecraft.util.Identifier;
 
 @Mixin(InGameHud.class)
@@ -32,8 +34,8 @@ public class InGameHudMixin extends DrawableHelper {
 	
 	private static Identifier SOUL_STAFF_TEXTURE = new Identifier(Reference.MOD_ID, "textures/gui/soul_essence_staff.png");
 	
-	@Inject(method = "render", at = @At(value = "INVOKE", target = "isEmpty"), cancellable = true)
-	public void render(CallbackInfo callback) {
+	@Inject(method = "render", at = @At(value = "INVOKE", target = "renderStatusEffectOverlay(Lnet/minecraft/client/util/math/MatrixStack;)V"), cancellable = true)
+	public void render(MatrixStack matrix, float f, CallbackInfo info) {
 		//if(timer < 30) {
 		if(this.getHoldingSoulItem() != null) {
 			if(timer < 30) {
@@ -49,7 +51,7 @@ public class InGameHudMixin extends DrawableHelper {
 			RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 			this.client.getTextureManager().bindTexture(SOUL_STAFF_TEXTURE);
 			int x = (int) (0.025*timer*timer-1.75*timer+this.scaledWidth+5);
-			this.blit(x, this.scaledHeight / 2 - 40, 0, 0, 22, 81);
+			this.drawTexture(matrix, x, this.scaledHeight / 2 - 40, 0, 0, 22, 81);
 			
 			if(this.getHoldingSoulItem() != null) {
 				ItemStack stack = this.getHoldingSoulItem();
@@ -82,10 +84,10 @@ public class InGameHudMixin extends DrawableHelper {
 									
 									int j = (int) (((double) staff.getSoul(ish, client.world, type) / total) * 71 + 0.5);
 									//this.blit(this.scaledWidth - 18, this.scaledHeight - 5 - j - start, 22, 71 - j - start, 14, j);
-									this.blit(x + 4, this.scaledHeight / 2 + 36 - j - start, 22, 71 - j - start, 14, j);
+									this.drawTexture(matrix, x + 4, this.scaledHeight / 2 + 36 - j - start, 22, 71 - j - start, 14, j);
 									
 									if(timer >= 30 && this.client.player.isSneaking()) {
-										this.drawString(this.client.textRenderer, "" + staff.getSoul(ish, client.world, type), this.scaledWidth-40, this.scaledHeight / 2 + 36 - j / 2 - start, type.getColor());
+										this.drawCenteredText(matrix, this.client.textRenderer, new LiteralText("" + staff.getSoul(ish, client.world, type)), this.scaledWidth-40, this.scaledHeight / 2 + 36 - j / 2 - start, type.getColor());
 										this.client.getTextureManager().bindTexture(SOUL_STAFF_TEXTURE);
 									}
 									

@@ -14,7 +14,7 @@
 			"setupDisplay": "setupDisplay(Ljava/util/function/Supplier;Lme/shedaniel/math/api/Rectangle;)Ljava/util/List;"
 		},
 		"com/rainbowluigi/soulmagic/mixin/InGameHudMixin": {
-			"render": "render(F)V",
+			"render": "render(Lnet/minecraft/client/util/math/MatrixStack;F)V",
 			"renderStatusEffectOverlay": "renderStatusEffectOverlay()V"
 			
 		}

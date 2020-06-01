@@ -43,9 +43,9 @@ public abstract class SoulStaffMixin implements PlayerAccessories {
 		
 		int amount = MathHelper.nextInt(killed.world.random, 2 + level, 5 + level);
 		
-		for (int i = 0; i < inventory.getInvSize(); i++) {
-			if(inventory.getInvStack(i).getItem() instanceof SoulEssenceStaff) {
-				ItemStack stack = inventory.getInvStack(i);
+		for (int i = 0; i < inventory.size(); i++) {
+			if(inventory.getStack(i).getItem() instanceof SoulEssenceStaff) {
+				ItemStack stack = inventory.getStack(i);
 				SoulEssenceStaff staff = (SoulEssenceStaff) stack.getItem();
 				
 				if (killed.getGroup() == EntityGroup.UNDEAD) {

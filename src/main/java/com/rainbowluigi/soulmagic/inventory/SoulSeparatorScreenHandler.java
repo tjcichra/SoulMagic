@@ -5,18 +5,18 @@ import com.rainbowluigi.soulmagic.item.SoulEssenceStaff;
 import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
 import com.rainbowluigi.soulmagic.soultype.SoulType;
 
-import net.minecraft.container.Container;
-import net.minecraft.container.Slot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
 
-public class SoulSeparatorContainer extends Container {
+public class SoulSeparatorScreenHandler extends ScreenHandler {
 	
 	private SoulSeparatorBlockEntity sibe;
 	
-	public SoulSeparatorContainer(int id, PlayerInventory playerInv, SoulSeparatorBlockEntity sibe) {
+	public SoulSeparatorScreenHandler(int id, PlayerInventory playerInv, SoulSeparatorBlockEntity sibe) {
 		super(null, id);
 		this.sibe = sibe;
 		
@@ -39,7 +39,7 @@ public class SoulSeparatorContainer extends Container {
 
 	@Override
 	public boolean canUse(PlayerEntity playerIn) {
-		return this.sibe.canPlayerUseInv(playerIn);
+		return this.sibe.canPlayerUse(playerIn);
 	}
 
 	@Override
@@ -119,7 +119,7 @@ public class SoulSeparatorContainer extends Container {
 			
 			int total = 0;
 			int current = 0;
-			for (SoulType type : ModSoulTypes.SOUL_TYPE_REG) {
+			for (SoulType type : ModSoulTypes.SOUL_TYPE) {
 				if (ses.getSoul(stack, this.sibe.getWorld(), type) > 0) {
 					current += ses.getSoul(stack, this.sibe.getWorld(), type);
 					total += ses.getMaxSoul(stack, this.sibe.getWorld(), type);

@@ -1,15 +1,18 @@
 package com.rainbowluigi.soulmagic.spell;
 
+import com.mojang.serialization.Lifecycle;
 import com.rainbowluigi.soulmagic.item.ModItems;
 import com.rainbowluigi.soulmagic.util.Reference;
 
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.DefaultedRegistry;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryKey;
 
 public class ModSpells {
 	
-	public static final DefaultedRegistry<Spell> SPELL_REG = new DefaultedRegistry<>("unknown");
+    public static final RegistryKey<Registry<Spell>> SPELL_KEY = RegistryKey.ofRegistry(new Identifier(Reference.MOD_ID, "fireball"));
+    public static final DefaultedRegistry<Spell> SPELL = new DefaultedRegistry<Spell>("light", SPELL_KEY, Lifecycle.experimental());
 	
 	public static final Spell FIREBALL = new SpellFireball();
 	public static final Spell FLAMING_TOUCH = new SpellFlamingTouch();
@@ -27,7 +30,7 @@ public class ModSpells {
 	public static final Spell BOUND_SCYTHE = new SpellBound(ModItems.BOUND_SWORD, false, false, true);
 
 	public static void registerSpells() {
-		Registry.register(Registry.REGISTRIES, new Identifier(Reference.MOD_ID, "spell"), SPELL_REG);
+		//Registry.register(Registry.REGISTRIES, new Identifier(Reference.MOD_ID, "spell"), SPELL);
 
 		registerSpell(FIREBALL, "fireball");
 		registerSpell(FLAMING_TOUCH, "flaming_touch");
@@ -46,6 +49,6 @@ public class ModSpells {
 	}
     
     private static void registerSpell(Spell s, String name) {
-    	Registry.register(SPELL_REG, new Identifier(Reference.MOD_ID, name), s);
+    	Registry.register(SPELL, new Identifier(Reference.MOD_ID, name), s);
     }
 }

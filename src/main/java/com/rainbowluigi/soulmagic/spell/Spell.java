@@ -8,7 +8,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
-import net.minecraft.text.Text;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -45,7 +45,7 @@ public class Spell {
 
 	public Identifier getDefaultSpellTexture() {
 		if(this.spellTexture == null) {
-			Identifier rl = ModSpells.SPELL_REG.getId(this);
+			Identifier rl = ModSpells.SPELL.getId(this);
 			this.spellTexture = rl == null ? null : new Identifier(rl.getNamespace(), "textures/gui/spellicons/" + rl.getPath().replace('/', '.') + ".png");
 		}
 		return this.spellTexture;
@@ -60,13 +60,13 @@ public class Spell {
 	}
 	
 	@Environment(EnvType.CLIENT)
-	public Text getName() {
+	public MutableText getName() {
 		return new TranslatableText(this.getTranslationKey());
 	}
 	
 	public String getOrCreateTranslationKey() {
 		if (this.translationKey == null) {
-			this.translationKey = Util.createTranslationKey("spell", ModSpells.SPELL_REG.getId(this));
+			this.translationKey = Util.createTranslationKey("spell", ModSpells.SPELL.getId(this));
 		}
 
 		return this.translationKey;

@@ -2,7 +2,7 @@ package com.rainbowluigi.soulmagic.soultype;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.text.Text;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Util;
@@ -27,13 +27,13 @@ public class SoulType {
 	}
 	
 	@Environment(EnvType.CLIENT)
-	public Text getName() {
+	public MutableText getName() {
 		return new TranslatableText(this.getTranslationKey());
 	}
 	
 	public String getOrCreateTranslationKey() {
 		if (this.translationKey == null) {
-			this.translationKey = Util.createTranslationKey("soul_type", ModSoulTypes.SOUL_TYPE_REG.getId(this));
+			this.translationKey = Util.createTranslationKey("soul_type", ModSoulTypes.SOUL_TYPE.getId(this));
 		}
 
 		return this.translationKey;

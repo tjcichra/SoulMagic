@@ -7,7 +7,7 @@ import com.rainbowluigi.soulmagic.item.crafting.SoulSeparatorRecipe;
 import com.rainbowluigi.soulmagic.item.crafting.SpellInfusionRecipe;
 import com.rainbowluigi.soulmagic.util.Reference;
 
-import me.shedaniel.math.api.Rectangle;
+import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.EntryStack;
 import me.shedaniel.rei.api.RecipeHelper;
 import me.shedaniel.rei.api.plugins.REIPluginV0;

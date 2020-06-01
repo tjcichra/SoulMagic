@@ -1,54 +1,29 @@
 package com.rainbowluigi.soulmagic.item;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.rainbowluigi.soulmagic.block.ModBlocks;
-import com.rainbowluigi.soulmagic.entity.SoulArrowEntity;
-import com.rainbowluigi.soulmagic.util.Reference;
-
-import java.util.Set;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.item.TooltipContext;
-import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.Tessellator;
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.util.math.Matrix3f;
-import net.minecraft.client.util.math.Matrix4f;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.DyeableItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsageContext;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.particle.DustParticleEffect;
-import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.World;
 
@@ -104,7 +79,7 @@ public class MagicalBallOfYarnItem extends Item implements DyeableItem {
 			
 			if(!world.isClient) {
 				player.playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS, 0.1F, (world.random.nextFloat() - world.random.nextFloat()) * 0.35F + 0.9F);
-				player.addMessage(new TranslatableText("soulmagic.magical_ball_of_yarn.text", (int) player.getX(), (int) player.getY(), (int) player.getZ()), true);
+				player.sendMessage(new TranslatableText("soulmagic.magical_ball_of_yarn.text", (int) player.getX(), (int) player.getY(), (int) player.getZ()), true);
 			}
 		} else {
 			Thread t = new Thread(() ->  {

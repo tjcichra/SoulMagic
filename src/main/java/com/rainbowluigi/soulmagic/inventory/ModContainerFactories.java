@@ -14,7 +14,7 @@ import com.rainbowluigi.soulmagic.util.Reference;
 import net.fabricmc.fabric.api.client.screen.ScreenProviderRegistry;
 import net.fabricmc.fabric.api.container.ContainerProviderRegistry;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.inventory.BasicInventory;
+import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -32,28 +32,28 @@ public class ModContainerFactories {
     public static void registerContainerTypes() {
     	ContainerProviderRegistry.INSTANCE.registerFactory(SOUL_INFUSER_FACTORY, (s, i, player, buf) -> {
     		SoulInfuserBlockEntity be = (SoulInfuserBlockEntity) PacketBufferUtils.getBlockEntity(buf, player);
-    		return new SoulInfuserContainer(s, player.inventory, be);
+    		return new SoulInfuserScreenHandler(s, player.inventory, be);
     	});
     	
-    	ScreenProviderRegistry.INSTANCE.registerFactory(SOUL_INFUSER_FACTORY, (SoulInfuserContainer c) -> {
+    	ScreenProviderRegistry.INSTANCE.registerFactory(SOUL_INFUSER_FACTORY, (SoulInfuserScreenHandler c) -> {
     		return new SoulInfuserScreen(c, MinecraftClient.getInstance().player.inventory, c.getDisplayName());
     	});
     	
     	ContainerProviderRegistry.INSTANCE.registerFactory(SOUL_SEPARATOR, (s, i, player, buf) -> {
     		SoulSeparatorBlockEntity be = (SoulSeparatorBlockEntity) PacketBufferUtils.getBlockEntity(buf, player);
-    		return new SoulSeparatorContainer(s, player.inventory, be);
+    		return new SoulSeparatorScreenHandler(s, player.inventory, be);
     	});
     	
-    	ScreenProviderRegistry.INSTANCE.registerFactory(SOUL_SEPARATOR, (SoulSeparatorContainer c) -> {
+    	ScreenProviderRegistry.INSTANCE.registerFactory(SOUL_SEPARATOR, (SoulSeparatorScreenHandler c) -> {
     		return new SoulSeparatorScreen(c, MinecraftClient.getInstance().player.inventory, c.getDisplayName());
     	});
     	
     	ContainerProviderRegistry.INSTANCE.registerFactory(SOUL_CACHE, (s, i, player, buf) -> {
     		SoulCacheBlockEntity be = (SoulCacheBlockEntity) PacketBufferUtils.getBlockEntity(buf, player);
-    		return new SoulCacheContainer(s, player.inventory, be);
+    		return new SoulCacheScreenHandler(s, player.inventory, be);
     	});
     	
-    	ScreenProviderRegistry.INSTANCE.registerFactory(SOUL_CACHE, (SoulCacheContainer c) -> {
+    	ScreenProviderRegistry.INSTANCE.registerFactory(SOUL_CACHE, (SoulCacheScreenHandler c) -> {
     		return new SoulCacheScreen(c, MinecraftClient.getInstance().player.inventory, c.getDisplayName());
     	});
     	
@@ -65,7 +65,7 @@ public class ModContainerFactories {
     		return new AccessoryScreen(c, MinecraftClient.getInstance().player, new LiteralText("Hello is my love"));
     	});
     	
-    	ScreenProviderRegistry.INSTANCE.registerFactory(PERSONAL_CHEST, (PersonalChestContainer c) -> {
+    	ScreenProviderRegistry.INSTANCE.registerFactory(PERSONAL_CHEST, (PersonalChestScreenHandler c) -> {
     		return new PersonalChestScreen(c, MinecraftClient.getInstance().player.inventory, c.getDisplayName());
     	});
     	
@@ -79,24 +79,24 @@ public class ModContainerFactories {
 	
 				for(int i1 = 0; i1 < listTag_1.size(); i1++) {
 					ItemStack stack2 = ItemStack.fromTag((CompoundTag) listTag_1.get(i1));
-					System.out.println(stack2.getName().asFormattedString() + " x" + stack2.getCount());
+					System.out.println(stack2.getName().asString() + " x" + stack2.getCount());
 				}
 				
 				for (int int_1 = 0; int_1 < listTag_1.size(); ++int_1) {
 					CompoundTag compoundTag_2 = listTag_1.getCompound(int_1);
 					int int_2 = compoundTag_2.getByte("Slot") & 255;
-					if (int_2 >= 0 && int_2 < list.getInvSize()) {
-						list.setInvStack(int_2, ItemStack.fromTag(compoundTag_2));
+					if (int_2 >= 0 && int_2 < list.size()) {
+						list.setStack(int_2, ItemStack.fromTag(compoundTag_2));
 					}
 				}
     		}
     		
-    		return new PersonalChestContainer(s, player.inventory, list);
+    		return new PersonalChestScreenHandler(s, player.inventory, list);
     	});
     }
 }
 
-class ItemInventory extends BasicInventory {
+class ItemInventory extends SimpleInventory {
 	
 	private ItemStack stack;
 
@@ -114,8 +114,8 @@ class ItemInventory extends BasicInventory {
 		
 		ListTag list = (ListTag) tag.get("Items");
 		
-		for (int i = 0; i < this.getInvSize(); i++) {
-			ItemStack stack = this.getInvStack(i);
+		for (int i = 0; i < this.size(); i++) {
+			ItemStack stack = this.getStack(i);
 			if (!stack.isEmpty()) {
 				CompoundTag tag2 = new CompoundTag();
 				tag2.putByte("Slot", (byte) i);
@@ -130,7 +130,7 @@ class ItemInventory extends BasicInventory {
 			list = (ListTag) tag.get("Items");
 			for(int i = 0; i < list.size(); i++) {
 				ItemStack stack = ItemStack.fromTag((CompoundTag) list.get(i));
-				System.out.println(((CompoundTag) list.get(i)).getByte("Slot") + ": " + stack.getName().asFormattedString() + " x" + stack.getCount());
+				System.out.println(((CompoundTag) list.get(i)).getByte("Slot") + ": " + stack.getName().asString() + " x" + stack.getCount());
 			}
 		}
 		

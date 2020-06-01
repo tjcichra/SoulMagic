@@ -18,7 +18,7 @@ public interface SoulEssenceStaff {
         	CompoundTag tag = (CompoundTag) stack.getTag().get("souls");
         	
         	//Gets the registry name of the soul type (which is also the key)
-        	String s = ModSoulTypes.SOUL_TYPE_REG.getId(type).toString();
+        	String s = ModSoulTypes.SOUL_TYPE.getId(type).toString();
         	
         	//If the soul type is in the soul values tag, return it's value
         	if(tag.contains(s)) {
@@ -54,7 +54,7 @@ public interface SoulEssenceStaff {
         }
         
         //Put the registry name of the soul type as a key with its amount
-        tag.putInt(ModSoulTypes.SOUL_TYPE_REG.getId(type).toString(), amount);
+        tag.putInt(ModSoulTypes.SOUL_TYPE.getId(type).toString(), amount);
     }
     
 	//Set the value of the soul type in the stack
@@ -76,7 +76,7 @@ public interface SoulEssenceStaff {
         
         int max = ((SoulEssenceStaff)stack.getItem()).getMaxSoul(stack, world, type);
         
-        String s = ModSoulTypes.SOUL_TYPE_REG.getId(type).toString();
+        String s = ModSoulTypes.SOUL_TYPE.getId(type).toString();
         int remainder = 0;
         
         if(tag.contains(s)) {
@@ -100,7 +100,7 @@ public interface SoulEssenceStaff {
         
         CompoundTag tag = (CompoundTag) stack.getTag().get("souls");
         
-        String s = ModSoulTypes.SOUL_TYPE_REG.getId(type).toString();
+        String s = ModSoulTypes.SOUL_TYPE.getId(type).toString();
         
         if(!tag.contains(s)) {
         	return false;
@@ -118,9 +118,9 @@ public interface SoulEssenceStaff {
     
     public static boolean hasSoul(PlayerEntity player, World world, Object... objects) {
     	if(!player.isCreative()) {
-	    	for (int i = 0; i < player.inventory.getInvSize(); i++) {
-	    		if(player.inventory.getInvStack(i).getItem() instanceof SoulEssenceStaff) {
-					ItemStack stack = player.inventory.getInvStack(i);
+	    	for (int i = 0; i < player.inventory.size(); i++) {
+	    		if(player.inventory.getStack(i).getItem() instanceof SoulEssenceStaff) {
+					ItemStack stack = player.inventory.getStack(i);
 					for(int j = 0; j < objects.length; j += 2) {
 						SoulEssenceStaff staff = (SoulEssenceStaff) stack.getItem();
 						//if(staff.getSoul(stack, (SoulType) objects[j]) < (Integer) objects[j + 1]) {
@@ -140,9 +140,9 @@ public interface SoulEssenceStaff {
     
     public static boolean hasAtLeastSoul(PlayerEntity player, World world, Object... objects) {
     	if(!player.isCreative()) {
-	    	for (int i = 0; i < player.inventory.getInvSize(); i++) {
-	    		if(player.inventory.getInvStack(i).getItem() instanceof SoulEssenceStaff) {
-					ItemStack stack = player.inventory.getInvStack(i);
+	    	for (int i = 0; i < player.inventory.size(); i++) {
+	    		if(player.inventory.getStack(i).getItem() instanceof SoulEssenceStaff) {
+					ItemStack stack = player.inventory.getStack(i);
 					for(int j = 0; j < objects.length; j += 2) {
 						SoulEssenceStaff staff = (SoulEssenceStaff) stack.getItem();
 						//if(staff.getSoul(stack, (SoulType) objects[j]) < (Integer) objects[j + 1]) {

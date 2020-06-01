@@ -12,8 +12,8 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
-import net.minecraft.util.DefaultedList;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 
 public class SoulStaffTransferRecipe extends SoulSeparatorRecipe {
@@ -29,7 +29,7 @@ public class SoulStaffTransferRecipe extends SoulSeparatorRecipe {
 
 	@Override
 	public void postCraft(Inventory inv, World var2, Map<SoulType, Integer> soulMap2) {
-		ItemStack stack = inv.getInvStack(0);
+		ItemStack stack = inv.getStack(0);
 		SoulEssenceStaff ses = (SoulEssenceStaff) stack.getItem();
 		
 		for(Entry<SoulType, Integer> st : soulMap2.entrySet()) {
@@ -44,7 +44,7 @@ public class SoulStaffTransferRecipe extends SoulSeparatorRecipe {
 
 	@Override
 	public boolean matches(Inventory inv, World var2) {
-		return inv.getInvStack(0).getItem() instanceof SoulEssenceStaff;
+		return inv.getStack(0).getItem() instanceof SoulEssenceStaff;
 	}
 	
 	@Override
@@ -56,13 +56,13 @@ public class SoulStaffTransferRecipe extends SoulSeparatorRecipe {
 	public Map<SoulType, Integer> getSoulMap(Inventory inv, World w) {
 		Map<SoulType, Integer> soulMap = Maps.newHashMap();
 		
-		ItemStack stack = inv.getInvStack(0);
+		ItemStack stack = inv.getStack(0);
 		SoulEssenceStaff ses = (SoulEssenceStaff) stack.getItem();
 			
-		ItemStack stack2 = inv.getInvStack(2);
+		ItemStack stack2 = inv.getStack(2);
 		SoulEssenceStaff ses2 = (SoulEssenceStaff) stack2.getItem();
 			
-		for(SoulType st : ModSoulTypes.SOUL_TYPE_REG) {
+		for(SoulType st : ModSoulTypes.SOUL_TYPE) {
 			if(ses.getSoul(stack, w, st) >= 1 && ses2.getSoul(stack2, w, st) <= ses2.getMaxSoul(stack2, w, st) - 1) {
 				soulMap.put(st, 1);
 			}

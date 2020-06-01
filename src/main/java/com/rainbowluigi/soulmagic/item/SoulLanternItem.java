@@ -5,11 +5,11 @@ import com.rainbowluigi.soulmagic.block.SoulFlameBlock;
 import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
 import com.rainbowluigi.soulmagic.soultype.SoulType;
 
-import net.minecraft.advancement.criterion.Criterions;
+import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.ShapeContext;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.entity.EntityContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.DyeableItem;
 import net.minecraft.item.Item;
@@ -56,8 +56,8 @@ public class SoulLanternItem extends Item implements DyeableItem, SoulEssenceSta
 				Block block = state2.getBlock();
 				
 				if (block == state.getBlock()) {
-					if (entity instanceof ServerPlayerEntity) {
-						Criterions.PLACED_BLOCK.trigger((ServerPlayerEntity) entity, pos, stack);
+					if(entity instanceof ServerPlayerEntity) {
+						Criteria.PLACED_BLOCK.trigger((ServerPlayerEntity) entity, pos, stack);
 					}
 				}
 
@@ -98,7 +98,7 @@ public class SoulLanternItem extends Item implements DyeableItem, SoulEssenceSta
 		PlayerEntity entity = context.getPlayer();
 		
 		if(SoulEssenceStaff.hasSoul(context.getPlayer(), context.getWorld(), ModSoulTypes.LIGHT, 5)) {
-			EntityContext entityContext = entity == null ? EntityContext.absent() : EntityContext.of(entity);
+			ShapeContext entityContext = entity == null ? ShapeContext.absent() : ShapeContext.of(entity);
 			return (state.canPlaceAt(context.getWorld(), context.getBlockPos())) && context.getWorld().canPlace(state, context.getBlockPos(), entityContext);
 		}
 		return false;

@@ -19,7 +19,7 @@ public class SoulUtils {
 		Map<SoulType, Integer> soulMap = Maps.newHashMap();
 		
 		for(Entry<String, JsonElement> entry : json.entrySet()) {
-			SoulType s = ModSoulTypes.SOUL_TYPE_REG.get(new Identifier(entry.getKey()));
+			SoulType s = ModSoulTypes.SOUL_TYPE.get(new Identifier(entry.getKey()));
 			int d = entry.getValue().getAsInt();
 			soulMap.put(s, d);
 		}
@@ -34,7 +34,7 @@ public class SoulUtils {
 			
 			JsonObject jo = ele.getAsJsonObject();
 			
-			SoulType s = ModSoulTypes.SOUL_TYPE_REG.get(new Identifier(JsonHelper.getString(jo, "soul")));
+			SoulType s = ModSoulTypes.SOUL_TYPE.get(new Identifier(JsonHelper.getString(jo, "soul")));
 			int d[] = new int[] {JsonHelper.getInt(jo, "min"), JsonHelper.getInt(jo, "max")};
 			soulMap.put(s, d);
 		}

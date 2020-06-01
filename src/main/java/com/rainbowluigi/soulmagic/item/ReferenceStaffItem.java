@@ -27,7 +27,7 @@ public class ReferenceStaffItem extends Item implements SoulEssenceStaff {
 	@Environment(EnvType.CLIENT)
 	@Override
     public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
-		for(SoulType st : ModSoulTypes.SOUL_TYPE_REG) {
+		for(SoulType st : ModSoulTypes.SOUL_TYPE) {
 			if (this.getSoul(stack, world, st) > 0) {
 				tooltip.add(new TranslatableText("soulmagic.soul_essence_staff.amount", st.getName(), this.getSoul(stack, world, st), this.getMaxSoul(stack, world, st)).formatted(st.getTextColor()));
 			}
@@ -41,8 +41,8 @@ public class ReferenceStaffItem extends Item implements SoulEssenceStaff {
     	
     	if(be != null) {
 			
-			for(int i = 0; i < be.getInvSize(); i++) {
-				ItemStack stack2 = be.getInvStack(i);
+			for(int i = 0; i < be.size(); i++) {
+				ItemStack stack2 = be.getStack(i);
 				
 				if(stack2.getItem() instanceof SoulEssenceStaff) {
 					SoulEssenceStaff ses = (SoulEssenceStaff) stack2.getItem();
@@ -60,8 +60,8 @@ public class ReferenceStaffItem extends Item implements SoulEssenceStaff {
     	
     	if(be != null) {
 			
-			for(int i = 0; i < be.getInvSize(); i++) {
-				ItemStack stack2 = be.getInvStack(i);
+			for(int i = 0; i < be.size(); i++) {
+				ItemStack stack2 = be.getStack(i);
 				
 				if(stack2.getItem() instanceof SoulEssenceStaff) {
 					SoulEssenceStaff ses = (SoulEssenceStaff) stack2.getItem();
@@ -86,8 +86,8 @@ public class ReferenceStaffItem extends Item implements SoulEssenceStaff {
 		
 		if(be != null) {
 			
-			for(int i = 0; i < be.getInvSize(); i++) {
-				ItemStack stack2 = be.getInvStack(i);
+			for(int i = 0; i < be.size(); i++) {
+				ItemStack stack2 = be.getStack(i);
 				
 				if(stack2.getItem() instanceof SoulEssenceStaff) {
 					SoulEssenceStaff ses = (SoulEssenceStaff) stack2.getItem();
@@ -107,8 +107,8 @@ public class ReferenceStaffItem extends Item implements SoulEssenceStaff {
 		
 		if(be != null) {
 			
-			for(int i = be.getInvSize() - 1; i >= 0; i++) {
-				ItemStack stack2 = be.getInvStack(i);
+			for(int i = be.size() - 1; i >= 0; i++) {
+				ItemStack stack2 = be.getStack(i);
 				
 				if(stack2.getItem() instanceof SoulEssenceStaff) {
 					SoulEssenceStaff ses = (SoulEssenceStaff) stack2.getItem();

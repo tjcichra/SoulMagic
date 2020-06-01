@@ -18,7 +18,6 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.LiteralText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
@@ -46,7 +45,7 @@ public class SoulCache extends BlockWithEntity {
 		}
 	}
 	
-	@Override
+	/*@Override
 	public void onBlockRemoved(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
 		if (state.getBlock() != newState.getBlock()) {
 			BlockEntity blockEntity = worldIn.getBlockEntity(pos);
@@ -58,7 +57,7 @@ public class SoulCache extends BlockWithEntity {
 			
 			super.onBlockRemoved(state, worldIn, pos, newState, isMoving);
 		}
-	}
+	}*/
 	
 	@Override
 	public ActionResult onUse(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult bhr) {
@@ -77,7 +76,7 @@ public class SoulCache extends BlockWithEntity {
 					tag.putInt("y", pos.getY());
 					tag.putInt("z", pos.getZ());
 					
-					player.addMessage(new LiteralText("TEST TEXT (" + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + ")."), true);
+					player.sendMessage(new LiteralText("TEST TEXT (" + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + ")."), true);
 				} else {
 					ContainerProviderImpl.INSTANCE.openContainer(ModContainerFactories.SOUL_CACHE, player, buf -> {
 						buf.writeBlockPos(pos);

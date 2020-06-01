@@ -2,7 +2,6 @@ package com.rainbowluigi.soulmagic.entity;
 
 import java.util.stream.Stream;
 
-import com.google.common.collect.ImmutableSet;
 import com.rainbowluigi.soulmagic.client.SoulMagicClient;
 import com.rainbowluigi.soulmagic.item.ModItems;
 import com.rainbowluigi.soulmagic.network.EntityRenderMessage;
@@ -13,24 +12,23 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FenceGateBlock;
+import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityContext;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MovementType;
-import net.minecraft.entity.ProjectileUtil;
 import net.minecraft.entity.damage.EntityDamageSource;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Packet;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.tag.BlockTags;
-import net.minecraft.tag.FluidTags;
-import net.minecraft.util.BooleanBiFunction;
-import net.minecraft.util.ReusableStream;
+import net.minecraft.util.collection.ReusableStream;
 import net.minecraft.util.crash.CrashException;
 import net.minecraft.util.crash.CrashReport;
 import net.minecraft.util.crash.CrashReportSection;
+import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
@@ -84,13 +82,13 @@ public class MagicFireballEntity extends Entity {
 		this.prevVY = this.getVelocity().y;
 		
 		++this.ticks;
-		HitResult hitResult_1 = ProjectileUtil.getCollision(this, true, this.ticks >= 10, this.entity, RayTraceContext.ShapeType.COLLIDER);
+		HitResult hitResult_1 = ProjectileUtil.getCollision(this, this::method_26958, RayTraceContext.ShapeType.COLLIDER);
         if (hitResult_1.getType() != HitResult.Type.MISS) {
            this.onCollision(hitResult_1);
         }
         
 		Vec3d vec3d_1 = this.getVelocity();
-		if (this.isInFluid(FluidTags.WATER)) {
+		if (this.isTouchingWater()) {
 			if(this.ticks < 100) {
 				this.ticks = 100;
 			}
@@ -129,10 +127,14 @@ public class MagicFireballEntity extends Entity {
 		if(this.ticks >= 120) {
 			this.remove();
 		}
-		if(this.isInFluid(FluidTags.WATER)) {
+		if(this.isTouchingWater()) {
 			this.playSound(SoundEvents.BLOCK_FIRE_EXTINGUISH, 1, 1);
 			this.world.addParticle(ParticleTypes.SMOKE, MathHelper.nextDouble(this.random, 0, 0.75) + this.getX() - 0.25, MathHelper.nextDouble(this.random, 0, 0.75) + this.getY() - 0.25, MathHelper.nextDouble(this.random, 0, 0.75) + this.getZ() - 0.25, 0.0D, 0.0D, 0.0D);
 		}
+	}
+
+	protected boolean method_26958(Entity entity_1) {
+		return false;
 	}
 	
 	protected void fall(double double_1, boolean boolean_1, BlockState blockState_1, BlockPos blockPos_1) {
@@ -217,7 +219,7 @@ public class MagicFireballEntity extends Entity {
 			this.horizontalCollision = !MathHelper.approximatelyEquals(vec3d_1.x, vec3d_2.x) || !MathHelper.approximatelyEquals(vec3d_1.z, vec3d_2.z);
 			this.verticalCollision = vec3d_1.y != vec3d_2.y;
 			this.onGround = this.verticalCollision && vec3d_1.y < 0.0D;
-			this.collided = this.horizontalCollision || this.verticalCollision;
+			//this.collided = this.horizontalCollision || this.verticalCollision;
 			int int_1 = MathHelper.floor(this.getX());
 			int int_2 = MathHelper.floor(this.getY() - 0.20000000298023224D);
 			int int_3 = MathHelper.floor(this.getZ());
@@ -326,10 +328,12 @@ public class MagicFireballEntity extends Entity {
 	
 	private Vec3d adjustMovementForCollisions(Vec3d vec3d_1) {
 	      Box box_1 = this.getBoundingBox();
-	      EntityContext entityContext_1 = EntityContext.of(this);
+	      ShapeContext entityContext_1 = ShapeContext.of(this);
 	      VoxelShape voxelShape_1 = this.world.getWorldBorder().asVoxelShape();
 	      Stream<VoxelShape> stream_1 = VoxelShapes.matchesAnywhere(voxelShape_1, VoxelShapes.cuboid(box_1.contract(1.0E-7D)), BooleanBiFunction.AND) ? Stream.empty() : Stream.of(voxelShape_1);
-	      Stream<VoxelShape> stream_2 = this.world.getEntityCollisions(this, box_1.stretch(vec3d_1), ImmutableSet.of());
+	      Stream<VoxelShape> stream_2 = this.world.getEntityCollisions(this, box_1.stretch(vec3d_1), (entity_1) -> {
+			return true;
+		 });
 	      ReusableStream<VoxelShape> reusableStream_1 = new ReusableStream<VoxelShape>(Stream.concat(stream_2, stream_1));
 	      Vec3d vec3d_2 = vec3d_1.lengthSquared() == 0.0D ? vec3d_1 : adjustMovementForCollisions(this, vec3d_1, box_1, this.world, entityContext_1, reusableStream_1);
 	      boolean boolean_1 = vec3d_1.x != vec3d_2.x;

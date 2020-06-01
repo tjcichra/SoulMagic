@@ -1,16 +1,16 @@
 package com.rainbowluigi.soulmagic.inventory;
 
-import net.minecraft.container.Container;
-import net.minecraft.container.Slot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
+import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 
-public class PersonalChestContainer extends Container {
+public class PersonalChestScreenHandler extends ScreenHandler {
 
-	protected PersonalChestContainer(int id, PlayerInventory pInv, Inventory inv) {
+	protected PersonalChestScreenHandler(int id, PlayerInventory pInv, Inventory inv) {
 		super(null, id);
 		
 		for (int y = 0; y < 3; ++y) {

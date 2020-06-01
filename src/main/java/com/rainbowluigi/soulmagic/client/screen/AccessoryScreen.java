@@ -6,11 +6,12 @@ import com.rainbowluigi.soulmagic.inventory.AccessoryContainer;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
-import net.minecraft.client.resource.language.I18n;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 
 public class AccessoryScreen extends AbstractInventoryScreen<AccessoryContainer> {
@@ -29,27 +30,27 @@ public class AccessoryScreen extends AbstractInventoryScreen<AccessoryContainer>
 	}
 
 	@Override
-	protected void drawForeground(int int_1, int int_2) {
+	protected void drawForeground(MatrixStack matrix, int int_1, int int_2) {
 		//this.font.draw(this.title.asFormattedString(), 97.0F, 8.0F, 4210752);
 	}
 
 	@Override
-	public void render(int int_1, int int_2, float float_1) {
-		this.renderBackground();
-		super.render(int_1, int_2, float_1);
+	public void render(MatrixStack matrix, int int_1, int int_2, float float_1) {
+		this.renderBackground(matrix);
+		super.render(matrix, int_1, int_2, float_1);
 		
 		if(int_1 >= this.x && int_1 <= this.x + 28 && int_2 >= this.y - 28 && int_2 <= this.y) {
-			this.renderTooltip(I18n.translate("container.soulmagic.inventory"), int_1, int_2);
+			this.renderTooltip(matrix, new TranslatableText("container.soulmagic.inventory"), int_1, int_2);
 		} else if (int_1 >= this.x + 28 && int_1 <= this.x + 56 && int_2 >= this.y - 28 && int_2 <= this.y) {
-			this.renderTooltip(I18n.translate("container.soulmagic.accessories"), int_1, int_2);
+			this.renderTooltip(matrix, new TranslatableText("container.soulmagic.accessories"), int_1, int_2);
 		}
-		this.drawMouseoverTooltip(int_1, int_2);
+		this.drawMouseoverTooltip(matrix, int_1, int_2);
 		this.mouseX = (float) int_1;
 		this.mouseY = (float) int_2;
 	}
 	
 	@Override
-	protected void drawBackground(float float_1, int int_1, int int_2) {
+	protected void drawBackground(MatrixStack matrix, float float_1, int int_1, int int_2) {
 		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 		
 		//GuiLighting.enableForItems();
@@ -65,15 +66,15 @@ public class AccessoryScreen extends AbstractInventoryScreen<AccessoryContainer>
 	    this.setZOffset(0);
 		
 		this.client.getTextureManager().bindTexture(TEXTURE);
-		this.blit(this.x, this.y - 28, 0, 0, 28, 30);
+		this.drawTexture(matrix, this.x, this.y - 28, 0, 0, 28, 30);
 		
 		this.client.getTextureManager().bindTexture(BACKGROUND_TEXTURE);
 		int int_3 = this.x;
 		int int_4 = this.y;
-		this.blit(int_3, int_4, 0, 0, this.containerWidth, this.containerHeight);
+		this.drawTexture(matrix, int_3, int_4, 0, 0, this.backgroundWidth, this.backgroundHeight);
 		
 		this.client.getTextureManager().bindTexture(TEXTURE);
-		this.blit(this.x + 28, this.y - 28, 28, 32, 28, 32);
+		this.drawTexture(matrix, this.x + 28, this.y - 28, 28, 32, 28, 32);
 		InventoryScreen.drawEntity(int_3 + 32, int_4 + 75, 30, (float) (int_3 + 32) - this.mouseX, (float) (int_4 + 75 - 50) - this.mouseY, this.client.player);
 	}
 	

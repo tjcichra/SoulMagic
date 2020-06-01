@@ -3,7 +3,7 @@ package com.rainbowluigi.soulmagic.network;
 import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.network.PacketContext;
 import net.minecraft.entity.ItemEntity;
-import net.minecraft.util.PacketByteBuf;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.world.World;
 
 public class ItemVacuumMessage {

@@ -4,14 +4,14 @@ import com.rainbowluigi.soulmagic.item.Accessory;
 import com.rainbowluigi.soulmagic.item.Accessory.AccessoryType;
 import com.rainbowluigi.soulmagic.item.crafting.PlayerAccessories;
 
-import net.minecraft.container.Container;
-import net.minecraft.container.Slot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.slot.Slot;
 
-public class AccessoryContainer extends Container {
+public class AccessoryContainer extends ScreenHandler {
 
 	public AccessoryContainer(PlayerEntity player, int s) {
 		super(null, s);
@@ -58,9 +58,9 @@ public class AccessoryContainer extends Container {
 				
 				int count = 0;
 				
-				for(int x = 0; x < this.inventory.getInvSize(); x++) {
-					if(!this.inventory.getInvStack(x).isEmpty()) {
-						if(((Accessory) this.inventory.getInvStack(x).getItem()).getType().equals(type)) {
+				for(int x = 0; x < this.inventory.size(); x++) {
+					if(!this.inventory.getStack(x).isEmpty()) {
+						if(((Accessory) this.inventory.getStack(x).getItem()).getType().equals(type)) {
 							count++;
 						}
 					}

@@ -42,7 +42,7 @@ public class BarrageEntity extends Entity {
 	
 	public void calculateDimensions() {
 		Box box_1 = this.getBoundingBox();
-		this.setBoundingBox(new Box(box_1.x1, box_1.y1, box_1.z1, box_1.x2, box_1.y2, box_1.z2));
+		this.setBoundingBox(new Box(box_1.minX, box_1.minY, box_1.minZ, box_1.maxX, box_1.maxY, box_1.maxZ));
 			//if (entityDimensions_2.width > entityDimensions_1.width && !this.firstUpdate && !this.world.isClient) {
 			//	float float_1 = entityDimensions_1.width - entityDimensions_2.width;
 			///	this.move(MovementType.SELF, new Vec3d((double) float_1, 0.0D, (double) float_1));

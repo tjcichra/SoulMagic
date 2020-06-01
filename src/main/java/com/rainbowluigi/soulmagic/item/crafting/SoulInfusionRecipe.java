@@ -15,15 +15,15 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.recipe.ShapedRecipe;
-import net.minecraft.util.DefaultedList;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
-import net.minecraft.util.PacketByteBuf;
+import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 
 public class SoulInfusionRecipe implements Recipe<Inventory> {
@@ -92,7 +92,7 @@ public class SoulInfusionRecipe implements Recipe<Inventory> {
 	@Override
 	public boolean matches(Inventory inv, World worldIn) {
 		for(int i = 0; i < this.inputs.size(); i++) {
-			if(!this.inputs.get(i).test(inv.getInvStack(i))) {
+			if(!this.inputs.get(i).test(inv.getStack(i))) {
 				return false;
 			}
 		}
@@ -144,7 +144,7 @@ public class SoulInfusionRecipe implements Recipe<Inventory> {
 			
 			Map<SoulType, Integer> soulMap = Maps.newHashMap();
 			for(int l = 0; l < n; l++) {
-				soulMap.put(ModSoulTypes.SOUL_TYPE_REG.get(buffer.readIdentifier()), buffer.readInt());
+				soulMap.put(ModSoulTypes.SOUL_TYPE.get(buffer.readIdentifier()), buffer.readInt());
 			}
 			
 			ItemStack output = buffer.readItemStack();
@@ -163,7 +163,7 @@ public class SoulInfusionRecipe implements Recipe<Inventory> {
 			
 			buffer.writeInt(recipe.getSoulMap().size());
 			for(Entry<SoulType, Integer> entry : recipe.getSoulMap().entrySet()) {
-				buffer.writeIdentifier(ModSoulTypes.SOUL_TYPE_REG.getId(entry.getKey()));
+				buffer.writeIdentifier(ModSoulTypes.SOUL_TYPE.getId(entry.getKey()));
 				buffer.writeInt(entry.getValue());
 			}
 			

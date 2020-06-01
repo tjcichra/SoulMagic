@@ -13,12 +13,12 @@ import com.rainbowluigi.soulmagic.util.SoulUtils;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
-import net.minecraft.util.DefaultedList;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
-import net.minecraft.util.PacketByteBuf;
+import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
@@ -34,12 +34,12 @@ public class EnchantmentInfusionRecipe extends SoulInfusionRecipe {
 	@Override
 	public boolean matches(Inventory sibe, World worldIn) {
 		for (int i = 0; i < this.inputs.size(); i++) {
-			if (!this.inputs.get(i).test(sibe.getInvStack(i))) {
+			if (!this.inputs.get(i).test(sibe.getStack(i))) {
 				return false;
 			}
 		}
 		
-		ItemStack stack = sibe.getInvStack(8);
+		ItemStack stack = sibe.getStack(8);
 		
 		if(!this.enchantment.isAcceptableItem(stack)) {
 			return false;
@@ -55,7 +55,7 @@ public class EnchantmentInfusionRecipe extends SoulInfusionRecipe {
 
 	@Override
 	public ItemStack craft(Inventory sibe) {
-		ItemStack stack = sibe.getInvStack(8).copy();
+		ItemStack stack = sibe.getStack(8).copy();
 		//FIX THIS PLZ
 		stack.addEnchantment(this.enchantment, 1);
 		return stack;
@@ -107,7 +107,7 @@ public class EnchantmentInfusionRecipe extends SoulInfusionRecipe {
 			int n = buffer.readInt();
 			Map<SoulType, Integer> soulMap = Maps.newHashMap();
 			for(int l = 0; l < n; l++) {
-				soulMap.put(ModSoulTypes.SOUL_TYPE_REG.get(buffer.readIdentifier()), buffer.readInt());
+				soulMap.put(ModSoulTypes.SOUL_TYPE.get(buffer.readIdentifier()), buffer.readInt());
 			}
 			
 			return new EnchantmentInfusionRecipe(recipeId, group, inputs, soulMap, color, enchantment);
@@ -127,7 +127,7 @@ public class EnchantmentInfusionRecipe extends SoulInfusionRecipe {
 			
 			buffer.writeInt(recipe.getSoulMap().size());
 			for(Entry<SoulType, Integer> entry : recipe.getSoulMap().entrySet()) {
-				buffer.writeIdentifier(ModSoulTypes.SOUL_TYPE_REG.getId(entry.getKey()));
+				buffer.writeIdentifier(ModSoulTypes.SOUL_TYPE.getId(entry.getKey()));
 				buffer.writeInt(entry.getValue());
 			}
 		}

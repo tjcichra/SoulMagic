@@ -14,7 +14,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
-import net.minecraft.util.DefaultedList;
+import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 
 public class BaseSoulEssenceStaffItem extends Item implements SoulEssenceStaff {
@@ -29,7 +29,7 @@ public class BaseSoulEssenceStaffItem extends Item implements SoulEssenceStaff {
 	@Environment(EnvType.CLIENT)
 	@Override
     public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
-		for(SoulType st : ModSoulTypes.SOUL_TYPE_REG) {
+		for(SoulType st : ModSoulTypes.SOUL_TYPE) {
 			if (this.getSoul(stack, world, st) > 0) {
 				tooltip.add(new TranslatableText("soulmagic.soul_essence_staff.amount", st.getName(), this.getSoul(stack, world, st), this.getMaxSoul(stack, world, st)).formatted(st.getTextColor()));
 			}
@@ -43,7 +43,7 @@ public class BaseSoulEssenceStaffItem extends Item implements SoulEssenceStaff {
 			
 			ItemStack stack = new ItemStack(this);
 			
-			for(SoulType st : ModSoulTypes.SOUL_TYPE_REG) {
+			for(SoulType st : ModSoulTypes.SOUL_TYPE) {
 				this.setSoul(stack, MinecraftClient.getInstance().world, st, this.getMaxSoul(stack, MinecraftClient.getInstance().world, st));
 			}
 			

@@ -2,8 +2,6 @@ package com.rainbowluigi.soulmagic.client;
 
 import java.awt.Color;
 
-import org.lwjgl.glfw.GLFW;
-
 import com.rainbowluigi.soulmagic.block.ModBlocks;
 import com.rainbowluigi.soulmagic.block.entity.ModBlockEntity;
 import com.rainbowluigi.soulmagic.client.screen.SelectSpellScreen;
@@ -21,6 +19,8 @@ import com.rainbowluigi.soulmagic.util.Reference;
 import com.rainbowluigi.soulmagic.util.SoulGemHelper;
 import com.rainbowluigi.soulmagic.util.SoulQuiverHelper;
 
+import org.lwjgl.glfw.GLFW;
+
 import io.netty.buffer.Unpooled;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
@@ -35,14 +35,12 @@ import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.entity.ArrowEntityRenderer;
 import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.util.InputUtil;
-import net.minecraft.entity.EntityType;
 import net.minecraft.item.DyeableItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.PacketByteBuf;
 
 public class SoulMagicClient implements ClientModInitializer {
 

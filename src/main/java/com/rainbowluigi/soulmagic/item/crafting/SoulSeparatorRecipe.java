@@ -11,15 +11,15 @@ import com.rainbowluigi.soulmagic.util.SoulUtils;
 
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.recipe.ShapedRecipe;
-import net.minecraft.util.DefaultedList;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
-import net.minecraft.util.PacketByteBuf;
+import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
@@ -45,24 +45,24 @@ public class SoulSeparatorRecipe implements Recipe<Inventory> {
 	
 	public void postCraft(Inventory inv, World var2, Map<SoulType, Integer> soulMap2) {
 		ItemStack result = this.craft(inv);
-		inv.getInvStack(0).decrement(1);
+		inv.getStack(0).decrement(1);
 
-		if (inv.getInvStack(0).isEmpty()) {
-			inv.setInvStack(0, this.getRemainingStacks(inv).get(0));
+		if (inv.getStack(0).isEmpty()) {
+			inv.setStack(0, this.getRemainingStacks(inv).get(0));
 		}
 		
 		if(!result.isEmpty() && Math.random() <= this.getChance()) {
-			if(inv.getInvStack(1).isEmpty()) {
-				inv.setInvStack(1, result);
+			if(inv.getStack(1).isEmpty()) {
+				inv.setStack(1, result);
 			} else {
-				inv.getInvStack(1).setCount(inv.getInvStack(1).getCount() + result.getCount());
+				inv.getStack(1).setCount(inv.getStack(1).getCount() + result.getCount());
 			}
 		}
 	}
 	
 	@Override
 	public boolean matches(Inventory inv, World var2) {
-		return this.input.test(inv.getInvStack(0));
+		return this.input.test(inv.getStack(0));
 	}
 
 	@Override
@@ -147,7 +147,7 @@ public class SoulSeparatorRecipe implements Recipe<Inventory> {
 			int n = buffer.readInt();
 			Map<SoulType, int[]> soulMap = Maps.newHashMap();
 			for(int l = 0; l < n; l++) {
-				soulMap.put(ModSoulTypes.SOUL_TYPE_REG.get(buffer.readIdentifier()), new int[] {buffer.readInt(), buffer.readInt()});
+				soulMap.put(ModSoulTypes.SOUL_TYPE.get(buffer.readIdentifier()), new int[] {buffer.readInt(), buffer.readInt()});
 			}
 			
 			float chance = buffer.readFloat();
@@ -163,7 +163,7 @@ public class SoulSeparatorRecipe implements Recipe<Inventory> {
 			
 			buffer.writeInt(recipe.soulMap.size());
 			for(Entry<SoulType, int[]> entry : recipe.soulMap.entrySet()) {
-				buffer.writeIdentifier(ModSoulTypes.SOUL_TYPE_REG.getId(entry.getKey()));
+				buffer.writeIdentifier(ModSoulTypes.SOUL_TYPE.getId(entry.getKey()));
 				buffer.writeInt(entry.getValue()[0]);
 				buffer.writeInt(entry.getValue()[1]);
 			}

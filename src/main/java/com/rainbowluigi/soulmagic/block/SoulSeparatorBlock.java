@@ -13,7 +13,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
@@ -41,7 +40,7 @@ public class SoulSeparatorBlock extends BlockWithEntity {
 		}
 	}
 	
-	@Override
+	/*@Override
 	public void onBlockRemoved(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
 		if (state.getBlock() != newState.getBlock()) {
 			BlockEntity blockEntity = worldIn.getBlockEntity(pos);
@@ -53,7 +52,7 @@ public class SoulSeparatorBlock extends BlockWithEntity {
 			
 			super.onBlockRemoved(state, worldIn, pos, newState, isMoving);
 		}
-	}
+	}*/
 	
 	@Override
 	public ActionResult onUse(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult bhr) {

@@ -7,18 +7,18 @@ import com.rainbowluigi.soulmagic.item.SoulEssenceStaff;
 import com.rainbowluigi.soulmagic.item.SoulGemItem;
 import com.rainbowluigi.soulmagic.soultype.SoulType;
 
-import net.minecraft.container.Container;
-import net.minecraft.container.Slot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
 
-public class SoulInfuserContainer extends Container {
+public class SoulInfuserScreenHandler extends ScreenHandler {
 	
 	private SoulInfuserBlockEntity sibe;
 	
-	public SoulInfuserContainer(int id, PlayerInventory playerInv, SoulInfuserBlockEntity sibe) {
+	public SoulInfuserScreenHandler(int id, PlayerInventory playerInv, SoulInfuserBlockEntity sibe) {
 		super(null, id);
 		this.sibe = sibe;
 		
@@ -58,7 +58,7 @@ public class SoulInfuserContainer extends Container {
 
 	@Override
 	public boolean canUse(PlayerEntity playerIn) {
-		return this.sibe.canPlayerUseInv(playerIn);
+		return this.sibe.canPlayerUse(playerIn);
 	}
 
 	@Override

@@ -4,19 +4,19 @@ import com.rainbowluigi.soulmagic.block.entity.SoulCacheBlockEntity;
 import com.rainbowluigi.soulmagic.item.ReferenceStaffItem;
 import com.rainbowluigi.soulmagic.item.SoulEssenceStaff;
 
-import net.minecraft.container.Container;
-import net.minecraft.container.Slot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
 
-public class SoulCacheContainer extends Container {
-	
+public class SoulCacheScreenHandler extends ScreenHandler {
+
 	private SoulCacheBlockEntity sibe;
-	
-	public SoulCacheContainer(int id, PlayerInventory playerInv, SoulCacheBlockEntity sibe) {
+
+	public SoulCacheScreenHandler(int id, PlayerInventory playerInv, SoulCacheBlockEntity sibe) {
 		super(null, id);
 		this.sibe = sibe;
 		
@@ -39,7 +39,7 @@ public class SoulCacheContainer extends Container {
 
 	@Override
 	public boolean canUse(PlayerEntity playerIn) {
-		return this.sibe.canPlayerUseInv(playerIn);
+		return this.sibe.canPlayerUse(playerIn);
 	}
 
 	@Override

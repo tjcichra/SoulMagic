@@ -10,9 +10,9 @@ import net.minecraft.item.ItemStack;
 public class ItemHelper {
 
 	public static ItemStack findItem(PlayerEntity player, Item item) {
-		for (int i = 0; i < player.inventory.getInvSize(); i++) {
-			if(player.inventory.getInvStack(i).getItem().equals(item)) {
-				return player.inventory.getInvStack(i);
+		for (int i = 0; i < player.inventory.size(); i++) {
+			if(player.inventory.getStack(i).getItem().equals(item)) {
+				return player.inventory.getStack(i);
 			}
 		}
 		return null;
@@ -21,9 +21,9 @@ public class ItemHelper {
 	public static ItemStack findAccessory(PlayerEntity player, Item item) {
 		AccessoriesInventory accessories = ((PlayerAccessories) player).getAccessories();
 		
-		for (int i = 0; i < accessories.getInvSize(); i++) {
-			if(accessories.getInvStack(i).getItem().equals(item)) {
-				return accessories.getInvStack(i);
+		for (int i = 0; i < accessories.size(); i++) {
+			if(accessories.getStack(i).getItem().equals(item)) {
+				return accessories.getStack(i);
 			}
 		}
 		return null;

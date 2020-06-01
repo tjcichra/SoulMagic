@@ -6,7 +6,7 @@ import com.rainbowluigi.soulmagic.util.SoulGemHelper;
 import net.fabricmc.fabric.api.network.PacketContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.PacketByteBuf;
+import net.minecraft.network.PacketByteBuf;
 
 public class SoulGemIndexMessage {
 	

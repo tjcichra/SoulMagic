@@ -5,25 +5,26 @@ import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
 
-import com.rainbowluigi.soulmagic.inventory.SoulSeparatorContainer;
+import com.rainbowluigi.soulmagic.inventory.SoulSeparatorScreenHandler;
 import com.rainbowluigi.soulmagic.item.SoulEssenceStaff;
 import com.rainbowluigi.soulmagic.item.crafting.ModRecipes;
 import com.rainbowluigi.soulmagic.item.crafting.SoulSeparatorRecipe;
 import com.rainbowluigi.soulmagic.soultype.SoulType;
 
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.LockableContainerBlockEntity;
-import net.minecraft.container.Container;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
-import net.minecraft.util.DefaultedList;
 import net.minecraft.util.Tickable;
+import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.Direction;
 
 public class SoulSeparatorBlockEntity extends LockableContainerBlockEntity implements SidedInventory, BlockEntityClientSerializable, Tickable {
@@ -39,9 +40,9 @@ public class SoulSeparatorBlockEntity extends LockableContainerBlockEntity imple
 	}
 	
 	@Override
-	public void fromTag(CompoundTag compound) {
-		super.fromTag(compound);
-		this.inventory = DefaultedList.ofSize(this.getInvSize(), ItemStack.EMPTY);
+	public void fromTag(BlockState state, CompoundTag compound) {
+		super.fromTag(state, compound);
+		this.inventory = DefaultedList.ofSize(this.size(), ItemStack.EMPTY);
 		Inventories.fromTag(compound, this.inventory);
 	}
 	
@@ -116,12 +117,12 @@ public class SoulSeparatorBlockEntity extends LockableContainerBlockEntity imple
 	}
 
 	@Override
-	public int getInvSize() {
+	public int size() {
 		return this.inventory.size();
 	}
 
 	@Override
-	public boolean isInvEmpty() {
+	public boolean isEmpty() {
 		for(ItemStack stack : this.inventory) {
 			if(!stack.isEmpty()) {
 				return false;
@@ -131,29 +132,29 @@ public class SoulSeparatorBlockEntity extends LockableContainerBlockEntity imple
 	}
 
 	@Override
-	public ItemStack getInvStack(int i) {
+	public ItemStack getStack(int i) {
 		return i >= 0 && i < this.inventory.size() ? this.inventory.get(i) : ItemStack.EMPTY;
 	}
 
 	@Override
-	public ItemStack takeInvStack(int i1, int i2) {
+	public ItemStack removeStack(int i1, int i2) {
 		return Inventories.splitStack(this.inventory, i1, i2);
 	}
 
 	@Override
-	public ItemStack removeInvStack(int i) {
+	public ItemStack removeStack(int i) {
 		return Inventories.removeStack(this.inventory, i);
 	}
 
 	@Override
-	public void setInvStack(int i, ItemStack stack) {
+	public void setStack(int i, ItemStack stack) {
 		if(i >= 0 && i < this.inventory.size()) {
 			this.inventory.set(i, stack);
 		}
 	}
 
 	@Override
-	public boolean canPlayerUseInv(PlayerEntity playerEntity_1) {
+	public boolean canPlayerUse(PlayerEntity playerEntity_1) {
 		if (this.world.getBlockEntity(this.pos) != this) {
 			return false;
 		} else {
@@ -167,19 +168,17 @@ public class SoulSeparatorBlockEntity extends LockableContainerBlockEntity imple
 	}
 
 	@Override
-	public int[] getInvAvailableSlots(Direction var1) {
+	public int[] getAvailableSlots(Direction var1) {
 		return new int[] {0,1};
 	}
 
 	@Override
-	public boolean canInsertInvStack(int var1, ItemStack var2, Direction var3) {
-		
+	public boolean canInsert(int var1, ItemStack var2, Direction var3) {
 		return true;
 	}
 
 	@Override
-	public boolean canExtractInvStack(int var1, ItemStack var2, Direction var3) {
-		// TODO Auto-generated method stub
+	public boolean canExtract(int var1, ItemStack var2, Direction var3) {
 		return true;
 	}
 
@@ -189,8 +188,8 @@ public class SoulSeparatorBlockEntity extends LockableContainerBlockEntity imple
 	}
 
 	@Override
-	protected Container createContainer(int i, PlayerInventory pi) {
-		return new SoulSeparatorContainer(i, pi, this);
+	protected ScreenHandler createScreenHandler(int i, PlayerInventory pi) {
+		return new SoulSeparatorScreenHandler(i, pi, this);
 	}
 
 	@Override

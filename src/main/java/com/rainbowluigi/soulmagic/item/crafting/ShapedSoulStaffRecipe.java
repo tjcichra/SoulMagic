@@ -13,13 +13,13 @@ import com.rainbowluigi.soulmagic.util.SoulUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.ShapedRecipe;
-import net.minecraft.util.DefaultedList;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
-import net.minecraft.util.PacketByteBuf;
+import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 
 public class ShapedSoulStaffRecipe extends ShapedRecipe {
@@ -33,10 +33,10 @@ public class ShapedSoulStaffRecipe extends ShapedRecipe {
 	
 	@Override
 	public DefaultedList<ItemStack> getRemainingStacks(CraftingInventory inv) {
-		DefaultedList<ItemStack> nonnulllist = DefaultedList.ofSize(inv.getInvSize(), ItemStack.EMPTY);
+		DefaultedList<ItemStack> nonnulllist = DefaultedList.ofSize(inv.size(), ItemStack.EMPTY);
 
 		for (int i = 0; i < nonnulllist.size(); ++i) {
-			ItemStack stack = inv.getInvStack(i);
+			ItemStack stack = inv.getStack(i);
 			
 			if(stack.getItem() instanceof SoulEssenceStaff) {
 				SoulEssenceStaff staff = (SoulEssenceStaff) stack.getItem();
@@ -88,10 +88,10 @@ public class ShapedSoulStaffRecipe extends ShapedRecipe {
 				}
 
 				
-				if (!ingredient.test(craftingInventory.getInvStack(i + j * craftingInventory.getWidth()))) {
+				if (!ingredient.test(craftingInventory.getStack(i + j * craftingInventory.getWidth()))) {
 					return false;
 				} else if(ingredient.getMatchingStacksClient().length > 0 && ingredient.getMatchingStacksClient()[0].getItem() instanceof SoulEssenceStaff) {
-					ItemStack stack = craftingInventory.getInvStack(i + j * craftingInventory.getWidth());
+					ItemStack stack = craftingInventory.getStack(i + j * craftingInventory.getWidth());
 					SoulEssenceStaff staff = (SoulEssenceStaff) stack.getItem();
 					
 					for(Entry<SoulType, Integer> e : this.soulMap.entrySet()) {
@@ -133,7 +133,7 @@ public class ShapedSoulStaffRecipe extends ShapedRecipe {
 			int n = buffer.readInt();
 			Map<SoulType, Integer> soulMap = Maps.newHashMap();
 			for(int l = 0; l < n; l++) {
-				soulMap.put(ModSoulTypes.SOUL_TYPE_REG.get(buffer.readIdentifier()), buffer.readInt());
+				soulMap.put(ModSoulTypes.SOUL_TYPE.get(buffer.readIdentifier()), buffer.readInt());
 			}
 			
 			return new ShapedSoulStaffRecipe(shaped, soulMap);
@@ -146,7 +146,7 @@ public class ShapedSoulStaffRecipe extends ShapedRecipe {
 				buffer.writeInt(ssrecipe.getSoulMap().size());
 				
 				for(Entry<SoulType, Integer> entry : ssrecipe.getSoulMap().entrySet()) {
-					buffer.writeIdentifier(ModSoulTypes.SOUL_TYPE_REG.getId(entry.getKey()));
+					buffer.writeIdentifier(ModSoulTypes.SOUL_TYPE.getId(entry.getKey()));
 					buffer.writeInt(entry.getValue());
 				}
 			}

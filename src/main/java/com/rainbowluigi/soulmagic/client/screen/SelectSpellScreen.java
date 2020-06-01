@@ -12,10 +12,11 @@ import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.NarratorManager;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.TranslatableText;
-import net.minecraft.util.PacketByteBuf;
 
 public class SelectSpellScreen extends Screen {
 	
@@ -38,7 +39,7 @@ public class SelectSpellScreen extends Screen {
 	
 	@Override
 	public boolean keyReleased(int keyCode, int somethingelse, int somethingelse2) {
-		if(keyCode == SoulMagicClient.SPELL_SELECT.getBoundKey().getKeyCode()) {
+		if(keyCode == SoulMagicClient.SPELL_SELECT.getBoundKey().getCode()) {
 			int index = this.getHoveredSpellIndex();
 			
 			if(index != -1) {
@@ -48,7 +49,7 @@ public class SelectSpellScreen extends Screen {
 				pbb.writeInt(index);
 				ClientSidePacketRegistry.INSTANCE.sendToServer(ModNetwork.SOUL_GEM_INDEX, pbb);
 				
-				player.addMessage(new TranslatableText("soulmagic.select_spell", SoulGemHelper.getCurrentSpell(stack).getName()), true);
+				player.sendMessage(new TranslatableText("soulmagic.select_spell", SoulGemHelper.getCurrentSpell(stack).getName()), true);
 			}
 			this.onClose();
 		}
@@ -61,7 +62,7 @@ public class SelectSpellScreen extends Screen {
 	}
 	
 	@Override
-	public void render(int mouseX, int mouseY, float partialTicks) {
+	public void render(MatrixStack matrix, int mouseX, int mouseY, float partialTicks) {
 		this.mouseX = mouseX;
 		this.mouseY = mouseY;
 		List<Spell> spells = SoulGemHelper.getCurrentList(stack);
@@ -77,7 +78,7 @@ public class SelectSpellScreen extends Screen {
 				RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 				this.client.getTextureManager().bindTexture(spells.get(i).getSpellTexture());
 				//SoulMagic.LOGGER.info("hello");
-				this.blit((this.width / 2) + x - 16, (this.height / 2) + y - 16, 0, 0, 32, 32);
+				this.drawTexture(matrix, (this.width / 2) + x - 16, (this.height / 2) + y - 16, 0, 0, 32, 32);
 				//this.drawTexturedModalRect((this.width / 2) + x - 16, (this.height / 2) + y - 16, 0, 0, 32, 32);
 				
 				//Gui.drawRect(x + (this.width / 2) - 10, (this.height / 2) + y - 10, x + (this.width / 2) + 10, (this.height / 2) + y + 10, 0xFFFFFF);
@@ -86,13 +87,13 @@ public class SelectSpellScreen extends Screen {
 			
 			int index = this.getHoveredSpellIndex();
 			if(index != -1) {
-				this.drawCenteredString(this.textRenderer, spells.get(index).getName().asFormattedString(), (this.width / 2), (this.height / 2) - 20, 0xFFFFFF);
+				this.drawCenteredString(matrix, this.textRenderer, spells.get(index).getName().asString(), (this.width / 2), (this.height / 2) - 20, 0xFFFFFF);
 			}
 			
 			if(range < 90)
 				range += 10;
 		}
-		super.render(mouseX, mouseY, partialTicks);
+		super.render(matrix, mouseX, mouseY, partialTicks);
 	}
 	
 	public int getHoveredSpellIndex() {
