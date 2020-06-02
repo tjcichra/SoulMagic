@@ -39,7 +39,7 @@ public class SelectSpellScreen extends Screen {
 	
 	@Override
 	public boolean keyReleased(int keyCode, int somethingelse, int somethingelse2) {
-		if(keyCode == SoulMagicClient.SPELL_SELECT.getBoundKey().getCode()) {
+		if(SoulMagicClient.SPELL_SELECT.matchesKey(keyCode, 0)) {
 			int index = this.getHoveredSpellIndex();
 			
 			if(index != -1) {
