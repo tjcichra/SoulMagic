@@ -7,6 +7,7 @@ import com.rainbowluigi.soulmagic.block.ModBlocks;
 import com.rainbowluigi.soulmagic.item.crafting.SoulInfusionRecipe;
 import com.rainbowluigi.soulmagic.item.crafting.SpellInfusionRecipe;
 import com.rainbowluigi.soulmagic.rei.widgets.InfusionCircleWidget;
+import com.rainbowluigi.soulmagic.rei.widgets.SoulEssenceStaffWidget;
 
 import it.unimi.dsi.fastutil.ints.IntList;
 import me.shedaniel.math.Point;
@@ -54,27 +55,26 @@ public class SoulInfusionCategory implements TransferRecipeCategory<SoulInfusion
     //Sets up the display of the recipes in the category
     @Override
     public List<Widget> setupDisplay(SoulInfusionDisplay recipeDisplay, Rectangle bounds) {
-        //TODO Remove startPoint variable and base everyone on bounds
-        Point startPoint = new Point((int) bounds.getCenterX() - 63, (int) bounds.getCenterY() - 51);
         //Create list of widgets and add the recipe base (square box) and the infusion circle
         List<Widget> widgets = Lists.newArrayList();
         widgets.add(Widgets.createRecipeBase(bounds));
         widgets.add(new InfusionCircleWidget(new Rectangle(bounds.x + 12, bounds.y + 9, 100, 100), recipeDisplay.progressColor));
+        widgets.add(new SoulEssenceStaffWidget(new Rectangle(bounds.x + 122, bounds.y + 28, 16, 16), recipeDisplay.recipe.getSoulMap()));
 
         //Get the list of inputs and add recipe slots with them.
         List<List<EntryStack>> input = recipeDisplay.getInputEntries();
-        widgets.add(Widgets.createSlot(new Point(startPoint.x + 42, startPoint.y + 3)).entries(input.get(0)).markInput());
-        widgets.add(Widgets.createSlot(new Point(startPoint.x + 65, startPoint.y + 15)).entries(input.get(1)).markInput());
-        widgets.add(Widgets.createSlot(new Point(startPoint.x + 77, startPoint.y + 38)).entries(input.get(2)).markInput());
-        widgets.add(Widgets.createSlot(new Point(startPoint.x + 65, startPoint.y + 61)).entries(input.get(3)).markInput());
-        widgets.add(Widgets.createSlot(new Point(startPoint.x + 42, startPoint.y + 73)).entries(input.get(4)).markInput());
-        widgets.add(Widgets.createSlot(new Point(startPoint.x + 19, startPoint.y + 61)).entries(input.get(5)).markInput());
-        widgets.add(Widgets.createSlot(new Point(startPoint.x + 7, startPoint.y + 38)).entries(input.get(6)).markInput());
-        widgets.add(Widgets.createSlot(new Point(startPoint.x + 19, startPoint.y + 15)).entries(input.get(7)).markInput());
+        widgets.add(Widgets.createSlot(new Point(bounds.x + 54, bounds.y + 16)).entries(input.get(0)).markInput());
+        widgets.add(Widgets.createSlot(new Point(bounds.x + 77, bounds.y + 28)).entries(input.get(1)).markInput());
+        widgets.add(Widgets.createSlot(new Point(bounds.x + 89, bounds.y + 51)).entries(input.get(2)).markInput());
+        widgets.add(Widgets.createSlot(new Point(bounds.x + 77, bounds.y + 74)).entries(input.get(3)).markInput());
+        widgets.add(Widgets.createSlot(new Point(bounds.x + 54, bounds.y + 86)).entries(input.get(4)).markInput());
+        widgets.add(Widgets.createSlot(new Point(bounds.x + 31, bounds.y + 74)).entries(input.get(5)).markInput());
+        widgets.add(Widgets.createSlot(new Point(bounds.x + 19, bounds.y + 51)).entries(input.get(6)).markInput());
+        widgets.add(Widgets.createSlot(new Point(bounds.x + 31, bounds.y + 28)).entries(input.get(7)).markInput());
 
         //If there is a center input, display it
         if (input.size() >= 9) {
-            widgets.add(Widgets.createSlot(new Point(startPoint.x + 42, startPoint.y + 38)).entries(input.get(8)).markInput());
+            widgets.add(Widgets.createSlot(new Point(bounds.x + 54, bounds.y + 51)).entries(input.get(8)).markInput());
         }
         
         //If the recipe is a spell infusion recipe, display the name of the spell
@@ -85,8 +85,8 @@ public class SoulInfusionCategory implements TransferRecipeCategory<SoulInfusion
         }
 
         //Add recipe slot with the output
-        widgets.add(Widgets.createResultSlotBackground(new Point(startPoint.x + 110, startPoint.y + 38)));
-        widgets.add(Widgets.createSlot(new Point(startPoint.x + 110, startPoint.y + 38)).entries(recipeDisplay.getOutputEntries()).disableBackground().markOutput());
+        widgets.add(Widgets.createResultSlotBackground(new Point(bounds.x + 122, bounds.y + 51)));
+        widgets.add(Widgets.createSlot(new Point(bounds.x + 122, bounds.y + 51)).entries(recipeDisplay.getOutputEntries()).disableBackground().markOutput());
         //Return all the widgets
         return widgets;
     }
