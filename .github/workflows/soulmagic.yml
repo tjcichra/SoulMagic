@@ -21,4 +21,3 @@ jobs:
         with:
           name: soul-magic-build
           path: build/
-      - name: Exporting build folder
