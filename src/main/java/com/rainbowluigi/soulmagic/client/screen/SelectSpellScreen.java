@@ -22,7 +22,7 @@ public class SelectSpellScreen extends Screen {
 	
 	private final ItemStack stack;
 	private final PlayerEntity player;
-	int range = 0;
+	double range = 0;
 	int mouseX, mouseY;
 	
 	public SelectSpellScreen(ItemStack stack, PlayerEntity player) {
@@ -72,8 +72,8 @@ public class SelectSpellScreen extends Screen {
 			//double range = 90;
 			
 			for(int i = 0; i < spells.size(); i++) {
-				int x =  (int) (range * Math.sin(angle * i));
-				int y =  (int) (-range * Math.cos(angle * i));
+				int x =  (int) (this.range * Math.sin(angle * i));
+				int y =  (int) (-this.range * Math.cos(angle * i));
 				
 				RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 				this.client.getTextureManager().bindTexture(spells.get(i).getSpellTexture());
@@ -87,11 +87,12 @@ public class SelectSpellScreen extends Screen {
 			
 			int index = this.getHoveredSpellIndex();
 			if(index != -1) {
-				this.drawCenteredString(matrix, this.textRenderer, spells.get(index).getName().asString(), (this.width / 2), (this.height / 2) - 20, 0xFFFFFF);
+				this.drawCenteredText(matrix, this.textRenderer, spells.get(index).getName(), (this.width / 2), (this.height / 2) - 20, 0xFFFFFF);
 			}
 			
-			if(range < 90)
-				range += 10;
+			if(this.range < this.height / 4) {
+				this.range += (this.height / (4.0 * 18));
+			}
 		}
 		super.render(matrix, mouseX, mouseY, partialTicks);
 	}
