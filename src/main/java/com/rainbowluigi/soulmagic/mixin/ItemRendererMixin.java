@@ -45,8 +45,8 @@ public abstract class ItemRendererMixin {
 		return stack.getMaxDamage();
 	}*/
 	
-	@Inject(method = "renderGuiItemOverlay", at = @At("RETURN"))
-	public void renderGuiItemOverlay(TextRenderer textRenderer, ItemStack stack, int x, int y, String somestring, CallbackInfo cbi) {
+	@Inject(method = "renderGuiItemOverlay(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/item/ItemStack;IILjava/lang/String;)V", at = @At("RETURN"))
+	public void renderGuiItemOverlay(TextRenderer textRenderer, ItemStack stack, int x, int y, String s, CallbackInfo cbi) {
 		if (stack.getItem() instanceof SoulEssenceStaff) {
 			SoulEssenceStaff staff = (SoulEssenceStaff) stack.getItem();
 			

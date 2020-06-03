@@ -24,7 +24,7 @@ import net.minecraft.world.World;
 @Mixin(Item.class)
 public class ItemMixin {
 
-	@Inject(at = @At("TAIL"), method = "onCraft")
+	@Inject(method = "onCraft", at = @At("TAIL"))
 	public void onCraft(ItemStack stack, World world, PlayerEntity player, CallbackInfo callback) {
 		if(stack.isEnchantable()) {
 			ItemStack charm = ItemHelper.findAccessory(player, ModItems.ENCHANTMENT_CHARM);

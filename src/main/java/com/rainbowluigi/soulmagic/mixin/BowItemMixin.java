@@ -30,7 +30,7 @@ import net.minecraft.world.World;
 @Mixin(BowItem.class)
 public class BowItemMixin implements SoulEssenceStaffDisplayer {
 	
-	@ModifyVariable(method = "onStoppedUsing", name = {"bl"}, at = @At("STORE"))
+	@ModifyVariable(method = "onStoppedUsing", ordinal = 0, at = @At("STORE"))
 	public boolean hasSoulQuiver(boolean base, ItemStack stack, World world, LivingEntity entity, int int_1) {
 		if(base) {
 			return base;
@@ -44,7 +44,7 @@ public class BowItemMixin implements SoulEssenceStaffDisplayer {
 		return base || SoulEssenceStaff.hasAtLeastSoul((PlayerEntity) entity, world, SoulQuiverHelper.getSoulType(quiver), 5);
 	}
 	
-	@ModifyVariable(method = "onStoppedUsing", name = {"persistentProjectileEntity"}, at = @At("STORE"))
+	@ModifyVariable(method = "onStoppedUsing", ordinal = 0, at = @At("STORE"))
 	public PersistentProjectileEntity getSoulQuiverArrow(PersistentProjectileEntity base, ItemStack itemStack_1, World world, LivingEntity entity, int int_1) {
 		ItemStack quiver = ItemHelper.findItem((PlayerEntity) entity, ModItems.SOUL_QUIVER);
 		if(quiver != null && SoulEssenceStaff.hasAtLeastSoul((PlayerEntity) entity, world, SoulQuiverHelper.getSoulType(quiver), 5) ) {
@@ -72,7 +72,7 @@ public class BowItemMixin implements SoulEssenceStaffDisplayer {
 		}
 	}
 	
-	@ModifyVariable(method = "use", name = "bl", at = @At(value = "STORE"))
+	@ModifyVariable(method = "use", ordinal = 0, at = @At(value = "STORE"))
 	public boolean hasSoulQuiverOnUse(boolean base, World world_1, PlayerEntity player, Hand hand_1) {
 		if(base) {
 			return base;
