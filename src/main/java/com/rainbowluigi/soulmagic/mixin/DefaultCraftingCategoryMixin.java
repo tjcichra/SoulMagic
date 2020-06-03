@@ -2,11 +2,7 @@ package com.rainbowluigi.soulmagic.mixin;
 
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.function.Supplier;
 
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.rainbowluigi.soulmagic.item.crafting.ShapedSoulStaffRecipe;
@@ -16,14 +12,13 @@ import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.gui.widget.Widget;
 import me.shedaniel.rei.impl.widgets.LabelWidget;
-import me.shedaniel.rei.plugin.crafting.DefaultCraftingCategory;
 import me.shedaniel.rei.plugin.crafting.DefaultCraftingDisplay;
 import net.minecraft.text.LiteralText;
 
-@Mixin(DefaultCraftingCategory.class)
+//@Mixin(DefaultCraftingCategory.class)
 public class DefaultCraftingCategoryMixin {
 
-	@Inject(method = "setupDisplay", at = @At("RETURN"))
+	//@Inject(method = "setupDisplay", at = @At("RETURN"))
 	public <T> void setupDisplay(DefaultCraftingDisplay display, Rectangle bounds, CallbackInfoReturnable<List<Widget>> call) {
 		
 		if (display.getOptionalRecipe().orElse(null) instanceof ShapedSoulStaffRecipe) {

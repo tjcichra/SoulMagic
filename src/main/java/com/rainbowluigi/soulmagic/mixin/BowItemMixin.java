@@ -18,7 +18,6 @@ import com.rainbowluigi.soulmagic.util.SoulQuiverHelper;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
-import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.BowItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundCategory;
@@ -87,7 +86,7 @@ public class BowItemMixin implements SoulEssenceStaffDisplayer {
 		return base || SoulEssenceStaff.hasAtLeastSoul(player, world_1, SoulQuiverHelper.getSoulType(quiver), 5);
 	}
 	
-	@Inject(method = "onStoppedUsing", at = @At(value = "INVOKE", target = "incrementStat"))
+	@Inject(method = "onStoppedUsing", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;incrementStat(Lnet/minecraft/stat/Stat;)V"))
 	public void onStoppedUsing(ItemStack stack, World world, LivingEntity entity, int drawback, CallbackInfo callback) {
 		ItemStack quiver = ItemHelper.findItem((PlayerEntity) entity, ModItems.SOUL_QUIVER);
 		if(quiver != null) {

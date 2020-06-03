@@ -32,7 +32,7 @@ public abstract class AnvilContainerMixin extends ForgingScreenHandler {
 		// TODO Auto-generated constructor stub
 	}
 
-	@Inject(method = "updateResult", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", target = "getItem"), cancellable = true)
+	@Inject(method = "updateResult", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getItem()Lnet/minecraft/item/Item;"), cancellable = true)
 	public void anvil(CallbackInfo info, ItemStack itemStack_1, int int_1, int int_2, int int_3, ItemStack left, ItemStack right) {
 		
 		if(left.getItem() == ModItems.SOUL_GEM && right.getItem() instanceof BraceItem) {

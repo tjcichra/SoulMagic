@@ -32,7 +32,7 @@ public abstract class SoulStaffMixin implements PlayerAccessories {
 	
 	public AccessoriesInventory accessories_inventory = new AccessoriesInventory((PlayerEntity) (Object) this);
 	
-	@Inject(at = @At(value = "INVOKE", target = "updateItems"), method = "tickMovement")
+	@Inject(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerInventory;updateItems()V"))
 	public void tickMovement(CallbackInfo info) {
 		this.accessories_inventory.updateItems();
 	}
@@ -72,7 +72,7 @@ public abstract class SoulStaffMixin implements PlayerAccessories {
 		tag.put("Accessories", this.accessories_inventory.serialize(new ListTag()));
 	}
 	
-	@Inject(at = @At(value = "INVOKE", target = "dropAll"), method = "dropInventory")
+	@Inject(method = "dropInventory", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerInventory;dropAll()V"))
 	public void dropInventory(CallbackInfo info) {
 		this.accessories_inventory.dropAccessories();
 	}
