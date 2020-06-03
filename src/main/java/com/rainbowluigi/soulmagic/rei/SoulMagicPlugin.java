@@ -9,6 +9,7 @@ import com.rainbowluigi.soulmagic.util.Reference;
 
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.EntryStack;
+import me.shedaniel.rei.api.REIHelper;
 import me.shedaniel.rei.api.RecipeHelper;
 import me.shedaniel.rei.api.plugins.REIPluginV0;
 import net.fabricmc.loader.api.SemanticVersion;
@@ -17,11 +18,22 @@ import net.minecraft.util.Identifier;
 
 public class SoulMagicPlugin implements REIPluginV0 {
 	
-	public static final Identifier SOUL_INFUSION = new Identifier(Reference.MOD_ID, "plugins/soul_infusion");
-	public static final Identifier SOUL_SEPARATION = new Identifier(Reference.MOD_ID, "plugins/soul_separation");
-	
+	//The identifier for the plugin itself
 	public static final Identifier PLUGIN = new Identifier(Reference.MOD_ID, "rei_plugin");
 
+	//The identifiers for the categories
+	public static final Identifier SOUL_INFUSION = new Identifier(Reference.MOD_ID, "plugins/soul_infusion");
+	public static final Identifier SOUL_SEPARATION = new Identifier(Reference.MOD_ID, "plugins/soul_separation");
+
+	//States where the display textures are
+	private static final Identifier DISPLAY_TEXTURE = new Identifier(Reference.MOD_ID, "textures/gui/rei/display.png");
+	private static final Identifier DISPLAY_TEXTURE_DARK = new Identifier(Reference.MOD_ID, "textures/gui/rei/dark_display.png");
+
+	//Returns which display texture to use depending on what the current theme is
+	public static Identifier getDisplayTexture() {
+        return REIHelper.getInstance().isDarkThemeEnabled() ? DISPLAY_TEXTURE_DARK : DISPLAY_TEXTURE;
+	}
+	
 	@Override
 	public Identifier getPluginIdentifier() {
 		return PLUGIN;

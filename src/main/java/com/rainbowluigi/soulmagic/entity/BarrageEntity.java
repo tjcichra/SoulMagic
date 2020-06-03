@@ -33,20 +33,7 @@ public class BarrageEntity extends Entity {
 	
 	@Override
 	public void tick() {
-		//Box b = this.getBoundingBox();
-		//b.offset(0, 0.1, 0);
-		//this.setBoundingBox(b);
-		System.out.println(this.getBoundingBox());
 		super.tick();
-	}
-	
-	public void calculateDimensions() {
-		Box box_1 = this.getBoundingBox();
-		this.setBoundingBox(new Box(box_1.minX, box_1.minY, box_1.minZ, box_1.maxX, box_1.maxY, box_1.maxZ));
-			//if (entityDimensions_2.width > entityDimensions_1.width && !this.firstUpdate && !this.world.isClient) {
-			//	float float_1 = entityDimensions_1.width - entityDimensions_2.width;
-			///	this.move(MovementType.SELF, new Vec3d((double) float_1, 0.0D, (double) float_1));
-			//}
 	}
 
 	@Override
@@ -68,4 +55,14 @@ public class BarrageEntity extends Entity {
 	protected void writeCustomDataToTag(CompoundTag var1) {
 		
 	}
+
+	@Override
+	public Box getCollisionBox() {
+		return this.getBoundingBox();
+	}
+
+	@Override
+	public Box getHardCollisionBox(Entity collidingEntity) {
+		return this.isAlive() && !(collidingEntity instanceof PlayerEntity) ? this.getBoundingBox() : null;
+	}  
 }

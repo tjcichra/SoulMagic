@@ -117,7 +117,7 @@ public class SoulInfuserScreenHandler extends ScreenHandler {
 				total += d;
 			}
 			//System.out.println("current: " + current + " total: " + total);
-			return (int) ((current / (total)) * 101);
+			return (int) ((current / (total)) * 100);
 		//}
 		
 		//return 0;

@@ -54,8 +54,9 @@
 	
 	"soulmagic.rei.category.soul_infusion": "Soul Infusion",
 	"soulmagic.rei.category.soul_separation": "Soul Separation",
-	"soulmagic.rei.required": "Required:",
+	"soulmagic.rei.required": "Soul Essence Required:",
 	"soulmagic.rei.soul_amount": "%s: %s",
+	"soulmagic.rei.spell": "Spell: %s",
 	
 	"advancements.soulmagic.root.title": "Soul Magic",
 	"advancements.soulmagic.root.description": "Using souls to create magical tools and weapons",

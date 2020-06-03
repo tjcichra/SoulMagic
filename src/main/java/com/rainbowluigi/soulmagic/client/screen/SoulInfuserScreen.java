@@ -63,24 +63,10 @@ public class SoulInfuserScreen extends HandledScreen<SoulInfuserScreenHandler> {
 		int i = this.getScreenHandler().getCookProgress();
 		
 		if(i > 0) {
-			
-			//Set<SoulType> stset = this.getContainer().getRecipeSoulMap().keySet();
-			//float[] colors = new float[s.size()];
-			//
-			//for(int j = 0; j < stset.size(); j++) {
-			//	color[j] = stset.
-			//}
-			//ColorUtils.colorsToFloats(this.field_147002_h.getRecipeSoulMap().keySet().toArray());
-			//System.out.println(i);
-			
-			//state = state.with(SoulFlameBlock.RED, (int) ((color >>> 16) / 255f * 7 + 0.5));
-			//state = state.with(SoulFlameBlock.GREEN, (int) ((color >>> 8 & 255) / 255f * 7 + 0.5));
-			//state = state.with(SoulFlameBlock.BLUE, (int) ((color & 255) / 255f * 7 + 0.5));
 			int color = this.getScreenHandler().getProgressColor();
-			
 			RenderSystem.color4f((color >>> 16) / 255f, (color >>> 8 & 255) / 255f, (color & 255) / 255f, 1);
-			this.drawTexture(matrix, this.x + 38, this.y - i + 117, 176, 101 - i, 50, i);
-			this.drawTexture(matrix, this.x + 88, this.y - i + 117, 176, 101 - i + 101, 50, i);
+			this.drawTexture(matrix, this.x + 38, this.y - i + 116, 176, 100 - i, 50, i);
+			this.drawTexture(matrix, this.x + 88, this.y - i + 116, 176, 100 + 100 - i, 50, i);
 		}
 		
 		ItemStack ish = this.getScreenHandler().getStaffCap();
