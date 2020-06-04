@@ -18,6 +18,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.LiteralText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
@@ -45,19 +46,17 @@ public class SoulCache extends BlockWithEntity {
 		}
 	}
 	
-	/*@Override
-	public void onBlockRemoved(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
-		if (state.getBlock() != newState.getBlock()) {
-			BlockEntity blockEntity = worldIn.getBlockEntity(pos);
-
+	@Override
+	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean notify) {
+		if (!state.isOf(newState.getBlock())) {
+			BlockEntity blockEntity = world.getBlockEntity(pos);
 			if (blockEntity instanceof SoulCacheBlockEntity) {
-				ItemScatterer.spawn(worldIn, pos, (SoulCacheBlockEntity)blockEntity);
-				worldIn.updateHorizontalAdjacent(pos, this);
+				ItemScatterer.spawn(world, pos, (SoulCacheBlockEntity) blockEntity);
 			}
 			
-			super.onBlockRemoved(state, worldIn, pos, newState, isMoving);
+			super.onStateReplaced(state, world, pos, newState, notify);
 		}
-	}*/
+	}
 	
 	@Override
 	public ActionResult onUse(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult bhr) {
