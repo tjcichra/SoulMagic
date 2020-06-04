@@ -7,3 +7,6 @@ Soaring Chest (Chest that follows you)
 Renaming the soarting chest gives the chest a name tag
 
 Disarming enchantment for fishing rod. Treasure.
+
+Extendo Grip
+Autosmelt mined blocks
