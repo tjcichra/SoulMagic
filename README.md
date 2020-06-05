@@ -1,16 +1,9 @@
-# Fabric Example Mod
+# Soul Magic
 
-## Setup
+## Overview
 
-1. Edit build.gradle and mod.json to suit your needs.
-    * The "mixins" object can be removed from mod.json if you do not need to use mixins.
-    * Please replace all occurences of "modid" with your own mod ID - sometimes, a different string may also suffice.
-2. Run the following command:
+Soul Magic is a Minecraft mod that allows you to cast spells and use various magical items with soul essence.
 
-```
-gradle build
-```
+## Downloading
 
-## License
-
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
+Go to "Actions" and under "All workflows" click on the latest commit. Click on "soul-magic-build" and download it. After extracting it, find soul-magic-build/libs/soulmagic-x.x.x.jar and add that to your mods folder. You will need the Fabric Launcher and the FabricAPI.
