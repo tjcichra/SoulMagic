@@ -133,7 +133,10 @@ public class MagicFireballEntity extends Entity {
 		}
 	}
 
-	protected boolean method_26958(Entity entity_1) {
+	protected boolean method_26958(Entity entity) {
+		if (!entity.isSpectator() && entity.isAlive() && entity.collides()) {
+			return true;
+		}
 		return false;
 	}
 	
