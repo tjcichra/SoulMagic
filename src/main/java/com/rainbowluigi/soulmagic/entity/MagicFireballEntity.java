@@ -306,7 +306,7 @@ public class MagicFireballEntity extends Entity {
 			}
 
 			boolean boolean_1 = this.isTouchingWater();
-			if (this.world.doesAreaContainFireSource(this.getBoundingBox().contract(0.001D))) {
+			/*if (this.world.doesAreaContainFireSource(this.getBoundingBox().contract(0.001D))) {
 				if (!boolean_1) {
 					++this.fireTime;
 					if (this.fireTime == 0) {
@@ -317,7 +317,7 @@ public class MagicFireballEntity extends Entity {
 				this.setFireTicks(1);
 			} else if (this.fireTime <= 0) {
 				this.fireTime = -this.getBurningDuration();
-			}
+			}*/
 
 			if (boolean_1 && this.isOnFire()) {
 				this.playSound(SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, 0.7F,
