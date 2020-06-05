@@ -8,7 +8,7 @@
 2. Run the following command:
 
 ```
-gradle build
+./gradlew build
 ```
 
 ## License
