@@ -57,6 +57,10 @@ public class EntityRenderMessage {
 			Entity e = null;
 			if(entityTypeId == ModEntityTypes.BARRAGE) {
 				e = new BarrageEntity(w, x, y, z);
+				Entity e2 = w.getEntityById(data);
+				if (e2 != null) {
+					((BarrageEntity)e).setOwner(e2);
+				}
 			} else if(entityTypeId == ModEntityTypes.MAGIC_FIREBALL) {
 				e = new MagicFireballEntity(w, x, y, z);
 			} else if(entityTypeId == ModEntityTypes.UNIVERSE_RING) {
@@ -66,9 +70,9 @@ public class EntityRenderMessage {
 			} else if(entityTypeId == ModEntityTypes.SOUL_ARROW_ENTITY) {
 				e = new SoulArrowEntity(w, x, y, z);
 				Entity e2 = w.getEntityById(data);
-	            if (e2 != null) {
-	               ((ProjectileEntity)e).setOwner(e2);
-	            }
+				if (e2 != null) {
+					((ProjectileEntity)e).setOwner(e2);
+				}
 			}
 			
 			if (e != null) {
