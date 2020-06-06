@@ -6,19 +6,28 @@ import com.rainbowluigi.soulmagic.network.EntityRenderMessage;
 import net.fabricmc.fabric.api.network.ServerSidePacketRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LightningEntity;
+import net.minecraft.entity.damage.EntityDamageSource;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Packet;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.hit.EntityHitResult;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.RayTraceContext;
 import net.minecraft.world.World;
 
 public class TendrilEntity extends Entity {
-	
+
 	public PlayerEntity owner;
-	
+	private boolean grapping;
+
 	public TendrilEntity(EntityType<? extends TendrilEntity> et, World w) {
 		super(et, w);
 	}
-	
+
 	public TendrilEntity(World world, double x, double y, double z) {
 		this(ModEntityTypes.TENDRIL, world);
 		this.updatePosition(x, y, z);
@@ -29,24 +38,53 @@ public class TendrilEntity extends Entity {
 		this(world, owner.getX(), owner.getY(), owner.getZ());
 		this.owner = owner;
 	}
-	
+
 	@Override
 	public void tick() {
-		//Box b = this.getBoundingBox();
-		//b.offset(0, 0.1, 0);
-		//this.setBoundingBox(b);
-		//System.out.println(this.getBoundingBox());
 		super.tick();
+
+		
+
+		if(!grapping) {
+			this.prevX = this.getX();
+			this.prevY = this.getY();
+			this.prevZ = this.getZ();
+
+			Vec3d v = this.getVelocity();
+			double d = this.getX() + v.x;
+			double e = this.getY() + v.y;
+			double f = this.getZ() + v.z;
+
+			this.updatePosition(d, e, f);
+		}
+
+		HitResult collider = ProjectileUtil.getCollision(this, this::hitEntity, RayTraceContext.ShapeType.COLLIDER);
+		if (collider.getType() != HitResult.Type.MISS) {
+			this.onCollision(collider);
+		}
 	}
-	
-	//public void calculateDimensions() {
-	//	Box box_1 = this.getBoundingBox();
-	//	this.setBoundingBox(new Box(box_1.x1, box_1.y1, box_1.z1, box_1.x2, box_1.y2, box_1.z2));
-			//if (entityDimensions_2.width > entityDimensions_1.width && !this.firstUpdate && !this.world.isClient) {
-			//	float float_1 = entityDimensions_1.width - entityDimensions_2.width;
-			///	this.move(MovementType.SELF, new Vec3d((double) float_1, 0.0D, (double) float_1));
-			//}
-	//}
+
+	protected boolean hitEntity(Entity entity) {
+		if (!entity.isSpectator() && entity.isAlive() && entity.collides()) {
+			return true;
+		}
+		return false;
+	}
+
+	protected void onCollision(HitResult result) {
+		if (!this.world.isClient) {
+			if (result.getType() == HitResult.Type.ENTITY) {
+				Entity entity = ((EntityHitResult) result).getEntity();
+
+				if (entity instanceof TendrilEntity || entity instanceof PlayerEntity)
+					return;
+				System.out.println("ds");
+				this.grapping = true;
+				entity.setVelocity(0, 0, 0);
+			}
+		}
+		
+	}
 
 	@Override
 	public Packet<?> createSpawnPacket() {
