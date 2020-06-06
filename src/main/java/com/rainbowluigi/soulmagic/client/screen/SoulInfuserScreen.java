@@ -20,11 +20,11 @@ import net.minecraft.util.Identifier;
 @Environment(EnvType.CLIENT)
 public class SoulInfuserScreen extends HandledScreen<SoulInfuserScreenHandler> {
 	
-	public static Identifier rl = new Identifier(Reference.MOD_ID, "textures/gui/container/soul_infuser.png");
-	protected int backgroundHeight = 211;
+	private static Identifier rl = new Identifier(Reference.MOD_ID, "textures/gui/container/soul_infuser.png");
 	
 	public SoulInfuserScreen(SoulInfuserScreenHandler sic, PlayerInventory playerInv, Text text) {
 		super(sic, playerInv, text);
+		this.backgroundHeight = 211;
 		this.field_25270 = this.backgroundHeight - 93;
 	}
 	
@@ -40,14 +40,6 @@ public class SoulInfuserScreen extends HandledScreen<SoulInfuserScreenHandler> {
 		super.render(matrix, mouseX, mouseY, partialTicks);
 		this.drawMouseoverTooltip(matrix, mouseX, mouseY);
 	}
-	
-	/*@Override
-	public void drawForeground(int mouseX, int mouseY) {
-		//TODO Use default implementation
-		String s = this.title.asFormattedString();
-		this.textRenderer.draw(s, (float) (this.containerWidth - this.textRenderer.getStringWidth(s)) / 2, 6, 4210752);
-		this.textRenderer.draw(this.playerInventory.getDisplayName().asFormattedString(), 8.0F, (float)(this.containerHeight - 96 + 3), 4210752);
-	}*/
 
 	@Override
 	public void drawBackground(MatrixStack matrix, float float_1, int int_1, int int_2) {
