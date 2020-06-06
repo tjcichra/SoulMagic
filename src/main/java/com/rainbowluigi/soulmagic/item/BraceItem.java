@@ -8,8 +8,8 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.world.World;
 
 public class BraceItem extends Item {
@@ -26,7 +26,7 @@ public class BraceItem extends Item {
 	@Environment(EnvType.CLIENT)
 	@Override
 	public void appendTooltip(ItemStack itemStack_1, @Nullable World world_1, List<Text> list, TooltipContext tooltipContext_1) {
-		list.add(new LiteralText(this.MULTIPLIER + "x"));
+		list.add(new TranslatableText("soulmagic.brace.multiplier", this.MULTIPLIER));
 	}
 	
 	public int getColor(ItemStack stack) {

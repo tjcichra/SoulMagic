@@ -16,7 +16,7 @@ import me.shedaniel.rei.gui.entries.SimpleRecipeEntry;
 import me.shedaniel.rei.gui.widget.Widget;
 import me.shedaniel.rei.impl.widgets.LabelWidget;
 import net.minecraft.client.resource.language.I18n;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 
 public class SoulSeparationCategory implements RecipeCategory<SoulSeparationDisplay> {
@@ -67,8 +67,8 @@ public class SoulSeparationCategory implements RecipeCategory<SoulSeparationDisp
         }
         widgets.add(Widgets.createSlot(new Point(startPoint.x + 69, startPoint.y + 22)).entries(recipeDisplay.getSoulStaffs()).backgroundEnabled(false));
         widgets.add(Widgets.createSlot(new Point(startPoint.x + 109, startPoint.y + 22)).entries(recipeDisplay.getOutputEntries()).backgroundEnabled(false));
-        String s = df.format(recipeDisplay.chance * 100) + "%";
-        widgets.add(new LabelWidget(new Point(startPoint.x + 118, startPoint.y + 42), new LiteralText(s)));
+        String s = df.format(recipeDisplay.chance * 100);
+        widgets.add(new LabelWidget(new Point(startPoint.x + 118, startPoint.y + 42), new TranslatableText("soulmagic.rei.soul_separation_percentage", s)));
         return widgets;
     }
     

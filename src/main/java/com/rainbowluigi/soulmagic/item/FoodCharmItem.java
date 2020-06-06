@@ -15,7 +15,6 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.world.World;
 
@@ -97,8 +96,7 @@ public class FoodCharmItem extends Item implements Accessory {
 			int hunger = stack.getTag().contains("hunger") ? stack.getTag().getInt("hunger") : 0;
 			float saturationModifier = stack.getTag().contains("saturationModifier") ? stack.getTag().getFloat("saturationModifier") : 0;
 			
-			list.add(new LiteralText("" + hunger));
-			list.add(new LiteralText("" + saturationModifier));
+			//TODO Add way to display food charm info
 		}
 	}
 }

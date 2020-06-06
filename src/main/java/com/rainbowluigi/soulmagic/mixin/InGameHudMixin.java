@@ -20,7 +20,7 @@ import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 
 @Mixin(InGameHud.class)
@@ -87,7 +87,7 @@ public class InGameHudMixin extends DrawableHelper {
 									this.drawTexture(matrix, x + 4, this.scaledHeight / 2 + 36 - j - start, 22, 71 - j - start, 14, j);
 									
 									if(timer >= 30 && this.client.player.isSneaking()) {
-										this.drawCenteredText(matrix, this.client.textRenderer, new LiteralText("" + staff.getSoul(ish, client.world, type)), this.scaledWidth-40, this.scaledHeight / 2 + 36 - j / 2 - start, type.getColor());
+										this.drawCenteredText(matrix, this.client.textRenderer, new TranslatableText("soulmagic.ingame_hud.soul_essence", staff.getSoul(ish, client.world, type)), this.scaledWidth-40, this.scaledHeight / 2 + 36 - j / 2 - start, type.getColor());
 										this.client.getTextureManager().bindTexture(SOUL_STAFF_TEXTURE);
 									}
 									

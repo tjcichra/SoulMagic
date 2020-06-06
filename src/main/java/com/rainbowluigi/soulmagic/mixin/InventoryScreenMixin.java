@@ -22,8 +22,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.PlayerScreenHandler;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 
 @Mixin(InventoryScreen.class)
@@ -59,9 +59,9 @@ public abstract class InventoryScreenMixin extends AbstractInventoryScreen<Playe
 	@Inject(method = "render", at = @At("TAIL"))
 	public void render(MatrixStack matrix, int mouseX, int mouseY, float float_1, CallbackInfo info) {
 		if(mouseX >= this.x && mouseX <= this.x + 28 && mouseY >= this.y - 28 && mouseY <= this.y) {
-			this.renderTooltip(matrix, Collections.singletonList(new LiteralText("Inventory")), mouseX, mouseY);
+			this.renderTooltip(matrix, Collections.singletonList(this.client.player.inventory.getName()), mouseX, mouseY);
 		} else if (mouseX >= this.x + 28 && mouseX <= this.x + 56 && mouseY >= this.y - 28 && mouseY <= this.y) {
-			this.renderTooltip(matrix, Collections.singletonList(new LiteralText("Accessories")), mouseX, mouseY);
+			this.renderTooltip(matrix, Collections.singletonList(new TranslatableText("container.soulmagic.accessories")), mouseX, mouseY);
 		}
 	}
 	

@@ -52,12 +52,15 @@
 	"soulmagic.select_spell": "'%s' selected.",
 	"soulmagic.soul_quiver.text": "%s soul arrows selected.",
 	"soulmagic.magical_ball_of_yarn.text": "Destination set for (%s, %s, %s).",
+	"soulmagic.reference_staff.text": "Referencing soul cache at (%s, %s, %s).",
+	"soulmagic.ingame_hud.soul_essence": "%s",
 	
 	"soulmagic.rei.category.soul_infusion": "Soul Infusion",
 	"soulmagic.rei.category.soul_separation": "Soul Separation",
 	"soulmagic.rei.required": "Soul Essence Required:",
 	"soulmagic.rei.soul_amount": "%s: %s",
 	"soulmagic.rei.spell": "Spell: %s",
+	"soulmagic.rei.soul_separation_percentage": "%s%%",
 	
 	"advancements.soulmagic.root.title": "Soul Magic",
 	"advancements.soulmagic.root.description": "Using souls to create magical tools and weapons",

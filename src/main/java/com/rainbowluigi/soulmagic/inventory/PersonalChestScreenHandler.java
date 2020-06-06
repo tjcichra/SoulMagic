@@ -38,6 +38,7 @@ public class PersonalChestScreenHandler extends ScreenHandler {
 	}
 
 	public Text getDisplayName() {
+		//TODO Create proper display name
 		return new LiteralText("HELLo");
 	}
 }

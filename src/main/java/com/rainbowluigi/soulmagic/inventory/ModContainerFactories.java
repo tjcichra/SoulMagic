@@ -18,7 +18,7 @@ import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 
 public class ModContainerFactories {
@@ -62,7 +62,7 @@ public class ModContainerFactories {
     	});
     	
     	ScreenProviderRegistry.INSTANCE.registerFactory(ACCESSORY, (AccessoryContainer c) -> {
-    		return new AccessoryScreen(c, MinecraftClient.getInstance().player, new LiteralText("Hello is my love"));
+    		return new AccessoryScreen(c, MinecraftClient.getInstance().player, new TranslatableText("container.soulmagic.accessories"));
     	});
     	
     	ScreenProviderRegistry.INSTANCE.registerFactory(PERSONAL_CHEST, (PersonalChestScreenHandler c) -> {
