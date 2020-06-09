@@ -29,6 +29,7 @@ public class ModItems {
     public static final Item VACCUM = new VacuumItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
     public static final Item MAGICAL_BALL_OF_YARN = new MagicalBallOfYarnItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
     public static final Item SOUL_MAGIC_BOOK = new SoulMagicBookItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
+    public static final Item SPIRIT_LAMP = new SpiritLampItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
     
     public static final Item LIGHT_SOUL_POWDER = new Item(new Item.Settings().group(SoulMagic.ITEM_GROUP));
     public static final Item DARK_SOUL_POWDER = new Item(new Item.Settings().group(SoulMagic.ITEM_GROUP));
@@ -66,6 +67,7 @@ public class ModItems {
         registerItem(VACCUM, "vacuum");
         registerItem(MAGICAL_BALL_OF_YARN, "magical_ball_of_yarn");
         registerItem(SOUL_MAGIC_BOOK, "soul_magic_book");
+        registerItem(SPIRIT_LAMP, "spirit_lamp");
         
         registerItem(LIGHT_SOUL_POWDER, "light_soul_powder");
         registerItem(DARK_SOUL_POWDER, "dark_soul_powder");

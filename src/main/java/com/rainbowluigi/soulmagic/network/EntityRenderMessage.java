@@ -6,6 +6,7 @@ import com.rainbowluigi.soulmagic.entity.BarrageEntity;
 import com.rainbowluigi.soulmagic.entity.MagicFireballEntity;
 import com.rainbowluigi.soulmagic.entity.ModEntityTypes;
 import com.rainbowluigi.soulmagic.entity.SoulArrowEntity;
+import com.rainbowluigi.soulmagic.entity.SpiritFlameEntity;
 import com.rainbowluigi.soulmagic.entity.TendrilEntity;
 import com.rainbowluigi.soulmagic.entity.UniverseRingEntity;
 
@@ -72,6 +73,12 @@ public class EntityRenderMessage {
 				Entity e2 = w.getEntityById(data);
 				if (e2 != null) {
 					((ProjectileEntity)e).setOwner(e2);
+				}
+			} else if(entityTypeId == ModEntityTypes.SPIRIT_FLAME) {
+				e = new SpiritFlameEntity(w, x, y, z);
+				Entity e2 = w.getEntityById(data);
+				if (e2 != null) {
+					((SpiritFlameEntity)e).setCaster(e2);
 				}
 			}
 			
