@@ -12,6 +12,7 @@ import com.rainbowluigi.soulmagic.entity.UniverseRingEntity;
 
 import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.network.PacketContext;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -39,8 +40,6 @@ public class EntityRenderMessage {
 	}
 	
 	public static void handle(PacketContext context, PacketByteBuf buffer) {
-		
-		ClientWorld w = (ClientWorld) context.getPlayer().world;
 		int id = buffer.readVarInt();
 		UUID uuid = buffer.readUuid();
 		EntityType<?> entityTypeId = Registry.ENTITY_TYPE.get(buffer.readVarInt());
@@ -55,6 +54,8 @@ public class EntityRenderMessage {
 		int velocityZ = buffer.readShort();
 		
 		context.getTaskQueue().execute(() -> {
+			ClientWorld w = (ClientWorld) context.getPlayer().world;
+
 			Entity e = null;
 			if(entityTypeId == ModEntityTypes.BARRAGE) {
 				e = new BarrageEntity(w, x, y, z);

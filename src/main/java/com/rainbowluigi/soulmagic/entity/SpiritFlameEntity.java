@@ -45,33 +45,37 @@ public class SpiritFlameEntity extends Entity {
 	public void tick() {
 		super.tick();
 
-		if(this.target == null) {
-			this.target = this.getTargetEntity();
-		} else {
-			double dx = target.getX() - this.getX();
-			double dy = target.getY() - this.getY();
-			double dz = target.getZ() - this.getZ();
+		//Only run if the world is client
+		if(!this.world.isClient) {
+			//If it doesn't have an entity to target, get one.
+			if(this.target == null) {
+				this.target = this.getTargetEntity();
+			} else {
+				double dx = target.getX() - this.getX();
+				double dy = target.getY() - this.getY();
+				double dz = target.getZ() - this.getZ();
 
-			double d = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2) + Math.pow(dz, 2));
+				double d = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2) + Math.pow(dz, 2));
 
-			double t = d/1;
+				double t = d/1;
 
-			this.setVelocity(dx/t, dy/t, dz/t);
+				this.setVelocity(dx/t, dy/t, dz/t);
 
-			this.prevX = this.getX();
-			this.prevY = this.getY();
-			this.prevZ = this.getZ();
+				this.prevX = this.getX();
+				this.prevY = this.getY();
+				this.prevZ = this.getZ();
 
-			Vec3d v = this.getVelocity();
-			double nx = this.getX() + v.x;
-			double ny = this.getY() + v.y;
-			double nz = this.getZ() + v.z;
+				Vec3d v = this.getVelocity();
+				double nx = this.getX() + v.x;
+				double ny = this.getY() + v.y;
+				double nz = this.getZ() + v.z;
 
-			this.updatePosition(nx, ny, nz);
+				this.updatePosition(nx, ny, nz);
 
-			HitResult collider = ProjectileUtil.getCollision(this, this::hitEntity, RayTraceContext.ShapeType.COLLIDER);
-			if (collider.getType() != HitResult.Type.MISS) {
-				this.onCollision(collider);
+				HitResult collider = ProjectileUtil.getCollision(this, this::hitEntity, RayTraceContext.ShapeType.COLLIDER);
+				if (collider.getType() != HitResult.Type.MISS) {
+					this.onCollision(collider);
+				}
 			}
 		}
 	}
@@ -118,7 +122,7 @@ public class SpiritFlameEntity extends Entity {
 
 	@Override
 	protected void initDataTracker() {
-		
+
 	}
 
 	@Override
