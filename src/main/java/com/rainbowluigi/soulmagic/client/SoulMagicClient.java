@@ -60,7 +60,7 @@ public class SoulMagicClient implements ClientModInitializer {
 		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.BARRAGE, (manager, context) -> new BlankRender(manager));
 		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.TENDRIL, (manager, context) -> new BlankRender(manager));
 		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.SOUL_ARROW_ENTITY, (manager, context) -> new SoulArrowEntityRenderer(manager));
-		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.SPIRIT_FLAME, (manager, context) -> new BlankRender(manager));
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.SPIRIT_FLAME, (manager, context) -> new SpiritFlameRender(manager));
 
 		KeyBindingRegistry.INSTANCE.addCategory(Reference.MOD_ID);
 		KeyBindingRegistry.INSTANCE.register(SPELL_SELECT);
