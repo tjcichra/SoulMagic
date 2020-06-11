@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 public class SpiritLampItem extends Item {
@@ -35,11 +36,16 @@ public class SpiritLampItem extends Item {
 	}
 
 	@Override
-	public void usageTick(World world, LivingEntity entity, ItemStack stack, int remainingUseTicks) {
+	public void usageTick(World world, LivingEntity caster, ItemStack stack, int remainingUseTicks) {
 		if(remainingUseTicks % 20 == 0) {
-			System.out.println(remainingUseTicks);
+			double x = MathHelper.nextDouble(world.random, caster.getX() - 3, caster.getX() + 3);
+			double y = MathHelper.nextDouble(world.random, caster.getY(), caster.getY() + 3);
+			double z = MathHelper.nextDouble(world.random, caster.getZ() - 3, caster.getZ() + 3);
+
+			SpiritFlameEntity flame = new SpiritFlameEntity(world, x, y, z);
+			flame.setCaster(caster);
 			
-			world.spawnEntity(new SpiritFlameEntity(world, entity.getX(), entity.getY(), entity.getZ(), entity));
+			world.spawnEntity(flame);
 		}
 	}
 }

@@ -1,9 +1,12 @@
 package com.rainbowluigi.soulmagic.entity;
 
 import java.util.List;
+import java.util.UUID;
 
 import com.rainbowluigi.soulmagic.client.SoulMagicClient;
 import com.rainbowluigi.soulmagic.network.EntityRenderMessage;
+
+import org.jetbrains.annotations.Nullable;
 
 import net.fabricmc.fabric.api.network.ServerSidePacketRegistry;
 import net.minecraft.entity.Entity;
@@ -14,6 +17,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Packet;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.MathHelper;
@@ -23,8 +27,8 @@ import net.minecraft.world.World;
 
 public class SpiritFlameEntity extends Entity {
 
-	private LivingEntity caster;
-	private LivingEntity target;
+	private UUID casterUUID;
+	private UUID targetUUID;
 
 	public SpiritFlameEntity(EntityType<? extends SpiritFlameEntity> et, World w) {
 		super(et, w);
@@ -36,30 +40,26 @@ public class SpiritFlameEntity extends Entity {
 		this.setVelocity(0, 0, 0);
 	}
 
-	public SpiritFlameEntity(World world, double x, double y, double z, LivingEntity caster) {
-		this(world, x, y, z);
-		this.caster = caster;
-	}
-
 	@Override
 	public void tick() {
 		super.tick();
 
 		//Only run if the world is client
 		if(!this.world.isClient) {
-			//If it doesn't have an entity to target, get one.
-			if(this.target == null) {
-				this.target = this.getTargetEntity();
-			} else {
-				double dx = target.getX() - this.getX();
-				double dy = target.getY() - this.getY();
-				double dz = target.getZ() - this.getZ();
+			Entity target = this.getTarget();
 
-				double d = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2) + Math.pow(dz, 2));
+			if(target != null) {
+				if(target.isAlive()) {
+					double dx = target.getX() - this.getX();
+					double dy = target.getY() - this.getY();
+					double dz = target.getZ() - this.getZ();
 
-				double t = d/1;
+					double d = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2) + Math.pow(dz, 2));
 
-				this.setVelocity(dx/t, dy/t, dz/t);
+					double t = d/1;
+
+					this.setVelocity(dx/t, dy/t, dz/t);
+				}
 
 				this.prevX = this.getX();
 				this.prevY = this.getY();
@@ -76,20 +76,68 @@ public class SpiritFlameEntity extends Entity {
 				if (collider.getType() != HitResult.Type.MISS) {
 					this.onCollision(collider);
 				}
+				
+			} else if(this.age >= 100) {
+				this.remove();
 			}
 		}
 	}
 
-	public LivingEntity getTargetEntity() {
-		List<Entity> entities = this.world.getEntities(this.caster, this.getBoundingBox().expand(5));
-		entities.removeIf((e) -> !(e instanceof LivingEntity));
-		//System.out.println(entities);
-
-		if(entities.size() > 0) {
-			return (LivingEntity) entities.get(MathHelper.nextInt(this.random, 0, entities.size() - 1));
+	@Nullable
+	//Gets the entity that casted the flame
+	public Entity getCaster() {
+		if (this.casterUUID != null && this.world instanceof ServerWorld) {
+			return ((ServerWorld)this.world).getEntity(this.casterUUID);
 		}
-
+		//If there is no entity, return null
 		return null;
+	}
+
+	//Sets the entity that casted the flame
+	public void setCaster(LivingEntity caster) {
+		//Converts from caster's UUID to its entity in the world
+		this.casterUUID = caster.getUuid();
+	}
+
+	@Nullable
+	//Gets the entity the flame is targeting
+	public Entity getTarget() {
+		//If the flame is not targeting an entity
+		if(this.targetUUID == null) {
+			//Get a list of entities around it excluding the caster and non-living entities
+			List<Entity> entities = this.world.getEntities(this.getCaster(), this.getBoundingBox().expand(10));
+			entities.removeIf((e) -> !(e instanceof LivingEntity) && e.isAlive());
+
+			//If there are entities around it
+			if(entities.size() > 0) {
+				//Get one of those entities and set it as the flame's target
+				Entity target = entities.get(MathHelper.nextInt(this.random, 0, entities.size() - 1));
+				this.targetUUID = target.getUuid();
+				//Return the target
+				return target;
+			}
+
+			//If there are not, return null
+			return null;
+		}
+		//If it is, get the target
+		return this.getTargetFromUUID();
+	}
+
+	@Nullable
+	//Gets the target from the target's UUID
+	public Entity getTargetFromUUID() {
+		if (this.targetUUID != null && this.world instanceof ServerWorld) {
+			return ((ServerWorld)this.world).getEntity(this.targetUUID);
+		}
+		//If there is no entity, return null
+		return null;
+	}
+
+	//Sets the entity the flame is targeting
+	public void setTarget(LivingEntity target) {
+		//Converts from caster's UUID to its entity in the world
+		this.targetUUID = target.getUuid();
 	}
 
 	protected boolean hitEntity(Entity entity) {
@@ -107,8 +155,8 @@ public class SpiritFlameEntity extends Entity {
 				if (entity instanceof SpiritFlameEntity || entity instanceof PlayerEntity)
 					return;
 				
-				entity.damage(new EntityDamageSource("fire", this.caster), 6);
-				this.dealDamage(this.caster, entity);
+				entity.damage(new EntityDamageSource("fire", this.getCaster()), 6);
+				this.dealDamage((LivingEntity) this.getCaster(), entity);
 				this.remove();
 			}
 		}
@@ -117,7 +165,7 @@ public class SpiritFlameEntity extends Entity {
 
 	@Override
 	public Packet<?> createSpawnPacket() {
-		return ServerSidePacketRegistry.INSTANCE.toPacket(SoulMagicClient.ENTITY_RENDER, EntityRenderMessage.makePacket(this, this.caster == null ? 0 : this.caster .getEntityId()));
+		return ServerSidePacketRegistry.INSTANCE.toPacket(SoulMagicClient.ENTITY_RENDER, EntityRenderMessage.makePacket(this, this.getCaster() == null ? 0 : this.getCaster().getEntityId()));
 	}
 
 	@Override
@@ -126,16 +174,22 @@ public class SpiritFlameEntity extends Entity {
 	}
 
 	@Override
-	protected void readCustomDataFromTag(CompoundTag var1) {
-		
+	//Reads the caster's and target's UUID from NBT
+	protected void readCustomDataFromTag(CompoundTag tag) {
+		this.casterUUID = tag.getUuid("caster");
+
+		if(tag.contains("target")) {
+			this.targetUUID = tag.getUuid("target");
+		}
 	}
 
 	@Override
-	protected void writeCustomDataToTag(CompoundTag var1) {
-		
-	}
+	//Writes the caster's and target's UUID to NBT
+	protected void writeCustomDataToTag(CompoundTag tag) {
+		tag.putUuid("caster", this.casterUUID);
 
-	public void setCaster(Entity e2) {
-		this.caster = (LivingEntity) e2;
+		if(this.targetUUID != null) {
+			tag.putUuid("target", this.targetUUID);
+		}
 	}
 }

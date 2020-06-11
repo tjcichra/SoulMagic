@@ -16,6 +16,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.math.MathHelper;
@@ -33,12 +34,12 @@ public class EntityRenderMessage {
 		pbb.writeByte(MathHelper.floor(e.pitch * 256.0F / 360.0F));
 		pbb.writeByte(MathHelper.floor(e.yaw * 256.0F / 360.0F));
 		pbb.writeInt(data);
-		pbb.writeShort((int)(MathHelper.clamp(e.getVelocity().x, -3.9D, 3.9D) * 8000.0D));
-		pbb.writeShort((int)(MathHelper.clamp(e.getVelocity().y, -3.9D, 3.9D) * 8000.0D));
-		pbb.writeShort((int)(MathHelper.clamp(e.getVelocity().z, -3.9D, 3.9D) * 8000.0D));
+		pbb.writeShort((int) (MathHelper.clamp(e.getVelocity().x, -3.9D, 3.9D) * 8000.0D));
+		pbb.writeShort((int) (MathHelper.clamp(e.getVelocity().y, -3.9D, 3.9D) * 8000.0D));
+		pbb.writeShort((int) (MathHelper.clamp(e.getVelocity().z, -3.9D, 3.9D) * 8000.0D));
 		return pbb;
 	}
-	
+
 	public static void handle(PacketContext context, PacketByteBuf buffer) {
 		int id = buffer.readVarInt();
 		UUID uuid = buffer.readUuid();
@@ -52,34 +53,34 @@ public class EntityRenderMessage {
 		int velocityX = buffer.readShort();
 		int velocityY = buffer.readShort();
 		int velocityZ = buffer.readShort();
-		
+
 		context.getTaskQueue().execute(() -> {
 			ClientWorld w = (ClientWorld) context.getPlayer().world;
 
 			Entity e = null;
-			if(entityTypeId == ModEntityTypes.BARRAGE) {
+			if (entityTypeId == ModEntityTypes.BARRAGE) {
 				e = new BarrageEntity(w, x, y, z);
 				Entity e2 = w.getEntityById(data);
 				if (e2 != null) {
-					((BarrageEntity)e).setOwner(e2);
+					((BarrageEntity) e).setOwner(e2);
 				}
-			} else if(entityTypeId == ModEntityTypes.MAGIC_FIREBALL) {
+			} else if (entityTypeId == ModEntityTypes.MAGIC_FIREBALL) {
 				e = new MagicFireballEntity(w, x, y, z);
-			} else if(entityTypeId == ModEntityTypes.UNIVERSE_RING) {
+			} else if (entityTypeId == ModEntityTypes.UNIVERSE_RING) {
 				e = new UniverseRingEntity(w, x, y, z);
-			} else if(entityTypeId == ModEntityTypes.TENDRIL) {
+			} else if (entityTypeId == ModEntityTypes.TENDRIL) {
 				e = new TendrilEntity(w, x, y, z);
-			} else if(entityTypeId == ModEntityTypes.SOUL_ARROW_ENTITY) {
+			} else if (entityTypeId == ModEntityTypes.SOUL_ARROW_ENTITY) {
 				e = new SoulArrowEntity(w, x, y, z);
 				Entity e2 = w.getEntityById(data);
 				if (e2 != null) {
-					((ProjectileEntity)e).setOwner(e2);
+					((ProjectileEntity) e).setOwner(e2);
 				}
-			} else if(entityTypeId == ModEntityTypes.SPIRIT_FLAME) {
+			} else if (entityTypeId == ModEntityTypes.SPIRIT_FLAME) {
 				e = new SpiritFlameEntity(w, x, y, z);
 				Entity e2 = w.getEntityById(data);
 				if (e2 != null) {
-					((SpiritFlameEntity)e).setCaster(e2);
+					((SpiritFlameEntity) e).setCaster((LivingEntity) e2);
 				}
 			}
 			
