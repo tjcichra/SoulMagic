@@ -36,15 +36,18 @@ public class SpiritLampItem extends Item {
 	}
 
 	@Override
+	//Called as the player is using the item
 	public void usageTick(World world, LivingEntity caster, ItemStack stack, int remainingUseTicks) {
+		//Only calls the summoning code every second
 		if(remainingUseTicks % 20 == 0) {
+			//Calculates the position of the spirit flame
 			double x = MathHelper.nextDouble(world.random, caster.getX() - 3, caster.getX() + 3);
 			double y = MathHelper.nextDouble(world.random, caster.getY(), caster.getY() + 3);
 			double z = MathHelper.nextDouble(world.random, caster.getZ() - 3, caster.getZ() + 3);
 
+			//Sets the caster of the flame as the player and spawns it into the world
 			SpiritFlameEntity flame = new SpiritFlameEntity(world, x, y, z);
 			flame.setCaster(caster);
-			
 			world.spawnEntity(flame);
 		}
 	}
