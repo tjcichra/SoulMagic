@@ -34,6 +34,10 @@ public interface Accessory {
 	public default AccessoryType getType() {
 		return null;
 	}
+
+	public default void render(ItemStack stack, PlayerEntity player) {
+
+	}
 	
 	public static class AccessoryType {
 		private int max;

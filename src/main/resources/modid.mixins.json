@@ -12,7 +12,8 @@
 		"ItemDynamicRendererMixin",
 		"ItemRendererMixin",
 		"InGameHudMixin",
-		"InventoryScreenMixin"
+		"InventoryScreenMixin",
+		"PlayerEntityRendererMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
