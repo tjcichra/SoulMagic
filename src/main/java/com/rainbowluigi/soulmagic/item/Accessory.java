@@ -1,5 +1,8 @@
 package com.rainbowluigi.soulmagic.item;
 
+import net.minecraft.client.network.AbstractClientPlayerEntity;
+import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
@@ -35,7 +38,7 @@ public interface Accessory {
 		return null;
 	}
 
-	public default void render(ItemStack stack, PlayerEntity player) {
+	public default void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, AbstractClientPlayerEntity player, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch, ItemStack stack) {
 
 	}
 	

@@ -3,18 +3,31 @@ package com.rainbowluigi.soulmagic.item;
 import com.rainbowluigi.soulmagic.inventory.ModContainerFactories;
 
 import net.fabricmc.fabric.impl.container.ContainerProviderImpl;
+import net.minecraft.client.model.ModelPart;
+import net.minecraft.client.network.AbstractClientPlayerEntity;
+import net.minecraft.client.render.OverlayTexture;
+import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.VertexConsumer;
+import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
 public class VacuumItem extends Item implements Accessory {
 
+	private final ModelPart block = new ModelPart(64, 64, 0, 0);
+	public static final Identifier TEXTURE = new Identifier("textures/entity/trident_riptide.png");
+	
 	public VacuumItem(Settings item$Settings_1) {
 		super(item$Settings_1);
+		this.block.addCuboid(-8.0F, -16.0F, -8.0F, 16.0F, 32.0F, 16.0F);
 	}
 
 	/*@Override
@@ -39,6 +52,22 @@ public class VacuumItem extends Item implements Accessory {
 			}
 		}
 	}*/
+
+	@Override
+	public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, AbstractClientPlayerEntity player, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch, ItemStack stack) {
+		VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutoutNoCull(TEXTURE));
+		
+		for(int m = 0; m < 3; ++m) {
+			matrices.push();
+			float n = animationProgress * (float)(-(45 + m * 5));
+			matrices.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(n));
+			float o = 0.75F * (float)m;
+			matrices.scale(o, o, o);
+			matrices.translate(0.0D, (double)(-0.2F + 0.6F * (float)m), 0.0D);
+			this.block.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV);
+			matrices.pop();
+		}
+	}
 	
 	@Override
 	public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {

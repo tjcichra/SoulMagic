@@ -19,11 +19,13 @@ public class AccessoryFeatureRenderer extends FeatureRenderer<AbstractClientPlay
 	}
 
 	@Override
-	public void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int idkwhatthisis, AbstractClientPlayerEntity player, float f, float g, float h, float j, float k, float l) {
+	public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, AbstractClientPlayerEntity player, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
 		AccessoriesInventory accessories = ((PlayerAccessories) (Object) player).getAccessories();
 		for(int i = 0; i < accessories.size(); i++) {
 			ItemStack stack = accessories.getStack(i);
-			((Accessory) stack.getItem()).render(stack, player);
+			if(!stack.isEmpty()) {
+				((Accessory) stack.getItem()).render(matrices, vertexConsumers, light, player, limbAngle, limbDistance, tickDelta, animationProgress, headYaw, headPitch, stack);
+			}
 		}
 	}
 }
