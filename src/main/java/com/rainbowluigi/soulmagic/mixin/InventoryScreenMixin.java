@@ -45,8 +45,8 @@ public abstract class InventoryScreenMixin extends AbstractInventoryScreen<Playe
 		this.itemRenderer.zOffset = 100.0F;
 		RenderSystem.enableLighting();
 		RenderSystem.enableRescaleNormal();
-		this.itemRenderer.renderGuiItem(CHEST, this.x + 6, this.y - 20);
-		this.itemRenderer.renderGuiItem(CHEST_PLATE, this.x + 34, this.y - 20);
+		this.itemRenderer.renderGuiItemIcon(CHEST, this.x + 6, this.y - 20);
+		this.itemRenderer.renderGuiItemIcon(CHEST_PLATE, this.x + 34, this.y - 20);
 		RenderSystem.disableLighting();
 		this.itemRenderer.zOffset = 0.0F;
 		//this.blitOffset = 0;

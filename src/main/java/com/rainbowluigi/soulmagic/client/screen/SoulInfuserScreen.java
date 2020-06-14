@@ -25,7 +25,7 @@ public class SoulInfuserScreen extends HandledScreen<SoulInfuserScreenHandler> {
 	public SoulInfuserScreen(SoulInfuserScreenHandler sic, PlayerInventory playerInv, Text text) {
 		super(sic, playerInv, text);
 		this.backgroundHeight = 211;
-		this.field_25270 = this.backgroundHeight - 93;
+		this.playerInventoryTitleY = this.backgroundHeight - 93;
 	}
 	
 	@Override
