@@ -6,13 +6,13 @@ import com.rainbowluigi.soulmagic.block.ModBlocks;
 import com.rainbowluigi.soulmagic.block.entity.ModBlockEntity;
 import com.rainbowluigi.soulmagic.client.screen.SelectSpellScreen;
 import com.rainbowluigi.soulmagic.entity.ModEntityTypes;
+import com.rainbowluigi.soulmagic.inventory.ModContainerFactories;
 import com.rainbowluigi.soulmagic.item.BraceItem;
 import com.rainbowluigi.soulmagic.item.ModItems;
 import com.rainbowluigi.soulmagic.item.SoulGemItem;
 import com.rainbowluigi.soulmagic.network.EntityRenderMessage;
-import com.rainbowluigi.soulmagic.network.ItemVacuumMessage;
 import com.rainbowluigi.soulmagic.network.ModNetwork;
-import com.rainbowluigi.soulmagic.network.OpenBabulesMessage;
+import com.rainbowluigi.soulmagic.network.OpenContainerMessage;
 import com.rainbowluigi.soulmagic.spelltype.ModSpellTypes;
 import com.rainbowluigi.soulmagic.spelltype.SpellType;
 import com.rainbowluigi.soulmagic.util.Reference;
@@ -21,7 +21,6 @@ import com.rainbowluigi.soulmagic.util.SoulQuiverHelper;
 
 import org.lwjgl.glfw.GLFW;
 
-import io.netty.buffer.Unpooled;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
@@ -38,17 +37,15 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.item.DyeableItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 
 public class SoulMagicClient implements ClientModInitializer {
 
 	public static final KeyBinding SPELL_SELECT = KeyBindingHelper.registerKeyBinding(new KeyBinding("soulmagic.key.select_spell", GLFW.GLFW_KEY_R, "soulmagic.key.category"));
 	public static final KeyBinding ACCESSORY_SCREEN_KEY = KeyBindingHelper.registerKeyBinding(new KeyBinding("soulmagic.key.accessory_screen_key", GLFW.GLFW_KEY_P, "soulmagic.key.category"));
-	public static final Identifier ACCESSORY_SCREEN = new Identifier(Reference.MOD_ID, "accessory");
 	
 	public static final Identifier ENTITY_RENDER = new Identifier(Reference.MOD_ID, "entity_render");
-	public static final Identifier ITEM_VACUUM = new Identifier(Reference.MOD_ID, "item_vacuum");
+	public static final Identifier OPEN_CONTAINER = new Identifier(Reference.MOD_ID, "open_container");
 	
 	public static final Identifier SOUL_MAGIC_TEXTURE_ATLAS = new Identifier(Reference.MOD_ID, "textures/atlas/soulmagic.png");
 	
@@ -62,8 +59,7 @@ public class SoulMagicClient implements ClientModInitializer {
 		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.SPIRIT_FLAME, (manager, context) -> new SpiritFlameRender(manager));
 		
 		ClientSidePacketRegistry.INSTANCE.register(ENTITY_RENDER, EntityRenderMessage::handle);
-		ClientSidePacketRegistry.INSTANCE.register(ITEM_VACUUM, ItemVacuumMessage::handle);
-		ClientSidePacketRegistry.INSTANCE.register(ACCESSORY_SCREEN, OpenBabulesMessage::handle);
+		ClientSidePacketRegistry.INSTANCE.register(OPEN_CONTAINER, OpenContainerMessage::handle);
 		
 		BlockEntityRendererRegistry.INSTANCE.register(ModBlockEntity.SOUL_INFUSER, BlockEntitySpecialRendererSoulInfuser::new);
 		
@@ -125,7 +121,7 @@ public class SoulMagicClient implements ClientModInitializer {
 					mc.openScreen(new SelectSpellScreen(stack, player));
 				}
 			} else if(ACCESSORY_SCREEN_KEY.isPressed()) {
-				ClientSidePacketRegistry.INSTANCE.sendToServer(ModNetwork.OPEN_ACCESSORIES, new PacketByteBuf(Unpooled.buffer()));
+				ClientSidePacketRegistry.INSTANCE.sendToServer(ModNetwork.OPEN_CONTAINER, OpenContainerMessage.makePacket(ModContainerFactories.ACCESSORY));
 			}
 		});
 	}

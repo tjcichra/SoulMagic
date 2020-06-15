@@ -18,14 +18,19 @@ public class ItemHelper {
 		return null;
 	}
 	
-	public static ItemStack findAccessory(PlayerEntity player, Item item) {
+	public static int findAccessorySlot(PlayerEntity player, Item item) {
 		AccessoriesInventory accessories = ((PlayerAccessories) player).getAccessories();
 		
 		for (int i = 0; i < accessories.size(); i++) {
 			if(accessories.getStack(i).getItem().equals(item)) {
-				return accessories.getStack(i);
+				return i;
 			}
 		}
-		return null;
+		return -1;
+	}
+
+	public static ItemStack getAccessoryFromSlot(PlayerEntity player, int slot) {
+		AccessoriesInventory accessories = ((PlayerAccessories) player).getAccessories();
+		return accessories.getStack(slot);
 	}
 }

@@ -27,7 +27,7 @@ public class ItemMixin {
 	@Inject(method = "onCraft", at = @At("TAIL"))
 	public void onCraft(ItemStack stack, World world, PlayerEntity player, CallbackInfo callback) {
 		if(stack.isEnchantable()) {
-			ItemStack charm = ItemHelper.findAccessory(player, ModItems.ENCHANTMENT_CHARM);
+			ItemStack charm = ItemHelper.getAccessoryFromSlot(player, ItemHelper.findAccessorySlot(player, ModItems.ENCHANTMENT_CHARM));
 			
 			if(charm != null) {
 				if(SoulEssenceStaff.hasSoul(player, world, ModSoulTypes.LIGHT, 5)) {

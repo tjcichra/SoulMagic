@@ -14,6 +14,7 @@ import com.rainbowluigi.soulmagic.network.ModNetwork;
 import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
 import com.rainbowluigi.soulmagic.spell.ModSpells;
 import com.rainbowluigi.soulmagic.spelltype.ModSpellTypes;
+import com.rainbowluigi.soulmagic.tabs.ModTabs;
 import com.rainbowluigi.soulmagic.util.Reference;
 
 import net.fabricmc.api.ModInitializer;
@@ -51,5 +52,7 @@ public class SoulMagic implements ModInitializer {
 		ModRecipes.registerRecipeSerializers();
 		
 		ModNetwork.registerPackets();
+
+		ModTabs.registerTabs();
 	}
 }

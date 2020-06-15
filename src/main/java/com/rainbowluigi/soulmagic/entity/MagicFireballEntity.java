@@ -159,7 +159,7 @@ public class MagicFireballEntity extends Entity {
 			if (result.getType() == HitResult.Type.ENTITY) {
 				Entity entity = ((EntityHitResult) result).getEntity();
 				
-				if(entity instanceof MagicFireballEntity || entity instanceof PlayerEntity && ItemHelper.findAccessory((PlayerEntity) entity, ModItems.RING_OF_RECKLESSNESS) != null)
+				if(entity instanceof MagicFireballEntity || entity instanceof PlayerEntity && ItemHelper.findAccessorySlot((PlayerEntity) entity, ModItems.RING_OF_RECKLESSNESS) != -1)
 					return;
 				
 				entity.damage(new EntityDamageSource("fire", this.entity), 6);

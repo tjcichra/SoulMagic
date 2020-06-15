@@ -2,6 +2,8 @@ package com.rainbowluigi.soulmagic.client.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.rainbowluigi.soulmagic.inventory.FlyingChestScreenHandler;
+import com.rainbowluigi.soulmagic.tabs.ModTabs;
+import com.rainbowluigi.soulmagic.tabs.TabHelper;
 
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.util.math.MatrixStack;
@@ -18,10 +20,11 @@ public class FlyingChestScreen extends HandledScreen<FlyingChestScreenHandler> {
 	}
 
 	@Override
-	public void render(MatrixStack matrix, int int_1, int int_2, float float_1) {
+	public void render(MatrixStack matrix, int mouseX, int mouseY, float float_1) {
 		this.renderBackground(matrix);
-		super.render(matrix, int_1, int_2, float_1);
-		this.drawMouseoverTooltip(matrix, int_1, int_2);
+		super.render(matrix, mouseX, mouseY, float_1);
+		TabHelper.tabsRender(ModTabs.FLYING_CHEST, matrix, this, x, y, mouseX, mouseY);
+		this.drawMouseoverTooltip(matrix, mouseX, mouseY);
 	}
 
 	@Override
@@ -31,5 +34,13 @@ public class FlyingChestScreen extends HandledScreen<FlyingChestScreenHandler> {
 		int int_3 = (this.width - this.backgroundWidth) / 2;
 		int int_4 = (this.height - this.backgroundHeight) / 2;
 		this.drawTexture(matrix, int_3, int_4, 0, 0, this.backgroundWidth, this.backgroundHeight);
+
+		TabHelper.drawTabsBackground(ModTabs.FLYING_CHEST, matrix, this, this.x, this.y);
+	}
+
+	@Override
+	public boolean mouseReleased(double mouseX, double mouseY, int int_1) {
+		TabHelper.tabsMouseReleased(ModTabs.FLYING_CHEST, this, this.x, this.y, mouseX, mouseY);
+		return super.mouseReleased(mouseX, mouseY, int_1);
 	}
 }

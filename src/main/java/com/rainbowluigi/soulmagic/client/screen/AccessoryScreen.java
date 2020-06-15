@@ -2,6 +2,8 @@ package com.rainbowluigi.soulmagic.client.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.rainbowluigi.soulmagic.inventory.AccessoryContainer;
+import com.rainbowluigi.soulmagic.tabs.ModTabs;
+import com.rainbowluigi.soulmagic.tabs.TabHelper;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen;
@@ -35,54 +37,30 @@ public class AccessoryScreen extends AbstractInventoryScreen<AccessoryContainer>
 	}
 
 	@Override
-	public void render(MatrixStack matrix, int int_1, int int_2, float float_1) {
+	public void render(MatrixStack matrix, int mouseX, int mouseY, float float_1) {
 		this.renderBackground(matrix);
-		super.render(matrix, int_1, int_2, float_1);
+		super.render(matrix, mouseX, mouseY, float_1);
 		
-		if(int_1 >= this.x && int_1 <= this.x + 28 && int_2 >= this.y - 28 && int_2 <= this.y) {
-			this.renderTooltip(matrix, new TranslatableText("container.soulmagic.inventory"), int_1, int_2);
-		} else if (int_1 >= this.x + 28 && int_1 <= this.x + 56 && int_2 >= this.y - 28 && int_2 <= this.y) {
-			this.renderTooltip(matrix, new TranslatableText("container.soulmagic.accessories"), int_1, int_2);
-		}
-		this.drawMouseoverTooltip(matrix, int_1, int_2);
-		this.mouseX = (float) int_1;
-		this.mouseY = (float) int_2;
+		TabHelper.tabsRender(ModTabs.ACCESSORIES, matrix, this, x, y, mouseX, mouseY);
+		this.drawMouseoverTooltip(matrix, mouseX, mouseY);
+		this.mouseX = (float) mouseX;
+		this.mouseY = (float) mouseY;
 	}
 	
 	@Override
 	protected void drawBackground(MatrixStack matrix, float float_1, int int_1, int int_2) {
 		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 		
-		//GuiLighting.enableForItems();
-		
-		this.setZOffset(100);
-	    this.itemRenderer.zOffset = 100.0F;
-		RenderSystem.enableLighting();
-		RenderSystem.enableRescaleNormal();
-		this.itemRenderer.renderGuiItemIcon(CHEST, this.x + 6, this.y - 20);
-		this.itemRenderer.renderGuiItemIcon(CHEST_PLATE, this.x + 34, this.y - 20);
-		RenderSystem.disableLighting();
-		this.itemRenderer.zOffset = 0.0F;
-	    this.setZOffset(0);
-		
-		this.client.getTextureManager().bindTexture(TEXTURE);
-		this.drawTexture(matrix, this.x, this.y - 28, 0, 0, 28, 30);
-		
 		this.client.getTextureManager().bindTexture(BACKGROUND_TEXTURE);
-		int int_3 = this.x;
-		int int_4 = this.y;
-		this.drawTexture(matrix, int_3, int_4, 0, 0, this.backgroundWidth, this.backgroundHeight);
-		
-		this.client.getTextureManager().bindTexture(TEXTURE);
-		this.drawTexture(matrix, this.x + 28, this.y - 28, 28, 32, 28, 32);
-		InventoryScreen.drawEntity(int_3 + 32, int_4 + 75, 30, (float) (int_3 + 32) - this.mouseX, (float) (int_4 + 75 - 50) - this.mouseY, this.client.player);
+		this.drawTexture(matrix, this.x, this.y, 0, 0, this.backgroundWidth, this.backgroundHeight);
+		InventoryScreen.drawEntity(this.x + 32, this.y + 75, 30, (float) (this.x + 32) - this.mouseX, (float) (this.y + 75 - 50) - this.mouseY, this.client.player);
+
+		TabHelper.drawTabsBackground(ModTabs.ACCESSORIES, matrix, this, this.x, this.y);
 	}
 	
 	@Override
 	public boolean mouseReleased(double mouseX, double mouseY, int int_1) {
-		if(mouseX >= this.x && mouseX <= this.x + 28 && mouseY >= this.y - 32 && mouseY <= this.y) {
-			this.client.openScreen(new InventoryScreen(this.client.player));
-		}
+		TabHelper.tabsMouseReleased(ModTabs.ACCESSORIES, this, this.x, this.y, mouseX, mouseY);
 		return super.mouseReleased(mouseX, mouseY, int_1);
 	}
 	

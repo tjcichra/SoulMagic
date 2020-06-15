@@ -8,6 +8,7 @@ import com.rainbowluigi.soulmagic.client.screen.FlyingChestScreen;
 import com.rainbowluigi.soulmagic.client.screen.SoulCacheScreen;
 import com.rainbowluigi.soulmagic.client.screen.SoulInfuserScreen;
 import com.rainbowluigi.soulmagic.client.screen.SoulSeparatorScreen;
+import com.rainbowluigi.soulmagic.util.ItemHelper;
 import com.rainbowluigi.soulmagic.util.PacketBufferUtils;
 import com.rainbowluigi.soulmagic.util.Reference;
 
@@ -66,7 +67,8 @@ public class ModContainerFactories {
     	});
     	
     	ContainerProviderRegistry.INSTANCE.registerFactory(FLYING_CHEST, (s, i, player, buf) -> {
-    		ItemStack stack = player.getMainHandStack();
+			ItemStack stack = ItemHelper.getAccessoryFromSlot(player, buf.readInt());
+			
 			SimpleInventory chestInv = new SimpleInventory(27);
 			chestInv.addListener(new FlyingChestInventory(stack));
     		
