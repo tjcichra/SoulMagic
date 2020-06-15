@@ -2,10 +2,8 @@ package com.rainbowluigi.soulmagic.item;
 
 import java.util.List;
 
-import com.rainbowluigi.soulmagic.inventory.ModContainerFactories;
 import com.rainbowluigi.soulmagic.util.Reference;
 
-import net.fabricmc.fabric.impl.container.ContainerProviderImpl;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.OverlayTexture;
@@ -18,10 +16,7 @@ import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
 public class FlyingChestItem extends Item implements Accessory {

@@ -1,6 +1,5 @@
 package com.rainbowluigi.soulmagic.client;
 
-import com.rainbowluigi.soulmagic.entity.MagicFireballEntity;
 import com.rainbowluigi.soulmagic.entity.SpiritFlameEntity;
 import com.rainbowluigi.soulmagic.util.Reference;
 

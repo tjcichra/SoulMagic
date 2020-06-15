@@ -12,7 +12,6 @@ import com.rainbowluigi.soulmagic.entity.UniverseRingEntity;
 
 import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.network.PacketContext;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -50,9 +49,9 @@ public class EntityRenderMessage {
 		int pitch = buffer.readByte();
 		int yaw = buffer.readByte();
 		int data = buffer.readInt();
-		int velocityX = buffer.readShort();
-		int velocityY = buffer.readShort();
-		int velocityZ = buffer.readShort();
+		//int velocityX = buffer.readShort();
+		//int velocityY = buffer.readShort();
+		//int velocityZ = buffer.readShort();
 
 		context.getTaskQueue().execute(() -> {
 			ClientWorld w = (ClientWorld) context.getPlayer().world;

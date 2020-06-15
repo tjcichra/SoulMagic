@@ -1,31 +1,18 @@
 package com.rainbowluigi.soulmagic.mixin;
 
+import com.rainbowluigi.soulmagic.tabs.ModTabs;
+import com.rainbowluigi.soulmagic.tabs.TabHelper;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.Collections;
-
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.rainbowluigi.soulmagic.inventory.ModContainerFactories;
-import com.rainbowluigi.soulmagic.item.ModItems;
-import com.rainbowluigi.soulmagic.network.ModNetwork;
-import com.rainbowluigi.soulmagic.network.OpenContainerMessage;
-import com.rainbowluigi.soulmagic.tabs.ModTabs;
-import com.rainbowluigi.soulmagic.tabs.TabHelper;
-
-import io.netty.buffer.Unpooled;
-import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
-import net.minecraft.block.Blocks;
 import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.text.Text;
 

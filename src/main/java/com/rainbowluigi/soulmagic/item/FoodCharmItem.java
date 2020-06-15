@@ -93,8 +93,8 @@ public class FoodCharmItem extends Item implements Accessory {
 	@Override
 	public void appendTooltip(ItemStack stack, World world_1, List<Text> list, TooltipContext tooltipContext_1) {
 		if(stack.hasTag()) {
-			int hunger = stack.getTag().contains("hunger") ? stack.getTag().getInt("hunger") : 0;
-			float saturationModifier = stack.getTag().contains("saturationModifier") ? stack.getTag().getFloat("saturationModifier") : 0;
+			//int hunger = stack.getTag().contains("hunger") ? stack.getTag().getInt("hunger") : 0;
+			//float saturationModifier = stack.getTag().contains("saturationModifier") ? stack.getTag().getFloat("saturationModifier") : 0;
 			
 			//TODO Add way to display food charm info
 		}
