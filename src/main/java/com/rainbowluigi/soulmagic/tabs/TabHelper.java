@@ -58,7 +58,7 @@ public class TabHelper {
 			if(t.isVisible(client.player, client.world)) {
 				int j = i * 28;
 				if(mouseX >= x + j && mouseX < x + j + 28 && mouseY >= y - 28 && mouseY < y) {
-					s.renderTooltip(matrix, Collections.singletonList(t.getText()), mouseX, mouseY);
+					s.renderTooltip(matrix, Collections.singletonList(t.getText(client.player, client.world)), mouseX, mouseY);
 				}
 			}
 		}

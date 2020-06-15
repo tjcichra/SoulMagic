@@ -20,7 +20,7 @@ public class Tab {
         return this.icon;
     }
 
-    public Text getText() {
+    public Text getText(PlayerEntity player, World world) {
         return this.text;
     }
 
