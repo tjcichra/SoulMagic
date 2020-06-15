@@ -5,23 +5,16 @@ import com.rainbowluigi.soulmagic.inventory.AccessoryContainer;
 import com.rainbowluigi.soulmagic.tabs.ModTabs;
 import com.rainbowluigi.soulmagic.tabs.TabHelper;
 
-import net.minecraft.block.Blocks;
 import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 
 public class AccessoryScreen extends AbstractInventoryScreen<AccessoryContainer> {
 
 	public static final Identifier BACKGROUND_TEXTURE = new Identifier("soulmagic", "textures/gui/container/accessory_screen.png");
-	private static final Identifier TEXTURE = new Identifier("textures/gui/container/creative_inventory/tabs.png");
-	private static final ItemStack CHEST = new ItemStack(Blocks.CHEST);
-	private static final ItemStack CHEST_PLATE = new ItemStack(Items.POTATO);
 	
 	private float mouseX;
 	private float mouseY;
