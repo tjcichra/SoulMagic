@@ -50,6 +50,7 @@
 	
 	"soulmagic.key.category": "Soul Magic",
 	"soulmagic.key.select_spell": "Select Spell",
+	"soulmagic.key.accessory_screen_key": "Open Accessories Tab",
 	
 	"soulmagic.soul_essence_staff.amount": "%s: %s/%s",
 	"soulmagic.select_spell": "'%s' selected.",

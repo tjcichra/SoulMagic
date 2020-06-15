@@ -24,8 +24,7 @@ import org.lwjgl.glfw.GLFW;
 import io.netty.buffer.Unpooled;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
-import net.fabricmc.fabric.api.client.keybinding.FabricKeyBinding;
-import net.fabricmc.fabric.api.client.keybinding.KeyBindingRegistry;
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
@@ -34,9 +33,9 @@ import net.fabricmc.fabric.api.event.client.ClientTickCallback;
 import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.options.KeyBinding;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.texture.SpriteAtlasTexture;
-import net.minecraft.client.util.InputUtil;
 import net.minecraft.item.DyeableItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
@@ -44,8 +43,8 @@ import net.minecraft.util.Identifier;
 
 public class SoulMagicClient implements ClientModInitializer {
 
-	public static final FabricKeyBinding SPELL_SELECT = FabricKeyBinding.Builder.create(new Identifier(Reference.MOD_ID, "spell_select"), InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_R, Reference.MOD_ID).build();
-	public static final FabricKeyBinding ACCESSORY_SCREEN_KEY = FabricKeyBinding.Builder.create(new Identifier(Reference.MOD_ID, "accessory_screen_key"), InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_P, Reference.MOD_ID).build();
+	public static final KeyBinding SPELL_SELECT = KeyBindingHelper.registerKeyBinding(new KeyBinding("soulmagic.key.select_spell", GLFW.GLFW_KEY_R, "soulmagic.key.category"));
+	public static final KeyBinding ACCESSORY_SCREEN_KEY = KeyBindingHelper.registerKeyBinding(new KeyBinding("soulmagic.key.accessory_screen_key", GLFW.GLFW_KEY_P, "soulmagic.key.category"));
 	public static final Identifier ACCESSORY_SCREEN = new Identifier(Reference.MOD_ID, "accessory");
 	
 	public static final Identifier ENTITY_RENDER = new Identifier(Reference.MOD_ID, "entity_render");
@@ -61,10 +60,6 @@ public class SoulMagicClient implements ClientModInitializer {
 		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.TENDRIL, (manager, context) -> new BlankRender(manager));
 		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.SOUL_ARROW_ENTITY, (manager, context) -> new SoulArrowEntityRenderer(manager));
 		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.SPIRIT_FLAME, (manager, context) -> new SpiritFlameRender(manager));
-
-		KeyBindingRegistry.INSTANCE.addCategory(Reference.MOD_ID);
-		KeyBindingRegistry.INSTANCE.register(SPELL_SELECT);
-		KeyBindingRegistry.INSTANCE.register(ACCESSORY_SCREEN_KEY);
 		
 		ClientSidePacketRegistry.INSTANCE.register(ENTITY_RENDER, EntityRenderMessage::handle);
 		ClientSidePacketRegistry.INSTANCE.register(ITEM_VACUUM, ItemVacuumMessage::handle);
