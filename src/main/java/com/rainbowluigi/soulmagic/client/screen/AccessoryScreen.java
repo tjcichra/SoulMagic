@@ -15,9 +15,6 @@ import net.minecraft.util.Identifier;
 public class AccessoryScreen extends AbstractInventoryScreen<AccessoryContainer> {
 
 	public static final Identifier BACKGROUND_TEXTURE = new Identifier("soulmagic", "textures/gui/container/accessory_screen.png");
-	
-	private float mouseX;
-	private float mouseY;
 
 	public AccessoryScreen(AccessoryContainer container, PlayerEntity playerInventory_1, Text text_1) {
 		super(container, playerInventory_1.inventory, text_1);
@@ -36,17 +33,15 @@ public class AccessoryScreen extends AbstractInventoryScreen<AccessoryContainer>
 		
 		TabHelper.tabsRender(ModTabs.ACCESSORIES, matrix, this, x, y, mouseX, mouseY);
 		this.drawMouseoverTooltip(matrix, mouseX, mouseY);
-		this.mouseX = (float) mouseX;
-		this.mouseY = (float) mouseY;
 	}
 	
 	@Override
-	protected void drawBackground(MatrixStack matrix, float float_1, int int_1, int int_2) {
+	protected void drawBackground(MatrixStack matrix, float float_1, int mouseX, int mouseY) {
 		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 		
 		this.client.getTextureManager().bindTexture(BACKGROUND_TEXTURE);
 		this.drawTexture(matrix, this.x, this.y, 0, 0, this.backgroundWidth, this.backgroundHeight);
-		InventoryScreen.drawEntity(this.x + 32, this.y + 75, 30, (float) (this.x + 32) - this.mouseX, (float) (this.y + 75 - 50) - this.mouseY, this.client.player);
+		InventoryScreen.drawEntity(this.x + 32, this.y + 75, 30, (float) (this.x + 32) - mouseX, (float) (this.y + 75 - 50) - mouseY, this.client.player);
 
 		TabHelper.drawTabsBackground(ModTabs.ACCESSORIES, matrix, this, this.x, this.y);
 	}
@@ -56,16 +51,4 @@ public class AccessoryScreen extends AbstractInventoryScreen<AccessoryContainer>
 		TabHelper.tabsMouseReleased(ModTabs.ACCESSORIES, this, this.x, this.y, mouseX, mouseY);
 		return super.mouseReleased(mouseX, mouseY, int_1);
 	}
-	
-	//@Override
-	//protected boolean isPointWithinBounds(int int_1, int int_2, int int_3, int int_4, double double_1, double double_2) {
-	//	return super.isPointWithinBounds(int_1, int_2, int_3, int_4, double_1, double_2);
-	//}
-	
-	//protected boolean isClickOutsideBounds(double double_1, double double_2, int int_1, int int_2, int int_3) {
-	//	boolean boolean_1 = double_1 < (double) int_1 || double_2 < (double) int_2
-	//			|| double_1 >= (double) (int_1 + this.containerWidth)
-	//			|| double_2 >= (double) (int_2 + this.containerHeight);
-	//	return boolean_1;
-	//}
 }
