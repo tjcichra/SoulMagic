@@ -6,9 +6,9 @@ import java.util.Optional;
 import java.util.Set;
 
 import com.rainbowluigi.soulmagic.inventory.SoulSeparatorScreenHandler;
-import com.rainbowluigi.soulmagic.item.SoulEssenceStaff;
 import com.rainbowluigi.soulmagic.item.crafting.ModRecipes;
 import com.rainbowluigi.soulmagic.item.crafting.SoulSeparatorRecipe;
+import com.rainbowluigi.soulmagic.item.soulessence.SoulEssenceStaff;
 import com.rainbowluigi.soulmagic.soultype.SoulType;
 
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;

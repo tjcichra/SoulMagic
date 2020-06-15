@@ -1,10 +1,18 @@
 package com.rainbowluigi.soulmagic.item;
 
 import com.rainbowluigi.soulmagic.SoulMagic;
+import com.rainbowluigi.soulmagic.item.accessory.Accessory;
+import com.rainbowluigi.soulmagic.item.accessory.AccessoryItem;
+import com.rainbowluigi.soulmagic.item.accessory.FlyingChestItem;
+import com.rainbowluigi.soulmagic.item.accessory.FoodCharmItem;
+import com.rainbowluigi.soulmagic.item.accessory.ItemBlindedRage;
 import com.rainbowluigi.soulmagic.item.bound.BoundAxeItem;
 import com.rainbowluigi.soulmagic.item.bound.BoundPickaxeItem;
 import com.rainbowluigi.soulmagic.item.bound.BoundShovelItem;
 import com.rainbowluigi.soulmagic.item.bound.BoundSwordItem;
+import com.rainbowluigi.soulmagic.item.soulessence.BaseSoulEssenceStaffItem;
+import com.rainbowluigi.soulmagic.item.soulessence.CreativeSoulEssenceStaffItem;
+import com.rainbowluigi.soulmagic.item.soulessence.ReferenceStaffItem;
 import com.rainbowluigi.soulmagic.util.Reference;
 
 import net.minecraft.item.Item;

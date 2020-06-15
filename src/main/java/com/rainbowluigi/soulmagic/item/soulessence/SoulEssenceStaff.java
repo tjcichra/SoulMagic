@@ -1,4 +1,4 @@
-package com.rainbowluigi.soulmagic.item;
+package com.rainbowluigi.soulmagic.item.soulessence;
 
 import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
 import com.rainbowluigi.soulmagic.soultype.SoulType;
@@ -27,8 +27,8 @@ public interface SoulEssenceStaff {
         }
         //Else, return 0
         return 0;
-    }
-    
+	}
+	
     public int getMaxSoul(ItemStack stack, World world, SoulType type);
     
 	//Set the value of the soul type in the stack

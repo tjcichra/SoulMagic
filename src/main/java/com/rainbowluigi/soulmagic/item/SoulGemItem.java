@@ -2,6 +2,7 @@ package com.rainbowluigi.soulmagic.item;
 
 import java.util.List;
 
+import com.rainbowluigi.soulmagic.item.soulessence.SoulEssenceStaffDisplayer;
 import com.rainbowluigi.soulmagic.soultype.SoulType;
 import com.rainbowluigi.soulmagic.spell.ModSpells;
 import com.rainbowluigi.soulmagic.spell.Spell;

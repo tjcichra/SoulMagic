@@ -1,7 +1,7 @@
 package com.rainbowluigi.soulmagic.inventory;
 
 import com.rainbowluigi.soulmagic.block.entity.SoulSeparatorBlockEntity;
-import com.rainbowluigi.soulmagic.item.SoulEssenceStaff;
+import com.rainbowluigi.soulmagic.item.soulessence.SoulEssenceStaff;
 import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
 import com.rainbowluigi.soulmagic.soultype.SoulType;
 

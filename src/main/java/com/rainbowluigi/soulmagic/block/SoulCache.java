@@ -2,7 +2,7 @@ package com.rainbowluigi.soulmagic.block;
 
 import com.rainbowluigi.soulmagic.block.entity.SoulCacheBlockEntity;
 import com.rainbowluigi.soulmagic.inventory.ModContainerFactories;
-import com.rainbowluigi.soulmagic.item.ReferenceStaffItem;
+import com.rainbowluigi.soulmagic.item.soulessence.ReferenceStaffItem;
 
 import net.fabricmc.fabric.impl.container.ContainerProviderImpl;
 import net.minecraft.block.Block;

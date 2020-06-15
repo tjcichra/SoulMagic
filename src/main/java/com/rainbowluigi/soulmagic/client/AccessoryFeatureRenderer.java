@@ -1,8 +1,8 @@
 package com.rainbowluigi.soulmagic.client;
 
 import com.rainbowluigi.soulmagic.inventory.AccessoriesInventory;
+import com.rainbowluigi.soulmagic.item.accessory.Accessory;
 import com.rainbowluigi.soulmagic.item.crafting.PlayerAccessories;
-import com.rainbowluigi.soulmagic.item.Accessory;
 
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.VertexConsumerProvider;

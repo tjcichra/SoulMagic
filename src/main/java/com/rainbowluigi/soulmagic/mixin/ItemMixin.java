@@ -2,15 +2,15 @@ package com.rainbowluigi.soulmagic.mixin;
 
 import java.util.function.Consumer;
 
+import com.rainbowluigi.soulmagic.item.ModItems;
+import com.rainbowluigi.soulmagic.item.soulessence.SoulEssenceStaff;
+import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
+import com.rainbowluigi.soulmagic.util.ItemHelper;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import com.rainbowluigi.soulmagic.item.ModItems;
-import com.rainbowluigi.soulmagic.item.SoulEssenceStaff;
-import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
-import com.rainbowluigi.soulmagic.util.ItemHelper;
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EquipmentSlot;

@@ -1,6 +1,6 @@
 package com.rainbowluigi.soulmagic.item.bound;
 
-import com.rainbowluigi.soulmagic.item.SoulEssenceStaffDisplayer;
+import com.rainbowluigi.soulmagic.item.soulessence.SoulEssenceStaffDisplayer;
 import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
 import com.rainbowluigi.soulmagic.soultype.SoulType;
 

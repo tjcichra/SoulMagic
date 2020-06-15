@@ -1,8 +1,8 @@
 package com.rainbowluigi.soulmagic.inventory;
 
 import com.rainbowluigi.soulmagic.block.entity.SoulCacheBlockEntity;
-import com.rainbowluigi.soulmagic.item.ReferenceStaffItem;
-import com.rainbowluigi.soulmagic.item.SoulEssenceStaff;
+import com.rainbowluigi.soulmagic.item.soulessence.ReferenceStaffItem;
+import com.rainbowluigi.soulmagic.item.soulessence.SoulEssenceStaff;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;

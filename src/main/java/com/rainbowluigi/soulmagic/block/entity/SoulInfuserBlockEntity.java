@@ -6,10 +6,10 @@ import java.util.Optional;
 
 import com.google.common.collect.Maps;
 import com.rainbowluigi.soulmagic.inventory.SoulInfuserScreenHandler;
-import com.rainbowluigi.soulmagic.item.SoulEssenceStaff;
 import com.rainbowluigi.soulmagic.item.SoulGemItem;
 import com.rainbowluigi.soulmagic.item.crafting.ModRecipes;
 import com.rainbowluigi.soulmagic.item.crafting.SoulInfusionRecipe;
+import com.rainbowluigi.soulmagic.item.soulessence.SoulEssenceStaff;
 import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
 import com.rainbowluigi.soulmagic.soultype.SoulType;
 

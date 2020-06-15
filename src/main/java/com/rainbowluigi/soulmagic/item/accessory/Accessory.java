@@ -1,4 +1,4 @@
-package com.rainbowluigi.soulmagic.item;
+package com.rainbowluigi.soulmagic.item.accessory;
 
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.VertexConsumerProvider;

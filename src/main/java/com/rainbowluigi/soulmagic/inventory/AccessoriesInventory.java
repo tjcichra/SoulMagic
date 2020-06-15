@@ -1,6 +1,6 @@
 package com.rainbowluigi.soulmagic.inventory;
 
-import com.rainbowluigi.soulmagic.item.Accessory;
+import com.rainbowluigi.soulmagic.item.accessory.Accessory;
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.PlayerEntity;

@@ -2,7 +2,7 @@ package com.rainbowluigi.soulmagic.client.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.rainbowluigi.soulmagic.inventory.SoulInfuserScreenHandler;
-import com.rainbowluigi.soulmagic.item.SoulEssenceStaff;
+import com.rainbowluigi.soulmagic.item.soulessence.SoulEssenceStaff;
 import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
 import com.rainbowluigi.soulmagic.soultype.SoulType;
 import com.rainbowluigi.soulmagic.util.ColorUtils;

@@ -1,17 +1,17 @@
 package com.rainbowluigi.soulmagic.mixin;
 
+import com.rainbowluigi.soulmagic.enchantment.ModEnchantments;
+import com.rainbowluigi.soulmagic.inventory.AccessoriesInventory;
+import com.rainbowluigi.soulmagic.item.crafting.PlayerAccessories;
+import com.rainbowluigi.soulmagic.item.soulessence.SoulEssenceStaff;
+import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
+
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import com.rainbowluigi.soulmagic.enchantment.ModEnchantments;
-import com.rainbowluigi.soulmagic.inventory.AccessoriesInventory;
-import com.rainbowluigi.soulmagic.item.SoulEssenceStaff;
-import com.rainbowluigi.soulmagic.item.crafting.PlayerAccessories;
-import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityGroup;

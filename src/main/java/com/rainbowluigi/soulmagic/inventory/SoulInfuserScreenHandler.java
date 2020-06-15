@@ -3,8 +3,8 @@ package com.rainbowluigi.soulmagic.inventory;
 import java.util.Map;
 
 import com.rainbowluigi.soulmagic.block.entity.SoulInfuserBlockEntity;
-import com.rainbowluigi.soulmagic.item.SoulEssenceStaff;
 import com.rainbowluigi.soulmagic.item.SoulGemItem;
+import com.rainbowluigi.soulmagic.item.soulessence.SoulEssenceStaff;
 import com.rainbowluigi.soulmagic.soultype.SoulType;
 
 import net.minecraft.entity.player.PlayerEntity;

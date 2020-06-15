@@ -1,19 +1,19 @@
 package com.rainbowluigi.soulmagic.mixin;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.rainbowluigi.soulmagic.item.ModItems;
+import com.rainbowluigi.soulmagic.item.soulessence.SoulEssenceStaff;
+import com.rainbowluigi.soulmagic.item.soulessence.SoulEssenceStaffDisplayer;
+import com.rainbowluigi.soulmagic.soultype.SoulType;
+import com.rainbowluigi.soulmagic.util.ItemHelper;
+import com.rainbowluigi.soulmagic.util.Reference;
+
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.rainbowluigi.soulmagic.item.ModItems;
-import com.rainbowluigi.soulmagic.item.SoulEssenceStaff;
-import com.rainbowluigi.soulmagic.item.SoulEssenceStaffDisplayer;
-import com.rainbowluigi.soulmagic.soultype.SoulType;
-import com.rainbowluigi.soulmagic.util.ItemHelper;
-import com.rainbowluigi.soulmagic.util.Reference;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;

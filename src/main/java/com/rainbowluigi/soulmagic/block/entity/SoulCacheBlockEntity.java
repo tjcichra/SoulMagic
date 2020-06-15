@@ -1,8 +1,8 @@
 package com.rainbowluigi.soulmagic.block.entity;
 
 import com.rainbowluigi.soulmagic.inventory.SoulCacheScreenHandler;
-import com.rainbowluigi.soulmagic.item.ReferenceStaffItem;
-import com.rainbowluigi.soulmagic.item.SoulEssenceStaff;
+import com.rainbowluigi.soulmagic.item.soulessence.ReferenceStaffItem;
+import com.rainbowluigi.soulmagic.item.soulessence.SoulEssenceStaff;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.LockableContainerBlockEntity;

@@ -1,4 +1,4 @@
-package com.rainbowluigi.soulmagic.item;
+package com.rainbowluigi.soulmagic.item.soulessence;
 
 import com.rainbowluigi.soulmagic.soultype.SoulType;
 

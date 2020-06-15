@@ -1,14 +1,14 @@
 package com.rainbowluigi.soulmagic.mixin;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.rainbowluigi.soulmagic.item.soulessence.SoulEssenceStaff;
+import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
+import com.rainbowluigi.soulmagic.soultype.SoulType;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.rainbowluigi.soulmagic.item.SoulEssenceStaff;
-import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
-import com.rainbowluigi.soulmagic.soultype.SoulType;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;

@@ -1,7 +1,7 @@
 package com.rainbowluigi.soulmagic.inventory;
 
-import com.rainbowluigi.soulmagic.item.Accessory;
-import com.rainbowluigi.soulmagic.item.Accessory.AccessoryType;
+import com.rainbowluigi.soulmagic.item.accessory.Accessory;
+import com.rainbowluigi.soulmagic.item.accessory.Accessory.AccessoryType;
 import com.rainbowluigi.soulmagic.item.crafting.PlayerAccessories;
 
 import net.minecraft.entity.player.PlayerEntity;

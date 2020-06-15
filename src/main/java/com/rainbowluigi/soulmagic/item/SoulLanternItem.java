@@ -2,6 +2,8 @@ package com.rainbowluigi.soulmagic.item;
 
 import com.rainbowluigi.soulmagic.block.ModBlocks;
 import com.rainbowluigi.soulmagic.block.SoulFlameBlock;
+import com.rainbowluigi.soulmagic.item.soulessence.SoulEssenceStaff;
+import com.rainbowluigi.soulmagic.item.soulessence.SoulEssenceStaffDisplayer;
 import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
 import com.rainbowluigi.soulmagic.soultype.SoulType;
 
