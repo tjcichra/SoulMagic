@@ -25,6 +25,7 @@
 	"item.soulmagic.prideful_soul_brace": "Prideful Soul Brace",
 	"item.soulmagic.creative_brace": "Creative Brace",
 	"item.soulmagic.reference_staff": "Reference Staff",
+	"item.soulmagic.flying_chest": "Soarin' Chest",
 	"item.soulmagic.magical_ball_of_yarn": "Magical Ball of Yarn",
 	"item.soulmagic.soul_magic_book": "RL281's Guide to Soul Magic",
 	"item.soulmagic.spirit_lamp": "Spirit Lamp",
@@ -41,6 +42,7 @@
 	"soul_type.soulmagic.prideful": "Prideful",
 	
 	"container.soulmagic.soul_infuser": "Soul Infuser",
+	"container.soulmagic.flying_chest": "Soarin' Chest",
 	"container.soulmagic.inventory": "Inventory",
 	"container.soulmagic.accessories": "Accessories",
 	

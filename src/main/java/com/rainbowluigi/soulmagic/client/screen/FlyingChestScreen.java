@@ -1,7 +1,7 @@
 package com.rainbowluigi.soulmagic.client.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.rainbowluigi.soulmagic.inventory.PersonalChestScreenHandler;
+import com.rainbowluigi.soulmagic.inventory.FlyingChestScreenHandler;
 
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.util.math.MatrixStack;
@@ -9,11 +9,11 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-public class PersonalChestScreen extends HandledScreen<PersonalChestScreenHandler> {
+public class FlyingChestScreen extends HandledScreen<FlyingChestScreenHandler> {
 	
 	private static final Identifier TEXTURE = new Identifier("textures/gui/container/shulker_box.png");
 	
-	public PersonalChestScreen(PersonalChestScreenHandler container_1, PlayerInventory playerInventory_1, Text text_1) {
+	public FlyingChestScreen(FlyingChestScreenHandler container_1, PlayerInventory playerInventory_1, Text text_1) {
 		super(container_1, playerInventory_1, text_1);
 	}
 
@@ -23,13 +23,6 @@ public class PersonalChestScreen extends HandledScreen<PersonalChestScreenHandle
 		super.render(matrix, int_1, int_2, float_1);
 		this.drawMouseoverTooltip(matrix, int_1, int_2);
 	}
-
-	/*@Override
-	protected void drawForeground(MatrixStack matrix, int int_1, int int_2) {
-		this.textRenderer.draw(this.title.asFormattedString(), 8.0F, 6.0F, 4210752);
-		this.textRenderer.draw(this.playerInventory.getDisplayName().asFormattedString(), 8.0F,
-				(float) (this.backgroundHeight - 96 + 2), 4210752);
-	}*/
 
 	@Override
 	protected void drawBackground(MatrixStack matrix, float float_1, int int_1, int int_2) {

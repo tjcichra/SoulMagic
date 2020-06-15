@@ -26,7 +26,7 @@ public class ModItems {
     public static final Item RING_OF_RECKLESSNESS = new AccessoryItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
     public static final Item AMULET_OF_BLINDED_RAGE = new ItemBlindedRage(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
     public static final Item UNIVERSE_RING = new UniverseRingItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
-    public static final Item VACCUM = new VacuumItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
+    public static final Item FLYING_CHEST = new FlyingChestItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
     public static final Item MAGICAL_BALL_OF_YARN = new MagicalBallOfYarnItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
     public static final Item SOUL_MAGIC_BOOK = new SoulMagicBookItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
     public static final Item SPIRIT_LAMP = new SpiritLampItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
@@ -64,7 +64,7 @@ public class ModItems {
         registerItem(RING_OF_RECKLESSNESS, "ring_of_recklessness");
         registerItem(AMULET_OF_BLINDED_RAGE, "amulet_of_blinded_rage");
         registerItem(UNIVERSE_RING, "universe_ring");
-        registerItem(VACCUM, "vacuum");
+        registerItem(FLYING_CHEST, "flying_chest");
         registerItem(MAGICAL_BALL_OF_YARN, "magical_ball_of_yarn");
         registerItem(SOUL_MAGIC_BOOK, "soul_magic_book");
         registerItem(SPIRIT_LAMP, "spirit_lamp");

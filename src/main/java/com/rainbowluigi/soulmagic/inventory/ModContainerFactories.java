@@ -4,7 +4,7 @@ import com.rainbowluigi.soulmagic.block.entity.SoulCacheBlockEntity;
 import com.rainbowluigi.soulmagic.block.entity.SoulInfuserBlockEntity;
 import com.rainbowluigi.soulmagic.block.entity.SoulSeparatorBlockEntity;
 import com.rainbowluigi.soulmagic.client.screen.AccessoryScreen;
-import com.rainbowluigi.soulmagic.client.screen.PersonalChestScreen;
+import com.rainbowluigi.soulmagic.client.screen.FlyingChestScreen;
 import com.rainbowluigi.soulmagic.client.screen.SoulCacheScreen;
 import com.rainbowluigi.soulmagic.client.screen.SoulInfuserScreen;
 import com.rainbowluigi.soulmagic.client.screen.SoulSeparatorScreen;
@@ -27,7 +27,7 @@ public class ModContainerFactories {
 	public static final Identifier SOUL_SEPARATOR = new Identifier(Reference.MOD_ID, "soul_separator");
 	public static final Identifier SOUL_CACHE = new Identifier(Reference.MOD_ID, "soul_cache");
 	public static final Identifier ACCESSORY = new Identifier(Reference.MOD_ID, "accessory");
-	public static final Identifier PERSONAL_CHEST = new Identifier(Reference.MOD_ID, "personal_chest");
+	public static final Identifier FLYING_CHEST = new Identifier(Reference.MOD_ID, "flying_chest");
 
     public static void registerContainerTypes() {
     	ContainerProviderRegistry.INSTANCE.registerFactory(SOUL_INFUSER_FACTORY, (s, i, player, buf) -> {
@@ -65,74 +65,22 @@ public class ModContainerFactories {
     		return new AccessoryScreen(c, MinecraftClient.getInstance().player, new TranslatableText("container.soulmagic.accessories"));
     	});
     	
-    	ScreenProviderRegistry.INSTANCE.registerFactory(PERSONAL_CHEST, (PersonalChestScreenHandler c) -> {
-    		return new PersonalChestScreen(c, MinecraftClient.getInstance().player.inventory, c.getDisplayName());
-    	});
-    	
-    	ContainerProviderRegistry.INSTANCE.registerFactory(PERSONAL_CHEST, (s, i, player, buf) -> {
-    		ItemStack stack = buf.readItemStack();
-    		ItemInventory list = new ItemInventory(27, stack);
+    	ContainerProviderRegistry.INSTANCE.registerFactory(FLYING_CHEST, (s, i, player, buf) -> {
+    		ItemStack stack = player.getMainHandStack();
+			SimpleInventory chestInv = new SimpleInventory(27);
+			chestInv.addListener(new FlyingChestInventory(stack));
     		
     		if(stack.hasTag()) {
     			CompoundTag tag = stack.getTag();
-				ListTag listTag_1 = (ListTag) tag.get("Items");
-	
-				for(int i1 = 0; i1 < listTag_1.size(); i1++) {
-					ItemStack stack2 = ItemStack.fromTag((CompoundTag) listTag_1.get(i1));
-					System.out.println(stack2.getName().asString() + " x" + stack2.getCount());
-				}
-				
-				for (int int_1 = 0; int_1 < listTag_1.size(); ++int_1) {
-					CompoundTag compoundTag_2 = listTag_1.getCompound(int_1);
-					int int_2 = compoundTag_2.getByte("Slot") & 255;
-					if (int_2 >= 0 && int_2 < list.size()) {
-						list.setStack(int_2, ItemStack.fromTag(compoundTag_2));
-					}
-				}
+				ListTag invNBT = (ListTag) tag.get("Items");
+				chestInv.readTags(invNBT);
     		}
     		
-    		return new PersonalChestScreenHandler(s, player.inventory, list);
+    		return new FlyingChestScreenHandler(s, player.inventory, chestInv, stack.hasCustomName() ? stack.getName() : null);
+		});
+		
+		ScreenProviderRegistry.INSTANCE.registerFactory(FLYING_CHEST, (FlyingChestScreenHandler c) -> {
+    		return new FlyingChestScreen(c, MinecraftClient.getInstance().player.inventory, c.getDisplayName());
     	});
     }
-}
-
-class ItemInventory extends SimpleInventory {
-	
-	private ItemStack stack;
-
-	public ItemInventory(int size, ItemStack stack) {
-		super(size);
-		this.stack = stack;
-	}
-	
-	public void markDirty() {
-		CompoundTag tag = stack.getOrCreateTag();
-		
-		if(!tag.contains("Items")) {
-			tag.put("Items", new ListTag());
-		}
-		
-		ListTag list = (ListTag) tag.get("Items");
-		
-		for (int i = 0; i < this.size(); i++) {
-			ItemStack stack = this.getStack(i);
-			if (!stack.isEmpty()) {
-				CompoundTag tag2 = new CompoundTag();
-				tag2.putByte("Slot", (byte) i);
-				stack.toTag(tag2);
-				list.add(tag2);
-			}
-		}
-		
-		if (!list.isEmpty() || true) {
-			tag.put("Items", list);
-			
-			list = (ListTag) tag.get("Items");
-			for(int i = 0; i < list.size(); i++) {
-				ItemStack stack = ItemStack.fromTag((CompoundTag) list.get(i));
-				System.out.println(((CompoundTag) list.get(i)).getByte("Slot") + ": " + stack.getName().asString() + " x" + stack.getCount());
-			}
-		}
-		
-	}
 }

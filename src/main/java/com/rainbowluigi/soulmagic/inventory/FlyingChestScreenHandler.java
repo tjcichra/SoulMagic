@@ -7,11 +7,15 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 
-public class PersonalChestScreenHandler extends ScreenHandler {
+public class FlyingChestScreenHandler extends ScreenHandler {
 
-	protected PersonalChestScreenHandler(int id, PlayerInventory pInv, Inventory inv) {
+	private Text text;
+
+	protected FlyingChestScreenHandler(int id, PlayerInventory pInv, Inventory inv, Text text) {
 		super(null, id);
+		this.text = text;
 		
 		for (int y = 0; y < 3; ++y) {
 	        for (int x = 0; x < 9; ++x) {
@@ -38,7 +42,6 @@ public class PersonalChestScreenHandler extends ScreenHandler {
 	}
 
 	public Text getDisplayName() {
-		//TODO Create proper display name
-		return new LiteralText("HELLo");
+		return text != null ? text : new TranslatableText("container.soulmagic.flying_chest");
 	}
 }
