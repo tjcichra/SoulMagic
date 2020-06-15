@@ -12,7 +12,7 @@ public class ModTabs {
 
 	public static final Tab INVENTORY = new Tab(new ItemStack(Items.CHEST), "container.soulmagic.inventory");
 	public static final Tab HORSE = new Tab(new ItemStack(Items.SADDLE), "container.soulmagic.horse");
-	public static final Tab ACCESSORIES = new Tab(new ItemStack(Items.DIAMOND_CHESTPLATE), "container.soulmagic.accessories");
+	public static final Tab ACCESSORIES = new AccessoriesTab();
 	public static final Tab FLYING_CHEST = new FlyingChestTab();
 
 	public static void registerTabs() {

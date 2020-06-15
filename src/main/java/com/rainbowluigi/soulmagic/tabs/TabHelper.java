@@ -51,10 +51,15 @@ public class TabHelper {
 	}
 
 	public static void tabsRender(Tab currentTab, MatrixStack matrix, Screen s, int x, int y, int mouseX, int mouseY) {
+		MinecraftClient client = MinecraftClient.getInstance();
+
 		for(int i = 0; i < ModTabs.tabsList.size(); i++) {
-			int j = i * 28;
-			if(mouseX >= x + j && mouseX < x + j + 28 && mouseY >= y - 28 && mouseY < y) {
-				s.renderTooltip(matrix, Collections.singletonList(ModTabs.tabsList.get(i).getText()), mouseX, mouseY);
+			Tab t = ModTabs.tabsList.get(i);
+			if(t.isVisible(client.player, client.world)) {
+				int j = i * 28;
+				if(mouseX >= x + j && mouseX < x + j + 28 && mouseY >= y - 28 && mouseY < y) {
+					s.renderTooltip(matrix, Collections.singletonList(t.getText()), mouseX, mouseY);
+				}
 			}
 		}
 	}
@@ -63,10 +68,11 @@ public class TabHelper {
 		MinecraftClient client = MinecraftClient.getInstance();
 
 		for(int i = 0; i < ModTabs.tabsList.size(); i++) {
-			if(ModTabs.tabsList.get(i) != currentTab) {
+			Tab t = ModTabs.tabsList.get(i);
+			if(t != currentTab && t.isVisible(client.player, client.world)) {
 				int j = i * 28;
 				if(mouseX >= x + j && mouseX < x + j + 28 && mouseY >= y - 28 && mouseY < y) {
-					ModTabs.tabsList.get(i).whenClicked(client.player, client.world);
+					t.whenClicked(client.player, client.world);
 				}
 			}
 		}

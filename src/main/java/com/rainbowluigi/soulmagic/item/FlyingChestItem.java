@@ -3,6 +3,7 @@ package com.rainbowluigi.soulmagic.item;
 import java.util.List;
 
 import com.rainbowluigi.soulmagic.inventory.ModContainerFactories;
+import com.rainbowluigi.soulmagic.util.Reference;
 
 import net.fabricmc.fabric.impl.container.ContainerProviderImpl;
 import net.minecraft.client.model.ModelPart;
@@ -26,7 +27,7 @@ import net.minecraft.world.World;
 public class FlyingChestItem extends Item implements Accessory {
 
 	private final ModelPart block = new ModelPart(64, 64, 0, 0);
-	public static final Identifier TEXTURE = new Identifier("textures/entity/tridentddd_riptide.png");
+	public static final Identifier TEXTURE = new Identifier(Reference.MOD_ID, "textures/accessories/flying_chest.png");
 	
 	public FlyingChestItem(Settings item$Settings_1) {
 		super(item$Settings_1);

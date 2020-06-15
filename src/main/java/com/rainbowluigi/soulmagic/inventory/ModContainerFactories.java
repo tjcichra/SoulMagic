@@ -75,7 +75,7 @@ public class ModContainerFactories {
     		if(stack.hasTag()) {
     			CompoundTag tag = stack.getTag();
 				ListTag invNBT = (ListTag) tag.get("Items");
-				chestInv.readTags(invNBT);
+				FlyingChestInventory.readTags(invNBT, chestInv);
     		}
     		
     		return new FlyingChestScreenHandler(s, player.inventory, chestInv, stack.hasCustomName() ? stack.getName() : null);
