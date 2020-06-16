@@ -7,11 +7,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.World;
 
+//Used for items that can hold soul essence but can't have soul essence added to it (only subtracted from)
+//Any items that implement this class can't be used by magic items or machines (other than the soul separator)
+//For both issues see @SoulEssenceStaff which implements this class
 public interface SoulEssenceContainer {
 	
-	//Get the value of the soul type in the stack
+	//Get the value of the soul type in the container stack
 	public default int getSoul(ItemStack stack, World world, SoulType type) {
-		//Checks if the stack has a compound tag and if it has a tag of "souls" in it
+		//Checks if the container stack has a compound tag and if it has a tag of "souls" in it
 		if(stack.hasTag() && stack.getTag().contains("souls")) {
 			//Gets the tag with all the soul values in it
 			CompoundTag tag = (CompoundTag) stack.getTag().get("souls");
@@ -44,7 +47,7 @@ public interface SoulEssenceContainer {
 		
 		//Get the tag of soul values and get the max soul value.
 		CompoundTag tag = (CompoundTag) stack.getTag().get("souls");
-		int max = ((SoulEssenceStaff)stack.getItem()).getMaxSoul(stack, world, type);
+		int max = ((SoulEssenceContainer)stack.getItem()).getMaxSoul(stack, world, type);
 		
 		//If the amount is greater than the container stack can hold, make the amount the max.
 		if(amount > max) {
@@ -61,5 +64,35 @@ public interface SoulEssenceContainer {
 	//Optional function if you want your max soul essence value to be variable
 	public default void setMaxSoul(ItemStack stack, World world, SoulType type, int amount) {
 
+	}
+
+	//Subtracts the value of the soul type in the container stack, return if that amount can be subtracted or not.
+	public default boolean subtractSoul(ItemStack stack, World world, SoulType type, int amount) {
+		//If there is no tag or the container stack doesn't have a "souls" tag, return false
+		if(!stack.hasTag() || !stack.getTag().contains("souls")) {
+			return false;
+		}
+		
+		//Gets the tag with all the soul values in it
+		CompoundTag tag = (CompoundTag) stack.getTag().get("souls");
+		
+		//Gets the registry name of the soul type (which is also the key)
+		String s = ModSoulTypes.SOUL_TYPE.getId(type).toString();
+		
+		//If the tag doesn't have a value for the soul type, return false
+		if(!tag.contains(s)) {
+			return false;
+		}
+		
+		//Get the amount of soul essence in the container stack and if it is less than the amount required, return false
+		int current = tag.getInt(s);
+		if(current < amount) {
+			return false;
+		}
+		
+		//Subtract the amount require for the container stack and return true
+		tag.putInt(s, current - amount);
+		
+		return true;
 	}
 }

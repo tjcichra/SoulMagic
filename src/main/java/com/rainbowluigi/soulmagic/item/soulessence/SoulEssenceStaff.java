@@ -8,6 +8,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.World;
 
+//Used for holding soul essence staff and for use by magic items and machines
+//Can add, subtract, and manage soul essence in any way (unlike @SouLEssenceContainer)
 public interface SoulEssenceStaff extends SoulEssenceContainer {
 	
 	//Adds the value of the soul type in the stack, returns the remainder if it overflows
@@ -44,30 +46,6 @@ public interface SoulEssenceStaff extends SoulEssenceContainer {
 		}
 		
 		return remainder;
-	}
-	
-	//Subtracts the value of the soul type in the stack, return if that amount can be subtracted or not.
-	public default boolean subtractSoul(ItemStack stack, World world, SoulType type, int amount) {
-		if(!stack.hasTag() || !stack.getTag().contains("souls")) {
-			return false;
-		}
-		
-		CompoundTag tag = (CompoundTag) stack.getTag().get("souls");
-		
-		String s = ModSoulTypes.SOUL_TYPE.getId(type).toString();
-		
-		if(!tag.contains(s)) {
-			return false;
-		}
-		
-		int current = tag.getInt(s);
-		if(current < amount) {
-			return false;
-		}
-		
-		tag.putInt(s, current - amount);
-		
-		return true;
 	}
 
     public static boolean hasSoul(PlayerEntity player, World world, Object... objects) {

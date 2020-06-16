@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.google.common.collect.Maps;
+import com.rainbowluigi.soulmagic.item.soulessence.SoulEssenceContainer;
 import com.rainbowluigi.soulmagic.item.soulessence.SoulEssenceStaff;
 import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
 import com.rainbowluigi.soulmagic.soultype.SoulType;
@@ -30,7 +31,7 @@ public class SoulStaffTransferRecipe extends SoulSeparatorRecipe {
 	@Override
 	public void postCraft(Inventory inv, World var2, Map<SoulType, Integer> soulMap2) {
 		ItemStack stack = inv.getStack(0);
-		SoulEssenceStaff ses = (SoulEssenceStaff) stack.getItem();
+		SoulEssenceContainer ses = (SoulEssenceContainer) stack.getItem();
 		
 		for(Entry<SoulType, Integer> st : soulMap2.entrySet()) {
 			ses.subtractSoul(stack, var2, st.getKey(), st.getValue());
@@ -44,7 +45,7 @@ public class SoulStaffTransferRecipe extends SoulSeparatorRecipe {
 
 	@Override
 	public boolean matches(Inventory inv, World var2) {
-		return inv.getStack(0).getItem() instanceof SoulEssenceStaff;
+		return inv.getStack(0).getItem() instanceof SoulEssenceContainer;
 	}
 	
 	@Override
@@ -57,7 +58,7 @@ public class SoulStaffTransferRecipe extends SoulSeparatorRecipe {
 		Map<SoulType, Integer> soulMap = Maps.newHashMap();
 		
 		ItemStack stack = inv.getStack(0);
-		SoulEssenceStaff ses = (SoulEssenceStaff) stack.getItem();
+		SoulEssenceContainer ses = (SoulEssenceContainer) stack.getItem();
 			
 		ItemStack stack2 = inv.getStack(2);
 		SoulEssenceStaff ses2 = (SoulEssenceStaff) stack2.getItem();
