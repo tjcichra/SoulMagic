@@ -13,6 +13,7 @@ import com.rainbowluigi.soulmagic.item.bound.BoundSwordItem;
 import com.rainbowluigi.soulmagic.item.soulessence.BaseSoulEssenceStaffItem;
 import com.rainbowluigi.soulmagic.item.soulessence.CreativeSoulEssenceStaffItem;
 import com.rainbowluigi.soulmagic.item.soulessence.ReferenceStaffItem;
+import com.rainbowluigi.soulmagic.item.soulessence.SoulEssenceOrbItem;
 import com.rainbowluigi.soulmagic.util.Reference;
 
 import net.minecraft.item.Item;
@@ -24,6 +25,7 @@ public class ModItems {
     public static final Item SOUL_ESSENCE_STAFF = new BaseSoulEssenceStaffItem(50, new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
     public static final Item GREATER_SOUL_ESSENCE_STAFF = new BaseSoulEssenceStaffItem(150, new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
     public static final Item CREATIVE_SOUL_ESSENCE_STAFF = new CreativeSoulEssenceStaffItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
+    public static final Item SOUL_ESSENCE_ORB = new SoulEssenceOrbItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
     public static final Item SOUL_GEM = new SoulGemItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
     public static final Item SOUL_QUIVER = new SoulQuiverItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
     public static final Item SOUL_LANTERN = new SoulLanternItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
@@ -62,6 +64,7 @@ public class ModItems {
         registerItem(SOUL_ESSENCE_STAFF, "soul_essence_staff");
         registerItem(GREATER_SOUL_ESSENCE_STAFF, "greater_soul_essence_staff");
         registerItem(CREATIVE_SOUL_ESSENCE_STAFF, "creative_soul_essence_staff");
+        registerItem(SOUL_ESSENCE_ORB, "soul_essence_orb");
         registerItem(SOUL_GEM, "soul_gem");
         registerItem(SOUL_QUIVER, "soul_quiver");
         registerItem(SOUL_LANTERN, "soul_lantern");
