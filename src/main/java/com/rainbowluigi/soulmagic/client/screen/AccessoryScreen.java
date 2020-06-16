@@ -8,7 +8,7 @@ import com.rainbowluigi.soulmagic.tabs.TabHelper;
 import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
@@ -16,8 +16,8 @@ public class AccessoryScreen extends AbstractInventoryScreen<AccessoryContainer>
 
 	public static final Identifier BACKGROUND_TEXTURE = new Identifier("soulmagic", "textures/gui/container/accessory_screen.png");
 
-	public AccessoryScreen(AccessoryContainer container, PlayerEntity playerInventory_1, Text text_1) {
-		super(container, playerInventory_1.inventory, text_1);
+	public AccessoryScreen(AccessoryContainer container, PlayerInventory playerInv, Text text_1) {
+		super(container, playerInv, text_1);
 		this.passEvents = false;
 	}
 

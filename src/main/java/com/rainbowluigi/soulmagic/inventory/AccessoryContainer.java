@@ -13,10 +13,9 @@ import net.minecraft.screen.slot.Slot;
 
 public class AccessoryContainer extends ScreenHandler {
 
-	public AccessoryContainer(PlayerEntity player, int s) {
-		super(null, s);
-		PlayerInventory playerInv = player.inventory;
-		AccessoriesInventory accessories = ((PlayerAccessories) player).getAccessories();
+	public AccessoryContainer(int sync, PlayerInventory playerInv) {
+		super(null, sync);
+		AccessoriesInventory accessories = ((PlayerAccessories) playerInv.player).getAccessories();
 
 		this.addSlot(new AccessorySlot(accessories, 0, 80, 56));
 		this.addSlot(new AccessorySlot(accessories, 1, 134, 56));

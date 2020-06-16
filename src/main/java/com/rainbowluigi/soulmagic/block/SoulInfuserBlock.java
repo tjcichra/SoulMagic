@@ -1,5 +1,6 @@
 package com.rainbowluigi.soulmagic.block;
 
+import com.mojang.realmsclient.gui.RealmsWorldSlotButton.Action;
 import com.rainbowluigi.soulmagic.block.entity.SoulInfuserBlockEntity;
 import com.rainbowluigi.soulmagic.inventory.ModContainerFactories;
 
@@ -12,6 +13,7 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -66,10 +68,12 @@ public class SoulInfuserBlock extends BlockWithEntity {
 			BlockEntity blockEntity = worldIn.getBlockEntity(pos);
 			
 			if (blockEntity instanceof SoulInfuserBlockEntity) {
-				ContainerProviderImpl.INSTANCE.openContainer(ModContainerFactories.SOUL_INFUSER_FACTORY, player, buf -> {
-					buf.writeBlockPos(pos);
-				});
+				player.openHandledScreen((NamedScreenHandlerFactory) blockEntity);
+				//ContainerProviderImpl.INSTANCE.openContainer(ModContainerFactories.SOUL_INFUSER_FACTORY, player, buf -> {
+				//	buf.writeBlockPos(pos);
+				//});
 			}
+			return ActionResult.CONSUME;
 		}
 		return ActionResult.SUCCESS;
 	}

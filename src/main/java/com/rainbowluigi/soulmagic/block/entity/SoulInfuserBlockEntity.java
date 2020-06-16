@@ -22,6 +22,7 @@ import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -40,7 +41,7 @@ public class SoulInfuserBlockEntity extends LockableContainerBlockEntity impleme
 	private Map<SoulType, Integer> cookSoulMap = Maps.newHashMap();
 	private Map<SoulType, Integer> recipeSoulMap = Maps.newHashMap();
 	private int progressColor = 0xFFFFFF;
-
+	
 	public SoulInfuserBlockEntity() {
 		super(ModBlockEntity.SOUL_INFUSER);
 		this.inventory = DefaultedList.ofSize(11, ItemStack.EMPTY);
