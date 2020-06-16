@@ -44,7 +44,8 @@ public class BaseSoulEssenceStaffItem extends Item implements SoulEssenceStaff {
 			ItemStack stack = new ItemStack(this);
 			
 			for(SoulType st : ModSoulTypes.SOUL_TYPE) {
-				this.setSoul(stack, MinecraftClient.getInstance().world, st, this.getMaxSoul(stack, MinecraftClient.getInstance().world, st));
+				MinecraftClient client = MinecraftClient.getInstance();
+				this.setSoul(stack, client.world, st, this.getMaxSoul(stack, client.world, st));
 			}
 			
 			items.add(stack);

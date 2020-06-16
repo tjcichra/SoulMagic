@@ -26,25 +26,30 @@ public interface SoulEssenceStaff extends SoulEssenceContainer {
 			stack.getTag().put("souls", new CompoundTag());
 		}
 		
-		//Get the tag of soul values.
+		//Gets the tag of soul values and get the maximum soul value
 		CompoundTag tag = (CompoundTag) stack.getTag().get("souls");
-		
 		int max = ((SoulEssenceStaff)stack.getItem()).getMaxSoul(stack, world, type);
 		
+		//Gets the registry name of the soul type (which is also the key)
 		String s = ModSoulTypes.SOUL_TYPE.getId(type).toString();
 		int remainder = 0;
 		
+		//Add the amount to what the staff stack already has
 		if(tag.contains(s)) {
 			amount += tag.getInt(s);
 		}
 		
+		//If the amount goes above the maximum soul essence value
 		if(amount > max) {
+			//Get the remainder and give the max to the staff stack
 			remainder = amount - max;
 			tag.putInt(s, max);
 		} else {
+			//Or else just set it to the new amount
 			tag.putInt(s, amount);
 		}
 		
+		//Return the remainder
 		return remainder;
 	}
 

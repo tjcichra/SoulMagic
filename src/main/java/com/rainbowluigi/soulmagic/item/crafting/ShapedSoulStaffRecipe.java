@@ -42,7 +42,8 @@ public class ShapedSoulStaffRecipe extends ShapedRecipe {
 				SoulEssenceStaff staff = (SoulEssenceStaff) stack.getItem();
 				
 				for(Entry<SoulType, Integer> e : this.soulMap.entrySet()) {
-					staff.subtractSoul(stack, MinecraftClient.getInstance().world, e.getKey(), e.getValue());
+					MinecraftClient client = MinecraftClient.getInstance();
+					staff.subtractSoul(stack, client.world, e.getKey(), e.getValue());
 				}
 				nonnulllist.set(i, stack.copy());
 			} else if (stack.getItem().hasRecipeRemainder()) {
@@ -96,7 +97,8 @@ public class ShapedSoulStaffRecipe extends ShapedRecipe {
 					
 					for(Entry<SoulType, Integer> e : this.soulMap.entrySet()) {
 						//TODO FIX
-						if(staff.getSoul(stack, MinecraftClient.getInstance().world, e.getKey()) < e.getValue()) {
+						MinecraftClient client = MinecraftClient.getInstance();
+						if(staff.getSoul(stack, client.world, e.getKey()) < e.getValue()) {
 							return false;
 						}
 					}

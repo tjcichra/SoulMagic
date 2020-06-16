@@ -48,12 +48,13 @@ public abstract class ItemRendererMixin {
 	@Inject(method = "renderGuiItemOverlay(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/item/ItemStack;IILjava/lang/String;)V", at = @At("RETURN"))
 	public void renderGuiItemOverlay(TextRenderer textRenderer, ItemStack stack, int x, int y, String s, CallbackInfo cbi) {
 		if (stack.getItem() instanceof SoulEssenceStaff) {
+			MinecraftClient client = MinecraftClient.getInstance();
 			SoulEssenceStaff staff = (SoulEssenceStaff) stack.getItem();
 			
             int total = 0;
             for (SoulType type : ModSoulTypes.SOUL_TYPE) {
-				if (staff.getSoul(stack, MinecraftClient.getInstance().world, type) > 0) {
-					total += staff.getMaxSoul(stack, MinecraftClient.getInstance().world, type);
+				if (staff.getSoul(stack, client.world, type) > 0) {
+					total += staff.getMaxSoul(stack, client.world, type);
 				}
 			}
             
@@ -70,10 +71,10 @@ public abstract class ItemRendererMixin {
             	
             	double start = 0;
 				for (SoulType type : ModSoulTypes.SOUL_TYPE) {
-					if (staff.getSoul(stack, MinecraftClient.getInstance().world, type) > 0) {
+					if (staff.getSoul(stack, client.world, type) > 0) {
 						int color = type.getColor();
 						
-						double j = (double) staff.getSoul(stack, MinecraftClient.getInstance().world, type) / total * 13;
+						double j = (double) staff.getSoul(stack, client.world, type) / total * 13;
 						this.renderGuiQuad(bufferBuilder_1, x + 2 + start, y + 13, j, 1, color >> 16 & 255, color >> 8 & 255, color & 255, 255);
 						
 						start += j;

@@ -85,9 +85,10 @@ public class SoulLanternItem extends Item implements DyeableItem, SoulEssenceSta
 	public void removeColor(ItemStack stack) {
 		CompoundTag compoundTag_1 = stack.getSubTag("display");
 		if (compoundTag_1 != null && compoundTag_1.contains("color")) {
+			MinecraftClient client = MinecraftClient.getInstance();
 			compoundTag_1.remove("color");
-			PlayerEntity player = MinecraftClient.getInstance().player;
-			MinecraftClient.getInstance().world.playSound(player.getX(), player.getY(), player.getZ(), SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 1, 1, false);
+			PlayerEntity player = client.player;
+			client.world.playSound(player.getX(), player.getY(), player.getZ(), SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 1, 1, false);
 		}
 	}
 	
