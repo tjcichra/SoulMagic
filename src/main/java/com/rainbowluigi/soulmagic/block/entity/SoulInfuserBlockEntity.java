@@ -69,7 +69,7 @@ public class SoulInfuserBlockEntity extends LockableContainerBlockEntity impleme
 			boolean flag = false;
 			
 			if(this.hasCenterItem()) {
-				Optional<SoulInfusionRecipe> irecipe = this.world.getRecipeManager().getFirstMatch(ModRecipes.SOUL_INFUSION_TYPE, this, this.world);
+				Optional<SoulInfusionRecipe> irecipe = this.world.getRecipeManager().getFirstMatch(ModRecipes.SOUL_ESSENCE_INFUSION_TYPE, this, this.world);
 				
 				if(irecipe.isPresent()) {
 					flag = true;

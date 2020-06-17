@@ -73,6 +73,6 @@ public class SoulStaffTransferRecipe extends SoulSeparatorRecipe {
 
 	@Override
 	public RecipeSerializer<?> getSerializer() {
-		return ModRecipes.SOUL_STAFF_TRANSFER;
+		return ModRecipes.SOUL_ESSENCE_STAFF_TRANSFER;
 	}
 }

@@ -57,7 +57,7 @@ public class SoulSeparatorBlockEntity extends LockableContainerBlockEntity imple
 	public void tick() {
 		if(!this.world.isClient) {
 			if(!this.inventory.get(0).isEmpty() && !this.inventory.get(2).isEmpty() && this.inventory.get(2).getItem() instanceof SoulEssenceStaff) {
-				Optional<SoulSeparatorRecipe> irecipe = this.world.getRecipeManager().getFirstMatch(ModRecipes.SOUL_SEPARATOR_TYPE, this, this.world);
+				Optional<SoulSeparatorRecipe> irecipe = this.world.getRecipeManager().getFirstMatch(ModRecipes.SOUL_ESSENCE_SEPARATION_TYPE, this, this.world);
 				
 				if(irecipe.isPresent()) {
 					

@@ -72,7 +72,7 @@ public class SoulInfusionRecipe implements Recipe<Inventory> {
 	
 	@Override
 	public RecipeType<?> getType() {
-		return ModRecipes.SOUL_INFUSION_TYPE;
+		return ModRecipes.SOUL_ESSENCE_INFUSION_TYPE;
 	}
 	
 	@Override
@@ -101,7 +101,7 @@ public class SoulInfusionRecipe implements Recipe<Inventory> {
 
 	@Override
 	public RecipeSerializer<?> getSerializer() {
-		return ModRecipes.SOUL_INFUSION;
+		return ModRecipes.SOUL_ESSENCE_INFUSION;
 	}
 	
 	public static class Serializer implements RecipeSerializer<SoulInfusionRecipe> {

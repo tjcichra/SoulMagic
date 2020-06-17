@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "soulmagic:item/prideful_soul_powder"
+        "layer0": "soulmagic:item/soul_essence_quiver"
     }
 }

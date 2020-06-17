@@ -79,7 +79,7 @@ public class SoulMagicClient implements ClientModInitializer {
 		
 		ColorProviderRegistry.ITEM.register((stack, tint) -> {
 			return SoulQuiverHelper.getSoulType(stack).getColor();
-		}, ModItems.SOUL_QUIVER);
+		}, ModItems.SOUL_ESSENCE_QUIVER);
 		
 		ColorProviderRegistry.ITEM.register((stack, tint) -> {
 			if(tint == 0) {
@@ -105,7 +105,7 @@ public class SoulMagicClient implements ClientModInitializer {
 		
 		ColorProviderRegistry.ITEM.register((stack, tint) -> {
 			return tint == 1 ? ((DyeableItem) stack.getItem()).getColor(stack) : 0xFFFFFF;
-		}, ModItems.SOUL_LANTERN, ModItems.MAGICAL_BALL_OF_YARN);
+		}, ModItems.SOUL_ESSENCE_LANTERN, ModItems.MAGICAL_BALL_OF_YARN);
 		
 		ColorProviderRegistry.ITEM.register((stack, tint) -> {
 			return tint == 0 ? ((DyeableItem) stack.getItem()).getColor(stack) : 0xFFFFFF;

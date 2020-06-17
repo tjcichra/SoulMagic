@@ -116,12 +116,12 @@ public class SoulSeparatorRecipe implements Recipe<Inventory> {
 
 	@Override
 	public RecipeSerializer<?> getSerializer() {
-		return ModRecipes.SOUL_SEPARATION;
+		return ModRecipes.SOUL_ESSENCE_SEPARATION;
 	}
 
 	@Override
 	public RecipeType<?> getType() {
-		return ModRecipes.SOUL_SEPARATOR_TYPE;
+		return ModRecipes.SOUL_ESSENCE_SEPARATION_TYPE;
 	}
 
 	public static class Serializer implements RecipeSerializer<SoulSeparatorRecipe> {

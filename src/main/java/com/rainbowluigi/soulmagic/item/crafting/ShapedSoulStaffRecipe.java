@@ -115,7 +115,7 @@ public class ShapedSoulStaffRecipe extends ShapedRecipe {
 	
 	@Override
 	public RecipeSerializer<?> getSerializer() {
-		return ModRecipes.SOUL_STAFF_SHAPED;
+		return ModRecipes.SOUL_ESSENCE_STAFF_SHAPED;
 	}
 
 	public static class Serializer implements RecipeSerializer<ShapedSoulStaffRecipe> {

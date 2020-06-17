@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "soulmagic:item/dark_soul_powder"
+        "layer0": "soulmagic:item/dark_soul_essence_ingot"
     }
 }

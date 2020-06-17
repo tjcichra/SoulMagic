@@ -36,7 +36,7 @@ public class BowItemMixin implements SoulEssenceStaffDisplayer {
 			return base;
 		}
 		
-		ItemStack quiver = ItemHelper.findItem((PlayerEntity) entity, ModItems.SOUL_QUIVER);
+		ItemStack quiver = ItemHelper.findItem((PlayerEntity) entity, ModItems.SOUL_ESSENCE_QUIVER);
 		if(quiver == null) {
 			return base;
 		}
@@ -46,7 +46,7 @@ public class BowItemMixin implements SoulEssenceStaffDisplayer {
 	
 	@ModifyVariable(method = "onStoppedUsing", ordinal = 0, at = @At("STORE"))
 	public PersistentProjectileEntity getSoulQuiverArrow(PersistentProjectileEntity base, ItemStack itemStack_1, World world, LivingEntity entity, int int_1) {
-		ItemStack quiver = ItemHelper.findItem((PlayerEntity) entity, ModItems.SOUL_QUIVER);
+		ItemStack quiver = ItemHelper.findItem((PlayerEntity) entity, ModItems.SOUL_ESSENCE_QUIVER);
 		if(quiver != null && SoulEssenceStaff.hasAtLeastSoul((PlayerEntity) entity, world, SoulQuiverHelper.getSoulType(quiver), 5) ) {
 			SoulArrowEntity arrow = new SoulArrowEntity(world, entity);
 			arrow.setSoulType(SoulQuiverHelper.getSoulType(quiver));
@@ -58,7 +58,7 @@ public class BowItemMixin implements SoulEssenceStaffDisplayer {
 	@Inject(method = "use", at = @At("HEAD"), cancellable = true)
 	public void useSneaking(World world, PlayerEntity player, Hand hand, CallbackInfoReturnable<TypedActionResult<ItemStack>> info) {
 		if(player.isSneaking()) {
-			ItemStack quiver = ItemHelper.findItem(player, ModItems.SOUL_QUIVER);
+			ItemStack quiver = ItemHelper.findItem(player, ModItems.SOUL_ESSENCE_QUIVER);
 			if(quiver != null) {
 				SoulQuiverHelper.incrementType(quiver);
 				SoulType st = SoulQuiverHelper.getSoulType(quiver);
@@ -78,7 +78,7 @@ public class BowItemMixin implements SoulEssenceStaffDisplayer {
 			return base;
 		}
 		
-		ItemStack quiver = ItemHelper.findItem(player, ModItems.SOUL_QUIVER);
+		ItemStack quiver = ItemHelper.findItem(player, ModItems.SOUL_ESSENCE_QUIVER);
 		if(quiver == null) {
 			return base;
 		}
@@ -88,7 +88,7 @@ public class BowItemMixin implements SoulEssenceStaffDisplayer {
 	
 	@Inject(method = "onStoppedUsing", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;incrementStat(Lnet/minecraft/stat/Stat;)V"))
 	public void onStoppedUsing(ItemStack stack, World world, LivingEntity entity, int drawback, CallbackInfo callback) {
-		ItemStack quiver = ItemHelper.findItem((PlayerEntity) entity, ModItems.SOUL_QUIVER);
+		ItemStack quiver = ItemHelper.findItem((PlayerEntity) entity, ModItems.SOUL_ESSENCE_QUIVER);
 		if(quiver != null) {
 			SoulEssenceStaff.hasSoul((PlayerEntity) entity, world, SoulQuiverHelper.getSoulType(quiver), 5);
 		}
@@ -96,12 +96,12 @@ public class BowItemMixin implements SoulEssenceStaffDisplayer {
 	
 	@Override
 	public boolean showDisplay(ItemStack stack, PlayerEntity player) {
-		return ItemHelper.findItem(player, ModItems.SOUL_QUIVER) != null;
+		return ItemHelper.findItem(player, ModItems.SOUL_ESSENCE_QUIVER) != null;
 	}
 
 	@Override
 	public SoulType[] getSoulTypesToShow(ItemStack stack, PlayerEntity player) {
-		ItemStack quiver = ItemHelper.findItem(player, ModItems.SOUL_QUIVER);
+		ItemStack quiver = ItemHelper.findItem(player, ModItems.SOUL_ESSENCE_QUIVER);
 		return new SoulType[] {SoulQuiverHelper.getSoulType(quiver)};
 	}
 }

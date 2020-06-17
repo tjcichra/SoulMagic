@@ -27,8 +27,8 @@ public class ModItems {
 	public static final Item CREATIVE_SOUL_ESSENCE_STAFF = new CreativeSoulEssenceStaffItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
 	public static final Item SOUL_ESSENCE_ORB = new SoulEssenceOrbItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
 	public static final Item SOUL_GEM = new SoulGemItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
-	public static final Item SOUL_QUIVER = new SoulQuiverItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
-	public static final Item SOUL_LANTERN = new SoulLanternItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
+	public static final Item SOUL_ESSENCE_QUIVER = new SoulQuiverItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
+	public static final Item SOUL_ESSENCE_LANTERN = new SoulLanternItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
 	public static final Item FOOD_CHARM = new FoodCharmItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
 	public static final Item REFERENCE_STAFF = new ReferenceStaffItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
 	public static final Item ENCHANTMENT_CHARM = new AccessoryItem(new Item.Settings().maxDamage(64).group(SoulMagic.ITEM_GROUP));
@@ -41,13 +41,13 @@ public class ModItems {
 	public static final Item SOUL_MAGIC_BOOK = new SoulMagicBookItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
 	public static final Item SPIRIT_LAMP = new SpiritLampItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
 	
-	public static final Item LIGHT_SOUL_POWDER = new Item(new Item.Settings().group(SoulMagic.ITEM_GROUP));
-	public static final Item DARK_SOUL_POWDER = new Item(new Item.Settings().group(SoulMagic.ITEM_GROUP));
-	public static final Item PRIDEFUL_SOUL_POWDER = new Item(new Item.Settings().group(SoulMagic.ITEM_GROUP));
+	public static final Item LIGHT_SOUL_ESSENCE_POWDER = new Item(new Item.Settings().group(SoulMagic.ITEM_GROUP));
+	public static final Item DARK_SOUL_ESSENCE_POWDER = new Item(new Item.Settings().group(SoulMagic.ITEM_GROUP));
+	public static final Item PRIDEFUL_SOUL_ESSENCE_POWDER = new Item(new Item.Settings().group(SoulMagic.ITEM_GROUP));
 	
-	public static final Item LIGHT_SOUL_INGOT = new Item(new Item.Settings().group(SoulMagic.ITEM_GROUP));
-	public static final Item DARK_SOUL_INGOT = new Item(new Item.Settings().group(SoulMagic.ITEM_GROUP));
-	public static final Item PRIDEFUL_SOUL_INGOT = new Item(new Item.Settings().group(SoulMagic.ITEM_GROUP));
+	public static final Item LIGHT_SOUL_ESSENCE_INGOT = new Item(new Item.Settings().group(SoulMagic.ITEM_GROUP));
+	public static final Item DARK_SOUL_ESSENCE_INGOT = new Item(new Item.Settings().group(SoulMagic.ITEM_GROUP));
+	public static final Item PRIDEFUL_SOUL_ESSENCE_INGOT = new Item(new Item.Settings().group(SoulMagic.ITEM_GROUP));
 	
 	public static final Item IRON_BRACE = new BraceItem(1.5, 0xFFFFFF, new Item.Settings().group(SoulMagic.ITEM_GROUP));
 	public static final Item LIGHT_SOUL_BRACE = new BraceItem(2, 0xEEC56A, new Item.Settings().group(SoulMagic.ITEM_GROUP));
@@ -66,8 +66,8 @@ public class ModItems {
 		registerItem(CREATIVE_SOUL_ESSENCE_STAFF, "creative_soul_essence_staff");
 		registerItem(SOUL_ESSENCE_ORB, "soul_essence_orb");
 		registerItem(SOUL_GEM, "soul_gem");
-		registerItem(SOUL_QUIVER, "soul_quiver");
-		registerItem(SOUL_LANTERN, "soul_lantern");
+		registerItem(SOUL_ESSENCE_QUIVER, "soul_essence_quiver");
+		registerItem(SOUL_ESSENCE_LANTERN, "soul_essence_lantern");
 		registerItem(FOOD_CHARM, "food_charm");
 		registerItem(REFERENCE_STAFF, "reference_staff");
 		registerItem(ENCHANTMENT_CHARM, "enchantment_charm");
@@ -80,13 +80,13 @@ public class ModItems {
 		registerItem(SOUL_MAGIC_BOOK, "soul_magic_book");
 		registerItem(SPIRIT_LAMP, "spirit_lamp");
 		
-		registerItem(LIGHT_SOUL_POWDER, "light_soul_powder");
-		registerItem(DARK_SOUL_POWDER, "dark_soul_powder");
-		registerItem(PRIDEFUL_SOUL_POWDER, "prideful_soul_powder");
+		registerItem(LIGHT_SOUL_ESSENCE_POWDER, "light_soul_essence_powder");
+		registerItem(DARK_SOUL_ESSENCE_POWDER, "dark_soul_essence_powder");
+		registerItem(PRIDEFUL_SOUL_ESSENCE_POWDER, "prideful_soul_essence_powder");
 		
-		registerItem(LIGHT_SOUL_INGOT, "light_soul_ingot");
-		registerItem(DARK_SOUL_INGOT, "dark_soul_ingot");
-		registerItem(PRIDEFUL_SOUL_INGOT, "prideful_soul_ingot");
+		registerItem(LIGHT_SOUL_ESSENCE_INGOT, "light_soul_essence_ingot");
+		registerItem(DARK_SOUL_ESSENCE_INGOT, "dark_soul_essence_ingot");
+		registerItem(PRIDEFUL_SOUL_ESSENCE_INGOT, "prideful_soul_essence_ingot");
 		
 		registerItem(IRON_BRACE, "iron_brace");
 		registerItem(LIGHT_SOUL_BRACE, "light_soul_brace");
