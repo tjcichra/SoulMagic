@@ -8,16 +8,17 @@ import net.minecraft.world.World;
 
 public class PacketBufferUtils {
 
-	public static BlockEntity getBlockEntity(PacketByteBuf pb, PlayerEntity player) {
+	public static <T extends BlockEntity> T getBlockEntity(PacketByteBuf pb, PlayerEntity player) {
 		BlockPos bp = pb.readBlockPos();
 		
 		World w = player.world;
 		
 		if(w.isChunkLoaded(bp)) {
-			BlockEntity bentity = w.getBlockEntity(bp);
+			@SuppressWarnings("unchecked")
+			T be = (T) w.getBlockEntity(bp);
 			
-			if(bentity != null) {
-				return bentity;
+			if(be != null) {
+				return be;
 			}
 		}
 		return null;
