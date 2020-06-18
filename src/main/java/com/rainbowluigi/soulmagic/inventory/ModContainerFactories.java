@@ -1,7 +1,7 @@
 package com.rainbowluigi.soulmagic.inventory;
 
 import com.rainbowluigi.soulmagic.block.entity.SoulCacheBlockEntity;
-import com.rainbowluigi.soulmagic.block.entity.SoulInfuserBlockEntity;
+import com.rainbowluigi.soulmagic.block.entity.SoulEssenceInfuserBlockEntity;
 import com.rainbowluigi.soulmagic.block.entity.SoulSeparatorBlockEntity;
 import com.rainbowluigi.soulmagic.client.screen.AccessoryScreen;
 import com.rainbowluigi.soulmagic.client.screen.FlyingChestScreen;
@@ -25,20 +25,21 @@ import net.minecraft.util.Identifier;
 
 public class ModContainerFactories {
 
-	public static final Identifier SOUL_INFUSER_FACTORY = new Identifier(Reference.MOD_ID, "soul_infuser");
-	public static final Identifier SOUL_SEPARATOR = new Identifier(Reference.MOD_ID, "soul_separator");
-	public static final Identifier SOUL_CACHE = new Identifier(Reference.MOD_ID, "soul_cache");
-	public static final Identifier ACCESSORY = new Identifier(Reference.MOD_ID, "accessory");
-	public static final Identifier FLYING_CHEST = new Identifier(Reference.MOD_ID, "flying_chest");
-
-	public static ScreenHandlerType<SoulInfuserScreenHandler> SOUL_INFUSER_HANDLER;
+	public static ScreenHandlerType<SoulInfuserScreenHandler> SOUL_ESSENCE_INFUSER;
+	public static ScreenHandlerType<SoulSeparatorScreenHandler> SOUL_ESSENCE_SEPARATOR;
+	public static ScreenHandlerType<SoulCacheScreenHandler> SOUL_STAFF_CACHE;
+	public static ScreenHandlerType<AccessoryContainer> ACCESSORIES;
+	public static ScreenHandlerType<FlyingChestScreenHandler> FLYING_CHEST;
 
 	public static void registerContainerTypes() {
 
 		//Soul Infuser Stuff
-		SOUL_INFUSER_HANDLER = ScreenHandlerRegistry.registerSimple(SOUL_INFUSER_FACTORY, SoulInfuserScreenHandler::new);
+		SOUL_ESSENCE_INFUSER = ScreenHandlerRegistry.registerExtended(new Identifier(Reference.MOD_ID, "soul_essence_infuser"), (syncId, inventory, buf) -> {
+			SoulEssenceInfuserBlockEntity be = (SoulEssenceInfuserBlockEntity) PacketBufferUtils.getBlockEntity(buf, inventory.player);
+			return new SoulInfuserScreenHandler(syncId, inventory, be);
+		});
 
-		ScreenRegistry.<SoulInfuserScreenHandler, SoulInfuserScreen>register(SOUL_INFUSER_HANDLER,
+		ScreenRegistry.<SoulInfuserScreenHandler, SoulInfuserScreen>register(SOUL_ESSENCE_INFUSER,
 				new ScreenRegistry.Factory<SoulInfuserScreenHandler, SoulInfuserScreen>() {
 
 					@Override
@@ -48,12 +49,12 @@ public class ModContainerFactories {
 		});
 		
 		//Soul Separator Stuff
-		ScreenHandlerType<SoulSeparatorScreenHandler> soul_separator_handler = ScreenHandlerRegistry.registerExtended(SOUL_SEPARATOR, (syncId, inv, buf) -> {
-    		SoulSeparatorBlockEntity be = (SoulSeparatorBlockEntity) PacketBufferUtils.getBlockEntity(buf, inv.player);
-    		return new SoulSeparatorScreenHandler(syncId, inv, be);
-    	});
+		SOUL_ESSENCE_SEPARATOR = ScreenHandlerRegistry.registerExtended(new Identifier(Reference.MOD_ID, "soul_essence_separator"), (syncId, inv, buf) -> {
+			SoulSeparatorBlockEntity be = (SoulSeparatorBlockEntity) PacketBufferUtils.getBlockEntity(buf, inv.player);
+			return new SoulSeparatorScreenHandler(syncId, inv, be);
+		});
 		
-		ScreenRegistry.<SoulSeparatorScreenHandler, SoulSeparatorScreen>register(soul_separator_handler,
+		ScreenRegistry.<SoulSeparatorScreenHandler, SoulSeparatorScreen>register(SOUL_ESSENCE_SEPARATOR,
 				new ScreenRegistry.Factory<SoulSeparatorScreenHandler, SoulSeparatorScreen>() {
 
 					@Override
@@ -63,12 +64,12 @@ public class ModContainerFactories {
 		});
 
 		//Soul Cache Stuff
-		ScreenHandlerType<SoulCacheScreenHandler> soul_cache_handler = ScreenHandlerRegistry.registerExtended(SOUL_CACHE, (syncId, inv, buf) -> {
-    		SoulCacheBlockEntity be = (SoulCacheBlockEntity) PacketBufferUtils.getBlockEntity(buf, inv.player);
-    		return new SoulCacheScreenHandler(syncId, inv, be);
-    	});
+		SOUL_STAFF_CACHE = ScreenHandlerRegistry.registerExtended(new Identifier(Reference.MOD_ID, "soul_cache"), (syncId, inv, buf) -> {
+			SoulCacheBlockEntity be = (SoulCacheBlockEntity) PacketBufferUtils.getBlockEntity(buf, inv.player);
+			return new SoulCacheScreenHandler(syncId, inv, be);
+		});
 		
-		ScreenRegistry.<SoulCacheScreenHandler, SoulCacheScreen>register(soul_cache_handler,
+		ScreenRegistry.<SoulCacheScreenHandler, SoulCacheScreen>register(SOUL_STAFF_CACHE,
 				new ScreenRegistry.Factory<SoulCacheScreenHandler, SoulCacheScreen>() {
 
 					@Override
@@ -78,9 +79,9 @@ public class ModContainerFactories {
 		});
 		
 		//Accessory Stuff
-		ScreenHandlerType<AccessoryContainer> accessory_handler = ScreenHandlerRegistry.registerSimple(ACCESSORY, AccessoryContainer::new);
+		ACCESSORIES = ScreenHandlerRegistry.registerSimple(new Identifier(Reference.MOD_ID, "accessories"), AccessoryContainer::new);
 		
-		ScreenRegistry.<AccessoryContainer, AccessoryScreen>register(accessory_handler,
+		ScreenRegistry.<AccessoryContainer, AccessoryScreen>register(ACCESSORIES,
 				new ScreenRegistry.Factory<AccessoryContainer, AccessoryScreen>() {
 
 					@Override
@@ -88,28 +89,24 @@ public class ModContainerFactories {
 						return new AccessoryScreen(handler, inventory, title);
 					}
 		});
-
-    	//ScreenProviderRegistry.INSTANCE.registerFactory(ACCESSORY, (AccessoryContainer c) -> {
-    	//	return new AccessoryScreen(c, MinecraftClient.getInstance().player, new TranslatableText("container.soulmagic.accessories"));
-    	//});
 		
 		//Flying Chest Stuff
-		ScreenHandlerType<FlyingChestScreenHandler> flying_chest_handler = ScreenHandlerRegistry.registerExtended(FLYING_CHEST, (syncId, inv, buf) -> {
+		FLYING_CHEST = ScreenHandlerRegistry.registerExtended(new Identifier(Reference.MOD_ID, "flying_chest"), (syncId, inv, buf) -> {
 			ItemStack stack = ItemHelper.getAccessoryFromSlot(inv.player, buf.readInt());
 			
 			SimpleInventory chestInv = new SimpleInventory(27);
 			chestInv.addListener(new FlyingChestInventory(stack));
-    		
-    		if(stack.hasTag()) {
-    			CompoundTag tag = stack.getTag();
+			
+			if(stack.hasTag()) {
+				CompoundTag tag = stack.getTag();
 				ListTag invNBT = (ListTag) tag.get("Items");
 				FlyingChestInventory.readTags(invNBT, chestInv);
-    		}
-    		
-    		return new FlyingChestScreenHandler(syncId, inv, chestInv, stack.hasCustomName() ? stack.getName() : null);
+			}
+			
+			return new FlyingChestScreenHandler(syncId, inv, chestInv);
 		});
 
-		ScreenRegistry.<FlyingChestScreenHandler, FlyingChestScreen>register(flying_chest_handler,
+		ScreenRegistry.<FlyingChestScreenHandler, FlyingChestScreen>register(FLYING_CHEST,
 				new ScreenRegistry.Factory<FlyingChestScreenHandler, FlyingChestScreen>() {
 
 					@Override
@@ -117,5 +114,5 @@ public class ModContainerFactories {
 						return new FlyingChestScreen(handler, inventory, title);
 					}
 		});
-    }
+	}
 }

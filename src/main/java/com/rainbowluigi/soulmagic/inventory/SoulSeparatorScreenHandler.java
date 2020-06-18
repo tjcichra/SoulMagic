@@ -17,7 +17,7 @@ public class SoulSeparatorScreenHandler extends ScreenHandler {
 	private SoulSeparatorBlockEntity sibe;
 	
 	public SoulSeparatorScreenHandler(int id, PlayerInventory playerInv, SoulSeparatorBlockEntity sibe) {
-		super(null, id);
+		super(ModContainerFactories.SOUL_ESSENCE_SEPARATOR, id);
 		this.sibe = sibe;
 		
 		this.addSlot(new Slot(sibe, 0, 44, 35));

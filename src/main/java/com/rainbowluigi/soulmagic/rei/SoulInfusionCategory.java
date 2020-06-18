@@ -37,7 +37,7 @@ public class SoulInfusionCategory implements TransferRecipeCategory<SoulInfusion
     @Override
     public EntryStack getLogo() {
         //Just have a picture of the soul infuser block as the icon
-        return EntryStack.create(new ItemStack(ModBlocks.SOUL_INFUSER));
+        return EntryStack.create(new ItemStack(ModBlocks.SOUL_ESSENCE_INFUSER));
     }
 
     //Returns display name of the category

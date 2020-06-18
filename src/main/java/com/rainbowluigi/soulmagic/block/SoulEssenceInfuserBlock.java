@@ -1,10 +1,7 @@
 package com.rainbowluigi.soulmagic.block;
 
-import com.mojang.realmsclient.gui.RealmsWorldSlotButton.Action;
-import com.rainbowluigi.soulmagic.block.entity.SoulInfuserBlockEntity;
-import com.rainbowluigi.soulmagic.inventory.ModContainerFactories;
+import com.rainbowluigi.soulmagic.block.entity.SoulEssenceInfuserBlockEntity;
 
-import net.fabricmc.fabric.impl.container.ContainerProviderImpl;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -23,19 +20,19 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
-public class SoulInfuserBlock extends BlockWithEntity {
+public class SoulEssenceInfuserBlock extends BlockWithEntity {
 
-	public SoulInfuserBlock(Block.Settings settings) {
+	public SoulEssenceInfuserBlock(Block.Settings settings) {
 		super(settings);
 	}
 	
 	@Override
-	public BlockEntity createBlockEntity(BlockView blockView_1) {
-		return new SoulInfuserBlockEntity();
+	public BlockEntity createBlockEntity(BlockView view) {
+		return new SoulEssenceInfuserBlockEntity();
 	}
 	
 	@Override
-	public BlockRenderType getRenderType(BlockState blockState_1) {
+	public BlockRenderType getRenderType(BlockState state) {
 		return BlockRenderType.ENTITYBLOCK_ANIMATED;
 	}
 	
@@ -44,8 +41,8 @@ public class SoulInfuserBlock extends BlockWithEntity {
 		if (stack.hasCustomName()) {
 			BlockEntity blockEntity = world.getBlockEntity(pos);
 			
-			if (blockEntity instanceof SoulInfuserBlockEntity) {
-				((SoulInfuserBlockEntity)blockEntity).setCustomName(stack.getName());
+			if (blockEntity instanceof SoulEssenceInfuserBlockEntity) {
+				((SoulEssenceInfuserBlockEntity)blockEntity).setCustomName(stack.getName());
 			}
 		}
 	}
@@ -54,8 +51,8 @@ public class SoulInfuserBlock extends BlockWithEntity {
 	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean notify) {
 		if (!state.isOf(newState.getBlock())) {
 			BlockEntity blockEntity = world.getBlockEntity(pos);
-			if (blockEntity instanceof SoulInfuserBlockEntity) {
-				ItemScatterer.spawn(world, pos, (SoulInfuserBlockEntity) blockEntity);
+			if (blockEntity instanceof SoulEssenceInfuserBlockEntity) {
+				ItemScatterer.spawn(world, pos, (SoulEssenceInfuserBlockEntity) blockEntity);
 			}
 			
 			super.onStateReplaced(state, world, pos, newState, notify);
@@ -67,11 +64,8 @@ public class SoulInfuserBlock extends BlockWithEntity {
 		if (!worldIn.isClient) {
 			BlockEntity blockEntity = worldIn.getBlockEntity(pos);
 			
-			if (blockEntity instanceof SoulInfuserBlockEntity) {
+			if (blockEntity instanceof SoulEssenceInfuserBlockEntity) {
 				player.openHandledScreen((NamedScreenHandlerFactory) blockEntity);
-				//ContainerProviderImpl.INSTANCE.openContainer(ModContainerFactories.SOUL_INFUSER_FACTORY, player, buf -> {
-				//	buf.writeBlockPos(pos);
-				//});
 			}
 			return ActionResult.CONSUME;
 		}

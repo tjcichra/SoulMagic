@@ -4,6 +4,7 @@ import com.rainbowluigi.soulmagic.inventory.SoulCacheScreenHandler;
 import com.rainbowluigi.soulmagic.item.soulessence.ReferenceStaffItem;
 import com.rainbowluigi.soulmagic.item.soulessence.SoulEssenceStaff;
 
+import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.LockableContainerBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -12,30 +13,33 @@ import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.Direction;
 
-public class SoulCacheBlockEntity extends LockableContainerBlockEntity implements SidedInventory {
+public class SoulCacheBlockEntity extends LockableContainerBlockEntity
+		implements SidedInventory, ExtendedScreenHandlerFactory {
 
-	private static final int[] ALL_SLOTS = new int[]{0,1,2};
-	
+	private static final int[] ALL_SLOTS = new int[] { 0, 1, 2 };
+
 	private DefaultedList<ItemStack> inventory;
-	
+
 	public SoulCacheBlockEntity() {
 		super(ModBlockEntity.SOUL_INFUSER);
 		this.inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
 	}
-	
+
 	@Override
 	public void fromTag(BlockState state, CompoundTag compound) {
 		super.fromTag(state, compound);
 		this.inventory = DefaultedList.ofSize(this.size(), ItemStack.EMPTY);
 		Inventories.fromTag(compound, this.inventory);
 	}
-	
+
 	@Override
 	public CompoundTag toTag(CompoundTag compound) {
 		super.toTag(compound);
@@ -50,8 +54,8 @@ public class SoulCacheBlockEntity extends LockableContainerBlockEntity implement
 
 	@Override
 	public boolean isEmpty() {
-		for(ItemStack stack : this.inventory) {
-			if(!stack.isEmpty()) {
+		for (ItemStack stack : this.inventory) {
+			if (!stack.isEmpty()) {
 				return false;
 			}
 		}
@@ -75,7 +79,7 @@ public class SoulCacheBlockEntity extends LockableContainerBlockEntity implement
 
 	@Override
 	public void setStack(int i, ItemStack stack) {
-		if(i >= 0 && i < this.inventory.size()) {
+		if (i >= 0 && i < this.inventory.size()) {
 			this.inventory.set(i, stack);
 		}
 	}
@@ -85,7 +89,8 @@ public class SoulCacheBlockEntity extends LockableContainerBlockEntity implement
 		if (this.world.getBlockEntity(this.pos) != this) {
 			return false;
 		} else {
-			return playerEntity_1.squaredDistanceTo((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
+			return playerEntity_1.squaredDistanceTo((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D,
+					(double) this.pos.getZ() + 0.5D) <= 64.0D;
 		}
 	}
 
@@ -113,7 +118,7 @@ public class SoulCacheBlockEntity extends LockableContainerBlockEntity implement
 	public boolean isValid(int slot, ItemStack stack) {
 		return stack.getItem() instanceof SoulEssenceStaff && !(stack.getItem() instanceof ReferenceStaffItem);
 	}
-	
+
 	@Override
 	protected Text getContainerName() {
 		return new TranslatableText("container.soulmagic.soul_cache");
@@ -122,5 +127,10 @@ public class SoulCacheBlockEntity extends LockableContainerBlockEntity implement
 	@Override
 	protected ScreenHandler createScreenHandler(int i, PlayerInventory pi) {
 		return new SoulCacheScreenHandler(i, pi, this);
+	}
+
+	@Override
+	public void writeScreenOpeningData(ServerPlayerEntity player, PacketByteBuf buf) {
+		buf.writeBlockPos(this.pos);
 	}
 }

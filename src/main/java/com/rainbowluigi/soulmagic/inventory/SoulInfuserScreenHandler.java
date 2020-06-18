@@ -1,31 +1,22 @@
 package com.rainbowluigi.soulmagic.inventory;
 
-import java.util.Map;
-
-import com.rainbowluigi.soulmagic.block.entity.SoulInfuserBlockEntity;
+import com.rainbowluigi.soulmagic.block.entity.SoulEssenceInfuserBlockEntity;
 import com.rainbowluigi.soulmagic.item.SoulGemItem;
 import com.rainbowluigi.soulmagic.item.soulessence.SoulEssenceStaff;
-import com.rainbowluigi.soulmagic.soultype.SoulType;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.screen.ArrayPropertyDelegate;
-import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
-import net.minecraft.text.Text;
 
 public class SoulInfuserScreenHandler extends ScreenHandler {
 
-	public SoulInfuserScreenHandler(int syncId, PlayerInventory playerInventory) {
-		this(syncId, playerInventory, new SimpleInventory(5));
-	}
+	private final SoulEssenceInfuserBlockEntity tile;
 	
-	public SoulInfuserScreenHandler(int syncId, PlayerInventory playerInv, Inventory inv) {
-		super(ModContainerFactories.SOUL_INFUSER_HANDLER, syncId);
+	public SoulInfuserScreenHandler(int syncId, PlayerInventory playerInv, SoulEssenceInfuserBlockEntity inv) {
+		super(ModContainerFactories.SOUL_ESSENCE_INFUSER, syncId);
+		this.tile = inv;
 		
 		this.addSlot(new Slot(inv, 0, 80, 23));
 		this.addSlot(new Slot(inv, 1, 103, 35));
@@ -63,7 +54,7 @@ public class SoulInfuserScreenHandler extends ScreenHandler {
 
 	@Override
 	public boolean canUse(PlayerEntity playerIn) {
-		return this.sibe.canPlayerUse(playerIn);
+		return this.tile.canPlayerUse(playerIn);
 	}
 
 	@Override
@@ -102,41 +93,12 @@ public class SoulInfuserScreenHandler extends ScreenHandler {
 		}
 		return previous;
 	}
-
-	public Text getDisplayName() {
-		return this.sibe.getDisplayName();
-	}
 	
 	public int getCookProgress() {
-		//SoulMagic.LOGGER.info("Container: " + this.tesi.getCookTime());
-		//return 0;
-		double current = 0;
-		double total = 0;
-		
-		//if(!this.sibe.getRecipeSoulMap().isEmpty()) {
-			for (double d : this.sibe.getCookSoulMap().values()) {
-				current += d;
-			}
-
-			for (double d : this.sibe.getRecipeSoulMap().values()) {
-				total += d;
-			}
-			//System.out.println("current: " + current + " total: " + total);
-			return (int) ((current / (total)) * 100);
-		//}
-		
-		//return 0;
-	}
-	
-	public ItemStack getStaffCap() {
-		return this.sibe.getStaffCap();
-	}
-	
-	public Map<SoulType, Integer> getRecipeSoulMap() {
-		return this.sibe.getRecipeSoulMap();
+		return this.tile.getCookProgress();
 	}
 	
 	public int getProgressColor() {
-		return this.sibe.getProgressColor();
+		return this.tile.getProgressColor();
 	}
 }

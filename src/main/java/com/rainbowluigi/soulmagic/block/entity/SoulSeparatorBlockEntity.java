@@ -12,6 +12,7 @@ import com.rainbowluigi.soulmagic.item.soulessence.SoulEssenceStaff;
 import com.rainbowluigi.soulmagic.soultype.SoulType;
 
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
+import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.LockableContainerBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -20,98 +21,100 @@ import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Tickable;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.Direction;
 
-public class SoulSeparatorBlockEntity extends LockableContainerBlockEntity implements SidedInventory, BlockEntityClientSerializable, Tickable {
+public class SoulSeparatorBlockEntity extends LockableContainerBlockEntity implements SidedInventory, BlockEntityClientSerializable, Tickable, ExtendedScreenHandlerFactory {
 
 	private DefaultedList<ItemStack> inventory;
-	
+
 	public int progress, maxProgress;
 	public boolean filling;
-	
+
 	public SoulSeparatorBlockEntity() {
 		super(ModBlockEntity.SOUL_SEPARATOR);
 		this.inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
 	}
-	
+
 	@Override
 	public void fromTag(BlockState state, CompoundTag compound) {
 		super.fromTag(state, compound);
 		this.inventory = DefaultedList.ofSize(this.size(), ItemStack.EMPTY);
 		Inventories.fromTag(compound, this.inventory);
 	}
-	
+
 	@Override
 	public CompoundTag toTag(CompoundTag compound) {
 		super.toTag(compound);
 		Inventories.toTag(compound, this.inventory);
 		return compound;
 	}
-	
+
 	@Override
 	public void tick() {
-		if(!this.world.isClient) {
-			if(!this.inventory.get(0).isEmpty() && !this.inventory.get(2).isEmpty() && this.inventory.get(2).getItem() instanceof SoulEssenceStaff) {
-				Optional<SoulSeparatorRecipe> irecipe = this.world.getRecipeManager().getFirstMatch(ModRecipes.SOUL_ESSENCE_SEPARATION_TYPE, this, this.world);
-				
-				if(irecipe.isPresent()) {
-					
+		if (!this.world.isClient) {
+			if (!this.inventory.get(0).isEmpty() && !this.inventory.get(2).isEmpty()
+					&& this.inventory.get(2).getItem() instanceof SoulEssenceStaff) {
+				Optional<SoulSeparatorRecipe> irecipe = this.world.getRecipeManager()
+						.getFirstMatch(ModRecipes.SOUL_ESSENCE_SEPARATION_TYPE, this, this.world);
+
+				if (irecipe.isPresent()) {
+
 					Map<SoulType, Integer> soulMap = irecipe.get().getSoulMap(this, this.world);
 					ItemStack staff = this.getStaffCap();
-					
-					if(!this.isFull(soulMap.keySet(), staff)) {
+
+					if (!this.isFull(soulMap.keySet(), staff)) {
 						this.maxProgress = irecipe.get().getCookTime();
 						this.progress++;
 						this.filling = irecipe.get().getFiling();
 						this.sync();
-						
-						if(this.progress >= this.maxProgress) {
+
+						if (this.progress >= this.maxProgress) {
 							this.progress = 0;
 							this.filling = false;
 							this.sync();
-							
-							
-							
+
 							this.fillSoul(soulMap, staff);
-							
+
 							irecipe.get().postCraft(this, this.world, soulMap);
-							
+
 						}
 					}
 				}
 			}
-			
-			//if(this.progress > 0){
-			//	this.progress--;
-			//	this.sync();
-			//}
+
+			// if(this.progress > 0){
+			// this.progress--;
+			// this.sync();
+			// }
 		}
-		//for(Entry<SoulType, Double> entry : this.soul.entrySet()) {
-		//	System.out.println(entry.getKey() + " has " + entry.getValue());
-		//}
+		// for(Entry<SoulType, Double> entry : this.soul.entrySet()) {
+		// System.out.println(entry.getKey() + " has " + entry.getValue());
+		// }
 	}
-	
+
 	public boolean isFull(Set<SoulType> set, ItemStack stack) {
 		boolean test = true;
 		SoulEssenceStaff ses = (SoulEssenceStaff) stack.getItem();
-		for(SoulType s : set) {
-			if(ses.getSoul(stack, this.world, s) < ses.getMaxSoul(stack, this.world, s)) {
-				
+		for (SoulType s : set) {
+			if (ses.getSoul(stack, this.world, s) < ses.getMaxSoul(stack, this.world, s)) {
+
 				test = false;
 			}
 		}
 		return test;
 	}
-	
+
 	public void fillSoul(Map<SoulType, Integer> soulMap, ItemStack stack) {
 		SoulEssenceStaff ses = (SoulEssenceStaff) stack.getItem();
-		for(Entry<SoulType, Integer> entry : soulMap.entrySet()) {
-			
+		for (Entry<SoulType, Integer> entry : soulMap.entrySet()) {
+
 			ses.addSoul(stack, this.world, entry.getKey(), entry.getValue());
 		}
 	}
@@ -123,8 +126,8 @@ public class SoulSeparatorBlockEntity extends LockableContainerBlockEntity imple
 
 	@Override
 	public boolean isEmpty() {
-		for(ItemStack stack : this.inventory) {
-			if(!stack.isEmpty()) {
+		for (ItemStack stack : this.inventory) {
+			if (!stack.isEmpty()) {
 				return false;
 			}
 		}
@@ -148,7 +151,7 @@ public class SoulSeparatorBlockEntity extends LockableContainerBlockEntity imple
 
 	@Override
 	public void setStack(int i, ItemStack stack) {
-		if(i >= 0 && i < this.inventory.size()) {
+		if (i >= 0 && i < this.inventory.size()) {
 			this.inventory.set(i, stack);
 		}
 	}
@@ -158,7 +161,8 @@ public class SoulSeparatorBlockEntity extends LockableContainerBlockEntity imple
 		if (this.world.getBlockEntity(this.pos) != this) {
 			return false;
 		} else {
-			return playerEntity_1.squaredDistanceTo((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
+			return playerEntity_1.squaredDistanceTo((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D,
+					(double) this.pos.getZ() + 0.5D) <= 64.0D;
 		}
 	}
 
@@ -169,7 +173,7 @@ public class SoulSeparatorBlockEntity extends LockableContainerBlockEntity imple
 
 	@Override
 	public int[] getAvailableSlots(Direction var1) {
-		return new int[] {0,1};
+		return new int[] { 0, 1 };
 	}
 
 	@Override
@@ -209,5 +213,10 @@ public class SoulSeparatorBlockEntity extends LockableContainerBlockEntity imple
 
 	public ItemStack getStaffCap() {
 		return this.inventory.get(2).getItem() instanceof SoulEssenceStaff ? this.inventory.get(2) : null;
+	}
+
+	@Override
+	public void writeScreenOpeningData(ServerPlayerEntity player, PacketByteBuf buf) {
+		buf.writeBlockPos(this.pos);
 	}
 }

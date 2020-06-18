@@ -54,7 +54,7 @@ public class SoulMagicPlugin implements REIPluginV0 {
     
     @Override
     public void registerOthers(RecipeHelper recipeHelper) {
-    	recipeHelper.registerWorkingStations(SOUL_INFUSION, EntryStack.create(ModBlocks.SOUL_INFUSER));
+    	recipeHelper.registerWorkingStations(SOUL_INFUSION, EntryStack.create(ModBlocks.SOUL_ESSENCE_INFUSER));
     	recipeHelper.registerWorkingStations(SOUL_SEPARATION, EntryStack.create(ModBlocks.SOUL_SEPARATOR));
     	
     	recipeHelper.registerScreenClickArea(new Rectangle(63, 31, 46, 25), SoulSeparatorScreen.class, SOUL_SEPARATION);

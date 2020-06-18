@@ -5,16 +5,11 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
-import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 
 public class FlyingChestScreenHandler extends ScreenHandler {
 
-	private Text text;
-
-	protected FlyingChestScreenHandler(int id, PlayerInventory pInv, Inventory inv, Text text) {
-		super(null, id);
-		this.text = text;
+	public FlyingChestScreenHandler(int id, PlayerInventory pInv, Inventory inv) {
+		super(ModContainerFactories.FLYING_CHEST, id);
 		
 		for (int y = 0; y < 3; ++y) {
 	        for (int x = 0; x < 9; ++x) {
@@ -38,9 +33,5 @@ public class FlyingChestScreenHandler extends ScreenHandler {
 	@Override
 	public boolean canUse(PlayerEntity var1) {
 		return true;
-	}
-
-	public Text getDisplayName() {
-		return text != null ? text : new TranslatableText("container.soulmagic.flying_chest");
 	}
 }

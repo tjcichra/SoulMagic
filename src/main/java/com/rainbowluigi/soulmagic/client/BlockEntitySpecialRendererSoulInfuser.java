@@ -1,6 +1,6 @@
 	package com.rainbowluigi.soulmagic.client;
 
-import com.rainbowluigi.soulmagic.block.entity.SoulInfuserBlockEntity;
+import com.rainbowluigi.soulmagic.block.entity.SoulEssenceInfuserBlockEntity;
 import com.rainbowluigi.soulmagic.util.Reference;
 
 import net.minecraft.client.model.ModelPart;
@@ -15,7 +15,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.util.Identifier;
 
-public class BlockEntitySpecialRendererSoulInfuser extends BlockEntityRenderer<SoulInfuserBlockEntity> {
+public class BlockEntitySpecialRendererSoulInfuser extends BlockEntityRenderer<SoulEssenceInfuserBlockEntity> {
 
 	public ModelPart topStone;
     public ModelPart leftStone;
@@ -99,7 +99,7 @@ public class BlockEntitySpecialRendererSoulInfuser extends BlockEntityRenderer<S
 	//EntityItem entityItem = new EntityItem(Minecraft.getMinecraft().theWorld, 0, 0, 0, new ItemStack(SoulMagicItems.soul_gem));
 
 	@Override
-	public void render(SoulInfuserBlockEntity tile, float x, MatrixStack matrix, VertexConsumerProvider vertexCP, int i1, int i2) {
+	public void render(SoulEssenceInfuserBlockEntity tile, float x, MatrixStack matrix, VertexConsumerProvider vertexCP, int i1, int i2) {
 		matrix.push();
 		matrix.translate(0.5D, 1.5D, 0.5D);
 		

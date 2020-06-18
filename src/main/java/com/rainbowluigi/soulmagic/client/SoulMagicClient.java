@@ -6,12 +6,10 @@ import com.rainbowluigi.soulmagic.block.ModBlocks;
 import com.rainbowluigi.soulmagic.block.entity.ModBlockEntity;
 import com.rainbowluigi.soulmagic.client.screen.SelectSpellScreen;
 import com.rainbowluigi.soulmagic.entity.ModEntityTypes;
-import com.rainbowluigi.soulmagic.inventory.ModContainerFactories;
 import com.rainbowluigi.soulmagic.item.BraceItem;
 import com.rainbowluigi.soulmagic.item.ModItems;
 import com.rainbowluigi.soulmagic.item.SoulGemItem;
 import com.rainbowluigi.soulmagic.network.EntityRenderMessage;
-import com.rainbowluigi.soulmagic.network.ModNetwork;
 import com.rainbowluigi.soulmagic.network.OpenContainerMessage;
 import com.rainbowluigi.soulmagic.spelltype.ModSpellTypes;
 import com.rainbowluigi.soulmagic.spelltype.SpellType;
@@ -63,7 +61,7 @@ public class SoulMagicClient implements ClientModInitializer {
 		
 		BlockEntityRendererRegistry.INSTANCE.register(ModBlockEntity.SOUL_INFUSER, BlockEntitySpecialRendererSoulInfuser::new);
 		
-		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.SOUL_INFUSER, RenderLayer.getTranslucent());
+		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.SOUL_ESSENCE_INFUSER, RenderLayer.getTranslucent());
 		
 		ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEX).register((a, c) -> {
 			c.register(new Identifier(Reference.MOD_ID, "blocks/soul_infuser"));
@@ -121,7 +119,10 @@ public class SoulMagicClient implements ClientModInitializer {
 					mc.openScreen(new SelectSpellScreen(stack, player));
 				}
 			} else if(ACCESSORY_SCREEN_KEY.isPressed()) {
-				ClientSidePacketRegistry.INSTANCE.sendToServer(ModNetwork.OPEN_CONTAINER, OpenContainerMessage.makePacket(ModContainerFactories.ACCESSORY));
+				//MinecraftClient mc = MinecraftClient.getInstance();
+				//ClientPlayerEntity player = mc.player;
+				//TODO Fix this plz
+				//ClientSidePacketRegistry.INSTANCE.sendToServer(ModNetwork.OPEN_CONTAINER, OpenContainerMessage.makePacket(ModContainerFactories.ACCESSORY));
 			}
 		});
 	}

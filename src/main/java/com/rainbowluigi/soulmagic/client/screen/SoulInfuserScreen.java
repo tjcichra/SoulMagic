@@ -2,10 +2,6 @@ package com.rainbowluigi.soulmagic.client.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.rainbowluigi.soulmagic.inventory.SoulInfuserScreenHandler;
-import com.rainbowluigi.soulmagic.item.soulessence.SoulEssenceStaff;
-import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
-import com.rainbowluigi.soulmagic.soultype.SoulType;
-import com.rainbowluigi.soulmagic.util.ColorUtils;
 import com.rainbowluigi.soulmagic.util.Reference;
 
 import net.fabricmc.api.EnvType;
@@ -13,7 +9,6 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
@@ -61,7 +56,7 @@ public class SoulInfuserScreen extends HandledScreen<SoulInfuserScreenHandler> {
 			this.drawTexture(matrix, this.x + 38, this.y - i + 116, 176, 100 - i, 50, i);
 			this.drawTexture(matrix, this.x + 88, this.y - i + 116, 176, 100 + 100 - i, 50, i);
 		}
-		
+		/*
 		ItemStack ish = this.getScreenHandler().getStaffCap();
 		int total = 0;
 
@@ -91,7 +86,7 @@ public class SoulInfuserScreen extends HandledScreen<SoulInfuserScreenHandler> {
 					}
 				}
 			}
-		}
+		}*/
 	}
 	
 	@Override

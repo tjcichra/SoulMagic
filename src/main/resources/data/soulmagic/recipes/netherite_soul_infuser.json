@@ -1,5 +1,5 @@
 {
-	"type": "soulmagic:soul_infusion",
+	"type": "soulmagic:soul_essence_infusion",
 	"ingredients": [
 		{
 			"item": "minecraft:netherite_scrap"

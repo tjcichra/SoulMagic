@@ -1,10 +1,8 @@
 package com.rainbowluigi.soulmagic.block;
 
 import com.rainbowluigi.soulmagic.block.entity.SoulCacheBlockEntity;
-import com.rainbowluigi.soulmagic.inventory.ModContainerFactories;
 import com.rainbowluigi.soulmagic.item.soulessence.ReferenceStaffItem;
 
-import net.fabricmc.fabric.impl.container.ContainerProviderImpl;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
@@ -13,6 +11,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.TranslatableText;
@@ -24,9 +23,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
-public class SoulCache extends BlockWithEntity {
+public class SoulStaffCacheBlock extends BlockWithEntity {
 
-	public SoulCache(Block.Settings settings) {
+	public SoulStaffCacheBlock(Block.Settings settings) {
 		super(settings);
 	}
 
@@ -69,19 +68,16 @@ public class SoulCache extends BlockWithEntity {
 
 				if (stack.getItem() instanceof ReferenceStaffItem) {
 
-					player.playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS, 0.1F,
-							(worldIn.random.nextFloat() - worldIn.random.nextFloat()) * 0.35F + 0.9F);
+					player.playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS, 0.1F, (worldIn.random.nextFloat() - worldIn.random.nextFloat()) * 0.35F + 0.9F);
 
 					CompoundTag tag = stack.getOrCreateSubTag("cache");
 					tag.putInt("x", pos.getX());
 					tag.putInt("y", pos.getY());
 					tag.putInt("z", pos.getZ());
 
-					player.sendMessage(new TranslatableText("soulmagic.reference_staff.text", pos.getX(), + pos.getY(), + pos.getZ()), true);
+					player.sendMessage(new TranslatableText("soulmagic.reference_staff.text", pos.getX(), pos.getY(), pos.getZ()), true);
 				} else {
-					ContainerProviderImpl.INSTANCE.openContainer(ModContainerFactories.SOUL_CACHE, player, buf -> {
-						buf.writeBlockPos(pos);
-					});
+					player.openHandledScreen((NamedScreenHandlerFactory) blockEntity);
 				}
 			}
 		}

@@ -78,7 +78,7 @@ public class SoulInfusionRecipe implements Recipe<Inventory> {
 	@Override
 	@Environment(EnvType.CLIENT)
 	public ItemStack getRecipeKindIcon() {
-		return new ItemStack(ModBlocks.SOUL_INFUSER);
+		return new ItemStack(ModBlocks.SOUL_ESSENCE_INFUSER);
 	}
 	
 	public Map<SoulType, Integer> getSoulMap() {
