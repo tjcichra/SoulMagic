@@ -1,7 +1,7 @@
 package com.rainbowluigi.soulmagic.entity;
 
-import com.rainbowluigi.soulmagic.client.SoulMagicClient;
 import com.rainbowluigi.soulmagic.network.EntityRenderMessage;
+import com.rainbowluigi.soulmagic.network.ModNetwork;
 
 import net.fabricmc.fabric.api.network.ServerSidePacketRegistry;
 import net.minecraft.entity.Entity;
@@ -85,7 +85,7 @@ public class TendrilEntity extends Entity {
 
 	@Override
 	public Packet<?> createSpawnPacket() {
-		return ServerSidePacketRegistry.INSTANCE.toPacket(SoulMagicClient.ENTITY_RENDER, EntityRenderMessage.makePacket(this, 0));
+		return ServerSidePacketRegistry.INSTANCE.toPacket(ModNetwork.ENTITY_RENDER, EntityRenderMessage.makePacket(this, 0));
 	}
 
 	@Override

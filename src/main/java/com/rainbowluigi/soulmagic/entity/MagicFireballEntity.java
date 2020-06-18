@@ -2,9 +2,9 @@ package com.rainbowluigi.soulmagic.entity;
 
 import java.util.stream.Stream;
 
-import com.rainbowluigi.soulmagic.client.SoulMagicClient;
 import com.rainbowluigi.soulmagic.item.ModItems;
 import com.rainbowluigi.soulmagic.network.EntityRenderMessage;
+import com.rainbowluigi.soulmagic.network.ModNetwork;
 import com.rainbowluigi.soulmagic.util.ItemHelper;
 
 import net.fabricmc.fabric.api.network.ServerSidePacketRegistry;
@@ -178,7 +178,7 @@ public class MagicFireballEntity extends Entity {
 
 	@Override
 	public Packet<?> createSpawnPacket() {
-		return ServerSidePacketRegistry.INSTANCE.toPacket(SoulMagicClient.ENTITY_RENDER, EntityRenderMessage.makePacket(this, 0));
+		return ServerSidePacketRegistry.INSTANCE.toPacket(ModNetwork.ENTITY_RENDER, EntityRenderMessage.makePacket(this, 0));
 	}
 
 	@Override

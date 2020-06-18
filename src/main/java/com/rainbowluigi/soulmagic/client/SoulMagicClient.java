@@ -9,9 +9,7 @@ import com.rainbowluigi.soulmagic.entity.ModEntityTypes;
 import com.rainbowluigi.soulmagic.item.BraceItem;
 import com.rainbowluigi.soulmagic.item.ModItems;
 import com.rainbowluigi.soulmagic.item.SoulGemItem;
-import com.rainbowluigi.soulmagic.network.EntityRenderMessage;
 import com.rainbowluigi.soulmagic.network.ModNetwork;
-import com.rainbowluigi.soulmagic.network.AccessoriesOpenMessage;
 import com.rainbowluigi.soulmagic.spelltype.ModSpellTypes;
 import com.rainbowluigi.soulmagic.spelltype.SpellType;
 import com.rainbowluigi.soulmagic.util.Reference;
@@ -45,7 +43,7 @@ public class SoulMagicClient implements ClientModInitializer {
 	public static final KeyBinding SPELL_SELECT = KeyBindingHelper.registerKeyBinding(new KeyBinding("soulmagic.key.select_spell", GLFW.GLFW_KEY_R, "soulmagic.key.category"));
 	public static final KeyBinding ACCESSORY_SCREEN_KEY = KeyBindingHelper.registerKeyBinding(new KeyBinding("soulmagic.key.accessory_screen_key", GLFW.GLFW_KEY_P, "soulmagic.key.category"));
 	
-	public static final Identifier ENTITY_RENDER = new Identifier(Reference.MOD_ID, "entity_render");
+	
 	
 	public static final Identifier SOUL_MAGIC_TEXTURE_ATLAS = new Identifier(Reference.MOD_ID, "textures/atlas/soulmagic.png");
 	
@@ -58,7 +56,7 @@ public class SoulMagicClient implements ClientModInitializer {
 		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.SOUL_ARROW_ENTITY, (manager, context) -> new SoulArrowEntityRenderer(manager));
 		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.SPIRIT_FLAME, (manager, context) -> new SpiritFlameRender(manager));
 		
-		ClientSidePacketRegistry.INSTANCE.register(ENTITY_RENDER, EntityRenderMessage::handle);
+		ModNetwork.registerServerToClientPackets();
 		
 		BlockEntityRendererRegistry.INSTANCE.register(ModBlockEntity.SOUL_INFUSER, BlockEntitySpecialRendererSoulInfuser::new);
 		

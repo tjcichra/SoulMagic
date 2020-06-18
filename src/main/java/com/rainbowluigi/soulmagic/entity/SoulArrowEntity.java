@@ -1,7 +1,7 @@
 package com.rainbowluigi.soulmagic.entity;
 
-import com.rainbowluigi.soulmagic.client.SoulMagicClient;
 import com.rainbowluigi.soulmagic.network.EntityRenderMessage;
+import com.rainbowluigi.soulmagic.network.ModNetwork;
 import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
 import com.rainbowluigi.soulmagic.soultype.SoulType;
 
@@ -69,7 +69,7 @@ public class SoulArrowEntity extends ArrowEntity {
 	@Override
 	public Packet<?> createSpawnPacket() {
 		Entity owner = this.getOwner();
-		return ServerSidePacketRegistry.INSTANCE.toPacket(SoulMagicClient.ENTITY_RENDER, EntityRenderMessage.makePacket(this,  owner == null ? 0 : owner.getEntityId()));
+		return ServerSidePacketRegistry.INSTANCE.toPacket(ModNetwork.ENTITY_RENDER, EntityRenderMessage.makePacket(this,  owner == null ? 0 : owner.getEntityId()));
 	}
 	
 	protected void initDataTracker() {

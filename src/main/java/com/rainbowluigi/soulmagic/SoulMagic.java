@@ -44,7 +44,7 @@ public class SoulMagic implements ModInitializer {
 		ModSpells.registerSpells();
 
 		ModContainerFactories.registerContainerTypes();
-		ModNetwork.registerPackets();
+		ModNetwork.registerClientToServerPackets();
 		ModTabs.registerTabs();
 		ModLoot.handleLoot();
 	}

@@ -3,8 +3,8 @@ package com.rainbowluigi.soulmagic.entity;
 import java.util.List;
 import java.util.UUID;
 
-import com.rainbowluigi.soulmagic.client.SoulMagicClient;
 import com.rainbowluigi.soulmagic.network.EntityRenderMessage;
+import com.rainbowluigi.soulmagic.network.ModNetwork;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -18,8 +18,8 @@ import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Packet;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.hit.EntityHitResult;
+import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RayTraceContext;
@@ -165,7 +165,7 @@ public class SpiritFlameEntity extends Entity {
 
 	@Override
 	public Packet<?> createSpawnPacket() {
-		return ServerSidePacketRegistry.INSTANCE.toPacket(SoulMagicClient.ENTITY_RENDER, EntityRenderMessage.makePacket(this, this.getCaster() == null ? 0 : this.getCaster().getEntityId()));
+		return ServerSidePacketRegistry.INSTANCE.toPacket(ModNetwork.ENTITY_RENDER, EntityRenderMessage.makePacket(this, this.getCaster() == null ? 0 : this.getCaster().getEntityId()));
 	}
 
 	@Override
