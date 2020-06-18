@@ -11,9 +11,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 
-public class AccessoryContainer extends ScreenHandler {
+public class AccessoriesScreenHandler extends ScreenHandler {
 
-	public AccessoryContainer(int sync, PlayerInventory playerInv) {
+	public AccessoriesScreenHandler(int sync, PlayerInventory playerInv) {
 		super(ModContainerFactories.ACCESSORIES, sync);
 		AccessoriesInventory accessories = ((PlayerAccessories) playerInv.player).getAccessories();
 

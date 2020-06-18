@@ -1,17 +1,13 @@
 package com.rainbowluigi.soulmagic.tabs;
 
-import com.rainbowluigi.soulmagic.inventory.ModContainerFactories;
 import com.rainbowluigi.soulmagic.network.ModNetwork;
-import com.rainbowluigi.soulmagic.network.OpenContainerMessage;
 
+import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.screen.NamedScreenHandlerFactory;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.text.Text;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.world.World;
 
 public class AccessoriesTab extends Tab {
@@ -22,17 +18,6 @@ public class AccessoriesTab extends Tab {
 
 	@Override
 	public void whenClicked(PlayerEntity player, World world) {
-		player.openHandledScreen(new NamedScreenHandlerFactory() {
-
-			@Override
-			public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-				return ModContainerFactories.ACCESSORIES.create(syncId, inv);
-			}
-
-			@Override
-			public Text getDisplayName() {
-				return null;
-			}
-		});
+		ClientSidePacketRegistry.INSTANCE.sendToServer(ModNetwork.ACCESSORIES_OPEN, new PacketByteBuf(Unpooled.buffer()));
 	}
 }

@@ -1,7 +1,7 @@
 package com.rainbowluigi.soulmagic.client.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.rainbowluigi.soulmagic.inventory.AccessoryContainer;
+import com.rainbowluigi.soulmagic.inventory.AccessoriesScreenHandler;
 import com.rainbowluigi.soulmagic.tabs.ModTabs;
 import com.rainbowluigi.soulmagic.tabs.TabHelper;
 
@@ -12,11 +12,11 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-public class AccessoryScreen extends AbstractInventoryScreen<AccessoryContainer> {
+public class AccessoryScreen extends AbstractInventoryScreen<AccessoriesScreenHandler> {
 
 	public static final Identifier BACKGROUND_TEXTURE = new Identifier("soulmagic", "textures/gui/container/accessory_screen.png");
 
-	public AccessoryScreen(AccessoryContainer container, PlayerInventory playerInv, Text text_1) {
+	public AccessoryScreen(AccessoriesScreenHandler container, PlayerInventory playerInv, Text text_1) {
 		super(container, playerInv, text_1);
 		this.passEvents = false;
 	}

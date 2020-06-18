@@ -28,7 +28,7 @@ public class ModContainerFactories {
 	public static ScreenHandlerType<SoulInfuserScreenHandler> SOUL_ESSENCE_INFUSER;
 	public static ScreenHandlerType<SoulSeparatorScreenHandler> SOUL_ESSENCE_SEPARATOR;
 	public static ScreenHandlerType<SoulCacheScreenHandler> SOUL_STAFF_CACHE;
-	public static ScreenHandlerType<AccessoryContainer> ACCESSORIES;
+	public static ScreenHandlerType<AccessoriesScreenHandler> ACCESSORIES;
 	public static ScreenHandlerType<FlyingChestScreenHandler> FLYING_CHEST;
 
 	public static void registerContainerTypes() {
@@ -46,7 +46,7 @@ public class ModContainerFactories {
 		registerScreen(SOUL_STAFF_CACHE, SoulCacheScreen::new);
 
 		// Accessory Stuff
-		ACCESSORIES = ScreenHandlerRegistry.registerSimple(new Identifier(Reference.MOD_ID, "accessories"), AccessoryContainer::new);
+		ACCESSORIES = ScreenHandlerRegistry.registerSimple(new Identifier(Reference.MOD_ID, "accessories"), AccessoriesScreenHandler::new);
 		registerScreen(ACCESSORIES, AccessoryScreen::new);
 
 		// Flying Chest Stuff
