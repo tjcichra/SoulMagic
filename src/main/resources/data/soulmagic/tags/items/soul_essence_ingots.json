@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "soulmagic:light_soul_essence_ingot",
+    "soulmagic:dark_soul_essence_ingot",
+    "soulmagic:prideful_soul_essence_ingot"
+  ]
+}

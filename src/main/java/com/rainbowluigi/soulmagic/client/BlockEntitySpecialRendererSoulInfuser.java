@@ -208,6 +208,6 @@ public class BlockEntitySpecialRendererSoulInfuser extends BlockEntityRenderer<S
 	}
 
 	static {
-		TEXTURE = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEX, new Identifier(Reference.MOD_ID, "blocks/soul_infuser"));
+		TEXTURE = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEX, new Identifier(Reference.MOD_ID, "blocks/soul_essence_infuser"));
 	}
 }

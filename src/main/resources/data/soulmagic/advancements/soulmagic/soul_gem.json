@@ -1,5 +1,5 @@
 {
-	"parent": "soulmagic:soulmagic/soul_infuser",
+	"parent": "soulmagic:soulmagic/soul_essence_infuser",
 	"display": {
 		"icon": {
 			"item": "soulmagic:soul_gem",

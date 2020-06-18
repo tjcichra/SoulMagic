@@ -7,10 +7,10 @@
 	],
 	"key": {
 		"I": {
-			"tag": "soulmagic:soul_ingots"
+			"tag": "soulmagic:soul_essence_ingots"
 		},
 		"P": {
-			"tag": "soulmagic:soul_powders"
+			"tag": "soulmagic:soul_essence_powders"
 		},
 		"S": {
 			"item": "soulmagic:soul_essence_staff"

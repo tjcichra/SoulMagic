@@ -64,7 +64,7 @@ public class SoulMagicClient implements ClientModInitializer {
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.SOUL_ESSENCE_INFUSER, RenderLayer.getTranslucent());
 		
 		ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEX).register((a, c) -> {
-			c.register(new Identifier(Reference.MOD_ID, "blocks/soul_infuser"));
+			c.register(new Identifier(Reference.MOD_ID, "blocks/soul_essence_infuser"));
 		});
 		
 		ColorProviderRegistry.ITEM.register((stack, tint) -> {

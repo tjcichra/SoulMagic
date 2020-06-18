@@ -2,13 +2,13 @@
 	"parent": "soulmagic:soulmagic/soul_essence_staff",
 	"display": {
 		"icon": {
-			"item": "soulmagic:soul_infuser"
+			"item": "soulmagic:soul_essence_infuser"
 		},
 		"title": {
-			"translate": "advancements.soulmagic.soul_infuser.title"
+			"translate": "advancements.soulmagic.soul_essence_infuser.title"
 		},
 		"description": {
-			"translate": "advancements.soulmagic.soul_infuser.description"
+			"translate": "advancements.soulmagic.soul_essence_infuser.description"
 		}
 	},
 	"criteria": {
@@ -17,7 +17,7 @@
 			"conditions": {
 				"items": [
 					{
-						"item": "soulmagic:soul_infuser"
+						"item": "soulmagic:soul_essence_infuser"
 					}
 				]
 			}
