@@ -29,6 +29,6 @@ public class Tab {
     }
 
     public void whenClicked(PlayerEntity player, World world) {
-        System.out.println(this.text.asString());
+        
     }
 }
