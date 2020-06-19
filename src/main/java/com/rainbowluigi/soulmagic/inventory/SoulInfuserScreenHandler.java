@@ -15,7 +15,7 @@ public class SoulInfuserScreenHandler extends ScreenHandler {
 	private final SoulEssenceInfuserBlockEntity tile;
 	
 	public SoulInfuserScreenHandler(int syncId, PlayerInventory playerInv, SoulEssenceInfuserBlockEntity inv) {
-		super(ModContainerFactories.SOUL_ESSENCE_INFUSER, syncId);
+		super(ModScreenHandlerTypes.SOUL_ESSENCE_INFUSER, syncId);
 		this.tile = inv;
 		
 		this.addSlot(new Slot(inv, 0, 80, 23));

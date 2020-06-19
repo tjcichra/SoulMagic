@@ -9,7 +9,7 @@ import net.minecraft.screen.slot.Slot;
 public class FlyingChestScreenHandler extends ScreenHandler {
 
 	public FlyingChestScreenHandler(int id, PlayerInventory pInv, Inventory inv) {
-		super(ModContainerFactories.FLYING_CHEST, id);
+		super(ModScreenHandlerTypes.FLYING_CHEST, id);
 		
 		for (int y = 0; y < 3; ++y) {
 	        for (int x = 0; x < 9; ++x) {

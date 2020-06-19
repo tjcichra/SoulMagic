@@ -23,7 +23,7 @@ import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-public class ModContainerFactories {
+public class ModScreenHandlerTypes {
 
 	public static ScreenHandlerType<SoulInfuserScreenHandler> SOUL_ESSENCE_INFUSER;
 	public static ScreenHandlerType<SoulSeparatorScreenHandler> SOUL_ESSENCE_SEPARATOR;
@@ -31,7 +31,7 @@ public class ModContainerFactories {
 	public static ScreenHandlerType<AccessoriesScreenHandler> ACCESSORIES;
 	public static ScreenHandlerType<FlyingChestScreenHandler> FLYING_CHEST;
 
-	public static void registerContainerTypes() {
+	public static void registerScreenHandlerTypes() {
 
 		//Soul Infuser Stuff
 		SOUL_ESSENCE_INFUSER = registerScreenHandler("soul_essence_infuser", SoulInfuserScreenHandler::new);

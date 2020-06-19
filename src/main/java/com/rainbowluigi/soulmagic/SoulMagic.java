@@ -4,7 +4,7 @@ import com.rainbowluigi.soulmagic.block.ModBlocks;
 import com.rainbowluigi.soulmagic.block.entity.ModBlockEntity;
 import com.rainbowluigi.soulmagic.enchantment.ModEnchantments;
 import com.rainbowluigi.soulmagic.entity.ModEntityTypes;
-import com.rainbowluigi.soulmagic.inventory.ModContainerFactories;
+import com.rainbowluigi.soulmagic.inventory.ModScreenHandlerTypes;
 import com.rainbowluigi.soulmagic.item.ModItems;
 import com.rainbowluigi.soulmagic.item.crafting.ModRecipes;
 import com.rainbowluigi.soulmagic.network.ModNetwork;
@@ -43,7 +43,7 @@ public class SoulMagic implements ModInitializer {
 		ModSpellTypes.registerSpellTypes();
 		ModSpells.registerSpells();
 
-		ModContainerFactories.registerContainerTypes();
+		ModScreenHandlerTypes.registerScreenHandlerTypes();
 		ModNetwork.registerClientToServerPackets();
 		ModTabs.registerTabs();
 		ModLoot.handleLoot();

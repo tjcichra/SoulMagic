@@ -1,7 +1,7 @@
 package com.rainbowluigi.soulmagic.network;
 
 import com.rainbowluigi.soulmagic.inventory.FlyingChestScreenHandler;
-import com.rainbowluigi.soulmagic.inventory.ModContainerFactories;
+import com.rainbowluigi.soulmagic.inventory.ModScreenHandlerTypes;
 
 import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.network.PacketContext;
@@ -33,7 +33,7 @@ public class FlyingChestOpenMessage {
 				public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
 					PacketByteBuf pbb = new PacketByteBuf(Unpooled.buffer());
 					pbb.writeInt(slot);
-					ExtendedScreenHandlerType<FlyingChestScreenHandler> e = (ExtendedScreenHandlerType<FlyingChestScreenHandler>) ModContainerFactories.FLYING_CHEST;
+					ExtendedScreenHandlerType<FlyingChestScreenHandler> e = (ExtendedScreenHandlerType<FlyingChestScreenHandler>) ModScreenHandlerTypes.FLYING_CHEST;
 					return e.create(syncId, inv, pbb);
 				}
 	
