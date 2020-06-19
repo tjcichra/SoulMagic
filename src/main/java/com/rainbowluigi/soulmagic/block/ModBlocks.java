@@ -17,7 +17,8 @@ public class ModBlocks {
 	
 	public static final Block SOUL_ESSENCE_INFUSER = new SoulEssenceInfuserBlock(FabricBlockSettings.of(Material.STONE).nonOpaque().strength(3.5f, 3.5f));
 	public static final Block SOUL_SEPARATOR = new SoulSeparatorBlock(FabricBlockSettings.of(Material.STONE).strength(3.5f, 3.5f));
-	public static final Block SOUL_CACHE = new SoulStaffCacheBlock(FabricBlockSettings.of(Material.WOOD).strength(3.5f, 3.5f));
+	public static final Block UPGRADE_STATION = new UpgradeStationBlock(FabricBlockSettings.of(Material.STONE).strength(3.5f, 3.5f));
+	public static final Block SOUL_CACHE = new UpgradeStationBlock(FabricBlockSettings.of(Material.WOOD).strength(3.5f, 3.5f));
 	public static final Block SOUL_FLAME = new SoulFlameBlock(FabricBlockSettings.of(Material.SUPPORTED).noCollision().breakInstantly().lightLevel(14).sounds(BlockSoundGroup.WOOL));
 	public static final Block ENCHANTMENT_OBELISK = new Block(FabricBlockSettings.of(Material.STONE));
 	public static final Block INFINITE_WELL = new InfiniteWellBlock(FabricBlockSettings.of(Material.STONE));
@@ -25,6 +26,7 @@ public class ModBlocks {
 	public static void registerBlocks() {
 		registerBlockAndItem(SOUL_ESSENCE_INFUSER, "soul_essence_infuser", SoulMagic.ITEM_GROUP);
 		registerBlockAndItem(SOUL_SEPARATOR, "soul_separator", SoulMagic.ITEM_GROUP);
+		registerBlockAndItem(UPGRADE_STATION, "upgrade_station", SoulMagic.ITEM_GROUP);
 		registerBlockAndItem(SOUL_CACHE, "soul_cache", SoulMagic.ITEM_GROUP);
 		registerBlockAndItem(SOUL_FLAME, "soul_flame", null);
 		registerBlockAndItem(ENCHANTMENT_OBELISK, "enchantment_obelisk", SoulMagic.ITEM_GROUP);
