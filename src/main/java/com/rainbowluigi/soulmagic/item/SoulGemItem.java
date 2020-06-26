@@ -1,13 +1,16 @@
 package com.rainbowluigi.soulmagic.item;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.collect.Lists;
 import com.rainbowluigi.soulmagic.item.soulessence.SoulEssenceStaffDisplayer;
 import com.rainbowluigi.soulmagic.soultype.SoulType;
 import com.rainbowluigi.soulmagic.spell.ModSpells;
 import com.rainbowluigi.soulmagic.spell.Spell;
 import com.rainbowluigi.soulmagic.spelltype.ModSpellTypes;
 import com.rainbowluigi.soulmagic.spelltype.SpellType;
+import com.rainbowluigi.soulmagic.upgrade.Upgrade;
 import com.rainbowluigi.soulmagic.util.SoulGemHelper;
 
 import net.fabricmc.api.EnvType;
@@ -27,21 +30,21 @@ import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 
-public class SoulGemItem extends Item implements SoulEssenceStaffDisplayer {
+public class SoulGemItem extends Item implements SoulEssenceStaffDisplayer, Upgradeable {
 
 	public SoulGemItem(Item.Settings settings) {
 		super(settings);
-		
-		//this.addPropertyGetter(new Identifier("brace"), (stack, world, player) -> {
-		//	return SoulGemHelper.getBrace(stack) != null ? 1 : 0;
-		//});
+
+		// this.addPropertyGetter(new Identifier("brace"), (stack, world, player) -> {
+		// return SoulGemHelper.getBrace(stack) != null ? 1 : 0;
+		// });
 	}
 
 	@Override
 	public String getTranslationKey(ItemStack stack) {
 		SpellType st = SoulGemHelper.getSpellType(stack);
 		String name = super.getTranslationKey(stack);
-		
+
 		if (st != null) {
 			return name + "." + st.getTranslationKey();
 		}
@@ -50,25 +53,25 @@ public class SoulGemItem extends Item implements SoulEssenceStaffDisplayer {
 
 	@Override
 	public void appendStacks(ItemGroup group, DefaultedList<ItemStack> items) {
-		//If it is in the right group
+		// If it is in the right group
 		if (this.isIn(group)) {
-			//Add the empty soul gem
+			// Add the empty soul gem
 			items.add(new ItemStack(this));
-			
+
 			for (SpellType st : ModSpellTypes.SPELL_TYPE) {
 				ItemStack stack = new ItemStack(this);
 				SoulGemHelper.setSpellType(stack, st);
-				for(Spell s : ModSpells.SPELL) {
-					if(s.isBase() && s.getParent() == st) {
+				for (Spell s : ModSpells.SPELL) {
+					if (s.isBase() && s.getParent() == st) {
 						SoulGemHelper.addSpell(stack, s);
 					}
 				}
 				items.add(stack);
-				
+
 				ItemStack stack2 = new ItemStack(this);
 				SoulGemHelper.setSpellType(stack2, st);
-				for(Spell s : ModSpells.SPELL) {
-					if(s.getParent() == st || st == ModSpellTypes.ULTIMATE) {
+				for (Spell s : ModSpells.SPELL) {
+					if (s.getParent() == st || st == ModSpellTypes.ULTIMATE) {
 						SoulGemHelper.addSpell(stack2, s);
 					}
 				}
@@ -76,41 +79,40 @@ public class SoulGemItem extends Item implements SoulEssenceStaffDisplayer {
 			}
 		}
 	}
-	
+
 	@Override
 	public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
 		ItemStack stack = player.getStackInHand(hand);
-		
-		if(SoulGemHelper.getSpellType(stack) != null) {
+
+		if (SoulGemHelper.getSpellType(stack) != null) {
 			Spell s = SoulGemHelper.getCurrentSpell(stack);
-			
-			if(s != null) {
+
+			if (s != null) {
 				return s.use(world, player, hand);
 			} else {
 				player.sendMessage(new TranslatableText("soulmagic.spell.error"), true);
 			}
 		}
-		
+
 		return super.use(world, player, hand);
 	}
-	
+
 	@Override
 	public ActionResult useOnBlock(ItemUsageContext iuc) {
 		ItemStack stack = iuc.getPlayer().getStackInHand(iuc.getHand());
-		
-		if(SoulGemHelper.getSpellType(stack) != null) {
+
+		if (SoulGemHelper.getSpellType(stack) != null) {
 			Spell s = SoulGemHelper.getCurrentSpell(stack);
-			
-			if(s != null) {
+
+			if (s != null) {
 				return s.useOnBlock(iuc);
 			} else {
 				iuc.getPlayer().sendMessage(new TranslatableText("soulmagic.spell.error"), true);
 			}
 		}
-		
+
 		return super.useOnBlock(iuc);
 	}
-
 
 	@Override
 	@Environment(EnvType.CLIENT)
@@ -127,5 +129,11 @@ public class SoulGemItem extends Item implements SoulEssenceStaffDisplayer {
 			return SoulGemHelper.getCurrentSpell(stack).getSoulTypesToShow();
 		}
 		return null;
+	}
+
+	@Override
+	public List<Upgrade> getPossibleUpgrades(ItemStack stack) {
+		SpellType type = SoulGemHelper.getSpellType(stack);
+		return type != null ? type.getPossibleUpgrades() : new ArrayList<>();
 	}
 }

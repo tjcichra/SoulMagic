@@ -5,6 +5,7 @@ import com.rainbowluigi.soulmagic.client.screen.FlyingChestScreen;
 import com.rainbowluigi.soulmagic.client.screen.SoulCacheScreen;
 import com.rainbowluigi.soulmagic.client.screen.SoulInfuserScreen;
 import com.rainbowluigi.soulmagic.client.screen.SoulSeparatorScreen;
+import com.rainbowluigi.soulmagic.client.screen.UpgradeStationScreen;
 import com.rainbowluigi.soulmagic.util.ItemHelper;
 import com.rainbowluigi.soulmagic.util.PacketBufferUtils;
 import com.rainbowluigi.soulmagic.util.Reference;
@@ -28,6 +29,7 @@ public class ModScreenHandlerTypes {
 	public static ScreenHandlerType<SoulInfuserScreenHandler> SOUL_ESSENCE_INFUSER;
 	public static ScreenHandlerType<SoulSeparatorScreenHandler> SOUL_ESSENCE_SEPARATOR;
 	public static ScreenHandlerType<SoulCacheScreenHandler> SOUL_STAFF_CACHE;
+	public static ScreenHandlerType<UpgradeStationScreenHandler> UPGRADE_STATION;
 	public static ScreenHandlerType<AccessoriesScreenHandler> ACCESSORIES;
 	public static ScreenHandlerType<FlyingChestScreenHandler> FLYING_CHEST;
 
@@ -44,6 +46,10 @@ public class ModScreenHandlerTypes {
 		// Soul Cache Stuff
 		SOUL_STAFF_CACHE = registerScreenHandler("soul_cache", SoulCacheScreenHandler::new);
 		registerScreen(SOUL_STAFF_CACHE, SoulCacheScreen::new);
+
+		//Upgrade Station
+		UPGRADE_STATION = ScreenHandlerRegistry.registerSimple(new Identifier(Reference.MOD_ID, "upgrade_station"), UpgradeStationScreenHandler::new);
+		registerScreen(UPGRADE_STATION, UpgradeStationScreen::new);
 
 		// Accessory Stuff
 		ACCESSORIES = ScreenHandlerRegistry.registerSimple(new Identifier(Reference.MOD_ID, "accessories"), AccessoriesScreenHandler::new);

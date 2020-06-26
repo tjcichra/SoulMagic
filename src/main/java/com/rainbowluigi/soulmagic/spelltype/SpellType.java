@@ -1,5 +1,9 @@
 package com.rainbowluigi.soulmagic.spelltype;
 
+import java.util.List;
+
+import com.rainbowluigi.soulmagic.upgrade.Upgrade;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.text.Text;
@@ -10,9 +14,11 @@ public class SpellType {
 
 	private String translationKey;
 	private int color;
+	private List<Upgrade> upgrades;
 	
-	public SpellType(int color) {
+	public SpellType(int color, List<Upgrade> upgrades) {
 		this.color = color;
+		this.upgrades = upgrades;
 	}
 	
 	public int getColor() {
@@ -35,4 +41,8 @@ public class SpellType {
 	public String getTranslationKey() {
 		return this.getOrCreateTranslationKey();
 	}
+
+	public List<Upgrade> getPossibleUpgrades() {
+		return this.upgrades;
+	};
 }

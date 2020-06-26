@@ -17,7 +17,7 @@ public class SoulCacheScreenHandler extends ScreenHandler {
 	private SoulCacheBlockEntity sibe;
 
 	public SoulCacheScreenHandler(int id, PlayerInventory playerInv, SoulCacheBlockEntity sibe) {
-		super(null, id);
+		super(ModScreenHandlerTypes.SOUL_STAFF_CACHE, id);
 		this.sibe = sibe;
 		
 		this.addSlot(new StaffSlot(sibe, 0, 44, 35));
