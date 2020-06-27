@@ -54,7 +54,7 @@ public class CreativeSoulEssenceStaffItem extends Item implements SoulEssenceSta
 	}
 	
 	@Override
-	public boolean hasEnchantmentGlint(ItemStack stack) {
+	public boolean hasGlint(ItemStack stack) {
 		return true;
 	}
 	
