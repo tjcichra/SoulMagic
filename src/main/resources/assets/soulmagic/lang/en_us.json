@@ -35,6 +35,7 @@
 	"enchantment.soulmagic.disarming": "Disarming",
 	
 	"block.soulmagic.soul_essence_infuser": "Soul Essence Infuser",
+	"block.soulmagic.upgrade_station": "Upgrade Station",
 	
 	"spell.soulmagic.fireball": "Fireball",
 	"spell.soulmagic.flaming_touch": "Flaming Touch",
@@ -47,6 +48,7 @@
 	"container.soulmagic.flying_chest": "Soarin' Chest",
 	"container.soulmagic.inventory": "Inventory",
 	"container.soulmagic.accessories": "Accessories",
+	"container.soulmagic.upgrading": "Upgrading",
 	
 	"itemGroup.soulmagic.creative_tab": "Soul Magic",
 	

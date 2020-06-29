@@ -5,9 +5,8 @@ import com.rainbowluigi.soulmagic.inventory.UpgradeStationScreenHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.NamedScreenHandlerFactory;
-import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
@@ -17,6 +16,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class UpgradeStationBlock extends Block {
+	private static final Text TITLE = new TranslatableText("container.soulmagic.upgrading");
+
 	public UpgradeStationBlock(Block.Settings settings) {
 		super(settings);
 	}
@@ -33,17 +34,8 @@ public class UpgradeStationBlock extends Block {
 
 	@Override
 	public NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
-		return new NamedScreenHandlerFactory(){
-		
-			@Override
-			public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-				return new UpgradeStationScreenHandler(syncId, inv);
-			}
-		
-			@Override
-			public Text getDisplayName() {
-				return new TranslatableText("temp");
-			}
-		};
+		return new SimpleNamedScreenHandlerFactory((syncId, playerInventory, player) -> {
+			return new UpgradeStationScreenHandler(syncId, playerInventory);
+		}, TITLE);
 	}
 }
