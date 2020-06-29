@@ -3,6 +3,7 @@ package com.rainbowluigi.soulmagic.client.screen;
 import java.util.List;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.rainbowluigi.soulmagic.SoulMagic;
 import com.rainbowluigi.soulmagic.inventory.UpgradeStationScreenHandler;
 import com.rainbowluigi.soulmagic.item.Upgradeable;
 import com.rainbowluigi.soulmagic.upgrade.Upgrade;
@@ -53,8 +54,8 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 
 	@Override
 	public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
-		this.innerX = (int) MathHelper.clamp(this.innerX - deltaX, -(this.innerLength / 2), this.innerLength - this.innerDisplayLength);
-		this.innerY = (int) MathHelper.clamp(this.innerY - deltaY, -(this.innerHeight / 2), this.innerHeight - this.innerDisplayHeight);
+		this.innerX = (int) MathHelper.clamp(this.innerX - deltaX, -(this.innerLength / 2), (this.innerLength / 2) - this.innerDisplayLength);
+		this.innerY = (int) MathHelper.clamp(this.innerY - deltaY, -(this.innerHeight / 2), (this.innerHeight / 2) - this.innerDisplayHeight);
 		return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
 	}
 
@@ -62,6 +63,7 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 	protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
 		int i = this.x;
 		int j = this.y;
+		
 		super.drawForeground(matrices, mouseX, mouseY);
 		ItemRenderer itemRenderer = client.getItemRenderer();
 
@@ -74,7 +76,7 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 			RenderSystem.enableLighting();
 			RenderSystem.enableRescaleNormal();
 			for(Upgrade u : upgrades) {
-				itemRenderer.renderGuiItemIcon(u.getIcon(), i + (u.getX() - this.innerX), j + (u.getY() - this.innerY));
+				itemRenderer.renderGuiItemIcon(u.getIcon(), -this.innerX + u.getX(), -this.innerY + u.getY());
 			}
 			RenderSystem.disableLighting();
 		}

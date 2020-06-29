@@ -42,7 +42,7 @@ public class UpgradeStationBlock extends Block {
 		
 			@Override
 			public Text getDisplayName() {
-				return new TranslatableText("tanner is real");
+				return new TranslatableText("temp");
 			}
 		};
 	}
