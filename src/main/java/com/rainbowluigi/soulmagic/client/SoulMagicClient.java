@@ -21,12 +21,12 @@ import org.lwjgl.glfw.GLFW;
 import io.netty.buffer.Unpooled;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
-import net.fabricmc.fabric.api.event.client.ClientTickCallback;
 import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -108,7 +108,7 @@ public class SoulMagicClient implements ClientModInitializer {
 			return tint == 0 ? ((DyeableItem) stack.getItem()).getColor(stack) : 0xFFFFFF;
 		}, ModItems.MAGICAL_BALL_OF_YARN);
 		
-		ClientTickCallback.EVENT.register(e -> {
+		ClientTickEvents.END_CLIENT_TICK.register(e -> {
 			if(SPELL_SELECT.isPressed() && !(MinecraftClient.getInstance().currentScreen instanceof SelectSpellScreen)) {
 				MinecraftClient mc = MinecraftClient.getInstance();
 				ClientPlayerEntity player = mc.player;

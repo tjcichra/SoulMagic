@@ -3,7 +3,6 @@ package com.rainbowluigi.soulmagic.item;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.common.collect.Lists;
 import com.rainbowluigi.soulmagic.item.soulessence.SoulEssenceStaffDisplayer;
 import com.rainbowluigi.soulmagic.soultype.SoulType;
 import com.rainbowluigi.soulmagic.spell.ModSpells;

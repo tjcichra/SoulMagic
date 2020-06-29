@@ -3,13 +3,11 @@ package com.rainbowluigi.soulmagic.client.screen;
 import java.util.List;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.rainbowluigi.soulmagic.SoulMagic;
 import com.rainbowluigi.soulmagic.inventory.UpgradeStationScreenHandler;
 import com.rainbowluigi.soulmagic.item.Upgradeable;
 import com.rainbowluigi.soulmagic.upgrade.Upgrade;
 import com.rainbowluigi.soulmagic.util.Reference;
 
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
@@ -61,9 +59,6 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 
 	@Override
 	protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
-		int i = this.x;
-		int j = this.y;
-		
 		super.drawForeground(matrices, mouseX, mouseY);
 		ItemRenderer itemRenderer = client.getItemRenderer();
 

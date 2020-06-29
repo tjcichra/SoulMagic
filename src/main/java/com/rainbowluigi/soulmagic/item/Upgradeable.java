@@ -3,7 +3,6 @@ package com.rainbowluigi.soulmagic.item;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.rainbowluigi.soulmagic.spelltype.ModSpellTypes;
 import com.rainbowluigi.soulmagic.upgrade.ModUpgrades;
 import com.rainbowluigi.soulmagic.upgrade.Upgrade;
 
