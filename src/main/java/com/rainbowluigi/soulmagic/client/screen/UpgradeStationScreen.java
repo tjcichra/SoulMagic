@@ -3,6 +3,7 @@ package com.rainbowluigi.soulmagic.client.screen;
 import java.util.List;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.rainbowluigi.soulmagic.SoulMagic;
 import com.rainbowluigi.soulmagic.inventory.UpgradeStationScreenHandler;
 import com.rainbowluigi.soulmagic.item.Upgradeable;
 import com.rainbowluigi.soulmagic.upgrade.Upgrade;
@@ -29,6 +30,8 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 	private int innerX = -innerDisplayLength / 2;
 	private int innerY = -innerDisplayHeight / 2;
 
+	private Upgrade selectedUpgrade = null;
+
 	public UpgradeStationScreen(UpgradeStationScreenHandler container_1, PlayerInventory playerInventory_1, Text text_1) {
 		super(container_1, playerInventory_1, text_1);
 	}
@@ -39,7 +42,6 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 		super.render(matrices, mouseX, mouseY, delta);
 		this.drawMouseoverTooltip(matrices, mouseX, mouseY);
 	}
-
 	
 	@Override
 	protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
@@ -59,7 +61,7 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 
 	@Override
 	protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
-		super.drawForeground(matrices, mouseX, mouseY);
+		//super.drawForeground(matrices, mouseX, mouseY);
 		ItemRenderer itemRenderer = client.getItemRenderer();
 
 		ItemStack item = this.handler.slots.get(0).getStack();
@@ -67,13 +69,35 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 			Upgradeable upgradeable = (Upgradeable) item.getItem();
 
 			List<Upgrade> upgrades = upgradeable.getPossibleUpgrades(item);
-
+			
 			RenderSystem.enableLighting();
 			RenderSystem.enableRescaleNormal();
 			for(Upgrade u : upgrades) {
-				itemRenderer.renderGuiItemIcon(u.getIcon(), -this.innerX + u.getX(), -this.innerY + u.getY());
+				itemRenderer.renderGuiItemIcon(u.getIcon(), -this.innerX + u.getX() - 4, -this.innerY + u.getY() - 4);
 			}
 			RenderSystem.disableLighting();
+		}
+	}
+
+	@Override
+	protected void drawMouseoverTooltip(MatrixStack matrices, int mouseX, int mouseY) {
+		super.drawMouseoverTooltip(matrices, mouseX, mouseY);
+
+		//SoulMagic.LOGGER.info(mouseX + " " + mouseY);
+
+		ItemStack item = this.handler.slots.get(0).getStack();
+		if(item.getItem() instanceof Upgradeable) {
+			Upgradeable upgradeable = (Upgradeable) item.getItem();
+			List<Upgrade> upgrades = upgradeable.getPossibleUpgrades(item);
+
+			for(Upgrade u : upgrades) {
+				if(mouseX > -this.innerX + u.getX() - 8 && mouseX <= -this.innerX + u.getX() + 8 && mouseY > -this.innerY + u.getY() - 8 && mouseY <= -this.innerY + u.getY() + 8) {
+					SoulMagic.LOGGER.info(u);
+				}
+				//if(mouseX > -this.innerX + u.getX() - 8 && mouseX <= -this.innerX + u.getX() + 8 && mouseY > -this.innerY + u.getY() - 8 && mouseY <= -this.innerY + u.getY() + 8) {
+					//SoulMagic.LOGGER.info(u);
+				//}
+			}
 		}
 	}
 }
