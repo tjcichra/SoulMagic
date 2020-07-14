@@ -39,7 +39,7 @@ public class SoulSeparatorBlockEntity extends LockableContainerBlockEntity imple
 
 	public SoulSeparatorBlockEntity() {
 		super(ModBlockEntity.SOUL_SEPARATOR);
-		this.inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
+		this.inventory = DefaultedList.ofSize(4, ItemStack.EMPTY);
 	}
 
 	@Override
