@@ -50,19 +50,6 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 		int i = this.x;
 		int j = this.y;
 		this.drawTexture(matrices, i, j, this.innerX + this.innerLength / 2, this.innerY + this.innerHeight / 2, this.innerDisplayLength, this.innerDisplayHeight);
-	}
-
-	@Override
-	public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
-		this.innerX = (int) MathHelper.clamp(this.innerX - deltaX, -(this.innerLength / 2), (this.innerLength / 2) - this.innerDisplayLength);
-		this.innerY = (int) MathHelper.clamp(this.innerY - deltaY, -(this.innerHeight / 2), (this.innerHeight / 2) - this.innerDisplayHeight);
-		return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
-	}
-
-	@Override
-	protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
-		//super.drawForeground(matrices, mouseX, mouseY);
-		ItemRenderer itemRenderer = client.getItemRenderer();
 
 		ItemStack item = this.handler.slots.get(0).getStack();
 		if(item.getItem() instanceof Upgradeable) {
@@ -70,13 +57,36 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 
 			List<Upgrade> upgrades = upgradeable.getPossibleUpgrades(item);
 			
-			RenderSystem.enableLighting();
+			ItemRenderer itemRenderer = client.getItemRenderer();
+
+			this.itemRenderer.zOffset = 100.0F;
 			RenderSystem.enableRescaleNormal();
 			for(Upgrade u : upgrades) {
-				itemRenderer.renderGuiItemIcon(u.getIcon(), -this.innerX + u.getX() - 4, -this.innerY + u.getY() - 4);
+				itemRenderer.renderGuiItemIcon(u.getIcon(), this.innerXPointToActualXPoint(u.getX() - 8), this.innerYPointToActualYPoint(u.getY() - 8));
 			}
-			RenderSystem.disableLighting();
+			this.itemRenderer.zOffset = 0.0F;
 		}
+	}
+
+	@Override
+	public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
+		boolean b = super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
+
+		this.innerX = (int) MathHelper.clamp(this.innerX - deltaX, -(this.innerLength / 2), (this.innerLength / 2) - this.innerDisplayLength);
+		this.innerY = (int) MathHelper.clamp(this.innerY - deltaY, -(this.innerHeight / 2), (this.innerHeight / 2) - this.innerDisplayHeight);
+		return b;
+	}
+
+	@Override
+	public boolean mouseClicked(double mouseX, double mouseY, int button) {
+		boolean b = super.mouseClicked(mouseX, mouseY, button);
+		return b;
+	}
+
+	@Override
+	protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
+		//super.drawForeground(matrices, mouseX, mouseY);
+		
 	}
 
 	@Override
@@ -91,13 +101,29 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 			List<Upgrade> upgrades = upgradeable.getPossibleUpgrades(item);
 
 			for(Upgrade u : upgrades) {
-				if(mouseX > -this.innerX + u.getX() - 8 && mouseX <= -this.innerX + u.getX() + 8 && mouseY > -this.innerY + u.getY() - 8 && mouseY <= -this.innerY + u.getY() + 8) {
-					SoulMagic.LOGGER.info(u);
+				int x = this.innerXPointToActualXPoint(u.getX() - 8);
+				int y = this.innerYPointToActualYPoint(u.getY() - 8);
+
+				if(mouseX > x && mouseX <= x + 16 && mouseY > y && mouseY <= y + 16) {
+					this.renderTooltip(matrices, u.getName(), mouseX, mouseY);
 				}
-				//if(mouseX > -this.innerX + u.getX() - 8 && mouseX <= -this.innerX + u.getX() + 8 && mouseY > -this.innerY + u.getY() - 8 && mouseY <= -this.innerY + u.getY() + 8) {
-					//SoulMagic.LOGGER.info(u);
-				//}
 			}
 		}
+	}
+
+	public int actualXPointToInnerXPoint(int actualX) {
+		return actualX - this.x + this.innerX;
+	}
+
+	public int innerXPointToActualXPoint(int innerXPoint) {
+		return innerXPoint + this.x - this.innerX;
+	}
+
+	public int actualYPointToInnerYPoint(int actualY) {
+		return actualY - this.y + this.innerY;
+	}
+
+	public int innerYPointToActualYPoint(int innerYPoint) {
+		return innerYPoint + this.y - this.innerY;
 	}
 }

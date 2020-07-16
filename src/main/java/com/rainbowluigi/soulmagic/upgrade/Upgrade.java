@@ -9,8 +9,9 @@ public class Upgrade {
 	private Text name;
 	private Text desc;
 	private int x, y;
+	private Upgrade prev;
 
-	public Upgrade(ItemStack icon, Text name, Text desc, int x, int y, ItemStack... stacks) {
+	public Upgrade(ItemStack icon, Text name, Text desc, int x, int y, Upgrade prev, ItemStack... stacks) {
 		this.icon = icon;
 		this.name = name;
 		this.desc = desc;
@@ -18,8 +19,8 @@ public class Upgrade {
 		this.y = y;
 	}
 
-	public Upgrade(ItemStack icon, String name, String desc, int x, int y, ItemStack... stacks) {
-		this(icon, new TranslatableText(name), new TranslatableText(desc), x, y, stacks);
+	public Upgrade(ItemStack icon, String name, String desc, int x, int y, Upgrade prev, ItemStack... stacks) {
+		this(icon, new TranslatableText(name), new TranslatableText(desc), x, y, prev, stacks);
 	}
 
 	public ItemStack getIcon() {
@@ -40,5 +41,9 @@ public class Upgrade {
 
 	public int getY() {
 		return this.y;
+	}
+
+	public Upgrade getPrev() {
+		return this.prev;
 	}
 }
