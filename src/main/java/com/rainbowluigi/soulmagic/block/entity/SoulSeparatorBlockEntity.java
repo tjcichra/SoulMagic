@@ -12,6 +12,7 @@ import com.rainbowluigi.soulmagic.item.soulessence.SoulEssenceStaff;
 import com.rainbowluigi.soulmagic.soultype.SoulType;
 
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
+import net.fabricmc.fabric.api.registry.FuelRegistry;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.LockableContainerBlockEntity;
@@ -19,6 +20,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SidedInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.PacketByteBuf;
@@ -32,9 +34,14 @@ import net.minecraft.util.math.Direction;
 
 public class SoulSeparatorBlockEntity extends LockableContainerBlockEntity implements SidedInventory, BlockEntityClientSerializable, Tickable, ExtendedScreenHandlerFactory {
 
+	public static final int INPUT_SLOT = 0;
+	public static final int OUTPUT_SLOT = 1;
+	public static final int STAFF_SLOT = 2;
+	public static final int FUEL_SLOT = 3;
+
 	private DefaultedList<ItemStack> inventory;
 
-	public int progress, maxProgress;
+	public int progress, maxProgress, burnTime, fuelTime;
 	public boolean filling;
 
 	public SoulSeparatorBlockEntity() {
@@ -58,35 +65,60 @@ public class SoulSeparatorBlockEntity extends LockableContainerBlockEntity imple
 
 	@Override
 	public void tick() {
+		if(this.burnTime > 0) {
+			this.burnTime--;
+		}
+
 		if (!this.world.isClient) {
-			if (!this.inventory.get(0).isEmpty() && !this.inventory.get(2).isEmpty()
-					&& this.inventory.get(2).getItem() instanceof SoulEssenceStaff) {
-				Optional<SoulSeparatorRecipe> irecipe = this.world.getRecipeManager()
-						.getFirstMatch(ModRecipes.SOUL_ESSENCE_SEPARATION_TYPE, this, this.world);
+			if (!this.inventory.get(INPUT_SLOT).isEmpty() && this.inventory.get(STAFF_SLOT).getItem() instanceof SoulEssenceStaff) {
+				SoulSeparatorRecipe irecipe = this.world.getRecipeManager().getFirstMatch(ModRecipes.SOUL_ESSENCE_SEPARATION_TYPE, this, this.world).orElse(null);
 
-				if (irecipe.isPresent()) {
+				if (irecipe != null) {
+					if(this.burnTime <= 0) {
+						ItemStack stack = this.inventory.get(FUEL_SLOT);
 
-					Map<SoulType, Integer> soulMap = irecipe.get().getSoulMap(this, this.world);
-					ItemStack staff = this.getStaffCap();
+						Integer i = FuelRegistry.INSTANCE.get(stack.getItem());
+						this.burnTime = i != null ? i : 0;
 
-					if (!this.isFull(soulMap.keySet(), staff)) {
-						this.maxProgress = irecipe.get().getCookTime();
-						this.progress++;
-						this.filling = irecipe.get().getFiling();
+						if(this.burnTime > 0 && !stack.isEmpty()) {
+							this.fuelTime = this.burnTime;
+
+							Item item = stack.getItem();
+							stack.decrement(1);
+							if(stack.isEmpty()) {
+								Item item2 = item.getRecipeRemainder();
+								this.inventory.set(FUEL_SLOT, item2 == null ? ItemStack.EMPTY : new ItemStack(item2));
+							}
+						} else if(this.progress > 0) {
+							this.progress--;
+						}
+
 						this.sync();
+					} else {
+						Map<SoulType, Integer> soulMap = irecipe.getSoulMap(this, this.world);
+						ItemStack staff = this.getStaffCap();
 
-						if (this.progress >= this.maxProgress) {
-							this.progress = 0;
-							this.filling = false;
+						if (!this.isFull(soulMap.keySet(), staff)) {
+							this.maxProgress = irecipe.getCookTime();
+							this.progress++;
+							this.filling = irecipe.getFiling();
 							this.sync();
 
-							this.fillSoul(soulMap, staff);
+							if (this.progress >= this.maxProgress) {
+								this.progress = 0;
+								this.filling = false;
+								this.sync();
 
-							irecipe.get().postCraft(this, this.world, soulMap);
+								this.fillSoul(soulMap, staff);
 
+								irecipe.postCraft(this, this.world, soulMap);
+
+							}
 						}
 					}
 				}
+			} else {
+				this.progress = 0;
 			}
 
 			// if(this.progress > 0){
@@ -200,6 +232,8 @@ public class SoulSeparatorBlockEntity extends LockableContainerBlockEntity imple
 	public void fromClientTag(CompoundTag tag) {
 		this.progress = tag.getInt("progress");
 		this.maxProgress = tag.getInt("maxProgress");
+		this.burnTime = tag.getInt("burnTime");
+		this.fuelTime = tag.getInt("fuelTime");
 		this.filling = tag.getBoolean("filling");
 	}
 
@@ -207,12 +241,14 @@ public class SoulSeparatorBlockEntity extends LockableContainerBlockEntity imple
 	public CompoundTag toClientTag(CompoundTag tag) {
 		tag.putInt("progress", this.progress);
 		tag.putInt("maxProgress", this.maxProgress);
+		tag.putInt("burnTime", this.burnTime);
+		tag.putInt("fuelTime", this.fuelTime);
 		tag.putBoolean("filling", this.filling);
 		return tag;
 	}
 
 	public ItemStack getStaffCap() {
-		return this.inventory.get(2).getItem() instanceof SoulEssenceStaff ? this.inventory.get(2) : null;
+		return this.inventory.get(STAFF_SLOT).getItem() instanceof SoulEssenceStaff ? this.inventory.get(STAFF_SLOT) : null;
 	}
 
 	@Override

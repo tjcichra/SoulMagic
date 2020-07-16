@@ -1,6 +1,5 @@
 package com.rainbowluigi.soulmagic.inventory;
 
-import com.rainbowluigi.soulmagic.SoulMagic;
 import com.rainbowluigi.soulmagic.block.entity.SoulSeparatorBlockEntity;
 import com.rainbowluigi.soulmagic.item.soulessence.SoulEssenceStaff;
 import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
@@ -24,10 +23,10 @@ public class SoulSeparatorScreenHandler extends ScreenHandler {
 		super(ModScreenHandlerTypes.SOUL_ESSENCE_SEPARATOR, id);
 		this.sibe = sibe;
 		
-		this.addSlot(new Slot(sibe, 0, 38, 35));
-		this.addSlot(new Slot(sibe, 1, 134, 57));
-		this.addSlot(new Slot(sibe, 2, 134, 35));
-		this.addSlot(new FuelSlot(sibe, 3, 16, 35));
+		this.addSlot(new Slot(sibe, SoulSeparatorBlockEntity.INPUT_SLOT, 38, 35));
+		this.addSlot(new Slot(sibe, SoulSeparatorBlockEntity.OUTPUT_SLOT, 134, 57));
+		this.addSlot(new Slot(sibe, SoulSeparatorBlockEntity.STAFF_SLOT, 134, 35));
+		this.addSlot(new FuelSlot(sibe, SoulSeparatorBlockEntity.FUEL_SLOT, 16, 35));
 		
 		// Player Inventory, Slot 9-35, Slot IDs 9-35
 		for (int y = 0; y < 3; ++y) {
@@ -134,6 +133,10 @@ public class SoulSeparatorScreenHandler extends ScreenHandler {
 			return (int) (((double) current / total) * 38);
 		}
 		return (int) (((double) this.sibe.progress / this.sibe.maxProgress) * 38);
+	}
+
+	public int getBurn() {
+		return this.sibe.fuelTime != 0 ? this.sibe.burnTime * 13 / this.sibe.fuelTime : 0;
 	}
 	
 	public ItemStack getStaffCap() {

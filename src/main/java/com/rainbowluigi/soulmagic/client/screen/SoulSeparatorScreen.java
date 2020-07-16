@@ -57,9 +57,15 @@ public class SoulSeparatorScreen extends HandledScreen<SoulSeparatorScreenHandle
 		
 		int i = this.sic.getCookProgress();
 		
-		if (i > 0) {
+		if(i > 0) {
 			RenderSystem.color4f(1, 1, 1, 1);
 			this.drawTexture(matrix, this.x + 67, this.y + 35, 176, 14, i, 17);
+		}
+
+		int k = this.sic.getBurn();
+		if(k > 0) {
+			RenderSystem.color4f(1, 1, 1, 1);
+			this.drawTexture(matrix, this.x + 16, this.y + 55 + 11 - k, 176, 12 - k, 14, k + 1);
 		}
 		
 		ItemStack ish = this.getScreenHandler().getStaffCap();
@@ -84,7 +90,7 @@ public class SoulSeparatorScreen extends HandledScreen<SoulSeparatorScreenHandle
 						//double j = ((double) SoulStaffHelper.getSoul(ish, type) / total) * 77;
 						int j = (int) (((double) staff.getSoul(ish, client.world, type) / total) * 58 + 0.5);
 						//this.blit(this.x + 12, (int) (this.y - j + 94 - start), 226, (int) (77 - j - start), 8, (int) j);
-						this.drawTexture(matrix, this.x + 136, this.y - j + 72 - start, 176, 89 - j - start, 8, j);
+						this.drawTexture(matrix, this.x + 157, this.y - j + 73 - start, 176, 89 - j - start, 8, j);
 						
 						start += j;
 					}
