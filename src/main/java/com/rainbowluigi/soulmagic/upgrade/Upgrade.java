@@ -10,6 +10,7 @@ public class Upgrade {
 	private Text desc;
 	private int x, y;
 	private Upgrade prev;
+	private ItemStack[] requirements;
 
 	public Upgrade(ItemStack icon, Text name, Text desc, int x, int y, Upgrade prev, ItemStack... stacks) {
 		this.icon = icon;
@@ -17,6 +18,8 @@ public class Upgrade {
 		this.desc = desc;
 		this.x = x;
 		this.y = y;
+		this.prev = prev;
+		this.requirements = stacks;
 	}
 
 	public Upgrade(ItemStack icon, String name, String desc, int x, int y, Upgrade prev, ItemStack... stacks) {
@@ -45,5 +48,9 @@ public class Upgrade {
 
 	public Upgrade getPrev() {
 		return this.prev;
+	}
+
+	public ItemStack[] getRequirements() {
+		return this.requirements;
 	}
 }
