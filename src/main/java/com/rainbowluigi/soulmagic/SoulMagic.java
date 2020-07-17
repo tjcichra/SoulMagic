@@ -12,6 +12,7 @@ import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
 import com.rainbowluigi.soulmagic.spell.ModSpells;
 import com.rainbowluigi.soulmagic.spelltype.ModSpellTypes;
 import com.rainbowluigi.soulmagic.tabs.ModTabs;
+import com.rainbowluigi.soulmagic.upgrade.ModUpgrades;
 import com.rainbowluigi.soulmagic.util.Reference;
 
 import org.apache.logging.log4j.LogManager;
@@ -42,6 +43,7 @@ public class SoulMagic implements ModInitializer {
 		ModSoulTypes.registerSoulTypes();
 		ModSpellTypes.registerSpellTypes();
 		ModSpells.registerSpells();
+		ModUpgrades.registerUpgrades();
 
 		ModScreenHandlerTypes.registerScreenHandlerTypes();
 		ModNetwork.registerClientToServerPackets();
