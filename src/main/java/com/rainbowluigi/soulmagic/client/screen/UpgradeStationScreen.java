@@ -49,26 +49,55 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 		super(container_1, playerInventory_1, text_1);
 	}
 
+	public ItemStack getStack() {
+		return this.handler.getSlot(0).getStack();
+	}
+
 	@Override
 	public void init() {
 		super.init();
 
 		this.unlockButton = new ButtonWidget(this.x, this.y + this.backgroundHeight - 20, 40, 20, new TranslatableText("unlock"), (buttonWidgetx) -> {
-			if(!this.handler.getSlot(0).getStack().isEmpty()) {
-				if(this.selectedUpgrade != null) {
-					ItemStack stack = this.handler.getSlot(0).getStack();
-					Upgradeable u = (Upgradeable) stack.getItem();
-					u.addUpgrade(stack, this.selectedUpgrade, false);
+			if(!this.getStack().isEmpty() && this.selectedUpgrade != null) {
+				ItemStack stack = this.getStack();
+				Upgradeable u = (Upgradeable) stack.getItem();
 
-					ClientSidePacketRegistry.INSTANCE.sendToServer(ModNetwork.UPGRADE_STATION, UpgradeStationMessage.makePacket(stack));
+				if(!u.hasUpgradeUnlocked(stack, this.selectedUpgrade)) {
+					if(this.selectedUpgrade.getPrev() == null || u.hasUpgradeUnlocked(stack, this.selectedUpgrade.getPrev())) {
+						u.addUpgrade(stack, this.selectedUpgrade);
+						ClientSidePacketRegistry.INSTANCE.sendToServer(ModNetwork.UPGRADE_STATION, UpgradeStationMessage.makePacket(stack));
+					}
+				} else {
+					if(!u.hasUpgradeSelected(stack, this.selectedUpgrade)) {
+						if(u.getUpgradesSelected(stack).size() < u.getSelectorPointsNumber(stack)) {
+							if(this.selectedUpgrade.getPrev() == null || u.hasUpgradeSelected(stack, this.selectedUpgrade.getPrev())) {
+								u.setUpgradeSelection(stack, this.selectedUpgrade, true);
+								//u.setUpgradeSelection(stack, this.selectedUpgrade, !u.hasUpgradeSelected(stack, this.selectedUpgrade));
+								ClientSidePacketRegistry.INSTANCE.sendToServer(ModNetwork.UPGRADE_STATION, UpgradeStationMessage.makePacket(stack));
+							}
+						}
+					} else {
+						boolean isGood = true;
+
+						for(Upgrade currentu : u.getUpgradesSelected(stack)) {
+							if(isGood && currentu.getPrev() != null && currentu.getPrev().equals(this.selectedUpgrade)) {
+								isGood = false;
+							}
+						}
+
+						if(isGood) {
+							u.setUpgradeSelection(stack, this.selectedUpgrade, false);
+							ClientSidePacketRegistry.INSTANCE.sendToServer(ModNetwork.UPGRADE_STATION, UpgradeStationMessage.makePacket(stack));
+						}
+					}
 				}
 			}
 		});
 
 		this.addButton(this.unlockButton);
 		this.addButton(new ButtonWidget(this.x + this.backgroundWidth - 40, this.y + this.backgroundHeight - 20, 40, 20, new TranslatableText("add select point"), (buttonWidgetx) -> {
-			if(!this.handler.getSlot(0).getStack().isEmpty()) {
-				ItemStack stack = this.handler.getSlot(0).getStack();
+			if(!this.getStack().isEmpty()) {
+				ItemStack stack = this.getStack();
 				Upgradeable u = (Upgradeable) stack.getItem();
 				u.incrementSelectorPoints(stack);
 
@@ -92,28 +121,27 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 		int j = this.y;
 		this.drawTexture(matrices, i, j, this.innerX + this.innerLength / 2, this.innerY + this.innerHeight / 2, this.innerDisplayLength, this.innerDisplayHeight);
 
-		ItemStack item = this.handler.slots.get(0).getStack();
+		ItemStack item = this.getStack();
 		if(item.getItem() instanceof Upgradeable) {
 			Upgradeable upgradeable = (Upgradeable) item.getItem();
 
 			this.drawCenteredString(matrices, textRenderer, "" + upgradeable.getSelectorPointsNumber(item), x, y, 0xFFFFFF);
 
 			List<Upgrade> upgrades = upgradeable.getPossibleUpgrades(item);
-			
-			ItemRenderer itemRenderer = client.getItemRenderer();
 
 			RenderSystem.enableRescaleNormal();
 			for(Upgrade u : upgrades) {
 				//if(u.equals(ModUpgrades.FLAMING_TOUCH))
-				RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-				this.drawLineToPrev(matrices, u, 2, 0xFFFF00);
+				this.drawLineToPrev(matrices, u, upgradeable);
 
 				this.itemRenderer.zOffset = 100.0F;
 				itemRenderer.renderGuiItemIcon(u.getIcon(), this.innerXPointToActualXPoint(u.getX() - 8), this.innerYPointToActualYPoint(u.getY() - 8));
 				this.itemRenderer.zOffset = 0.0F;
 			}
 
-			if(this.selectedUpgrade != null && !upgradeable.hasUpgrade(item, this.selectedUpgrade)) {
+			itemRenderer.renderGuiItemIcon(item, this.innerXPointToActualXPoint(0) - 8, this.innerYPointToActualYPoint(0) - 8);
+
+			if(this.selectedUpgrade != null && !upgradeable.hasUpgradeUnlocked(item, this.selectedUpgrade)) {
 				for(int r = 0; r < this.selectedUpgrade.getRequirements().length; r++) {
 					itemRenderer.renderGuiItemIcon(this.selectedUpgrade.getRequirements()[r], i + 41 + r * 18, j + this.backgroundHeight - 18);
 				}
@@ -121,7 +149,7 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 		}
 	}
 
-	public void drawLineToPrev(MatrixStack matrices, Upgrade u, int length, int color) {
+	public void drawLineToPrev(MatrixStack matrices, Upgrade u, Upgradeable upgradeable) {
 		Matrix4f matrix = matrices.peek().getModel();
 		int x = this.innerXPointToActualXPoint(u.getX());
 		int y = this.innerYPointToActualYPoint(u.getY());
@@ -129,18 +157,7 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 		int prevX = this.innerXPointToActualXPoint(u.getPrev() != null ? u.getPrev().getX() : 0);
 		int prevY = this.innerYPointToActualYPoint(u.getPrev() != null ? u.getPrev().getY() : 0);
 
-		double deltaX = x - prevX;
-		double deltaY = y - prevY;
-
-		double angle = (Math.PI / 2) - Math.atan(deltaY / deltaX);
-
-		double xoffset = length / 2 * Math.sin(angle);
-		double yoffset = length / 2 * Math.cos(angle);
-
-		double x1 = x - xoffset, y1 = y + yoffset;
-		double x2 = x + xoffset, y2 = y - yoffset;
-		double x3 = prevX - xoffset, y3 = prevY + yoffset;
-		double x4 = prevX + xoffset, y4 = prevY - yoffset;
+		int color = this.getColor(u, upgradeable);
 
 		float f = (float)(color >> 24 & 255) / 255.0F;
 		float g = (float)(color >> 16 & 255) / 255.0F;
@@ -148,19 +165,41 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 		float k = (float)(color & 255) / 255.0F;
 		
 		//System.out.printf("(%f,%f), (%f,%f), (%f,%f), (%f,%f)\n", x1, y1, x2, y2, x3, y3, x4, y4);
-		BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
-		//RenderSystem.enableBlend();
+		BufferBuilder bb = Tessellator.getInstance().getBuffer();
+
+		//RenderSystem.pushMatrix();
+		
+		/*RenderSystem.depthMask(true);
+		RenderSystem.disableCull();
+		RenderSystem.enableBlend();
+		RenderSystem.defaultBlendFunc();*/
 		RenderSystem.disableTexture();
-		//RenderSystem.defaultBlendFunc();
-		bufferBuilder.begin(7, VertexFormats.POSITION_COLOR);
-		bufferBuilder.vertex(matrix, (float)x2, (float)y2, 0.0F).color(g, h, k, f).next();
-		bufferBuilder.vertex(matrix, (float)x1, (float)y1, 0.0F).color(g, h, k, f).next();
-		bufferBuilder.vertex(matrix, (float)x3, (float)y3, 0.0F).color(g, h, k, f).next();
-		bufferBuilder.vertex(matrix, (float)x4, (float)y4, 0.0F).color(g, h, k, f).next();
-		bufferBuilder.end();
-		BufferRenderer.draw(bufferBuilder);
+		
+
+		bb.begin(1, VertexFormats.POSITION_COLOR);
+		RenderSystem.lineWidth(6f);
+		bb.vertex(matrix, (float)prevX, (float)prevY, 0.0F).color(g, h, k, f).next();
+		bb.vertex(matrix, (float)x, (float)y, 0.0F).color(g, h, k, f).next();
+		Tessellator.getInstance().draw();
+
+		/*RenderSystem.depthMask(true);
+		RenderSystem.disableBlend();
+		RenderSystem.enableCull();*/
 		RenderSystem.enableTexture();
-		//RenderSystem.disableBlend();
+
+		//RenderSystem.popMatrix();
+	}
+
+	public int getColor(Upgrade u, Upgradeable upgradeable) {
+		ItemStack stack = this.getStack();
+
+		if(upgradeable.getUpgradesSelected(stack).contains(u)) {
+			return 0x00FF00;
+		} else if(upgradeable.getUpgradesUnlocked(stack, true).contains(u)) {
+			return 0xEEEEEE;
+		} else {
+			return 0x333333;
+		}
 	}
 
 	@Override
@@ -176,7 +215,7 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
 		boolean b = super.mouseClicked(mouseX, mouseY, button);
 
-		ItemStack item = this.handler.slots.get(0).getStack();
+		ItemStack item = this.getStack();
 		if(item.getItem() instanceof Upgradeable) {
 			Upgradeable upgradeable = (Upgradeable) item.getItem();
 			List<Upgrade> upgrades = upgradeable.getPossibleUpgrades(item);
@@ -206,7 +245,7 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 
 		//SoulMagic.LOGGER.info(mouseX + " " + mouseY);
 
-		ItemStack item = this.handler.slots.get(0).getStack();
+		ItemStack item = this.getStack();
 		if(item.getItem() instanceof Upgradeable) {
 			Upgradeable upgradeable = (Upgradeable) item.getItem();
 			List<Upgrade> upgrades = upgradeable.getPossibleUpgrades(item);

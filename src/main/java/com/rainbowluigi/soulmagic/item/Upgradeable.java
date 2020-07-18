@@ -39,7 +39,7 @@ public interface Upgradeable {
 		return upgrades;
 	}
 
-	public default boolean hasUpgrade(ItemStack stack, Upgrade target) {
+	public default boolean hasUpgradeUnlocked(ItemStack stack, Upgrade target) {
 		if(stack.hasTag() && stack.getTag().contains("upgrades")) {
 			ListTag t = (ListTag) stack.getTag().get("upgrades");
 
@@ -47,7 +47,7 @@ public interface Upgradeable {
 				CompoundTag tag = (CompoundTag) t.get(i);
 				Upgrade u = ModUpgrades.UPGRADE.get(new Identifier(tag.getString("name")));
 				
-				if(u == target) {
+				if(u.equals(target)) {
 					return true;
 				}
 			}
@@ -56,7 +56,24 @@ public interface Upgradeable {
 		return false;
 	}
 
-	public default void addUpgrade(ItemStack stack, Upgrade u, boolean selected) {
+	public default boolean hasUpgradeSelected(ItemStack stack, Upgrade target) {
+		if(stack.hasTag() && stack.getTag().contains("upgrades")) {
+			ListTag t = (ListTag) stack.getTag().get("upgrades");
+
+			for(int i = 0; i < t.size(); i++) {
+				CompoundTag tag = (CompoundTag) t.get(i);
+				Upgrade u = ModUpgrades.UPGRADE.get(new Identifier(tag.getString("name")));
+				
+				if(u.equals(target)) {
+					return tag.contains("selected") && tag.getBoolean("selected");
+				}
+			}
+		}
+
+		return false;
+	}
+
+	public default void addUpgrade(ItemStack stack, Upgrade u) {
 		CompoundTag tag = stack.getOrCreateTag();
 
 		if(!tag.contains("upgrades")) {
@@ -68,8 +85,22 @@ public interface Upgradeable {
 
 		CompoundTag upgradeTag = new CompoundTag();
 		upgradeTag.putString("name", ModUpgrades.UPGRADE.getId(u).toString());
-		upgradeTag.putBoolean("selected", selected);
 		list.add(upgradeTag);
+	}
+
+	public default void setUpgradeSelection(ItemStack stack, Upgrade target, boolean selected) {
+		if(stack.hasTag() && stack.getTag().contains("upgrades")) {
+			ListTag t = (ListTag) stack.getTag().get("upgrades");
+
+			for(int i = 0; i < t.size(); i++) {
+				CompoundTag tag = (CompoundTag) t.get(i);
+				Upgrade u = ModUpgrades.UPGRADE.get(new Identifier(tag.getString("name")));
+				
+				if(u.equals(target)) {
+					tag.putBoolean("selected", selected);
+				}
+			}
+		}
 	}
 
 	public default int getSelectorPointsNumber(ItemStack stack) {
@@ -84,7 +115,9 @@ public interface Upgradeable {
 
 		int points = tag.contains("selectorPoints") ? tag.getInt("selectorPoints") : 0;
 
-		tag.putInt("selectorPoints", points + 1);
+		if(points < this.getMaxSelectorPoints(stack)) {
+			tag.putInt("selectorPoints", points + 1);
+		}
 	}
 
 	public default int getSelectorPointsUsed(ItemStack stack) {
