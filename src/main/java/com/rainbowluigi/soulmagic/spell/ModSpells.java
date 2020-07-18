@@ -14,8 +14,6 @@ public class ModSpells {
     public static final RegistryKey<Registry<Spell>> SPELL_KEY = RegistryKey.ofRegistry(new Identifier(Reference.MOD_ID, "fireball"));
     public static final DefaultedRegistry<Spell> SPELL = new DefaultedRegistry<Spell>("light", SPELL_KEY, Lifecycle.experimental());
 	
-	public static final Spell FIREBALL = new SpellFireball();
-	public static final Spell FLAMING_TOUCH = new SpellFlamingTouch();
 	public static final Spell ICEBALL = new SpellIceball();
 	public static final Spell BARRAGE = new SpellBarrage();
 	public static final Spell TENDRILS = new SpellTendrils();
@@ -32,8 +30,6 @@ public class ModSpells {
 	public static void registerSpells() {
 		//Registry.register(Registry.REGISTRIES, new Identifier(Reference.MOD_ID, "spell"), SPELL);
 
-		registerSpell(FIREBALL, "fireball");
-		registerSpell(FLAMING_TOUCH, "flaming_touch");
 		registerSpell(ICEBALL, "iceball");
 		registerSpell(BARRAGE, "barrage");
 		registerSpell(TENDRILS, "tendrils");

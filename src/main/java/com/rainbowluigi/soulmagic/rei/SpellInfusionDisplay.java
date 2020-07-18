@@ -36,7 +36,7 @@ public class SpellInfusionDisplay extends SoulInfusionDisplay {
 			if(SoulGemHelper.getSpellType(stack2) == null)
 				SoulGemHelper.setSpellType(stack2, recipe.spell.getParent());
 			
-			SoulGemHelper.addSpell(stack2, recipe.spell);
+			//SoulGemHelper.addSpell(stack2, recipe.spell);
 			output.add(EntryStack.create(stack2));
 		}
 		

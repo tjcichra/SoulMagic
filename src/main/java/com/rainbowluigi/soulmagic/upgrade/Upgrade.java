@@ -1,18 +1,19 @@
 package com.rainbowluigi.soulmagic.upgrade;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 
 public class Upgrade {
 	private ItemStack icon;
-	private Text name;
+	private MutableText name;
 	private Text desc;
 	private int x, y;
 	private Upgrade prev;
 	private ItemStack[] requirements;
 
-	public Upgrade(ItemStack icon, Text name, Text desc, int x, int y, Upgrade prev, ItemStack... stacks) {
+	public Upgrade(ItemStack icon, MutableText name, Text desc, int x, int y, Upgrade prev, ItemStack... stacks) {
 		this.icon = icon;
 		this.name = name;
 		this.desc = desc;
@@ -30,7 +31,7 @@ public class Upgrade {
 		return this.icon;
 	}
 
-	public Text getName() {
+	public MutableText getName() {
 		return this.name;
 	}
 

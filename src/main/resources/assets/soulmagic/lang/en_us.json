@@ -37,8 +37,8 @@
 	"block.soulmagic.soul_essence_infuser": "Soul Essence Infuser",
 	"block.soulmagic.upgrade_station": "Upgrade Station",
 	
-	"spell.soulmagic.fireball": "Fireball",
-	"spell.soulmagic.flaming_touch": "Flaming Touch",
+	"upgrade.soulmagic.fireball": "Fireball",
+	"upgrade.soulmagic.flaming_touch": "Flaming Touch",
 	
 	"soul_type.soulmagic.light": "Light",
 	"soul_type.soulmagic.dark": "Dark",

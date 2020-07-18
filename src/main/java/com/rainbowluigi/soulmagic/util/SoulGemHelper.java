@@ -3,10 +3,13 @@ package com.rainbowluigi.soulmagic.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.rainbowluigi.soulmagic.item.Upgradeable;
 import com.rainbowluigi.soulmagic.spell.ModSpells;
 import com.rainbowluigi.soulmagic.spell.Spell;
 import com.rainbowluigi.soulmagic.spelltype.ModSpellTypes;
 import com.rainbowluigi.soulmagic.spelltype.SpellType;
+import com.rainbowluigi.soulmagic.upgrade.Upgrade;
+import com.rainbowluigi.soulmagic.upgrade.spells.SpellUpgrade;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
@@ -31,44 +34,9 @@ public class SoulGemHelper {
 		stack.getTag().putString("spelltype", ModSpellTypes.SPELL_TYPE.getId(st).toString());
     }
 	
-	public static void addSpell(ItemStack stack, Spell s) {
-		if(!stack.hasTag()) {
-			stack.setTag(new CompoundTag());
-		}
-		
-		if(!stack.getTag().contains("spells")) {
-			stack.getTag().put("spells", new ListTag());
-		}
-		
-		ListTag nbtTagList = getSpells(stack);
-		
-		CompoundTag tag = new CompoundTag();
-		tag.putString("spell", ModSpells.SPELL.getId(s).toString());
-		nbtTagList.add(tag);
-	}
-	
-	public static boolean hasSpell(ItemStack stack, Spell s) {
-		if(stack.hasTag() && stack.getTag().contains("spells")) {
-			ListTag list = getSpells(stack);
-			
-			for(Tag t : list) {
-				Spell s2 = ModSpells.SPELL.get(new Identifier(((CompoundTag)t).getString("spell")));
-				if(s.equals(s2)) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-	
-	public static Spell getCurrentSpell(ItemStack stack) {
-		if(stack.hasTag() && stack.getTag().contains("spells")) {
-			ListTag list = getSpells(stack);
-			
-			int spellIndex = getCurrentSpellIndex(stack);
-			return ModSpells.SPELL.get(new Identifier(((CompoundTag)list.get(spellIndex)).getString("spell")));
-		}
-		return null;
+	public static SpellUpgrade getCurrentSpell(ItemStack stack) {
+		int spellIndex = getCurrentSpellIndex(stack);
+		return getCurrentList(stack).get(spellIndex);
 	}
 	
 	public static void setCurrentSpellIndex(ItemStack stack, int index) {
@@ -79,20 +47,16 @@ public class SoulGemHelper {
 		stack.getTag().putInt("spellindex", index);
 	}
 	
-	public static List<Spell> getCurrentList(ItemStack stack) {
-		List<Spell> spells = new ArrayList<>();
-		if(stack.hasTag() && stack.getTag().contains("spells")) {
-			ListTag list = getSpells(stack);
-			
-			for(int i = 0; i < list.size(); i++) {
-				spells.add(ModSpells.SPELL.get(new Identifier(((CompoundTag)list.get(i)).getString("spell"))));
+	public static List<SpellUpgrade> getCurrentList(ItemStack stack) {
+		List<SpellUpgrade> spells = new ArrayList<>();
+		Upgradeable u = (Upgradeable) stack.getItem();
+		
+		for(Upgrade u2 : u.getUpgradesSelected(stack)) {
+			if(u2 instanceof SpellUpgrade) {
+				spells.add((SpellUpgrade) u2);
 			}
 		}
 		return spells;
-	}
-	
-	private static ListTag getSpells(ItemStack stack) {
-		return (ListTag) stack.getTag().get("spells");
 	}
 	
 	private static int getCurrentSpellIndex(ItemStack stack) {

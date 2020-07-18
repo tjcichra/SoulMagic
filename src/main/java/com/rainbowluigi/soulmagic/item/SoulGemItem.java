@@ -10,6 +10,7 @@ import com.rainbowluigi.soulmagic.spell.Spell;
 import com.rainbowluigi.soulmagic.spelltype.ModSpellTypes;
 import com.rainbowluigi.soulmagic.spelltype.SpellType;
 import com.rainbowluigi.soulmagic.upgrade.Upgrade;
+import com.rainbowluigi.soulmagic.upgrade.spells.SpellUpgrade;
 import com.rainbowluigi.soulmagic.util.SoulGemHelper;
 
 import net.fabricmc.api.EnvType;
@@ -60,19 +61,17 @@ public class SoulGemItem extends Item implements SoulEssenceStaffDisplayer, Upgr
 			for (SpellType st : ModSpellTypes.SPELL_TYPE) {
 				ItemStack stack = new ItemStack(this);
 				SoulGemHelper.setSpellType(stack, st);
-				for (Spell s : ModSpells.SPELL) {
-					if (s.isBase() && s.getParent() == st) {
-						SoulGemHelper.addSpell(stack, s);
-					}
-				}
+				this.addUpgrade(stack, st.getBaseUpgrade());
+				this.incrementSelectorPoints(stack);
+				this.setUpgradeSelection(stack, st.getBaseUpgrade(), true);
 				items.add(stack);
 
 				ItemStack stack2 = new ItemStack(this);
 				SoulGemHelper.setSpellType(stack2, st);
-				for (Spell s : ModSpells.SPELL) {
-					if (s.getParent() == st || st == ModSpellTypes.ULTIMATE) {
-						SoulGemHelper.addSpell(stack2, s);
-					}
+				for (Upgrade u : this.getPossibleUpgrades(stack2)) {
+					this.addUpgrade(stack2, u);
+					this.incrementSelectorPoints(stack2);
+					this.setUpgradeSelection(stack2, u, true);
 				}
 				items.add(stack2);
 			}
@@ -84,7 +83,7 @@ public class SoulGemItem extends Item implements SoulEssenceStaffDisplayer, Upgr
 		ItemStack stack = player.getStackInHand(hand);
 
 		if (SoulGemHelper.getSpellType(stack) != null) {
-			Spell s = SoulGemHelper.getCurrentSpell(stack);
+			SpellUpgrade s = SoulGemHelper.getCurrentSpell(stack);
 
 			if (s != null) {
 				return s.use(world, player, hand);
@@ -101,7 +100,7 @@ public class SoulGemItem extends Item implements SoulEssenceStaffDisplayer, Upgr
 		ItemStack stack = iuc.getPlayer().getStackInHand(iuc.getHand());
 
 		if (SoulGemHelper.getSpellType(stack) != null) {
-			Spell s = SoulGemHelper.getCurrentSpell(stack);
+			SpellUpgrade s = SoulGemHelper.getCurrentSpell(stack);
 
 			if (s != null) {
 				return s.useOnBlock(iuc);

@@ -1,4 +1,4 @@
-package com.rainbowluigi.soulmagic.spell;
+package com.rainbowluigi.soulmagic.upgrade.spells;
 
 import java.util.Random;
 
@@ -6,6 +6,7 @@ import com.rainbowluigi.soulmagic.item.soulessence.SoulEssenceStaff;
 import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
 import com.rainbowluigi.soulmagic.soultype.SoulType;
 import com.rainbowluigi.soulmagic.spelltype.ModSpellTypes;
+import com.rainbowluigi.soulmagic.upgrade.Upgrade;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -22,12 +23,12 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-public class SpellFlamingTouch extends Spell {
+public class FlamingTouchUpgrade extends SpellUpgrade {
 
 	private SoulType[] types = new SoulType[] {ModSoulTypes.LIGHT, ModSoulTypes.DARK};
 	
-	public SpellFlamingTouch() {
-		super(ModSpellTypes.FIERY);
+	public FlamingTouchUpgrade(ItemStack icon, String name, String desc, int x, int y, Upgrade prev, ItemStack... stacks) {
+		super(icon, name, desc, x, y, prev, stacks);
 	}
 
 	@Override

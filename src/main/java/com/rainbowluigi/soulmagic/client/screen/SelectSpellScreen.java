@@ -5,7 +5,7 @@ import java.util.List;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.rainbowluigi.soulmagic.client.SoulMagicClient;
 import com.rainbowluigi.soulmagic.network.ModNetwork;
-import com.rainbowluigi.soulmagic.spell.Spell;
+import com.rainbowluigi.soulmagic.upgrade.spells.SpellUpgrade;
 import com.rainbowluigi.soulmagic.util.SoulGemHelper;
 
 import io.netty.buffer.Unpooled;
@@ -65,7 +65,7 @@ public class SelectSpellScreen extends Screen {
 	public void render(MatrixStack matrix, int mouseX, int mouseY, float partialTicks) {
 		this.mouseX = mouseX;
 		this.mouseY = mouseY;
-		List<Spell> spells = SoulGemHelper.getCurrentList(stack);
+		List<SpellUpgrade> spells = SoulGemHelper.getCurrentList(stack);
 		
 		if(spells.size() > 0) {
 			double angle = (2 * Math.PI) / (spells.size());
@@ -102,7 +102,7 @@ public class SelectSpellScreen extends Screen {
 		double cY = -((this.mouseY) - (this.height / 2));
 		double range = Math.sqrt(Math.pow(cX, 2) + Math.pow(cY, 2));
 		
-		List<Spell> spells = SoulGemHelper.getCurrentList(stack);
+		List<SpellUpgrade> spells = SoulGemHelper.getCurrentList(stack);
 		
 		if(spells.size() > 0 && range >= 20) {
 			double angle = Math.atan(cX / cY);

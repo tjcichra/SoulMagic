@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 import com.google.common.collect.Maps;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.rainbowluigi.soulmagic.item.Upgradeable;
 import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
 import com.rainbowluigi.soulmagic.soultype.SoulType;
 import com.rainbowluigi.soulmagic.spell.ModSpells;
@@ -43,10 +44,6 @@ public class SpellInfusionRecipe extends SoulInfusionRecipe {
 		
 		ItemStack stack = sibe.getStack(8);
 			
-		if(SoulGemHelper.hasSpell(stack, this.spell)) {
-			return false;
-		}
-			
 		if(this.spell.isBase() && SoulGemHelper.getSpellType(stack) == null || this.spell.getParent() == SoulGemHelper.getSpellType(stack) || SoulGemHelper.getSpellType(stack) == ModSpellTypes.ULTIMATE) {
 			return true;
 		}
@@ -61,7 +58,13 @@ public class SpellInfusionRecipe extends SoulInfusionRecipe {
 			SoulGemHelper.setSpellType(stack, this.spell.getParent());
 		}
 		
-		SoulGemHelper.addSpell(stack, spell);
+		if(stack.getItem() instanceof Upgradeable) {
+			Upgradeable u = (Upgradeable) stack.getItem();
+
+			u.addUpgrade(stack, SoulGemHelper.getSpellType(stack).getBaseUpgrade());
+			u.incrementSelectorPoints(stack);
+			u.setUpgradeSelection(stack, SoulGemHelper.getSpellType(stack).getBaseUpgrade(), true);
+		}
 		return stack;
 	}
 
