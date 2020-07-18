@@ -26,11 +26,11 @@ import net.minecraft.world.World;
 
 public class SpellTypeInfusionRecipe extends SoulInfusionRecipe {
 	
-	public SpellType type;
+	public SpellType soulType;
 	
-	public SpellTypeInfusionRecipe(Identifier id, String group, DefaultedList<Ingredient> inputs, Map<SoulType, Integer> soulMap, int progressColor, SpellType type) {
+	public SpellTypeInfusionRecipe(Identifier id, String group, DefaultedList<Ingredient> inputs, Map<SoulType, Integer> soulMap, int progressColor, SpellType soulType) {
 		super(id, group, inputs, soulMap, progressColor, ItemStack.EMPTY);
-		this.type = type;
+		this.soulType = soulType;
 	}
 	
 	@Override
@@ -47,12 +47,12 @@ public class SpellTypeInfusionRecipe extends SoulInfusionRecipe {
 	@Override
 	public ItemStack craft(Inventory sibe) {
 		ItemStack stack = sibe.getStack(8).copy();
-		SoulGemHelper.setSpellType(stack, this.type);
+		SoulGemHelper.setSpellType(stack, this.soulType);
 		
 		if(stack.getItem() instanceof Upgradeable) {
 			Upgradeable u = (Upgradeable) stack.getItem();
 
-			u.addUpgrade(stack, this.type.getBaseUpgrade());
+			u.addUpgrade(stack, this.soulType.getBaseUpgrade());
 			u.incrementSelectorPoints(stack);
 			u.setUpgradeSelection(stack, SoulGemHelper.getSpellType(stack).getBaseUpgrade(), true);
 		}
@@ -67,7 +67,9 @@ public class SpellTypeInfusionRecipe extends SoulInfusionRecipe {
 
 	@Override
 	public ItemStack getOutput() {
-		return this.inputs.get(8).getMatchingStacksClient()[0];
+		ItemStack stack = this.inputs.get(8).getMatchingStacksClient()[0];
+		SoulGemHelper.setSpellType(stack, this.soulType);
+		return stack;
 	}
 	
 	public static class Serializer implements RecipeSerializer<SpellTypeInfusionRecipe> {
@@ -78,7 +80,12 @@ public class SpellTypeInfusionRecipe extends SoulInfusionRecipe {
 			int color = JsonHelper.getInt(json, "color", 0xFFFFFF);
 			DefaultedList<Ingredient> inputs = readIngredients(JsonHelper.getArray(json, "ingredients"));
 			
-			SpellType type = ModSpellTypes.SPELL_TYPE.get(new Identifier(JsonHelper.getString(json, "type")));
+			SpellType type = ModSpellTypes.SPELL_TYPE.get(new Identifier(JsonHelper.getString(json, "spelltype")));
+
+			if(type == null) {
+				throw new IllegalArgumentException(JsonHelper.getString(json, "spelltype") + " is not a valid spell type.");
+			}
+
 			Map<SoulType, Integer> soulMap = SoulUtils.deserializeSoulMap(JsonHelper.getObject(json, "soul"));
 			
 			return new SpellTypeInfusionRecipe(recipeId, s, inputs, soulMap, color, type);
@@ -127,7 +134,7 @@ public class SpellTypeInfusionRecipe extends SoulInfusionRecipe {
 				i.write(buffer);
 			}
 			
-			buffer.writeIdentifier(ModSpellTypes.SPELL_TYPE.getId(recipe.type));
+			buffer.writeIdentifier(ModSpellTypes.SPELL_TYPE.getId(recipe.soulType));
 			
 			buffer.writeInt(recipe.getSoulMap().size());
 			for(Entry<SoulType, Integer> entry : recipe.getSoulMap().entrySet()) {

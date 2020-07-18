@@ -67,6 +67,7 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 						if(u.getUpgradesSelected(stack).size() < u.getSelectorPointsNumber(stack)) {
 							if(this.selectedUpgrade.getPrev() == null || u.hasUpgradeSelected(stack, this.selectedUpgrade.getPrev())) {
 								u.setUpgradeSelection(stack, this.selectedUpgrade, true);
+								u.onSelection(stack, this.selectedUpgrade);
 								//u.setUpgradeSelection(stack, this.selectedUpgrade, !u.hasUpgradeSelected(stack, this.selectedUpgrade));
 								ClientSidePacketRegistry.INSTANCE.sendToServer(ModNetwork.UPGRADE_STATION, UpgradeStationMessage.makePacket(stack));
 							}
@@ -82,6 +83,7 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 
 						if(isGood) {
 							u.setUpgradeSelection(stack, this.selectedUpgrade, false);
+							u.onUnselection(stack, this.selectedUpgrade);
 							ClientSidePacketRegistry.INSTANCE.sendToServer(ModNetwork.UPGRADE_STATION, UpgradeStationMessage.makePacket(stack));
 						}
 					}

@@ -127,4 +127,12 @@ public interface Upgradeable {
 	public default int getMaxSelectorPoints(ItemStack stack) {
 		return this.getPossibleUpgrades(stack).size();
 	}
+
+	public default void onSelection(ItemStack stack, Upgrade u) {
+
+	}
+
+	public default void onUnselection(ItemStack stack, Upgrade u) {
+
+	}
 }

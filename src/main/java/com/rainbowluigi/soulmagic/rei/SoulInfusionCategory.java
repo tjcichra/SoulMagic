@@ -84,7 +84,7 @@ public class SoulInfusionCategory implements TransferRecipeCategory<SoulInfusion
 	//Gets the height of the display
 	@Override
 	public int getDisplayHeight() {
-		return 128;
+		return 118;
 	}
 
 	//Handles the rendered red slots when using auto-transer

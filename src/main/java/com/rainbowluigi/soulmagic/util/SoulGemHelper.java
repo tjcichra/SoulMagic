@@ -32,6 +32,10 @@ public class SoulGemHelper {
 	
 	public static SpellUpgrade getCurrentSpell(ItemStack stack) {
 		int spellIndex = getCurrentSpellIndex(stack);
+		if(spellIndex < 0 || spellIndex >= getCurrentList(stack).size()) {
+			return null;
+		}
+
 		return getCurrentList(stack).get(spellIndex);
 	}
 	
@@ -55,7 +59,7 @@ public class SoulGemHelper {
 		return spells;
 	}
 	
-	private static int getCurrentSpellIndex(ItemStack stack) {
+	public static int getCurrentSpellIndex(ItemStack stack) {
         if(stack.getTag().contains("spellindex")) {
             return stack.getTag().getInt("spellindex");
         }

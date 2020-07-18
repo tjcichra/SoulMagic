@@ -20,7 +20,6 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
@@ -85,8 +84,6 @@ public class SoulGemItem extends Item implements SoulEssenceStaffDisplayer, Upgr
 
 			if (s != null) {
 				return s.use(world, player, hand);
-			} else {
-				player.sendMessage(new TranslatableText("soulmagic.spell.error"), true);
 			}
 		}
 
@@ -102,8 +99,6 @@ public class SoulGemItem extends Item implements SoulEssenceStaffDisplayer, Upgr
 
 			if (s != null) {
 				return s.useOnBlock(iuc);
-			} else {
-				iuc.getPlayer().sendMessage(new TranslatableText("soulmagic.spell.error"), true);
 			}
 		}
 
@@ -131,5 +126,19 @@ public class SoulGemItem extends Item implements SoulEssenceStaffDisplayer, Upgr
 	public List<Upgrade> getPossibleUpgrades(ItemStack stack) {
 		SpellType type = SoulGemHelper.getSpellType(stack);
 		return type != null ? type.getPossibleUpgrades() : new ArrayList<>();
+	}
+
+	@Override
+	public void onUnselection(ItemStack stack, Upgrade u) {
+		if(u instanceof SpellUpgrade && SoulGemHelper.getCurrentSpellIndex(stack) >= SoulGemHelper.getCurrentList(stack).size()) {
+			SoulGemHelper.setCurrentSpellIndex(stack, SoulGemHelper.getCurrentList(stack).size() - 1);
+		}
+	}
+
+	@Override
+	public void onSelection(ItemStack stack, Upgrade u) {
+		if(u instanceof SpellUpgrade && SoulGemHelper.getCurrentSpellIndex(stack) < 0 && SoulGemHelper.getCurrentList(stack).size() > 0) {
+			SoulGemHelper.setCurrentSpellIndex(stack, 0);
+		}
 	}
 }

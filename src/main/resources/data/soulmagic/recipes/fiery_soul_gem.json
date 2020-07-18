@@ -29,7 +29,7 @@
 			"item": "soulmagic:soul_gem"
 		}
 	],
-	"spell": "soulmagic:flaming_touch",
+	"spelltype": "soulmagic:fiery",
 	"soul": {
 		"soulmagic:light": 25,
 		"soulmagic:dark": 25
