@@ -9,9 +9,8 @@ import com.google.gson.JsonObject;
 import com.rainbowluigi.soulmagic.item.Upgradeable;
 import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
 import com.rainbowluigi.soulmagic.soultype.SoulType;
-import com.rainbowluigi.soulmagic.spell.ModSpells;
-import com.rainbowluigi.soulmagic.spell.Spell;
 import com.rainbowluigi.soulmagic.spelltype.ModSpellTypes;
+import com.rainbowluigi.soulmagic.spelltype.SpellType;
 import com.rainbowluigi.soulmagic.util.SoulGemHelper;
 import com.rainbowluigi.soulmagic.util.SoulUtils;
 
@@ -25,13 +24,13 @@ import net.minecraft.util.JsonHelper;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 
-public class SpellInfusionRecipe extends SoulInfusionRecipe {
+public class SpellTypeInfusionRecipe extends SoulInfusionRecipe {
 	
-	public Spell spell;
+	public SpellType type;
 	
-	public SpellInfusionRecipe(Identifier id, String group, DefaultedList<Ingredient> inputs, Map<SoulType, Integer> soulMap, int progressColor, Spell spell) {
+	public SpellTypeInfusionRecipe(Identifier id, String group, DefaultedList<Ingredient> inputs, Map<SoulType, Integer> soulMap, int progressColor, SpellType type) {
 		super(id, group, inputs, soulMap, progressColor, ItemStack.EMPTY);
-		this.spell = spell;
+		this.type = type;
 	}
 	
 	@Override
@@ -42,29 +41,22 @@ public class SpellInfusionRecipe extends SoulInfusionRecipe {
 			}
 		}
 		
-		ItemStack stack = sibe.getStack(8);
-			
-		if(this.spell.isBase() && SoulGemHelper.getSpellType(stack) == null || this.spell.getParent() == SoulGemHelper.getSpellType(stack) || SoulGemHelper.getSpellType(stack) == ModSpellTypes.ULTIMATE) {
-			return true;
-		}
-		
-		return false;
+		return SoulGemHelper.getSpellType(sibe.getStack(8)) == null;
 	}
 
 	@Override
 	public ItemStack craft(Inventory sibe) {
 		ItemStack stack = sibe.getStack(8).copy();
-		if(SoulGemHelper.getSpellType(stack) == null) {
-			SoulGemHelper.setSpellType(stack, this.spell.getParent());
-		}
+		SoulGemHelper.setSpellType(stack, this.type);
 		
 		if(stack.getItem() instanceof Upgradeable) {
 			Upgradeable u = (Upgradeable) stack.getItem();
 
-			u.addUpgrade(stack, SoulGemHelper.getSpellType(stack).getBaseUpgrade());
+			u.addUpgrade(stack, this.type.getBaseUpgrade());
 			u.incrementSelectorPoints(stack);
 			u.setUpgradeSelection(stack, SoulGemHelper.getSpellType(stack).getBaseUpgrade(), true);
 		}
+
 		return stack;
 	}
 
@@ -72,19 +64,24 @@ public class SpellInfusionRecipe extends SoulInfusionRecipe {
 	public RecipeSerializer<?> getSerializer() {
 		return ModRecipes.SPELL_INFUSION;
 	}
+
+	@Override
+	public ItemStack getOutput() {
+		return this.inputs.get(8).getMatchingStacksClient()[0];
+	}
 	
-	public static class Serializer implements RecipeSerializer<SpellInfusionRecipe> {
+	public static class Serializer implements RecipeSerializer<SpellTypeInfusionRecipe> {
 		
 		@Override
-		public SpellInfusionRecipe read(Identifier recipeId, JsonObject json) {
+		public SpellTypeInfusionRecipe read(Identifier recipeId, JsonObject json) {
 			String s = JsonHelper.getString(json, "group", "");
 			int color = JsonHelper.getInt(json, "color", 0xFFFFFF);
 			DefaultedList<Ingredient> inputs = readIngredients(JsonHelper.getArray(json, "ingredients"));
 			
-			Spell spell = ModSpells.SPELL.get(new Identifier(JsonHelper.getString(json, "spell")));
+			SpellType type = ModSpellTypes.SPELL_TYPE.get(new Identifier(JsonHelper.getString(json, "type")));
 			Map<SoulType, Integer> soulMap = SoulUtils.deserializeSoulMap(JsonHelper.getObject(json, "soul"));
 			
-			return new SpellInfusionRecipe(recipeId, s, inputs, soulMap, color, spell);
+			return new SpellTypeInfusionRecipe(recipeId, s, inputs, soulMap, color, type);
 		}
 		
 		private static DefaultedList<Ingredient> readIngredients(JsonArray array) {
@@ -99,7 +96,7 @@ public class SpellInfusionRecipe extends SoulInfusionRecipe {
 		}
 
 		@Override
-		public SpellInfusionRecipe read(Identifier recipeId, PacketByteBuf buffer) {
+		public SpellTypeInfusionRecipe read(Identifier recipeId, PacketByteBuf buffer) {
 			String group = buffer.readString();
 			int color = buffer.readInt();
 			int i = buffer.readVarInt();
@@ -109,7 +106,7 @@ public class SpellInfusionRecipe extends SoulInfusionRecipe {
 				inputs.set(j, Ingredient.fromPacket(buffer));
 			}
 			
-			Spell spell = ModSpells.SPELL.get(buffer.readIdentifier());
+			SpellType type = ModSpellTypes.SPELL_TYPE.get(buffer.readIdentifier());
 			
 			int n = buffer.readInt();
 			Map<SoulType, Integer> soulMap = Maps.newHashMap();
@@ -117,11 +114,11 @@ public class SpellInfusionRecipe extends SoulInfusionRecipe {
 				soulMap.put(ModSoulTypes.SOUL_TYPE.get(buffer.readIdentifier()), buffer.readInt());
 			}
 			
-			return new SpellInfusionRecipe(recipeId, group, inputs, soulMap, color, spell);
+			return new SpellTypeInfusionRecipe(recipeId, group, inputs, soulMap, color, type);
 		}
 
 		@Override
-		public void write(PacketByteBuf buffer, SpellInfusionRecipe recipe) {
+		public void write(PacketByteBuf buffer, SpellTypeInfusionRecipe recipe) {
 			buffer.writeString(recipe.group);
 			buffer.writeInt(recipe.progressColor);
 			buffer.writeVarInt(recipe.inputs.size());
@@ -130,7 +127,7 @@ public class SpellInfusionRecipe extends SoulInfusionRecipe {
 				i.write(buffer);
 			}
 			
-			buffer.writeIdentifier(ModSpells.SPELL.getId(recipe.spell));
+			buffer.writeIdentifier(ModSpellTypes.SPELL_TYPE.getId(recipe.type));
 			
 			buffer.writeInt(recipe.getSoulMap().size());
 			for(Entry<SoulType, Integer> entry : recipe.getSoulMap().entrySet()) {

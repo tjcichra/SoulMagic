@@ -1,9 +1,10 @@
-package com.rainbowluigi.soulmagic.spell;
+package com.rainbowluigi.soulmagic.upgrade.spells;
 
 import com.rainbowluigi.soulmagic.entity.TendrilEntity;
 import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
 import com.rainbowluigi.soulmagic.soultype.SoulType;
 import com.rainbowluigi.soulmagic.spelltype.ModSpellTypes;
+import com.rainbowluigi.soulmagic.upgrade.Upgrade;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -14,12 +15,12 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public class SpellTendrils extends Spell {
+public class TendrilsUpgrade extends SpellUpgrade {
 
 	private SoulType[] types = new SoulType[] {ModSoulTypes.LIGHT};
 	
-	public SpellTendrils() {
-		super(ModSpellTypes.EARTHEN);
+	public TendrilsUpgrade(ItemStack icon, String name, String desc, int x, int y, Upgrade prev, ItemStack... stacks) {
+		super(icon, name, desc, x, y, prev, stacks);
 	}
 	
 	@Override
@@ -47,10 +48,5 @@ public class SpellTendrils extends Spell {
 	@Override
 	public SoulType[] getSoulTypesToShow() {
 		return types;
-	}
-	
-	@Override
-	public boolean isBase() {
-		return false;
 	}
 }

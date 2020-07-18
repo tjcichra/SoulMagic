@@ -4,7 +4,7 @@ import com.rainbowluigi.soulmagic.block.ModBlocks;
 import com.rainbowluigi.soulmagic.client.screen.SoulSeparatorScreen;
 import com.rainbowluigi.soulmagic.item.crafting.SoulInfusionRecipe;
 import com.rainbowluigi.soulmagic.item.crafting.SoulSeparatorRecipe;
-import com.rainbowluigi.soulmagic.item.crafting.SpellInfusionRecipe;
+import com.rainbowluigi.soulmagic.item.crafting.SpellTypeInfusionRecipe;
 import com.rainbowluigi.soulmagic.util.Reference;
 
 import me.shedaniel.math.Rectangle;
@@ -48,7 +48,6 @@ public class SoulMagicPlugin implements REIPluginV0 {
     @Override
     public void registerRecipeDisplays(RecipeHelper recipeHelper) {
     	recipeHelper.registerRecipes(SOUL_INFUSION, SoulInfusionRecipe.class, SoulInfusionDisplay::new);
-    	recipeHelper.registerRecipes(SOUL_INFUSION, SpellInfusionRecipe.class, SpellInfusionDisplay::new);
     	recipeHelper.registerRecipes(SOUL_SEPARATION, SoulSeparatorRecipe.class, SoulSeparationDisplay::new);
     }
     

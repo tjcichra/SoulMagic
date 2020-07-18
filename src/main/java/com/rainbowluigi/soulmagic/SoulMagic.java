@@ -9,7 +9,6 @@ import com.rainbowluigi.soulmagic.item.ModItems;
 import com.rainbowluigi.soulmagic.item.crafting.ModRecipes;
 import com.rainbowluigi.soulmagic.network.ModNetwork;
 import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
-import com.rainbowluigi.soulmagic.spell.ModSpells;
 import com.rainbowluigi.soulmagic.spelltype.ModSpellTypes;
 import com.rainbowluigi.soulmagic.tabs.ModTabs;
 import com.rainbowluigi.soulmagic.upgrade.ModUpgrades;
@@ -40,10 +39,9 @@ public class SoulMagic implements ModInitializer {
 		ModRecipes.registerRecipeTypes();
 		ModRecipes.registerRecipeSerializers();
 
+		ModUpgrades.registerUpgrades();
 		ModSoulTypes.registerSoulTypes();
 		ModSpellTypes.registerSpellTypes();
-		ModSpells.registerSpells();
-		ModUpgrades.registerUpgrades();
 
 		ModScreenHandlerTypes.registerScreenHandlerTypes();
 		ModNetwork.registerClientToServerPackets();

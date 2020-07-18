@@ -16,7 +16,7 @@ public class ModRecipes {
 	
 	public static final RecipeSerializer<ShapedSoulStaffRecipe> SOUL_ESSENCE_STAFF_SHAPED = new ShapedSoulStaffRecipe.Serializer();
 	public static final RecipeSerializer<SoulInfusionRecipe> SOUL_ESSENCE_INFUSION = new SoulInfusionRecipe.Serializer();
-	public static final RecipeSerializer<SpellInfusionRecipe> SPELL_INFUSION = new SpellInfusionRecipe.Serializer();
+	public static final RecipeSerializer<SpellTypeInfusionRecipe> SPELL_INFUSION = new SpellTypeInfusionRecipe.Serializer();
 	public static final RecipeSerializer<EnchantmentInfusionRecipe> ENCHANTMENT_INFUSION = new EnchantmentInfusionRecipe.Serializer();
 	public static final RecipeSerializer<SoulSeparatorRecipe> SOUL_ESSENCE_SEPARATION = new SoulSeparatorRecipe.Serializer();
 	public static final SpecialRecipeSerializer<SoulStaffTransferRecipe> SOUL_ESSENCE_STAFF_TRANSFER = new SpecialRecipeSerializer<>(SoulStaffTransferRecipe::new);

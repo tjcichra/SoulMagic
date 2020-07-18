@@ -1,9 +1,9 @@
-package com.rainbowluigi.soulmagic.spell;
+package com.rainbowluigi.soulmagic.upgrade.spells;
 
 import com.rainbowluigi.soulmagic.entity.BarrageEntity;
 import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
 import com.rainbowluigi.soulmagic.soultype.SoulType;
-import com.rainbowluigi.soulmagic.spelltype.ModSpellTypes;
+import com.rainbowluigi.soulmagic.upgrade.Upgrade;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -12,12 +12,12 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
-public class SpellBarrage extends Spell {
+public class BarrageUpgrade extends SpellUpgrade {
 
 	private SoulType[] types = new SoulType[] {ModSoulTypes.LIGHT};
 	
-	public SpellBarrage() {
-		super(ModSpellTypes.EARTHEN);
+	public BarrageUpgrade(ItemStack icon, String name, String desc, int x, int y, Upgrade prev, ItemStack... stacks) {
+		super(icon, name, desc, x, y, prev, stacks);
 	}
 	
 	@Override
@@ -32,10 +32,5 @@ public class SpellBarrage extends Spell {
 	@Override
 	public SoulType[] getSoulTypesToShow() {
 		return this.types;
-	}
-	
-	@Override
-	public boolean isBase() {
-		return true;
 	}
 }
