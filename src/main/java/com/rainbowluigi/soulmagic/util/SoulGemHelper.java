@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.rainbowluigi.soulmagic.item.Upgradeable;
-import com.rainbowluigi.soulmagic.spell.ModSpells;
-import com.rainbowluigi.soulmagic.spell.Spell;
 import com.rainbowluigi.soulmagic.spelltype.ModSpellTypes;
 import com.rainbowluigi.soulmagic.spelltype.SpellType;
 import com.rainbowluigi.soulmagic.upgrade.Upgrade;
@@ -13,8 +11,6 @@ import com.rainbowluigi.soulmagic.upgrade.spells.SpellUpgrade;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.util.Identifier;
 
 public class SoulGemHelper {

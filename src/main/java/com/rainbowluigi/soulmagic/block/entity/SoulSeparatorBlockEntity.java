@@ -2,7 +2,6 @@ package com.rainbowluigi.soulmagic.block.entity;
 
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Optional;
 import java.util.Set;
 
 import com.rainbowluigi.soulmagic.inventory.SoulSeparatorScreenHandler;

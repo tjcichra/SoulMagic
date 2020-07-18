@@ -3,7 +3,6 @@ package com.rainbowluigi.soulmagic.spelltype;
 import java.util.List;
 
 import com.rainbowluigi.soulmagic.upgrade.Upgrade;
-import com.rainbowluigi.soulmagic.upgrade.spells.SpellUpgrade;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
