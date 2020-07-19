@@ -105,7 +105,7 @@ public class SpiritFlameEntity extends Entity {
 		//If the flame is not targeting an entity
 		if(this.targetUUID == null) {
 			//Get a list of entities around it excluding the caster and non-living entities
-			List<Entity> entities = this.world.getOtherEntities(this.getCaster(), this.getBoundingBox().expand(10));
+			List<Entity> entities = this.world.getEntities(this.getCaster(), this.getBoundingBox().expand(10));
 			entities.removeIf((e) -> !(e instanceof LivingEntity) && e.isAlive());
 
 			//If there are entities around it

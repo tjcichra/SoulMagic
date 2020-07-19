@@ -32,7 +32,7 @@ public class FlyingChestItem extends Item implements Accessory {
 	@Override
 	public void onWearTick(ItemStack stack, World world, PlayerEntity entity, int slotNum) {
 		if(!world.isClient && !entity.isSneaking()) {
-			List<Entity> entities = world.getOtherEntities(entity, entity.getBoundingBox().expand(6));
+			List<Entity> entities = world.getEntities(entity, entity.getBoundingBox().expand(6));
 
 			for(Entity e : entities) {
 				if(e instanceof ItemEntity) {
