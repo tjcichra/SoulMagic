@@ -295,7 +295,6 @@ public class MagicFireballEntity extends Entity {
 			}
 
 			try {
-				this.inLava = false;
 				this.checkBlockCollision();
 			} catch (Throwable var21) {
 				CrashReport crashReport_1 = CrashReport.create(var21, "Checking entity block collision");
