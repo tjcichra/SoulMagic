@@ -49,7 +49,7 @@ public class SelectSpellScreen extends Screen {
 				pbb.writeInt(index);
 				ClientSidePacketRegistry.INSTANCE.sendToServer(ModNetwork.SOUL_GEM_INDEX, pbb);
 				
-				player.sendMessage(new TranslatableText("soulmagic.select_spell", SoulGemHelper.getCurrentSpell(stack).getName()), true);
+				player.sendMessage(new TranslatableText("soulmagic.select_spell", SoulGemHelper.getCurrentSpell(stack).getSpellName()), true);
 			}
 			this.onClose();
 		}
@@ -87,7 +87,7 @@ public class SelectSpellScreen extends Screen {
 			
 			int index = this.getHoveredSpellIndex();
 			if(index != -1) {
-				this.drawCenteredText(matrix, this.textRenderer, spells.get(index).getName(), (this.width / 2), (this.height / 2) - 20, 0xFFFFFF);
+				this.drawCenteredText(matrix, this.textRenderer, spells.get(index).getSpellName(), (this.width / 2), (this.height / 2) - 20, 0xFFFFFF);
 			}
 			
 			if(this.range < this.height / 4) {

@@ -1,5 +1,6 @@
 package com.rainbowluigi.soulmagic.client.screen;
 
+import java.util.Arrays;
 import java.util.List;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -252,7 +253,7 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 				int y = this.innerYPointToActualYPoint(u.getY() - 8);
 
 				if(mouseX > x && mouseX <= x + 16 && mouseY > y && mouseY <= y + 16) {
-					this.renderTooltip(matrices, u.getName(), mouseX, mouseY);
+					this.renderTooltip(matrices, Arrays.asList(u.getName(), u.getDesc()), mouseX, mouseY);
 				}
 			}
 		}

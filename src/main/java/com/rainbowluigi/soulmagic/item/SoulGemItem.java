@@ -109,7 +109,7 @@ public class SoulGemItem extends Item implements SoulEssenceStaffDisplayer, Upgr
 	@Environment(EnvType.CLIENT)
 	public void appendTooltip(ItemStack stack, World world, List<Text> list, TooltipContext tooltipContext) {
 		if (SoulGemHelper.getSpellType(stack) != null && SoulGemHelper.getCurrentSpell(stack) != null) {
-			list.add(SoulGemHelper.getCurrentSpell(stack).getName().formatted(Formatting.GRAY));
+			list.add(SoulGemHelper.getCurrentSpell(stack).getSpellName().formatted(Formatting.GRAY));
 		}
 		super.appendTooltip(stack, world, list, tooltipContext);
 	}
