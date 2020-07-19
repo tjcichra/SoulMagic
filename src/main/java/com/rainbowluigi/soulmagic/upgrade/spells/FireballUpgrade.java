@@ -20,8 +20,8 @@ public class FireballUpgrade extends SpellUpgrade {
 
 	private SoulType[] types = new SoulType[] {ModSoulTypes.DARK};
 	
-	public FireballUpgrade(ItemStack icon, String name, String desc, int x, int y, Upgrade prev, ItemStack... stacks) {
-		super(icon, name, desc, x, y, prev, stacks);
+	public FireballUpgrade(ItemStack icon, int x, int y, Upgrade prev) {
+		super(icon, x, y, prev);
 	}
 	
 	@Override

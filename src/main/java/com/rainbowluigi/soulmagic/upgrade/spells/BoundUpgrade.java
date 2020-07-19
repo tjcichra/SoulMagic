@@ -1,12 +1,9 @@
 package com.rainbowluigi.soulmagic.upgrade.spells;
 
-import com.rainbowluigi.soulmagic.enchantment.ModEnchantments;
 import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
 import com.rainbowluigi.soulmagic.soultype.SoulType;
-import com.rainbowluigi.soulmagic.spelltype.ModSpellTypes;
 import com.rainbowluigi.soulmagic.upgrade.Upgrade;
 
-import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -22,8 +19,8 @@ public class BoundUpgrade extends SpellUpgrade {
 	
 	private SoulType[] types = new SoulType[] {ModSoulTypes.LIGHT, ModSoulTypes.DARK};
 	
-	public BoundUpgrade(Item item, ItemStack icon, String name, String desc, int x, int y, Upgrade prev, ItemStack... stacks) {
-		super(icon, name, desc, x, y, prev, stacks);
+	public BoundUpgrade(Item item, ItemStack icon, int x, int y, Upgrade prev) {
+		super(icon, x, y, prev);
 		this.item = item;
 	}
 	

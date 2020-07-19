@@ -7,8 +7,6 @@ import com.rainbowluigi.soulmagic.upgrade.Upgrade;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
@@ -19,12 +17,8 @@ public class SpellUpgrade extends Upgrade {
 
 	private Identifier spellTexture;
 
-	public SpellUpgrade(ItemStack icon, MutableText name, Text desc, int x, int y, Upgrade prev, ItemStack... stacks) {
-		super(icon, name, desc, x, y, prev, stacks);
-	}
-
-	public SpellUpgrade(ItemStack icon, String name, String desc, int x, int y, Upgrade prev, ItemStack... stacks) {
-		super(icon, name, desc, x, y, prev, stacks);
+	public SpellUpgrade(ItemStack icon, int x, int y, Upgrade prev) {
+		super(icon, x, y, prev);
 	}
 
 	public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {

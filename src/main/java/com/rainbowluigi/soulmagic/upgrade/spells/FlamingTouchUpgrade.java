@@ -26,8 +26,8 @@ public class FlamingTouchUpgrade extends SpellUpgrade {
 
 	private SoulType[] types = new SoulType[] {ModSoulTypes.LIGHT, ModSoulTypes.DARK};
 	
-	public FlamingTouchUpgrade(ItemStack icon, String name, String desc, int x, int y, Upgrade prev, ItemStack... stacks) {
-		super(icon, name, desc, x, y, prev, stacks);
+	public FlamingTouchUpgrade(ItemStack icon, int x, int y, Upgrade prev) {
+		super(icon, x, y, prev);
 	}
 
 	@Override

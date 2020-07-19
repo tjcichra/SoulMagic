@@ -1,42 +1,31 @@
 package com.rainbowluigi.soulmagic.upgrade;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Util;
 
 public class Upgrade {
+
 	private ItemStack icon;
-	private MutableText name;
-	private Text desc;
 	private int x, y;
 	private Upgrade prev;
 	private ItemStack[] requirements;
 
-	public Upgrade(ItemStack icon, MutableText name, Text desc, int x, int y, Upgrade prev, ItemStack... stacks) {
+	private String translationKey;
+	private String descTranslationKey;
+
+	public Upgrade(ItemStack icon, int x, int y, Upgrade prev) {
 		this.icon = icon;
-		this.name = name;
-		this.desc = desc;
 		this.x = x;
 		this.y = y;
 		this.prev = prev;
-		this.requirements = stacks;
-	}
-
-	public Upgrade(ItemStack icon, String name, String desc, int x, int y, Upgrade prev, ItemStack... stacks) {
-		this(icon, new TranslatableText(name), new TranslatableText(desc), x, y, prev, stacks);
 	}
 
 	public ItemStack getIcon() {
 		return this.icon;
-	}
-
-	public MutableText getName() {
-		return this.name;
-	}
-
-	public Text getDescription() {
-		return this.desc;
 	}
 
 	public int getX() {
@@ -51,7 +40,38 @@ public class Upgrade {
 		return this.prev;
 	}
 
+	public Upgrade setRequirements(ItemStack... stacks) {
+		this.requirements = stacks;
+		return this;
+	}
+
 	public ItemStack[] getRequirements() {
 		return this.requirements;
+	}
+
+	@Environment(EnvType.CLIENT)
+	public MutableText getName() {
+		return new TranslatableText(this.getOrCreateTranslationKey());
+	}
+
+	public String getOrCreateTranslationKey() {
+		if (this.translationKey == null) {
+			this.translationKey = Util.createTranslationKey("upgrade", ModUpgrades.UPGRADE.getId(this));
+		}
+
+		return this.translationKey;
+	}
+
+	@Environment(EnvType.CLIENT)
+	public MutableText getDesc() {
+		return new TranslatableText(this.getOrCreateDescTranslationKey());
+	}
+
+	public String getOrCreateDescTranslationKey() {
+		if (this.descTranslationKey == null) {
+			this.descTranslationKey = Util.createTranslationKey("upgrade.desc", ModUpgrades.UPGRADE.getId(this));
+		}
+
+		return this.descTranslationKey;
 	}
 }
