@@ -60,11 +60,29 @@ public class BaseSoulEssenceStaffItem extends Item implements SoulEssenceStaff, 
 
 	@Override
 	public int getMaxSoul(ItemStack stack, World world, SoulType type) {
-		return this.maxSoul;
+		float multiplier = 1;
+
+		if(this.hasUpgradeSelected(stack, ModUpgrades.SOUL_ESSENCE_STAFF_INCREASE_1)) {
+			multiplier += 0.30;
+			if(this.hasUpgradeSelected(stack, ModUpgrades.SOUL_ESSENCE_STAFF_INCREASE_2)) {
+				multiplier += 0.20;
+			}
+		}
+
+		return (int) (this.maxSoul * multiplier);
 	}
 
 	@Override
 	public List<Upgrade> getPossibleUpgrades(ItemStack stack) {
-		return Arrays.asList(ModUpgrades.SOUL_ESSENCE_STAFF_INCREASE1, ModUpgrades.SOUL_ESSENCE_STAFF_INCREASE2);
+		return Arrays.asList(ModUpgrades.SOUL_ESSENCE_STAFF_INCREASE_1, ModUpgrades.SOUL_ESSENCE_STAFF_INCREASE_2);
+	}
+
+	@Override
+	public void onUnselection(ItemStack stack, World w, Upgrade u) {
+		for (SoulType st : ModSoulTypes.SOUL_TYPE) {
+			if (this.getSoul(stack, w, st) > this.getMaxSoul(stack, w, st)) {
+				this.setSoul(stack, w, st, this.getMaxSoul(stack, w, st));
+			}
+		}
 	}
 }

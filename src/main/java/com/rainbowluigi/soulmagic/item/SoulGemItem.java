@@ -129,14 +129,14 @@ public class SoulGemItem extends Item implements SoulEssenceStaffDisplayer, Upgr
 	}
 
 	@Override
-	public void onUnselection(ItemStack stack, Upgrade u) {
+	public void onUnselection(ItemStack stack, World w, Upgrade u) {
 		if(u instanceof SpellUpgrade && SoulGemHelper.getCurrentSpellIndex(stack) >= SoulGemHelper.getCurrentList(stack).size()) {
 			SoulGemHelper.setCurrentSpellIndex(stack, SoulGemHelper.getCurrentList(stack).size() - 1);
 		}
 	}
 
 	@Override
-	public void onSelection(ItemStack stack, Upgrade u) {
+	public void onSelection(ItemStack stack, World w, Upgrade u) {
 		if(u instanceof SpellUpgrade && SoulGemHelper.getCurrentSpellIndex(stack) < 0 && SoulGemHelper.getCurrentList(stack).size() > 0) {
 			SoulGemHelper.setCurrentSpellIndex(stack, 0);
 		}

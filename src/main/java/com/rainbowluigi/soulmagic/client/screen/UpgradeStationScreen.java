@@ -1,5 +1,6 @@
 package com.rainbowluigi.soulmagic.client.screen;
 
+import java.awt.Color;
 import java.util.Arrays;
 import java.util.List;
 
@@ -68,7 +69,7 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 						if(u.getUpgradesSelected(stack).size() < u.getSelectorPointsNumber(stack)) {
 							if(this.selectedUpgrade.getPrev() == null || u.hasUpgradeSelected(stack, this.selectedUpgrade.getPrev())) {
 								u.setUpgradeSelection(stack, this.selectedUpgrade, true);
-								u.onSelection(stack, this.selectedUpgrade);
+								u.onSelection(stack, this.client.world, this.selectedUpgrade);
 								//u.setUpgradeSelection(stack, this.selectedUpgrade, !u.hasUpgradeSelected(stack, this.selectedUpgrade));
 								ClientSidePacketRegistry.INSTANCE.sendToServer(ModNetwork.UPGRADE_STATION, UpgradeStationMessage.makePacket(stack));
 							}
@@ -84,7 +85,7 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 
 						if(isGood) {
 							u.setUpgradeSelection(stack, this.selectedUpgrade, false);
-							u.onUnselection(stack, this.selectedUpgrade);
+							u.onUnselection(stack, this.client.world, this.selectedUpgrade);
 							ClientSidePacketRegistry.INSTANCE.sendToServer(ModNetwork.UPGRADE_STATION, UpgradeStationMessage.makePacket(stack));
 						}
 					}
@@ -192,9 +193,12 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 		ItemStack stack = this.getStack();
 
 		if(upgradeable.getUpgradesSelected(stack).contains(u)) {
-			return 0x00FF00;
+			float brightness = (MathHelper.sin(System.currentTimeMillis() % 1000 / 1000f * 2 * 3.141592f) / 4) + 0.75f;
+			return Color.HSBtoRGB(0.33333f, 1, brightness);
+			//return 0x00FF00;
 		} else if(upgradeable.getUpgradesUnlocked(stack, true).contains(u)) {
-			return 0xEEEEEE;
+			float brightness = (MathHelper.sin(System.currentTimeMillis() % 1000 / 1000f * 2 * 3.141592f) / 4) + 0.75f;
+			return Color.HSBtoRGB(0, 0, brightness);
 		} else {
 			return 0x333333;
 		}

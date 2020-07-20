@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.util.Identifier;
+import net.minecraft.world.World;
 
 public interface Upgradeable {
 	
@@ -128,11 +129,11 @@ public interface Upgradeable {
 		return this.getPossibleUpgrades(stack).size();
 	}
 
-	public default void onSelection(ItemStack stack, Upgrade u) {
+	public default void onSelection(ItemStack stack, World w, Upgrade u) {
 
 	}
 
-	public default void onUnselection(ItemStack stack, Upgrade u) {
+	public default void onUnselection(ItemStack stack, World w, Upgrade u) {
 
 	}
 }

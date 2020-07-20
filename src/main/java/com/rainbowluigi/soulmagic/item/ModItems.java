@@ -23,7 +23,6 @@ import net.minecraft.util.registry.Registry;
 public class ModItems {
 	
 	public static final Item SOUL_ESSENCE_STAFF = new BaseSoulEssenceStaffItem(50, new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
-	public static final Item GREATER_SOUL_ESSENCE_STAFF = new BaseSoulEssenceStaffItem(150, new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
 	public static final Item CREATIVE_SOUL_ESSENCE_STAFF = new CreativeSoulEssenceStaffItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
 	public static final Item SOUL_ESSENCE_ORB = new SoulEssenceOrbItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
 	public static final Item SOUL_GEM = new SoulGemItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
@@ -62,7 +61,6 @@ public class ModItems {
 
 	public static void registerItems() {
 		registerItem(SOUL_ESSENCE_STAFF, "soul_essence_staff");
-		registerItem(GREATER_SOUL_ESSENCE_STAFF, "greater_soul_essence_staff");
 		registerItem(CREATIVE_SOUL_ESSENCE_STAFF, "creative_soul_essence_staff");
 		registerItem(SOUL_ESSENCE_ORB, "soul_essence_orb");
 		registerItem(SOUL_GEM, "soul_gem");

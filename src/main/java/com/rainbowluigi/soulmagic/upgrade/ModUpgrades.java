@@ -35,16 +35,16 @@ public class ModUpgrades {
 	public static final Upgrade BOUND_SWORD = new BoundUpgrade(ModItems.BOUND_SWORD, new ItemStack(Items.POTATO), -32, -8, null).setRequirements(new ItemStack(Items.POTATO), new ItemStack(Items.ACACIA_BOAT), new ItemStack(Blocks.JUKEBOX));
 	public static final Upgrade BOUND_SCYTHE = new BoundUpgrade(ModItems.BOUND_SWORD, new ItemStack(Items.POTATO), -32, -8, null).setRequirements(new ItemStack(Items.POTATO), new ItemStack(Items.ACACIA_BOAT), new ItemStack(Blocks.JUKEBOX));
 
-	public static final Upgrade SOUL_ESSENCE_STAFF_INCREASE1 = new Upgrade(new ItemStack(Items.ENDER_EYE), 32, -32, null).setRequirements(new ItemStack(Blocks.ACACIA_PLANKS));
-	public static final Upgrade SOUL_ESSENCE_STAFF_INCREASE2 = new Upgrade(new ItemStack(Items.POISONOUS_POTATO), 0, -16, SOUL_ESSENCE_STAFF_INCREASE1).setRequirements(new ItemStack(Blocks.ACACIA_PLANKS));
+	public static final Upgrade SOUL_ESSENCE_STAFF_INCREASE_1 = new Upgrade(new ItemStack(Items.ENDER_EYE), 32, -32, null).setRequirements(new ItemStack(Blocks.ACACIA_PLANKS));
+	public static final Upgrade SOUL_ESSENCE_STAFF_INCREASE_2 = new Upgrade(new ItemStack(Items.POISONOUS_POTATO), 0, -16, SOUL_ESSENCE_STAFF_INCREASE_1).setRequirements(new ItemStack(Blocks.ACACIA_PLANKS));
 
 	public static void registerUpgrades() {
 		registerUpgrade(FIREBALL, "fireball");
 		registerUpgrade(TRIPLE_FIREBALL, "triple_fireball");
 		registerUpgrade(FLAMING_TOUCH, "flaming_touch");
 
-		registerUpgrade(SOUL_ESSENCE_STAFF_INCREASE1, "soul_essence_staff_increase1");
-		registerUpgrade(SOUL_ESSENCE_STAFF_INCREASE2, "soul_essence_staff_increase2");
+		registerUpgrade(SOUL_ESSENCE_STAFF_INCREASE_1, "soul_essence_staff_increase_1");
+		registerUpgrade(SOUL_ESSENCE_STAFF_INCREASE_2, "soul_essence_staff_increase_2");
 
 		registerUpgrade(ICEBALL, "iceball");
 
