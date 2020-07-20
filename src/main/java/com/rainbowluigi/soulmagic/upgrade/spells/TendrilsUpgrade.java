@@ -4,6 +4,7 @@ import com.rainbowluigi.soulmagic.entity.TendrilEntity;
 import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
 import com.rainbowluigi.soulmagic.soultype.SoulType;
 import com.rainbowluigi.soulmagic.upgrade.Upgrade;
+import com.rainbowluigi.soulmagic.upgrade.UpgradeSprite;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -18,8 +19,8 @@ public class TendrilsUpgrade extends SpellUpgrade {
 
 	private SoulType[] types = new SoulType[] {ModSoulTypes.LIGHT};
 	
-	public TendrilsUpgrade(ItemStack icon, int x, int y, Upgrade prev) {
-		super(icon, x, y, prev);
+	public TendrilsUpgrade(ItemStack icon, int x, int y, Upgrade prev, UpgradeSprite s) {
+		super(icon, x, y, prev, s);
 	}
 	
 	@Override

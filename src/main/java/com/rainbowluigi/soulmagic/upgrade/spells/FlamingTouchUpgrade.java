@@ -6,6 +6,7 @@ import com.rainbowluigi.soulmagic.item.soulessence.SoulEssenceStaff;
 import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
 import com.rainbowluigi.soulmagic.soultype.SoulType;
 import com.rainbowluigi.soulmagic.upgrade.Upgrade;
+import com.rainbowluigi.soulmagic.upgrade.UpgradeSprite;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -26,8 +27,8 @@ public class FlamingTouchUpgrade extends SpellUpgrade {
 
 	private SoulType[] types = new SoulType[] {ModSoulTypes.LIGHT, ModSoulTypes.DARK};
 	
-	public FlamingTouchUpgrade(ItemStack icon, int x, int y, Upgrade prev) {
-		super(icon, x, y, prev);
+	public FlamingTouchUpgrade(ItemStack icon, int x, int y, Upgrade prev, UpgradeSprite s) {
+		super(icon, x, y, prev, s);
 	}
 
 	@Override

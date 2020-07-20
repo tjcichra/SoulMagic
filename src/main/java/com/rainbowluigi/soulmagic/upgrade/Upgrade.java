@@ -12,16 +12,18 @@ public class Upgrade {
 	private ItemStack icon;
 	private int x, y;
 	private Upgrade prev;
+	private UpgradeSprite s;
 	private ItemStack[] requirements;
 
 	private String translationKey;
 	private String descTranslationKey;
 
-	public Upgrade(ItemStack icon, int x, int y, Upgrade prev) {
+	public Upgrade(ItemStack icon, int x, int y, Upgrade prev, UpgradeSprite s) {
 		this.icon = icon;
 		this.x = x;
 		this.y = y;
 		this.prev = prev;
+		this.s = s;
 	}
 
 	public ItemStack getIcon() {
@@ -47,6 +49,10 @@ public class Upgrade {
 
 	public ItemStack[] getRequirements() {
 		return this.requirements;
+	}
+
+	public UpgradeSprite getUpgradeSprite() {
+		return this.s;
 	}
 
 	@Environment(EnvType.CLIENT)

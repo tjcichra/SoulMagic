@@ -3,6 +3,7 @@ package com.rainbowluigi.soulmagic.upgrade.spells;
 import com.rainbowluigi.soulmagic.soultype.SoulType;
 import com.rainbowluigi.soulmagic.upgrade.ModUpgrades;
 import com.rainbowluigi.soulmagic.upgrade.Upgrade;
+import com.rainbowluigi.soulmagic.upgrade.UpgradeSprite;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -23,8 +24,8 @@ public class SpellUpgrade extends Upgrade {
 	private Identifier spellTexture;
 	private String spellTranslationKey;
 
-	public SpellUpgrade(ItemStack icon, int x, int y, Upgrade prev) {
-		super(icon, x, y, prev);
+	public SpellUpgrade(ItemStack icon, int x, int y, Upgrade prev, UpgradeSprite s) {
+		super(icon, x, y, prev, s);
 	}
 
 	public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {

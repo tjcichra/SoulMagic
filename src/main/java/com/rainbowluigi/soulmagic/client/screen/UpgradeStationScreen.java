@@ -10,6 +10,7 @@ import com.rainbowluigi.soulmagic.item.Upgradeable;
 import com.rainbowluigi.soulmagic.network.ModNetwork;
 import com.rainbowluigi.soulmagic.network.UpgradeStationMessage;
 import com.rainbowluigi.soulmagic.upgrade.Upgrade;
+import com.rainbowluigi.soulmagic.upgrade.UpgradeSprite;
 import com.rainbowluigi.soulmagic.util.Reference;
 
 import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
@@ -133,6 +134,7 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 				//if(u.equals(ModUpgrades.FLAMING_TOUCH))
 				this.drawLineToPrev(matrices, u, upgradeable);
 
+				this.drawUpgradeSprite(matrices, u, upgradeable);
 				this.itemRenderer.zOffset = 100.0F;
 				itemRenderer.renderGuiItemIcon(u.getIcon(), this.innerXPointToActualXPoint(u.getX() - 8), this.innerYPointToActualYPoint(u.getY() - 8));
 				this.itemRenderer.zOffset = 0.0F;
@@ -146,6 +148,16 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 				}
 			}
 		}
+	}
+
+	public void drawUpgradeSprite(MatrixStack matrices, Upgrade u, Upgradeable upgradeable) {
+		UpgradeSprite s = u.getUpgradeSprite();
+
+		int x = this.innerXPointToActualXPoint(u.getX() - s.getLength() / 2);
+		int y = this.innerYPointToActualYPoint(u.getY() - s.getHeight() / 2);
+
+		this.client.getTextureManager().bindTexture(s.getTexture());
+		this.drawTexture(matrices, x, y, s.getTextureX(), s.getTextureY(), s.getLength(), s.getHeight());
 	}
 
 	public void drawLineToPrev(MatrixStack matrices, Upgrade u, Upgradeable upgradeable) {
