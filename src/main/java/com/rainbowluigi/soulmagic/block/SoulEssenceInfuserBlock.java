@@ -1,6 +1,8 @@
 package com.rainbowluigi.soulmagic.block;
 
+import com.rainbowluigi.soulmagic.SoulMagic;
 import com.rainbowluigi.soulmagic.block.entity.SoulEssenceInfuserBlockEntity;
+import com.rainbowluigi.soulmagic.item.Upgradeable;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
@@ -38,12 +40,18 @@ public class SoulEssenceInfuserBlock extends BlockWithEntity {
 	
 	@Override
 	public void onPlaced(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
-		if (stack.hasCustomName()) {
-			BlockEntity blockEntity = world.getBlockEntity(pos);
+		BlockEntity blockEntity = world.getBlockEntity(pos);
+		
+		if(blockEntity instanceof SoulEssenceInfuserBlockEntity) {
+			Upgradeable u = (Upgradeable) stack.getItem();
 			
-			if (blockEntity instanceof SoulEssenceInfuserBlockEntity) {
-				((SoulEssenceInfuserBlockEntity)blockEntity).setCustomName(stack.getName());
+			SoulEssenceInfuserBlockEntity seibe = (SoulEssenceInfuserBlockEntity) blockEntity;
+
+			if(stack.hasCustomName()) {
+				seibe.setCustomName(stack.getName());
 			}
+			seibe.setUpgrades(u.getUpgradesSelected(stack));
+			seibe.setSelectorPoints(u.getSelectorPointsNumber(stack));
 		}
 	}
 	

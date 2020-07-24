@@ -2,7 +2,7 @@
 	"type": "soulmagic:enchantment_infusion",
 	"ingredients": [
 		{
-			"item": "minecraft:iron_sword"
+			"item": "soulmagic:weapon_enchantment_template"
 		},
 		{
 			"item": "minecraft:stone"
@@ -25,10 +25,5 @@
 		{
 			"item": "minecraft:stone"
 		}
-	],
-	"enchantment": "minecraft:sharpness",
-	"soul": {
-		"soulmagic:light": 25,
-		"soulmagic:dark": 25
-	}
+	]
 }

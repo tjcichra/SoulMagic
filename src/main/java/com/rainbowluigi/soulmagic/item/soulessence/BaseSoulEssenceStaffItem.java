@@ -35,9 +35,7 @@ public class BaseSoulEssenceStaffItem extends Item implements SoulEssenceStaff, 
 	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
 		for (SoulType st : ModSoulTypes.SOUL_TYPE) {
 			if (this.getSoul(stack, world, st) > 0) {
-				tooltip.add(new TranslatableText("soulmagic.soul_essence_staff.amount", st.getName(),
-						this.getSoul(stack, world, st), this.getMaxSoul(stack, world, st))
-								.formatted(st.getTextColor()));
+				tooltip.add(new TranslatableText("soulmagic.soul_essence_staff.amount", st.getName(), this.getSoul(stack, world, st), this.getMaxSoul(stack, world, st)).formatted(st.getTextColor()));
 			}
 		}
 	}

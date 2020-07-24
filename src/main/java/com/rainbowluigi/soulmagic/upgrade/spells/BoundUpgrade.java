@@ -1,5 +1,6 @@
 package com.rainbowluigi.soulmagic.upgrade.spells;
 
+import com.rainbowluigi.soulmagic.SoulMagic;
 import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
 import com.rainbowluigi.soulmagic.soultype.SoulType;
 import com.rainbowluigi.soulmagic.upgrade.Upgrade;

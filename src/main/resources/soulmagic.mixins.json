@@ -5,13 +5,13 @@
 	"mixins": [
 		"SoulStaffMixin",
 		"BowItemMixin",
-		"ItemMixin",
 		"AnvilContainerMixin"
 	],
 	"client": [
 		"ItemDynamicRendererMixin",
 		"ItemRendererMixin",
 		"InGameHudMixin",
+		"ItemStackMixin",
 		"InventoryScreenMixin",
 		"PlayerEntityRendererMixin"
 	],

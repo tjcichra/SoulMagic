@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.rainbowluigi.soulmagic.SoulMagic;
 import com.rainbowluigi.soulmagic.inventory.UpgradeStationScreenHandler;
 import com.rainbowluigi.soulmagic.item.Upgradeable;
 import com.rainbowluigi.soulmagic.network.ModNetwork;
@@ -228,6 +229,8 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
 		boolean b = super.mouseClicked(mouseX, mouseY, button);
+
+		SoulMagic.LOGGER.info(this.actualXPointToInnerXPoint((int) mouseX) + " " + this.actualYPointToInnerYPoint((int) mouseY));
 
 		ItemStack item = this.getStack();
 		if(item.getItem() instanceof Upgradeable) {

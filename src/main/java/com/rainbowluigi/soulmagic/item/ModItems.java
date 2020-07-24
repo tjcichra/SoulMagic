@@ -1,5 +1,7 @@
 package com.rainbowluigi.soulmagic.item;
 
+import java.util.Arrays;
+
 import com.rainbowluigi.soulmagic.SoulMagic;
 import com.rainbowluigi.soulmagic.item.accessory.Accessory;
 import com.rainbowluigi.soulmagic.item.accessory.AccessoryItem;
@@ -16,6 +18,7 @@ import com.rainbowluigi.soulmagic.item.soulessence.ReferenceStaffItem;
 import com.rainbowluigi.soulmagic.item.soulessence.SoulEssenceOrbItem;
 import com.rainbowluigi.soulmagic.util.Reference;
 
+import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -30,7 +33,6 @@ public class ModItems {
 	public static final Item SOUL_ESSENCE_LANTERN = new SoulLanternItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
 	public static final Item FOOD_CHARM = new FoodCharmItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
 	public static final Item REFERENCE_STAFF = new ReferenceStaffItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
-	public static final Item ENCHANTMENT_CHARM = new AccessoryItem(new Item.Settings().maxDamage(64).group(SoulMagic.ITEM_GROUP));
 	public static final Item EARRING = new AccessoryItem(Accessory.EARRINGS, new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
 	public static final Item RING_OF_RECKLESSNESS = new AccessoryItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
 	public static final Item AMULET_OF_BLINDED_RAGE = new ItemBlindedRage(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
@@ -39,6 +41,8 @@ public class ModItems {
 	public static final Item MAGICAL_BALL_OF_YARN = new MagicalBallOfYarnItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
 	public static final Item SOUL_MAGIC_BOOK = new SoulMagicBookItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
 	public static final Item SPIRIT_LAMP = new SpiritLampItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
+
+	public static final Item WEAPON_ENCHANTMENT_TEMPLATE = new EnchantmentTemplateItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP), EnchantmentTarget.WEAPON);
 	
 	public static final Item LIGHT_SOUL_ESSENCE_POWDER = new Item(new Item.Settings().group(SoulMagic.ITEM_GROUP));
 	public static final Item DARK_SOUL_ESSENCE_POWDER = new Item(new Item.Settings().group(SoulMagic.ITEM_GROUP));
@@ -68,7 +72,6 @@ public class ModItems {
 		registerItem(SOUL_ESSENCE_LANTERN, "soul_essence_lantern");
 		registerItem(FOOD_CHARM, "food_charm");
 		registerItem(REFERENCE_STAFF, "reference_staff");
-		registerItem(ENCHANTMENT_CHARM, "enchantment_charm");
 		registerItem(EARRING, "earring");
 		registerItem(RING_OF_RECKLESSNESS, "ring_of_recklessness");
 		registerItem(AMULET_OF_BLINDED_RAGE, "amulet_of_blinded_rage");
@@ -78,6 +81,8 @@ public class ModItems {
 		registerItem(SOUL_MAGIC_BOOK, "soul_magic_book");
 		registerItem(SPIRIT_LAMP, "spirit_lamp");
 		
+		registerItem(WEAPON_ENCHANTMENT_TEMPLATE, "weapon_enchantment_template");
+
 		registerItem(LIGHT_SOUL_ESSENCE_POWDER, "light_soul_essence_powder");
 		registerItem(DARK_SOUL_ESSENCE_POWDER, "dark_soul_essence_powder");
 		registerItem(PRIDEFUL_SOUL_ESSENCE_POWDER, "prideful_soul_essence_powder");

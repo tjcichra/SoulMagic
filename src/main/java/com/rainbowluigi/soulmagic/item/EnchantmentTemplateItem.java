@@ -1,0 +1,57 @@
+package com.rainbowluigi.soulmagic.item;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.rainbowluigi.soulmagic.upgrade.EnchantmentUpgrade;
+import com.rainbowluigi.soulmagic.upgrade.ModUpgrades;
+import com.rainbowluigi.soulmagic.upgrade.Upgrade;
+
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentTarget;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+
+public class EnchantmentTemplateItem extends Item implements Upgradeable {
+
+	private EnchantmentTarget target;
+
+	public EnchantmentTemplateItem(Settings settings, EnchantmentTarget target) {
+		super(settings);
+		this.target = target;
+	}
+
+	@Override
+	public List<Upgrade> getPossibleUpgrades(ItemStack stack) {
+		switch(this.target) {
+			case WEAPON:
+				return Arrays.asList(ModUpgrades.SHARPNESS_1, ModUpgrades.SHARPNESS_2, ModUpgrades.SHARPNESS_3, ModUpgrades.SHARPNESS_4, ModUpgrades.SHARPNESS_5);
+			default:
+				return Collections.emptyList();
+		}
+	}
+
+	public Map<Enchantment, Integer> getEnchantments(ItemStack stack) {
+		List<Upgrade> upgrades = this.getUpgradesSelected(stack);
+		Map<Enchantment, Integer> enchantmentMap = new HashMap<>();
+
+		for(Upgrade u : upgrades) {
+			if(u instanceof EnchantmentUpgrade) {
+				EnchantmentUpgrade eu = (EnchantmentUpgrade) u;
+				int level = enchantmentMap.get(eu.getEnchantment()) == null ? 0 : enchantmentMap.get(eu.getEnchantment());
+				if(level < eu.getLevel()) {
+					enchantmentMap.put(eu.getEnchantment(), eu.getLevel());
+				}
+			}
+		}
+
+		return enchantmentMap;
+	}
+
+	public EnchantmentTarget getTarget() {
+		return this.target;
+	}
+}

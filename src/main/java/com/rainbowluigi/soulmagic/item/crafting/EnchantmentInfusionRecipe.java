@@ -1,34 +1,31 @@
 package com.rainbowluigi.soulmagic.item.crafting;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.google.common.collect.Maps;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
-import com.rainbowluigi.soulmagic.soultype.SoulType;
-import com.rainbowluigi.soulmagic.util.SoulUtils;
+import com.rainbowluigi.soulmagic.SoulMagic;
+import com.rainbowluigi.soulmagic.item.EnchantmentTemplateItem;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.inventory.Inventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
 public class EnchantmentInfusionRecipe extends SoulInfusionRecipe {
 	
-	public Enchantment enchantment;
-	
-	public EnchantmentInfusionRecipe(Identifier id, String group, DefaultedList<Ingredient> inputs, Map<SoulType, Integer> soulMap, int progressColor, Enchantment enchantment) {
-		super(id, group, inputs, soulMap, progressColor, ItemStack.EMPTY);
-		this.enchantment = enchantment;
+	public EnchantmentInfusionRecipe(Identifier id, String group, DefaultedList<Ingredient> inputs, int progressColor) {
+		super(id, group, inputs, Collections.EMPTY_MAP, progressColor, ItemStack.EMPTY);
 	}
 	
 	@Override
@@ -38,27 +35,33 @@ public class EnchantmentInfusionRecipe extends SoulInfusionRecipe {
 				return false;
 			}
 		}
-		
-		ItemStack stack = sibe.getStack(8);
-		
-		if(!this.enchantment.isAcceptableItem(stack)) {
-			return false;
-		}
-			
-		//if(this.spell.isBase() && SoulGemHelper.getSpellType(stack) == null || this.spell.getParent() == SoulGemHelper.getSpellType(stack) || SoulGemHelper.getSpellType(stack) == ModSpellTypes.ULTIMATE) {
-		//	return true;
-		//}
-		
-		//return false;
-		return true;
+
+		ItemStack template = sibe.getStack(0);
+		EnchantmentTemplateItem eti = (EnchantmentTemplateItem) template.getItem();
+
+		return eti.getTarget().isAcceptableItem(sibe.getStack(8).getItem());
 	}
 
 	@Override
 	public ItemStack craft(Inventory sibe) {
-		ItemStack stack = sibe.getStack(8).copy();
-		//FIX THIS PLZ
-		stack.addEnchantment(this.enchantment, 1);
-		return stack;
+		ItemStack template = sibe.getStack(0);
+		EnchantmentTemplateItem eti = (EnchantmentTemplateItem) template.getItem();
+		
+		ItemStack item = sibe.getStack(8).copy();
+
+		Map<Enchantment, Integer> enchantmentMap = eti.getEnchantments(template);
+		for(Entry<Enchantment, Integer> entry : enchantmentMap.entrySet()) {
+			item.addEnchantment(entry.getKey(), entry.getValue());
+		}
+
+		return item;
+	}
+
+	@Override
+	public DefaultedList<ItemStack> getRemainingStacks(Inventory inventory) {
+		DefaultedList<ItemStack> defaultedList = super.getRemainingStacks(inventory);
+		defaultedList.set(0, inventory.getStack(0).copy());
+		return defaultedList;
 	}
 
 	@Override
@@ -74,10 +77,7 @@ public class EnchantmentInfusionRecipe extends SoulInfusionRecipe {
 			int color = JsonHelper.getInt(json, "color", 0xFFFFFF);
 			DefaultedList<Ingredient> inputs = readIngredients(JsonHelper.getArray(json, "ingredients"));
 			
-			Enchantment enchantment = Registry.ENCHANTMENT.get(new Identifier(JsonHelper.getString(json, "enchantment")));
-			Map<SoulType, Integer> soulMap = SoulUtils.deserializeSoulMap(JsonHelper.getObject(json, "soul"));
-			
-			return new EnchantmentInfusionRecipe(recipeId, s, inputs, soulMap, color, enchantment);
+			return new EnchantmentInfusionRecipe(recipeId, s, inputs, color);
 		}
 		
 		private static DefaultedList<Ingredient> readIngredients(JsonArray array) {
@@ -102,15 +102,7 @@ public class EnchantmentInfusionRecipe extends SoulInfusionRecipe {
 				inputs.set(j, Ingredient.fromPacket(buffer));
 			}
 			
-			Enchantment enchantment = Registry.ENCHANTMENT.get(buffer.readIdentifier());
-			
-			int n = buffer.readInt();
-			Map<SoulType, Integer> soulMap = Maps.newHashMap();
-			for(int l = 0; l < n; l++) {
-				soulMap.put(ModSoulTypes.SOUL_TYPE.get(buffer.readIdentifier()), buffer.readInt());
-			}
-			
-			return new EnchantmentInfusionRecipe(recipeId, group, inputs, soulMap, color, enchantment);
+			return new EnchantmentInfusionRecipe(recipeId, group, inputs, color);
 		}
 
 		@Override
@@ -121,14 +113,6 @@ public class EnchantmentInfusionRecipe extends SoulInfusionRecipe {
 			
 			for(Ingredient i : recipe.inputs) {
 				i.write(buffer);
-			}
-			
-			buffer.writeIdentifier(Registry.ENCHANTMENT.getId(recipe.enchantment));
-			
-			buffer.writeInt(recipe.getSoulMap().size());
-			for(Entry<SoulType, Integer> entry : recipe.getSoulMap().entrySet()) {
-				buffer.writeIdentifier(ModSoulTypes.SOUL_TYPE.getId(entry.getKey()));
-				buffer.writeInt(entry.getValue());
 			}
 		}
 	}

@@ -20,7 +20,7 @@ public class ModSpellTypes {
 	public static final SpellType ICY = new SpellType(0x34EDFF, ModUpgrades.FIREBALL, Arrays.asList(ModUpgrades.FIREBALL));
 	public static final SpellType EARTHEN = new SpellType(0x89694A, ModUpgrades.FIREBALL, Arrays.asList(ModUpgrades.FIREBALL));
 	public static final SpellType WINDY = new SpellType(0xF7FF96, ModUpgrades.FIREBALL, Arrays.asList(ModUpgrades.FIREBALL));
-	public static final SpellType BINDING = new SpellType(0x72E9D9, ModUpgrades.FIREBALL, Arrays.asList(ModUpgrades.FIREBALL));
+	public static final SpellType BINDING = new SpellType(0x72E9D9, ModUpgrades.BOUND_PICKAXE, Arrays.asList(ModUpgrades.BOUND_PICKAXE, ModUpgrades.BOUND_AXE, ModUpgrades.BOUND_SHOVEL, ModUpgrades.BOUND_SWORD, ModUpgrades.BOUND_SCYTHE, ModUpgrades.TOOL_SWITCHING));
 	public static final SpellType LIGHTENED = new SpellType(0xEEC56A, ModUpgrades.FIREBALL, Arrays.asList(ModUpgrades.FIREBALL));
 	public static final SpellType DARKENED = new SpellType(0x3D2E4C, ModUpgrades.FIREBALL, Arrays.asList(ModUpgrades.FIREBALL));
 	public static final SpellType ULTIMATE = new SpellType(0xAAAAAA, ModUpgrades.FIREBALL, Arrays.asList(ModUpgrades.FIREBALL));

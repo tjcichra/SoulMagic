@@ -1,6 +1,10 @@
 package com.rainbowluigi.soulmagic.block;
 
+import java.util.Arrays;
+
 import com.rainbowluigi.soulmagic.SoulMagic;
+import com.rainbowluigi.soulmagic.item.UpgradeableBlockItem;
+import com.rainbowluigi.soulmagic.upgrade.ModUpgrades;
 import com.rainbowluigi.soulmagic.util.Reference;
 
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
@@ -16,6 +20,7 @@ import net.minecraft.util.registry.Registry;
 public class ModBlocks {
 	
 	public static final Block SOUL_ESSENCE_INFUSER = new SoulEssenceInfuserBlock(FabricBlockSettings.of(Material.STONE).nonOpaque().strength(3.5f, 3.5f));
+	public static final BlockItem SOUL_ESSENCE_INFUSER_ITEM = new UpgradeableBlockItem(SOUL_ESSENCE_INFUSER, new Item.Settings().group(SoulMagic.ITEM_GROUP), Arrays.asList(ModUpgrades.ENCHANTMENT_OBELISK));
 	public static final Block SOUL_SEPARATOR = new SoulSeparatorBlock(FabricBlockSettings.of(Material.STONE).strength(3.5f, 3.5f));
 	public static final Block UPGRADE_STATION = new UpgradeStationBlock(FabricBlockSettings.of(Material.STONE).strength(3.5f, 3.5f));
 	public static final Block SOUL_CACHE = new UpgradeStationBlock(FabricBlockSettings.of(Material.WOOD).strength(3.5f, 3.5f));
@@ -24,17 +29,21 @@ public class ModBlocks {
 	public static final Block INFINITE_WELL = new InfiniteWellBlock(FabricBlockSettings.of(Material.STONE));
 
 	public static void registerBlocks() {
-		registerBlockAndItem(SOUL_ESSENCE_INFUSER, "soul_essence_infuser", SoulMagic.ITEM_GROUP);
+		registerBlockAndItem(SOUL_ESSENCE_INFUSER, "soul_essence_infuser", SOUL_ESSENCE_INFUSER_ITEM);
 		registerBlockAndItem(SOUL_SEPARATOR, "soul_separator", SoulMagic.ITEM_GROUP);
 		registerBlockAndItem(UPGRADE_STATION, "upgrade_station", SoulMagic.ITEM_GROUP);
 		registerBlockAndItem(SOUL_CACHE, "soul_cache", SoulMagic.ITEM_GROUP);
-		registerBlockAndItem(SOUL_FLAME, "soul_flame", null);
+		registerBlockAndItem(SOUL_FLAME, "soul_flame", (ItemGroup) null);
 		registerBlockAndItem(ENCHANTMENT_OBELISK, "enchantment_obelisk", SoulMagic.ITEM_GROUP);
 		registerBlockAndItem(INFINITE_WELL, "infinite_well", SoulMagic.ITEM_GROUP);
 	}
 	
 	private static void registerBlockAndItem(Block block, String name, ItemGroup group) {
+		registerBlockAndItem(block, name, new BlockItem(block, new Item.Settings().group(group)));
+	}
+
+	private static void registerBlockAndItem(Block block, String name, BlockItem item) {
 		Registry.register(Registry.BLOCK, new Identifier(Reference.MOD_ID, name), block);
-		Registry.register(Registry.ITEM, new Identifier(Reference.MOD_ID, name), new BlockItem(block, new Item.Settings().group(group)));
+		Registry.register(Registry.ITEM, new Identifier(Reference.MOD_ID, name), item);
 	}
 }

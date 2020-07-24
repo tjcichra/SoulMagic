@@ -16,7 +16,7 @@ import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BoundPickaxeItem extends PickaxeItem implements SoulEssenceStaffDisplayer {
+public class BoundPickaxeItem extends PickaxeItem implements SoulEssenceStaffDisplayer, BoundItem {
 
 	private SoulType[] types = {ModSoulTypes.LIGHT, ModSoulTypes.DARK};
 	

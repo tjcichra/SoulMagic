@@ -7,6 +7,7 @@ import com.rainbowluigi.soulmagic.entity.ModEntityTypes;
 import com.rainbowluigi.soulmagic.inventory.ModScreenHandlerTypes;
 import com.rainbowluigi.soulmagic.item.ModItems;
 import com.rainbowluigi.soulmagic.item.crafting.ModRecipes;
+import com.rainbowluigi.soulmagic.loot.ModLoot;
 import com.rainbowluigi.soulmagic.network.ModNetwork;
 import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
 import com.rainbowluigi.soulmagic.spelltype.ModSpellTypes;

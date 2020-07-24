@@ -1,5 +1,7 @@
 package com.rainbowluigi.soulmagic.block.entity;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
@@ -12,6 +14,8 @@ import com.rainbowluigi.soulmagic.item.crafting.SoulInfusionRecipe;
 import com.rainbowluigi.soulmagic.item.soulessence.SoulEssenceStaff;
 import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
 import com.rainbowluigi.soulmagic.soultype.SoulType;
+import com.rainbowluigi.soulmagic.upgrade.ModUpgrades;
+import com.rainbowluigi.soulmagic.upgrade.Upgrade;
 
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
@@ -23,11 +27,13 @@ import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.Tickable;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.Direction;
@@ -39,6 +45,8 @@ public class SoulEssenceInfuserBlockEntity extends LockableContainerBlockEntity 
 	private static final int[] BOTTOM_SLOTS = new int[] { 9 };
 
 	private DefaultedList<ItemStack> inventory;
+	private List<Upgrade> upgrades;
+	private int selectorPoints;
 
 	private Map<SoulType, Integer> cookSoulMap = Maps.newHashMap();
 	private Map<SoulType, Integer> recipeSoulMap = Maps.newHashMap();
@@ -47,6 +55,8 @@ public class SoulEssenceInfuserBlockEntity extends LockableContainerBlockEntity 
 	public SoulEssenceInfuserBlockEntity() {
 		super(ModBlockEntity.SOUL_INFUSER);
 		this.inventory = DefaultedList.ofSize(11, ItemStack.EMPTY);
+		this.upgrades = Collections.emptyList();
+		this.selectorPoints = 0;
 	}
 
 	@Override
@@ -55,6 +65,19 @@ public class SoulEssenceInfuserBlockEntity extends LockableContainerBlockEntity 
 		this.inventory = DefaultedList.ofSize(11, ItemStack.EMPTY);
 		this.fromClientTag(compound);
 		Inventories.fromTag(compound, this.inventory);
+
+		if(compound.contains("upgrades")) {
+			ListTag t = (ListTag) compound.get("upgrades");
+
+			for(int i = 0; i < t.size(); i++) {
+				CompoundTag tag = (CompoundTag) t.get(i);
+				Upgrade u = ModUpgrades.UPGRADE.get(new Identifier(tag.getString("name")));
+
+				if(tag.getBoolean("selected")) {
+					upgrades.add(u);
+				}
+			}
+		}
 	}
 
 	@Override
@@ -62,6 +85,22 @@ public class SoulEssenceInfuserBlockEntity extends LockableContainerBlockEntity 
 		super.toTag(compound);
 		this.toClientTag(compound);
 		Inventories.toTag(compound, this.inventory);
+
+		if(!this.upgrades.isEmpty()) {
+			if(!compound.contains("upgrades")) {
+				ListTag list = new ListTag();
+				compound.put("upgrades", list);
+			}
+
+			ListTag list = (ListTag) compound.get("upgrades");
+
+			for(Upgrade u : this.upgrades) {
+				CompoundTag upgradeTag = new CompoundTag();
+				upgradeTag.putString("name", ModUpgrades.UPGRADE.getId(u).toString());
+				list.add(upgradeTag);
+			}
+		}
+		
 		return compound;
 	}
 
@@ -94,6 +133,8 @@ public class SoulEssenceInfuserBlockEntity extends LockableContainerBlockEntity 
 						this.cookSoulMap.clear();
 						this.sync();
 
+						DefaultedList<ItemStack> results = irecipe.get().getRemainingStacks(this);
+
 						for (int i = 0; i < 9; i++) {
 							ItemStack stackF = this.inventory.get(i);
 
@@ -102,7 +143,7 @@ public class SoulEssenceInfuserBlockEntity extends LockableContainerBlockEntity 
 								stackF.decrement(1);
 
 								if (stackF.isEmpty()) {
-									this.inventory.set(i, irecipe.get().getRemainingStacks(this).get(i));
+									this.inventory.set(i, results.get(i));
 								}
 							}
 						}
@@ -156,6 +197,14 @@ public class SoulEssenceInfuserBlockEntity extends LockableContainerBlockEntity 
 		}
 
 		return good;
+	}
+
+	public void setUpgrades(List<Upgrade> upgrades) {
+		this.upgrades = upgrades;
+	}
+
+	public void setSelectorPoints(int selectorPoints) {
+		this.selectorPoints = selectorPoints;
 	}
 
 	public Map<SoulType, Integer> getCookSoulMap() {
@@ -272,6 +321,8 @@ public class SoulEssenceInfuserBlockEntity extends LockableContainerBlockEntity 
 	@Override
 	public void fromClientTag(CompoundTag tag) {
 		this.progressColor = tag.getInt("colorProgress");
+		this.selectorPoints = tag.getInt("selectorPoints");
+
 		CompoundTag cookSoul = tag.getCompound("cookSoul");
 
 		for (SoulType st : ModSoulTypes.SOUL_TYPE) {
@@ -304,6 +355,7 @@ public class SoulEssenceInfuserBlockEntity extends LockableContainerBlockEntity 
 		tag.putInt("colorProgress", this.progressColor);
 		tag.put("cookSoul", cookSoul);
 		tag.put("recipeSoul", recipeSoul);
+		tag.putInt("selectorPoints", this.selectorPoints);
 		return tag;
 	}
 
