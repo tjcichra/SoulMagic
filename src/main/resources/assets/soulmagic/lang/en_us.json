@@ -38,12 +38,25 @@
 	
 	"spell.soulmagic.fireball": "Fireball",
 	"spell.soulmagic.flaming_touch": "Flaming Touch",
+	"spell.soulmagic.bound_pickaxe": "Bound Pickaxe",
+	"spell.soulmagic.bound_axe": "Bound Axe",
+	"spell.soulmagic.bound_shovel": "Bound Shovel",
+	"spell.soulmagic.bound_sword": "Bound Sword",
+
 
 	"soulmagic.text.upgradeable": "Upgradeable",
 	"upgrade.soulmagic.fireball": "Spell: Fireball",
 	"upgrade.desc.soulmagic.fireball": "Allows the soul gem to cast fireballs",
 	"upgrade.soulmagic.flaming_touch": "Spell: Flaming Touch",
 	"upgrade.desc.soulmagic.flaming_touch": "Allows the soul gem to smelt blocks in the world",
+	"upgrade.soulmagic.bound_pickaxe": "Spell: Bound Pickaxe",
+	"upgrade.desc.soulmagic.bound_pickaxe": "Summons a magical pickaxe that uses soul essence prevent tool damage.",
+	"upgrade.soulmagic.bound_axe": "Spell: Bound Axe",
+	"upgrade.desc.soulmagic.bound_axe": "Summons a magical axe that uses soul essence prevent tool damage.",
+	"upgrade.soulmagic.bound_shovel": "Spell: Bound Shovel",
+	"upgrade.desc.soulmagic.bound_shovel": "Summons a magical shovel that uses soul essence prevent tool damage.",
+	"upgrade.soulmagic.bound_sword": "Spell: Bound Sword",
+	"upgrade.desc.soulmagic.bound_sword": "Summons a magical sword that uses soul essence prevent tool damage.",
 	
 	"soul_type.soulmagic.light": "Light",
 	"soul_type.soulmagic.dark": "Dark",

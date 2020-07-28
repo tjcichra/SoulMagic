@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.screen.NamedScreenHandlerFactory;
+import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -35,7 +36,7 @@ public class UpgradeStationBlock extends Block {
 	@Override
 	public NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
 		return new SimpleNamedScreenHandlerFactory((syncId, playerInventory, player) -> {
-			return new UpgradeStationScreenHandler(syncId, playerInventory);
+			return new UpgradeStationScreenHandler(syncId, playerInventory, ScreenHandlerContext.create(world, pos));
 		}, TITLE);
 	}
 }

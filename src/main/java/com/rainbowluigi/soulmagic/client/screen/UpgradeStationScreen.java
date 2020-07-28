@@ -32,11 +32,14 @@ import net.minecraft.util.math.Matrix4f;
 public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHandler> {
 	
 	private static final Identifier TEXTURE = new Identifier(Reference.MOD_ID, "textures/gui/container/upgrade_station.png");
+	private static final Identifier BORDER_TEXTURE = new Identifier(Reference.MOD_ID, "textures/gui/container/upgrade_station_border.png");
+
+	protected int backgroundWidth = 204;
 
 	private int innerLength = 500;
 	private int innerHeight = 500;
-	private int innerDisplayLength = 176;
-	private int innerDisplayHeight = 166;
+	private int innerDisplayLength = 182;
+	private int innerDisplayHeight = 128;
 
 	private int innerX = -innerDisplayLength / 2;
 	private int innerY = -innerDisplayHeight / 2;
@@ -44,19 +47,24 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 	private Upgrade selectedUpgrade = null;
 	private ButtonWidget unlockButton;
 
+	private ItemStack stack;
+
 	public UpgradeStationScreen(UpgradeStationScreenHandler container_1, PlayerInventory playerInventory_1, Text text_1) {
 		super(container_1, playerInventory_1, text_1);
 	}
 
 	public ItemStack getStack() {
-		return this.handler.getSlot(0).getStack();
+		//return this.handler.getSlot(0).getStack();
+		return this.playerInventory.getMainHandStack();
 	}
 
 	@Override
 	public void init() {
 		super.init();
+		this.x = (this.width - this.backgroundWidth) / 2;
+		this.y = (this.height - this.backgroundHeight) / 2;
 
-		this.unlockButton = new ButtonWidget(this.x, this.y + this.backgroundHeight - 20, 40, 20, new TranslatableText("unlock"), (buttonWidgetx) -> {
+		this.unlockButton = new ButtonWidget(this.x + 10, this.y + this.backgroundHeight - 24, 40, 20, new TranslatableText("unlock"), (buttonWidgetx) -> {
 			if(!this.getStack().isEmpty() && this.selectedUpgrade != null) {
 				ItemStack stack = this.getStack();
 				Upgradeable u = (Upgradeable) stack.getItem();
@@ -96,7 +104,7 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 		});
 
 		this.addButton(this.unlockButton);
-		this.addButton(new ButtonWidget(this.x + this.backgroundWidth - 40, this.y + this.backgroundHeight - 20, 40, 20, new TranslatableText("add select point"), (buttonWidgetx) -> {
+		this.addButton(new ButtonWidget(this.x + this.backgroundWidth - 50, this.y + this.backgroundHeight - 24, 40, 20, new TranslatableText("add select point"), (buttonWidgetx) -> {
 			if(!this.getStack().isEmpty()) {
 				ItemStack stack = this.getStack();
 				Upgradeable u = (Upgradeable) stack.getItem();
@@ -116,11 +124,17 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 	
 	@Override
 	protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
-		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-		this.client.getTextureManager().bindTexture(TEXTURE);
 		int i = this.x;
 		int j = this.y;
-		this.drawTexture(matrices, i, j, this.innerX + this.innerLength / 2, this.innerY + this.innerHeight / 2, this.innerDisplayLength, this.innerDisplayHeight);
+
+		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+		this.client.getTextureManager().bindTexture(BORDER_TEXTURE);
+		this.drawTexture(matrices, i, j, 0, 0, 204, 166);
+		this.client.getTextureManager().bindTexture(TEXTURE);
+		
+		this.drawTexture(matrices, i + 11, j + 11, this.innerX + this.innerLength / 2, this.innerY + this.innerHeight / 2, this.innerDisplayLength, this.innerDisplayHeight);
+
+		
 
 		ItemStack item = this.getStack();
 		if(item.getItem() instanceof Upgradeable) {

@@ -30,12 +30,13 @@ public class ModUpgrades {
 
 	public static final Upgrade AIR_STRIKE = new AirStrikeUpgrade(new ItemStack(Items.POTATO), -32, -8, null, UpgradeSprite.GEM_SPRITE).setRequirements(new ItemStack(Items.POTATO), new ItemStack(Items.ACACIA_BOAT), new ItemStack(Blocks.JUKEBOX));
 
-	public static final Upgrade BOUND_PICKAXE = new BoundUpgrade(ModItems.BOUND_PICKAXE, new ItemStack(ModItems.EARRING), -69, 2, null, UpgradeSprite.GEM_SPRITE).setRequirements(new ItemStack(Items.POTATO), new ItemStack(Items.ACACIA_BOAT), new ItemStack(Blocks.JUKEBOX));
-	public static final Upgrade BOUND_AXE = new BoundUpgrade(ModItems.BOUND_AXE, new ItemStack(ModItems.EARRING), -37, -58, null, UpgradeSprite.GEM_SPRITE).setRequirements(new ItemStack(Items.POTATO), new ItemStack(Items.ACACIA_BOAT), new ItemStack(Blocks.JUKEBOX));
-	public static final Upgrade BOUND_SHOVEL = new BoundUpgrade(ModItems.BOUND_SHOVEL, new ItemStack(ModItems.EARRING), 15, -57, null, UpgradeSprite.GEM_SPRITE).setRequirements(new ItemStack(Items.POTATO), new ItemStack(Items.ACACIA_BOAT), new ItemStack(Blocks.JUKEBOX));
-	public static final Upgrade BOUND_SWORD = new BoundUpgrade(ModItems.BOUND_SWORD, new ItemStack(ModItems.EARRING), 58, -40, null, UpgradeSprite.GEM_SPRITE).setRequirements(new ItemStack(Items.POTATO), new ItemStack(Items.ACACIA_BOAT), new ItemStack(Blocks.JUKEBOX));
-	public static final Upgrade BOUND_SCYTHE = new BoundUpgrade(ModItems.BOUND_SWORD, new ItemStack(ModItems.EARRING), 74, -13, null, UpgradeSprite.GEM_SPRITE).setRequirements(new ItemStack(Items.POTATO), new ItemStack(Items.ACACIA_BOAT), new ItemStack(Blocks.JUKEBOX));
+	public static final Upgrade BOUND_PICKAXE = new BoundUpgrade(ModItems.BOUND_PICKAXE, new ItemStack(ModItems.BOUND_PICKAXE), -69, 2, null, UpgradeSprite.GEM_SPRITE).setRequirements(new ItemStack(Items.POTATO), new ItemStack(Items.ACACIA_BOAT), new ItemStack(Blocks.JUKEBOX));
+	public static final Upgrade BOUND_AXE = new BoundUpgrade(ModItems.BOUND_AXE, new ItemStack(ModItems.BOUND_AXE), -37, -58, null, UpgradeSprite.GEM_SPRITE).setRequirements(new ItemStack(Items.POTATO), new ItemStack(Items.ACACIA_BOAT), new ItemStack(Blocks.JUKEBOX));
+	public static final Upgrade BOUND_SHOVEL = new BoundUpgrade(ModItems.BOUND_SHOVEL, new ItemStack(ModItems.BOUND_SHOVEL), 15, -57, null, UpgradeSprite.GEM_SPRITE).setRequirements(new ItemStack(Items.POTATO), new ItemStack(Items.ACACIA_BOAT), new ItemStack(Blocks.JUKEBOX));
+	public static final Upgrade BOUND_SWORD = new BoundUpgrade(ModItems.BOUND_SWORD, new ItemStack(ModItems.BOUND_SWORD), 58, -40, null, UpgradeSprite.GEM_SPRITE).setRequirements(new ItemStack(Items.POTATO), new ItemStack(Items.ACACIA_BOAT), new ItemStack(Blocks.JUKEBOX));
+	public static final Upgrade BOUND_SCYTHE = new BoundUpgrade(ModItems.BOUND_SWORD, new ItemStack(ModItems.BOUND_SWORD), 74, -13, null, UpgradeSprite.GEM_SPRITE).setRequirements(new ItemStack(Items.POTATO), new ItemStack(Items.ACACIA_BOAT), new ItemStack(Blocks.JUKEBOX));
 	public static final Upgrade TOOL_SWITCHING = new Upgrade(new ItemStack(ModItems.FLYING_CHEST), -34, 38, null, UpgradeSprite.GEM_SPRITE).setRequirements(new ItemStack(Items.POTATO), new ItemStack(Items.ACACIA_BOAT), new ItemStack(Blocks.JUKEBOX));
+	public static final Upgrade BOUND_ENCHANTMENTS = new Upgrade(new ItemStack(ModItems.FLYING_CHEST), 34, 38, null, UpgradeSprite.GEM_SPRITE).setRequirements(new ItemStack(Items.POTATO), new ItemStack(Items.ACACIA_BOAT), new ItemStack(Blocks.JUKEBOX));
 
 	public static final Upgrade SOUL_ESSENCE_STAFF_INCREASE_1 = new Upgrade(new ItemStack(Items.ENDER_EYE), 32, -32, null, UpgradeSprite.CIRCLE_SPRITE).setRequirements(new ItemStack(Blocks.ACACIA_PLANKS));
 	public static final Upgrade SOUL_ESSENCE_STAFF_INCREASE_2 = new Upgrade(new ItemStack(Items.POISONOUS_POTATO), 0, -16, SOUL_ESSENCE_STAFF_INCREASE_1, UpgradeSprite.CIRCLE_SPRITE).setRequirements(new ItemStack(Blocks.ACACIA_PLANKS));
@@ -70,6 +71,7 @@ public class ModUpgrades {
 		registerUpgrade(BOUND_SWORD, "bound_sword");
 		registerUpgrade(BOUND_SCYTHE, "bound_scythe");
 		registerUpgrade(TOOL_SWITCHING, "tool_switching");
+		registerUpgrade(BOUND_ENCHANTMENTS, "bound_enchantments");
 
 		registerUpgrade(ENCHANTMENT_OBELISK, "enchantment_obelisk");
 
