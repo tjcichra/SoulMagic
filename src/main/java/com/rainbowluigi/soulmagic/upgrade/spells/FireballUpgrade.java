@@ -19,10 +19,11 @@ import net.minecraft.world.World;
 
 public class FireballUpgrade extends SpellUpgrade {
 
+	public static final UpgradeSprite ICON = new UpgradeSprite(UpgradeSprite.baseTexture, 0, 0, 32, 32);
 	private SoulType[] types = new SoulType[] {ModSoulTypes.DARK};
 	
-	public FireballUpgrade(ItemStack icon, int x, int y, Upgrade prev, UpgradeSprite s) {
-		super(icon, x, y, prev, s);
+	public FireballUpgrade(int x, int y, Upgrade prev, UpgradeSprite icon, UpgradeSprite s) {
+		super(x, y, prev, icon, s);
 	}
 	
 	@Override

@@ -47,8 +47,6 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 	private Upgrade selectedUpgrade = null;
 	private ButtonWidget unlockButton;
 
-	private ItemStack stack;
-
 	public UpgradeStationScreen(UpgradeStationScreenHandler container_1, PlayerInventory playerInventory_1, Text text_1) {
 		super(container_1, playerInventory_1, text_1);
 	}
@@ -148,11 +146,11 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 			for(Upgrade u : upgrades) {
 				//if(u.equals(ModUpgrades.FLAMING_TOUCH))
 				this.drawLineToPrev(matrices, u, upgradeable);
+			}
 
-				this.drawUpgradeSprite(matrices, u, upgradeable);
-				this.itemRenderer.zOffset = 100.0F;
-				itemRenderer.renderGuiItemIcon(u.getIcon(), this.innerXPointToActualXPoint(u.getX() - 8), this.innerYPointToActualYPoint(u.getY() - 8));
-				this.itemRenderer.zOffset = 0.0F;
+			for(Upgrade u : upgrades) {
+				this.drawUpgradeOutline(matrices, u);
+				this.drawUpgradeIcon(matrices, u);
 			}
 
 			itemRenderer.renderGuiItemIcon(item, this.innerXPointToActualXPoint(0) - 8, this.innerYPointToActualYPoint(0) - 8);
@@ -165,7 +163,20 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 		}
 	}
 
-	public void drawUpgradeSprite(MatrixStack matrices, Upgrade u, Upgradeable upgradeable) {
+	public void drawUpgradeIcon(MatrixStack matrices, Upgrade u) {
+		UpgradeSprite s = u.getIcon();
+		UpgradeSprite s2 = u.getUpgradeSprite();
+
+		if(s != null) {
+			int x = this.innerXPointToActualXPoint(u.getX() - 8);
+			int y = this.innerYPointToActualYPoint(u.getY() - 8);
+
+			this.client.getTextureManager().bindTexture(s.getTexture());
+			drawTexture(matrices, x, y, 16, 16, s.getTextureX(), s.getTextureY(), 32, 32, 256, 256);
+		}
+	}
+
+	public void drawUpgradeOutline(MatrixStack matrices, Upgrade u) {
 		UpgradeSprite s = u.getUpgradeSprite();
 
 		int x = this.innerXPointToActualXPoint(u.getX() - s.getLength() / 2);

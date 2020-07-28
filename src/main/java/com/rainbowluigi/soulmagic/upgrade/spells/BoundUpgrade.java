@@ -2,7 +2,6 @@ package com.rainbowluigi.soulmagic.upgrade.spells;
 
 import java.util.Map.Entry;
 
-import com.rainbowluigi.soulmagic.SoulMagic;
 import com.rainbowluigi.soulmagic.item.EnchantmentTemplateItem;
 import com.rainbowluigi.soulmagic.item.ModItems;
 import com.rainbowluigi.soulmagic.item.Upgradeable;
@@ -29,8 +28,8 @@ public class BoundUpgrade extends SpellUpgrade {
 	
 	private SoulType[] types = new SoulType[] {ModSoulTypes.LIGHT, ModSoulTypes.DARK};
 	
-	public BoundUpgrade(Item item, ItemStack icon, int x, int y, Upgrade prev, UpgradeSprite s) {
-		super(icon, x, y, prev, s);
+	public BoundUpgrade(Item item, int x, int y, Upgrade prev, UpgradeSprite icon, UpgradeSprite s) {
+		super(x, y, prev, icon, s);
 		this.item = item;
 	}
 	

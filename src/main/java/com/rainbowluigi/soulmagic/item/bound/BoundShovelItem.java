@@ -12,7 +12,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
-public class BoundShovelItem extends ShovelItem implements SoulEssenceStaffDisplayer, BoundItem {
+public class BoundShovelItem extends ShovelItem implements SoulEssenceStaffDisplayer {
 
 	private SoulType[] types = {ModSoulTypes.LIGHT, ModSoulTypes.DARK};
 	

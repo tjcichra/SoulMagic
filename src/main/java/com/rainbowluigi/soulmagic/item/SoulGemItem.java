@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.rainbowluigi.soulmagic.item.soulessence.SoulEssenceStaffDisplayer;
+import com.rainbowluigi.soulmagic.network.ModNetwork;
 import com.rainbowluigi.soulmagic.soultype.SoulType;
 import com.rainbowluigi.soulmagic.spelltype.ModSpellTypes;
 import com.rainbowluigi.soulmagic.spelltype.SpellType;
@@ -11,15 +12,20 @@ import com.rainbowluigi.soulmagic.upgrade.Upgrade;
 import com.rainbowluigi.soulmagic.upgrade.spells.SpellUpgrade;
 import com.rainbowluigi.soulmagic.util.SoulGemHelper;
 
+import io.netty.buffer.Unpooled;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
@@ -27,7 +33,7 @@ import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 
-public class SoulGemItem extends Item implements SoulEssenceStaffDisplayer, Upgradeable {
+public class SoulGemItem extends Item implements SoulEssenceStaffDisplayer, CircleSelection, Upgradeable {
 
 	public SoulGemItem(Item.Settings settings) {
 		super(settings);
@@ -139,6 +145,33 @@ public class SoulGemItem extends Item implements SoulEssenceStaffDisplayer, Upgr
 	public void onSelection(ItemStack stack, World w, Upgrade u) {
 		if(u instanceof SpellUpgrade && SoulGemHelper.getCurrentSpellIndex(stack) < 0 && SoulGemHelper.getCurrentList(stack).size() > 0) {
 			SoulGemHelper.setCurrentSpellIndex(stack, 0);
+		}
+	}
+
+	@Override
+	public List<CircleSelectionEntry> getEntries(ItemStack stack) {
+		List<SpellUpgrade> spells = SoulGemHelper.getCurrentList(stack);
+		List<CircleSelectionEntry> entries = new ArrayList<>();
+
+		for(SpellUpgrade spell : spells) {
+			entries.add(new CircleSelectionEntry(spell.getSpellName(), spell.getSpellTexture()));
+		}
+
+		return entries;
+	}
+
+	@Override
+	public void onSelection(int index, ItemStack stack) {
+		if (index != -1) {
+			SoulGemHelper.setCurrentSpellIndex(stack, index);
+			
+			// NetworkHandler.MOD_CHANNEL.sendToServer(new SelectSpellMessage(index));
+			PacketByteBuf pbb = new PacketByteBuf(Unpooled.buffer());
+			pbb.writeInt(index);
+			ClientSidePacketRegistry.INSTANCE.sendToServer(ModNetwork.SOUL_GEM_INDEX, pbb);
+
+			MinecraftClient client = MinecraftClient.getInstance();
+			client.player.sendMessage(new TranslatableText("soulmagic.select_spell", SoulGemHelper.getCurrentList(stack).get(index).getName()), true);
 		}
 	}
 }

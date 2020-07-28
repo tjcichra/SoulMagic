@@ -25,10 +25,11 @@ import net.minecraft.world.World;
 
 public class FlamingTouchUpgrade extends SpellUpgrade {
 
+	public static final UpgradeSprite ICON = new UpgradeSprite(UpgradeSprite.baseTexture, 32, 0, 32, 32);
 	private SoulType[] types = new SoulType[] {ModSoulTypes.LIGHT, ModSoulTypes.DARK};
 	
-	public FlamingTouchUpgrade(ItemStack icon, int x, int y, Upgrade prev, UpgradeSprite s) {
-		super(icon, x, y, prev, s);
+	public FlamingTouchUpgrade(int x, int y, Upgrade prev, UpgradeSprite icon, UpgradeSprite s) {
+		super(x, y, prev, icon, s);
 	}
 
 	@Override

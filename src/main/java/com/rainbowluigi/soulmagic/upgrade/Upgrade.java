@@ -9,25 +9,22 @@ import net.minecraft.util.Util;
 
 public class Upgrade {
 
-	private ItemStack icon;
 	private int x, y;
 	private Upgrade prev;
+	private UpgradeSprite icon;
 	private UpgradeSprite s;
+
 	private ItemStack[] requirements;
 
 	private String translationKey;
 	private String descTranslationKey;
 
-	public Upgrade(ItemStack icon, int x, int y, Upgrade prev, UpgradeSprite s) {
-		this.icon = icon;
+	public Upgrade(int x, int y, Upgrade prev, UpgradeSprite icon, UpgradeSprite s) {
 		this.x = x;
 		this.y = y;
 		this.prev = prev;
+		this.icon = icon;
 		this.s = s;
-	}
-
-	public ItemStack getIcon() {
-		return this.icon;
 	}
 
 	public int getX() {
@@ -49,6 +46,10 @@ public class Upgrade {
 
 	public ItemStack[] getRequirements() {
 		return this.requirements;
+	}
+
+	public UpgradeSprite getIcon() {
+		return this.icon;
 	}
 
 	public UpgradeSprite getUpgradeSprite() {

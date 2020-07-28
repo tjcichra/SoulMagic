@@ -21,11 +21,10 @@ import net.minecraft.world.World;
 
 public class SpellUpgrade extends Upgrade {
 
-	private Identifier spellTexture;
 	private String spellTranslationKey;
 
-	public SpellUpgrade(ItemStack icon, int x, int y, Upgrade prev, UpgradeSprite s) {
-		super(icon, x, y, prev, s);
+	public SpellUpgrade(int x, int y, Upgrade prev, UpgradeSprite icon, UpgradeSprite s) {
+		super(x, y, prev, icon, s);
 	}
 
 	public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
@@ -35,17 +34,9 @@ public class SpellUpgrade extends Upgrade {
 	public ActionResult useOnBlock(ItemUsageContext itemUsageContext_1) {
 		return ActionResult.PASS;
 	}
-
-	public Identifier getDefaultSpellTexture() {
-		if(this.spellTexture == null) {
-			Identifier rl = ModUpgrades.UPGRADE.getId(this);
-			this.spellTexture = rl == null ? null : new Identifier(rl.getNamespace(), "textures/gui/spellicons/" + rl.getPath().replace('/', '.') + ".png");
-		}
-		return this.spellTexture;
-	}
 	
-	public Identifier getSpellTexture() {
-		return this.getDefaultSpellTexture();
+	public UpgradeSprite getSpellTexture() {
+		return this.getIcon();
 	}
 	
 	public SoulType[] getSoulTypesToShow() {

@@ -9,18 +9,18 @@ public class UpgradeSprite {
 	public static final Identifier baseTexture = new Identifier(Reference.MOD_ID, "textures/gui/container/upgrade_sprites.png");
 
 	public static final UpgradeSprite CIRCLE_SPRITE = new UpgradeSprite(baseTexture, 0, 0, 24, 24);
-	public static final UpgradeSprite GEM_SPRITE = new UpgradeSprite(baseTexture, 0, 0, 24, 24);
+	public static final UpgradeSprite GEM_SPRITE = new UpgradeSprite(baseTexture, 0, 232, 20, 24);
 	public static final UpgradeSprite STAR_SPRITE = new UpgradeSprite(baseTexture, 0, 0, 24, 24);
 
 	private Identifier texture;
-	private int textureX, textureY, height, length;
+	private int textureX, textureY, length, height;
 
-	public UpgradeSprite(Identifier texture, int textureX, int textureY, int height, int length) {
+	public UpgradeSprite(Identifier texture, int textureX, int textureY, int length, int height) {
 		this.texture = texture;
 		this.textureX = textureX;
 		this.textureY = textureY;
-		this.height = height;
 		this.length = length;
+		this.height = height;
 	}
 
 	public Identifier getTexture() {
@@ -35,11 +35,11 @@ public class UpgradeSprite {
 		return this.textureY;
 	}
 	
-	public int getHeight() {
-		return this.height;
-	}
-
 	public int getLength() {
 		return this.length;
+	}
+
+	public int getHeight() {
+		return this.height;
 	}
 }

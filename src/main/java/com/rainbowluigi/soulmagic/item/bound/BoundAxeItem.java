@@ -12,7 +12,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
-public class BoundAxeItem extends AxeItem implements SoulEssenceStaffDisplayer, BoundItem {
+public class BoundAxeItem extends AxeItem implements SoulEssenceStaffDisplayer {
 
 	private SoulType[] types = {ModSoulTypes.LIGHT, ModSoulTypes.DARK};
 	

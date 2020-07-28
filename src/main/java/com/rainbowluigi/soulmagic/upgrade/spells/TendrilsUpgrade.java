@@ -19,8 +19,8 @@ public class TendrilsUpgrade extends SpellUpgrade {
 
 	private SoulType[] types = new SoulType[] {ModSoulTypes.LIGHT};
 	
-	public TendrilsUpgrade(ItemStack icon, int x, int y, Upgrade prev, UpgradeSprite s) {
-		super(icon, x, y, prev, s);
+	public TendrilsUpgrade(int x, int y, Upgrade prev, UpgradeSprite icon, UpgradeSprite s) {
+		super(x, y, prev, icon, s);
 	}
 	
 	@Override
