@@ -35,6 +35,8 @@ public class ModItems {
 	public static final Item REFERENCE_STAFF = new ReferenceStaffItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
 	public static final Item EARRING = new AccessoryItem(Accessory.EARRINGS, new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
 	public static final Item RING_OF_RECKLESSNESS = new AccessoryItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
+	public static final Item BUILDING_STAFF = new BuildingStaffItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
+	public static final Item CALMING_FLUTE = new CalmingFluteItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
 	public static final Item AMULET_OF_BLINDED_RAGE = new ItemBlindedRage(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
 	public static final Item UNIVERSE_RING = new UniverseRingItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
 	public static final Item FLYING_CHEST = new FlyingChestItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
@@ -74,6 +76,8 @@ public class ModItems {
 		registerItem(REFERENCE_STAFF, "reference_staff");
 		registerItem(EARRING, "earring");
 		registerItem(RING_OF_RECKLESSNESS, "ring_of_recklessness");
+		registerItem(BUILDING_STAFF, "building_staff");
+		registerItem(CALMING_FLUTE, "calming_flute");
 		registerItem(AMULET_OF_BLINDED_RAGE, "amulet_of_blinded_rage");
 		registerItem(UNIVERSE_RING, "universe_ring");
 		registerItem(FLYING_CHEST, "flying_chest");

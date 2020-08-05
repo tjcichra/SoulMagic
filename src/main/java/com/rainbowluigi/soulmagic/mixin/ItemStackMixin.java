@@ -23,7 +23,7 @@ public abstract class ItemStackMixin {
 	@ModifyVariable(method = "getTooltip", ordinal = 0, at = @At(value = "INVOKE", target= "Lnet/minecraft/entity/EquipmentSlot;values()[Lnet/minecraft/entity/EquipmentSlot;"))
 	public List<Text> onCraft(List<Text> tooltip, PlayerEntity player, TooltipContext context) {
 		if(this.getItem() instanceof Upgradeable) {
-			tooltip.add(new TranslatableText("soulmagic.text.upgradeable").formatted(Formatting.GRAY));
+			tooltip.add(new TranslatableText("text.soulmagic.upgradeable").formatted(Formatting.DARK_GRAY));
 		}
 		return tooltip;
 	}

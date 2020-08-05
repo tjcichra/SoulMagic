@@ -7,6 +7,7 @@ import com.rainbowluigi.soulmagic.upgrade.UpgradeSprite;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
@@ -16,6 +17,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.UseAction;
 import net.minecraft.util.Util;
 import net.minecraft.world.World;
 
@@ -33,6 +35,18 @@ public class SpellUpgrade extends Upgrade {
 
 	public ActionResult useOnBlock(ItemUsageContext itemUsageContext_1) {
 		return ActionResult.PASS;
+	}
+
+	public int getMaxUseTime(ItemStack stack) {
+		return 0;
+	}
+
+	public void usageTick(World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
+		
+	}
+
+	public UseAction getUseAction(ItemStack stack) {
+		return UseAction.NONE;
 	}
 	
 	public UpgradeSprite getSpellTexture() {

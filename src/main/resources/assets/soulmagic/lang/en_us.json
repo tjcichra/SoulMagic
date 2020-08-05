@@ -43,8 +43,9 @@
 	"spell.soulmagic.bound_shovel": "Bound Shovel",
 	"spell.soulmagic.bound_sword": "Bound Sword",
 
+	"effect.soulmagic.frozen": "Frozen",
 
-	"soulmagic.text.upgradeable": "Upgradeable",
+	"text.soulmagic.upgradeable": "Upgradeable",
 	"upgrade.soulmagic.fireball": "Spell: Fireball",
 	"upgrade.desc.soulmagic.fireball": "Allows the soul gem to cast fireballs",
 	"upgrade.soulmagic.flaming_touch": "Spell: Flaming Touch",

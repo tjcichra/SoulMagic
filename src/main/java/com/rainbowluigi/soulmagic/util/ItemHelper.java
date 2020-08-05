@@ -1,21 +1,36 @@
 package com.rainbowluigi.soulmagic.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.rainbowluigi.soulmagic.inventory.AccessoriesInventory;
 import com.rainbowluigi.soulmagic.item.crafting.PlayerAccessories;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
 
 public class ItemHelper {
 
-	public static ItemStack findItem(PlayerEntity player, Item item) {
+	public static ItemStack findItem(PlayerEntity player, ItemConvertible item) {
 		for (int i = 0; i < player.inventory.size(); i++) {
-			if(player.inventory.getStack(i).getItem().equals(item)) {
+			if(player.inventory.getStack(i).getItem().equals(item.asItem())) {
 				return player.inventory.getStack(i);
 			}
 		}
 		return null;
+	}
+
+	public static List<ItemStack> findAllItem(PlayerEntity player, ItemConvertible item) {
+		List<ItemStack> list = new ArrayList<>();
+
+		for (int i = 0; i < player.inventory.size(); i++) {
+			if(player.inventory.getStack(i).getItem().equals(item.asItem())) {
+				list.add(player.inventory.getStack(i));
+			}
+		}
+		return list;
 	}
 	
 	public static int findAccessorySlot(PlayerEntity player, Item item) {

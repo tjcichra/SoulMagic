@@ -11,6 +11,7 @@ import com.rainbowluigi.soulmagic.loot.ModLoot;
 import com.rainbowluigi.soulmagic.network.ModNetwork;
 import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
 import com.rainbowluigi.soulmagic.spelltype.ModSpellTypes;
+import com.rainbowluigi.soulmagic.statuseffects.ModStatusEffects;
 import com.rainbowluigi.soulmagic.tabs.ModTabs;
 import com.rainbowluigi.soulmagic.upgrade.ModUpgrades;
 import com.rainbowluigi.soulmagic.util.Reference;
@@ -37,6 +38,7 @@ public class SoulMagic implements ModInitializer {
 		ModEnchantments.registerEnchantments();
 		ModEntityTypes.registerEntityTypes();
 		ModBlockEntity.registerBlockEntityTypes();
+		ModStatusEffects.registerStatusEffects();
 		ModRecipes.registerRecipeTypes();
 		ModRecipes.registerRecipeSerializers();
 

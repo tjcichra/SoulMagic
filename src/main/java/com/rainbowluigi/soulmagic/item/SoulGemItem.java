@@ -18,6 +18,7 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.item.TooltipContext;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -30,6 +31,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.UseAction;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 
@@ -171,7 +173,43 @@ public class SoulGemItem extends Item implements SoulEssenceStaffDisplayer, Circ
 			ClientSidePacketRegistry.INSTANCE.sendToServer(ModNetwork.SOUL_GEM_INDEX, pbb);
 
 			MinecraftClient client = MinecraftClient.getInstance();
-			client.player.sendMessage(new TranslatableText("soulmagic.select_spell", SoulGemHelper.getCurrentList(stack).get(index).getName()), true);
+			client.player.sendMessage(new TranslatableText("soulmagic.select_spell", SoulGemHelper.getCurrentList(stack).get(index).getSpellName()), true);
 		}
+	}
+
+	@Override
+	public int getMaxUseTime(ItemStack stack) {
+		if (SoulGemHelper.getSpellType(stack) != null) {
+			SpellUpgrade s = SoulGemHelper.getCurrentSpell(stack);
+
+			if (s != null) {
+				return s.getMaxUseTime(stack);
+			}
+		}
+
+		return super.getMaxUseTime(stack);
+	}
+
+	public void usageTick(World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
+		if (SoulGemHelper.getSpellType(stack) != null) {
+			SpellUpgrade s = SoulGemHelper.getCurrentSpell(stack);
+
+			if (s != null) {
+				s.usageTick(world, user, stack, remainingUseTicks);
+			}
+		}
+	}
+
+	@Override
+	public UseAction getUseAction(ItemStack stack) {
+		if (SoulGemHelper.getSpellType(stack) != null) {
+			SpellUpgrade s = SoulGemHelper.getCurrentSpell(stack);
+
+			if (s != null) {
+				return s.getUseAction(stack);
+			}
+		}
+
+		return super.getUseAction(stack);
 	}
 }

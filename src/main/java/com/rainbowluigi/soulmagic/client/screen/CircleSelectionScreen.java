@@ -6,18 +6,12 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.rainbowluigi.soulmagic.client.SoulMagicClient;
 import com.rainbowluigi.soulmagic.item.CircleSelection;
 import com.rainbowluigi.soulmagic.item.CircleSelection.CircleSelectionEntry;
-import com.rainbowluigi.soulmagic.network.ModNetwork;
-import com.rainbowluigi.soulmagic.upgrade.spells.SpellUpgrade;
-import com.rainbowluigi.soulmagic.util.SoulGemHelper;
+import com.rainbowluigi.soulmagic.upgrade.UpgradeSprite;
 
-import io.netty.buffer.Unpooled;
-import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.NarratorManager;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.text.TranslatableText;
 
 public class CircleSelectionScreen extends Screen {
 
@@ -65,13 +59,15 @@ public class CircleSelectionScreen extends Screen {
 			//double range = 90;
 			
 			for(int i = 0; i < spells.size(); i++) {
+				UpgradeSprite sprite = spells.get(i).getSprite();
+				
 				int x =  (int) (this.range * Math.sin(angle * i));
 				int y =  (int) (-this.range * Math.cos(angle * i));
 				
 				RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-				this.client.getTextureManager().bindTexture(spells.get(i).getSprite().getTexture());
+				this.client.getTextureManager().bindTexture(sprite.getTexture());
 				//SoulMagic.LOGGER.info("hello");
-				this.drawTexture(matrix, (this.width / 2) + x - 16, (this.height / 2) + y - 16, 0, 0, 32, 32);
+				this.drawTexture(matrix, (this.width / 2) + x - (sprite.getLength() / 2), (this.height / 2) + y - (sprite.getHeight() / 2), sprite.getTextureX(), sprite.getTextureY(), sprite.getLength(), sprite.getHeight());
 				//this.drawTexturedModalRect((this.width / 2) + x - 16, (this.height / 2) + y - 16, 0, 0, 32, 32);
 				
 				//Gui.drawRect(x + (this.width / 2) - 10, (this.height / 2) + y - 10, x + (this.width / 2) + 10, (this.height / 2) + y + 10, 0xFFFFFF);
@@ -95,7 +91,7 @@ public class CircleSelectionScreen extends Screen {
 		double cY = -((this.mouseY) - (this.height / 2));
 		double range = Math.sqrt(Math.pow(cX, 2) + Math.pow(cY, 2));
 		
-		List<SpellUpgrade> spells = SoulGemHelper.getCurrentList(stack);
+		List<CircleSelectionEntry> spells = this.selection.getEntries(this.stack);
 		
 		if(spells.size() > 0 && range >= 20) {
 			double angle = Math.atan(cX / cY);
