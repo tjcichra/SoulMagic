@@ -16,6 +16,7 @@ public class SoulGemIndexMessage {
 		ItemStack stack = sender.getMainHandStack();
 		if(stack.getItem() instanceof SoulGemItem) {
 			SoulGemHelper.setCurrentSpellIndex(stack, buffer.readInt());
+			SoulGemHelper.setActivated(stack, false);
 		}
 	}
 }

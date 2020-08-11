@@ -212,4 +212,9 @@ public class SoulGemItem extends Item implements SoulEssenceStaffDisplayer, Circ
 
 		return super.getUseAction(stack);
 	}
+
+	@Override
+	public boolean hasGlint(ItemStack stack) {
+		return super.hasGlint(stack) || SoulGemHelper.getActivated(stack);
+	}
 }

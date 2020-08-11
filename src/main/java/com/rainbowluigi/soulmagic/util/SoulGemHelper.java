@@ -3,6 +3,7 @@ package com.rainbowluigi.soulmagic.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.rainbowluigi.soulmagic.SoulMagic;
 import com.rainbowluigi.soulmagic.item.Upgradeable;
 import com.rainbowluigi.soulmagic.spelltype.ModSpellTypes;
 import com.rainbowluigi.soulmagic.spelltype.SpellType;
@@ -64,7 +65,27 @@ public class SoulGemHelper {
             return stack.getTag().getInt("spellindex");
         }
         return 0;
-    }
+	}
+	
+	public static void setActivated(ItemStack gem, boolean activated) {
+		CompoundTag tag = gem.getOrCreateTag();
+		tag.putBoolean("activated", activated);
+	}
+
+	public static boolean getActivated(ItemStack gem) {
+		if(gem.hasTag() && gem.getTag().contains("activated")) {
+			return gem.getTag().getBoolean("activated");
+		}
+		return false;
+	}
+
+	public static void toggleActivation(ItemStack gem) {
+		if(gem.hasTag() && gem.getTag().contains("activated")) {
+			gem.getTag().putBoolean("activated", !gem.getTag().getBoolean("activated"));
+		} else {
+			gem.getOrCreateTag().putBoolean("activated", true);
+		}
+	}
 	
 	public static void setBrace(ItemStack gem, ItemStack brace) {
 		CompoundTag tag = gem.getOrCreateSubTag("brace");

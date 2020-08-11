@@ -20,7 +20,8 @@ public class ModUpgrades {
 
 	public static final Upgrade FIREBALL = new FireballUpgrade(-32, -8, null, FireballUpgrade.ICON, UpgradeSprite.GEM_SPRITE).setRequirements(new ItemStack(Items.POTATO), new ItemStack(Items.ACACIA_BOAT), new ItemStack(Blocks.JUKEBOX));
 	public static final Upgrade TRIPLE_FIREBALL = new Upgrade(-64, -14, FIREBALL, null, UpgradeSprite.CIRCLE_SPRITE).setRequirements(new ItemStack(Items.STICK), new ItemStack(Blocks.QUARTZ_BRICKS));
-	public static final Upgrade FLAMING_TOUCH = new FlamingTouchUpgrade(0, 32, null, FlamingTouchUpgrade.ICON, UpgradeSprite.GEM_SPRITE).setRequirements(new ItemStack(Blocks.ACACIA_PLANKS));
+	public static final Upgrade FLAMING_TOUCH = new FlamingTouchUpgrade(0, -32, null, FlamingTouchUpgrade.ICON, UpgradeSprite.GEM_SPRITE).setRequirements(new ItemStack(Blocks.ACACIA_PLANKS));
+	public static final Upgrade FLAMING_EDGE = new Upgrade(0, -48, FLAMING_TOUCH, FlamingTouchUpgrade.ICON, UpgradeSprite.CIRCLE_SPRITE).setRequirements(new ItemStack(Blocks.ACACIA_PLANKS));
 
 	public static final Upgrade FROST_BREATH = new FrostBreathUpgrade(-32, -8, null, null, UpgradeSprite.GEM_SPRITE).setRequirements(new ItemStack(Items.POTATO), new ItemStack(Items.ACACIA_BOAT), new ItemStack(Blocks.JUKEBOX));
 
@@ -53,6 +54,7 @@ public class ModUpgrades {
 		registerUpgrade(FIREBALL, "fireball");
 		registerUpgrade(TRIPLE_FIREBALL, "triple_fireball");
 		registerUpgrade(FLAMING_TOUCH, "flaming_touch");
+		registerUpgrade(FLAMING_EDGE, "flaming_edge");
 
 		registerUpgrade(SOUL_ESSENCE_STAFF_INCREASE_1, "soul_essence_staff_increase_1");
 		registerUpgrade(SOUL_ESSENCE_STAFF_INCREASE_2, "soul_essence_staff_increase_2");
