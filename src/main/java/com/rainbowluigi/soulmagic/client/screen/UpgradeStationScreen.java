@@ -10,6 +10,7 @@ import com.rainbowluigi.soulmagic.inventory.UpgradeStationScreenHandler;
 import com.rainbowluigi.soulmagic.item.Upgradeable;
 import com.rainbowluigi.soulmagic.network.ModNetwork;
 import com.rainbowluigi.soulmagic.network.UpgradeStationMessage;
+import com.rainbowluigi.soulmagic.network.UpgradeStationTakeItemsMessage;
 import com.rainbowluigi.soulmagic.upgrade.Upgrade;
 import com.rainbowluigi.soulmagic.upgrade.UpgradeSprite;
 import com.rainbowluigi.soulmagic.util.Reference;
@@ -69,8 +70,13 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 
 				if(!u.hasUpgradeUnlocked(stack, this.selectedUpgrade)) {
 					if(this.selectedUpgrade.getPrev() == null || u.hasUpgradeUnlocked(stack, this.selectedUpgrade.getPrev())) {
-						u.addUpgrade(stack, this.selectedUpgrade);
-						ClientSidePacketRegistry.INSTANCE.sendToServer(ModNetwork.UPGRADE_STATION, UpgradeStationMessage.makePacket(stack));
+						if(tryToTakeItems()) {
+							u.addUpgrade(stack, this.selectedUpgrade);
+							ClientSidePacketRegistry.INSTANCE.sendToServer(ModNetwork.UPGRADE_STATION, UpgradeStationMessage.makePacket(stack));
+							if(!this.playerInventory.player.isCreative()) {
+								ClientSidePacketRegistry.INSTANCE.sendToServer(ModNetwork.UPGRADE_STATION_TAKE_ITEMS, UpgradeStationTakeItemsMessage.makePacket(this.selectedUpgrade.getRequirements()));
+							}
+						}
 					}
 				} else {
 					if(!u.hasUpgradeSelected(stack, this.selectedUpgrade)) {
@@ -80,6 +86,7 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 								u.onSelection(stack, this.client.world, this.selectedUpgrade);
 								//u.setUpgradeSelection(stack, this.selectedUpgrade, !u.hasUpgradeSelected(stack, this.selectedUpgrade));
 								ClientSidePacketRegistry.INSTANCE.sendToServer(ModNetwork.UPGRADE_STATION, UpgradeStationMessage.makePacket(stack));
+								this.playerInventory.player.totalExperience -= 1;
 							}
 						}
 					} else {
@@ -111,6 +118,39 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 				ClientSidePacketRegistry.INSTANCE.sendToServer(ModNetwork.UPGRADE_STATION, UpgradeStationMessage.makePacket(stack));
 			}
 		}));
+	}
+
+	public boolean tryToTakeItems() {
+		if(this.playerInventory.player.isCreative()) {
+			return true;
+		}
+
+		boolean good = false;
+
+		for(ItemStack requirement : this.selectedUpgrade.getRequirements()) {
+			good = false;
+
+			for(ItemStack stack : this.playerInventory.main) {
+				if(stack.isItemEqual(requirement) && stack.getCount() >= requirement.getCount()) {
+					good = true;
+					break;
+				}
+			}
+
+			if(!good) {
+				return false;
+			}
+		}
+
+		for(ItemStack requirement : this.selectedUpgrade.getRequirements()) {
+			for(ItemStack stack : this.playerInventory.main) {
+				if(stack.isItemEqual(requirement) && stack.getCount() >= requirement.getCount()) {
+					stack.decrement(requirement.getCount());
+				}
+			}
+		}
+
+		return true;
 	}
 
 	@Override

@@ -13,6 +13,7 @@ public class ModNetwork {
 	public static final Identifier ACCESSORIES_OPEN = new Identifier(Reference.MOD_ID, "accessories_open");
 	public static final Identifier FLYING_CHEST_OPEN = new Identifier(Reference.MOD_ID, "flying_chest_open");
 	public static final Identifier UPGRADE_STATION = new Identifier(Reference.MOD_ID, "upgrade_station");
+	public static final Identifier UPGRADE_STATION_TAKE_ITEMS = new Identifier(Reference.MOD_ID, "upgrade_station_take_items");
 
 	//Server to client packets
 	public static final Identifier ENTITY_RENDER = new Identifier(Reference.MOD_ID, "entity_render");
@@ -22,6 +23,7 @@ public class ModNetwork {
 		ServerSidePacketRegistry.INSTANCE.register(ACCESSORIES_OPEN, AccessoriesOpenMessage::handle);
 		ServerSidePacketRegistry.INSTANCE.register(FLYING_CHEST_OPEN, FlyingChestOpenMessage::handle);
 		ServerSidePacketRegistry.INSTANCE.register(UPGRADE_STATION, UpgradeStationMessage::handle);
+		ServerSidePacketRegistry.INSTANCE.register(UPGRADE_STATION_TAKE_ITEMS, UpgradeStationTakeItemsMessage::handle);
 	}
 
 	public static void registerServerToClientPackets() {
