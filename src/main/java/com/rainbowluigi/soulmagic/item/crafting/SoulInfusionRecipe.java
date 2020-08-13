@@ -32,7 +32,7 @@ public class SoulInfusionRecipe implements Recipe<Inventory> {
 	protected String group;
 	protected DefaultedList<Ingredient> inputs;
 	protected ItemStack output;
-	protected Map<SoulType, Integer> soulMap;
+	public Map<SoulType, Integer> soulMap;
 	protected int progressColor;
 	
 	public SoulInfusionRecipe(Identifier id, String group, DefaultedList<Ingredient> inputs, Map<SoulType, Integer> soulMap, int progressColor, ItemStack output) {
@@ -81,7 +81,7 @@ public class SoulInfusionRecipe implements Recipe<Inventory> {
 		return new ItemStack(ModBlocks.SOUL_ESSENCE_INFUSER);
 	}
 	
-	public Map<SoulType, Integer> getSoulMap() {
+	public Map<SoulType, Integer> getSoulMap(Inventory inv, World worldIn) {
 		return this.soulMap;
 	}
 	
@@ -161,8 +161,8 @@ public class SoulInfusionRecipe implements Recipe<Inventory> {
 				i.write(buffer);
 			}
 			
-			buffer.writeInt(recipe.getSoulMap().size());
-			for(Entry<SoulType, Integer> entry : recipe.getSoulMap().entrySet()) {
+			buffer.writeInt(recipe.soulMap.size());
+			for(Entry<SoulType, Integer> entry : recipe.soulMap.entrySet()) {
 				buffer.writeIdentifier(ModSoulTypes.SOUL_TYPE.getId(entry.getKey()));
 				buffer.writeInt(entry.getValue());
 			}

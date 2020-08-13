@@ -136,8 +136,8 @@ public class SpellTypeInfusionRecipe extends SoulInfusionRecipe {
 			
 			buffer.writeIdentifier(ModSpellTypes.SPELL_TYPE.getId(recipe.soulType));
 			
-			buffer.writeInt(recipe.getSoulMap().size());
-			for(Entry<SoulType, Integer> entry : recipe.getSoulMap().entrySet()) {
+			buffer.writeInt(recipe.soulMap.size());
+			for(Entry<SoulType, Integer> entry : recipe.soulMap.entrySet()) {
 				buffer.writeIdentifier(ModSoulTypes.SOUL_TYPE.getId(entry.getKey()));
 				buffer.writeInt(entry.getValue());
 			}

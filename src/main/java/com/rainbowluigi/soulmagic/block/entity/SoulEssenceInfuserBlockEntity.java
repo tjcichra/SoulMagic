@@ -116,7 +116,7 @@ public class SoulEssenceInfuserBlockEntity extends LockableContainerBlockEntity 
 				if (irecipe.isPresent()) {
 					flag = true;
 
-					this.recipeSoulMap = irecipe.get().getSoulMap();
+					this.recipeSoulMap = irecipe.get().getSoulMap(this, this.world);
 					this.progressColor = irecipe.get().getProgressColor();
 
 					ItemStack staff = this.getStaffCap();
@@ -183,7 +183,7 @@ public class SoulEssenceInfuserBlockEntity extends LockableContainerBlockEntity 
 
 		boolean good = true;
 
-		for (Entry<SoulType, Integer> entry : recipe.getSoulMap().entrySet()) {
+		for (Entry<SoulType, Integer> entry : recipe.getSoulMap(this, this.world).entrySet()) {
 			Integer d = this.cookSoulMap.get(entry.getKey());
 			int d2 = d != null ? d : 0;
 

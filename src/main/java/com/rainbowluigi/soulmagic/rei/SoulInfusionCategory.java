@@ -56,7 +56,7 @@ public class SoulInfusionCategory implements TransferRecipeCategory<SoulInfusion
 		List<Widget> widgets = Lists.newArrayList();
 		widgets.add(Widgets.createRecipeBase(bounds));
 		widgets.add(new InfusionCircleWidget(new Rectangle(bounds.x + 12, bounds.y + 9, 100, 100), recipeDisplay.progressColor));
-		widgets.add(new SoulEssenceStaffWidget(new Rectangle(bounds.x + 122, bounds.y + 28, 16, 16), recipeDisplay.recipe.getSoulMap()));
+		widgets.add(new SoulEssenceStaffWidget(new Rectangle(bounds.x + 122, bounds.y + 28, 16, 16), recipeDisplay.recipe.soulMap));
 
 		//Get the list of inputs and add recipe slots with them.
 		List<List<EntryStack>> input = recipeDisplay.getInputEntries();

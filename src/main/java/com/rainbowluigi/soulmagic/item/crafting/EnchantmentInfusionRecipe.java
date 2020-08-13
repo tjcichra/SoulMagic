@@ -6,14 +6,11 @@ import java.util.Map.Entry;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.rainbowluigi.soulmagic.SoulMagic;
 import com.rainbowluigi.soulmagic.item.EnchantmentTemplateItem;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.inventory.Inventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
@@ -34,6 +31,10 @@ public class EnchantmentInfusionRecipe extends SoulInfusionRecipe {
 			if (!this.inputs.get(i).test(sibe.getStack(i))) {
 				return false;
 			}
+		}
+
+		if(sibe.getStack(8).hasEnchantments()) {
+			return false;
 		}
 
 		ItemStack template = sibe.getStack(0);
