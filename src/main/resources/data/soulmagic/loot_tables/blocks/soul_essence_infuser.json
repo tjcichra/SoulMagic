@@ -19,6 +19,11 @@
 									"source": "upgrades",
 									"target": "upgrades",
 									"op": "replace"
+								},
+								{
+									"source": "selectorPoints",
+									"target": "selectorPoints",
+									"op": "replace"
 								}
 							]
 						}

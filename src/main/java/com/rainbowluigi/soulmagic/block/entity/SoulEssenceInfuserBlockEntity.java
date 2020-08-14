@@ -45,7 +45,7 @@ public class SoulEssenceInfuserBlockEntity extends LockableContainerBlockEntity 
 	private static final int[] BOTTOM_SLOTS = new int[] { 9 };
 
 	private DefaultedList<ItemStack> inventory;
-	private List<Upgrade> upgrades;
+	private List<UpgradeAndSelection> upgrades;
 	private int selectorPoints;
 
 	private Map<SoulType, Integer> cookSoulMap = Maps.newHashMap();
@@ -71,13 +71,11 @@ public class SoulEssenceInfuserBlockEntity extends LockableContainerBlockEntity 
 
 			for(int i = 0; i < t.size(); i++) {
 				CompoundTag tag = (CompoundTag) t.get(i);
-				Upgrade u = ModUpgrades.UPGRADE.get(new Identifier(tag.getString("name")));
-
-				if(tag.getBoolean("selected")) {
-					upgrades.add(u);
-				}
+				upgrades.add(new UpgradeAndSelection(ModUpgrades.UPGRADE.get(new Identifier(tag.getString("name"))), tag.getBoolean("selected")));
 			}
 		}
+
+		this.selectorPoints = compound.getInt("selectorPoints");
 	}
 
 	@Override
@@ -94,12 +92,14 @@ public class SoulEssenceInfuserBlockEntity extends LockableContainerBlockEntity 
 
 			ListTag list = (ListTag) compound.get("upgrades");
 
-			for(Upgrade u : this.upgrades) {
+			for(UpgradeAndSelection u : this.upgrades) {
 				CompoundTag upgradeTag = new CompoundTag();
-				upgradeTag.putString("name", ModUpgrades.UPGRADE.getId(u).toString());
+				upgradeTag.putString("name", ModUpgrades.UPGRADE.getId(u.u).toString());
+				upgradeTag.putBoolean("selected", u.selected);
 				list.add(upgradeTag);
 			}
 		}
+		compound.putInt("selectorPoints", this.selectorPoints);
 		
 		return compound;
 	}
@@ -199,7 +199,7 @@ public class SoulEssenceInfuserBlockEntity extends LockableContainerBlockEntity 
 		return good;
 	}
 
-	public void setUpgrades(List<Upgrade> upgrades) {
+	public void setUpgrades(List<UpgradeAndSelection> upgrades) {
 		this.upgrades = upgrades;
 	}
 
@@ -385,5 +385,15 @@ public class SoulEssenceInfuserBlockEntity extends LockableContainerBlockEntity 
 	@Override
 	public void writeScreenOpeningData(ServerPlayerEntity player, PacketByteBuf buf) {
 		buf.writeBlockPos(this.pos);
+	}
+
+	public static class UpgradeAndSelection {
+		private Upgrade u;
+		private boolean selected;
+
+		public UpgradeAndSelection(Upgrade u, boolean selected) {
+			this.u = u;
+			this.selected = selected;
+		}
 	}
 }

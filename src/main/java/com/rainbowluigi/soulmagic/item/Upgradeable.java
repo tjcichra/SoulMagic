@@ -3,6 +3,7 @@ package com.rainbowluigi.soulmagic.item;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.rainbowluigi.soulmagic.block.entity.SoulEssenceInfuserBlockEntity.UpgradeAndSelection;
 import com.rainbowluigi.soulmagic.upgrade.ModUpgrades;
 import com.rainbowluigi.soulmagic.upgrade.Upgrade;
 
@@ -34,6 +35,23 @@ public interface Upgradeable {
 				if(all || selected) {
 					upgrades.add(u);
 				}
+			}
+		}
+
+		return upgrades;
+	}
+
+	public default List<UpgradeAndSelection> getUpgradesAndSelectionsUnlocked(ItemStack stack) {
+		List<UpgradeAndSelection> upgrades = new ArrayList<>();
+
+		if(stack.hasTag() && stack.getTag().contains("upgrades")) {
+			ListTag t = (ListTag) stack.getTag().get("upgrades");
+
+			for(int i = 0; i < t.size(); i++) {
+				CompoundTag tag = (CompoundTag) t.get(i);
+				Upgrade u = ModUpgrades.UPGRADE.get(new Identifier(tag.getString("name")));
+				boolean selected = tag.getBoolean("selected");
+				upgrades.add(new UpgradeAndSelection(u, selected));
 			}
 		}
 

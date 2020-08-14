@@ -50,7 +50,7 @@ public class SoulEssenceInfuserBlock extends BlockWithEntity {
 			if(stack.hasCustomName()) {
 				seibe.setCustomName(stack.getName());
 			}
-			seibe.setUpgrades(u.getUpgradesSelected(stack));
+			seibe.setUpgrades(u.getUpgradesAndSelectionsUnlocked(stack));
 			seibe.setSelectorPoints(u.getSelectorPointsNumber(stack));
 		}
 	}
