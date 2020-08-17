@@ -43,6 +43,10 @@ public class ModItems {
 	public static final Item MAGICAL_BALL_OF_YARN = new MagicalBallOfYarnItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
 	public static final Item SOUL_MAGIC_BOOK = new SoulMagicBookItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
 	public static final Item SPIRIT_LAMP = new SpiritLampItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
+	public static final Item ESSENCE_EXPERIENCE_INTERFACE = new Item(new Item.Settings().group(SoulMagic.ITEM_GROUP));
+	public static final Item ENCHANTMENT_COMBINATION_CATALYST = new Item(new Item.Settings().maxDamage(32).group(SoulMagic.ITEM_GROUP));
+	public static final Item ENCHANTMENT_SEPARATION_CATALYST = new Item(new Item.Settings().maxDamage(32).group(SoulMagic.ITEM_GROUP));
+	public static final Item REPAIRING_CATALYST = new Item(new Item.Settings().maxDamage(5000).group(SoulMagic.ITEM_GROUP));
 
 	public static final Item WEAPON_ENCHANTMENT_TEMPLATE = new EnchantmentTemplateItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP), EnchantmentTarget.WEAPON);
 	
@@ -84,6 +88,10 @@ public class ModItems {
 		registerItem(MAGICAL_BALL_OF_YARN, "magical_ball_of_yarn");
 		registerItem(SOUL_MAGIC_BOOK, "soul_magic_book");
 		registerItem(SPIRIT_LAMP, "spirit_lamp");
+		registerItem(ESSENCE_EXPERIENCE_INTERFACE, "essence_experience_interface");
+		registerItem(ENCHANTMENT_COMBINATION_CATALYST, "enchantment_combination_catalyst");
+		registerItem(ENCHANTMENT_SEPARATION_CATALYST, "enchantment_separation_catalyst");
+		registerItem(REPAIRING_CATALYST, "repairing_catalyst");
 		
 		registerItem(WEAPON_ENCHANTMENT_TEMPLATE, "weapon_enchantment_template");
 

@@ -42,7 +42,7 @@ public class ModUpgrades {
 	public static final Upgrade SOUL_ESSENCE_STAFF_INCREASE_1 = new Upgrade(32, -32, null, null, UpgradeSprite.CIRCLE_SPRITE).setRequirements(new ItemStack(Blocks.ACACIA_PLANKS));
 	public static final Upgrade SOUL_ESSENCE_STAFF_INCREASE_2 = new Upgrade( 0, -16, SOUL_ESSENCE_STAFF_INCREASE_1, null, UpgradeSprite.CIRCLE_SPRITE).setRequirements(new ItemStack(Blocks.ACACIA_PLANKS));
 
-	public static final Upgrade ENCHANTMENT_OBELISK = new Upgrade(-64, -14, null, null, UpgradeSprite.CIRCLE_SPRITE).setRequirements(new ItemStack(ModItems.LIGHT_SOUL_ESSENCE_POWDER, 4), new ItemStack(Blocks.ENCHANTING_TABLE));
+	public static final Upgrade ENCHANTING_COMPONENT = new Upgrade(-64, -14, null, null, UpgradeSprite.CIRCLE_SPRITE).setRequirements(new ItemStack(ModItems.LIGHT_SOUL_ESSENCE_POWDER, 4), new ItemStack(Blocks.BOOKSHELF, 4), new ItemStack(Blocks.ENCHANTING_TABLE));
 
 	public static final Upgrade SHARPNESS_1 = new EnchantmentUpgrade(-68, 1, null, null, UpgradeSprite.CIRCLE_SPRITE, Enchantments.SHARPNESS, 1).setRequirements(new ItemStack(ModItems.LIGHT_SOUL_ESSENCE_POWDER, 4), new ItemStack(Blocks.ENCHANTING_TABLE));
 	public static final Upgrade SHARPNESS_2 = new EnchantmentUpgrade(-115, 13, SHARPNESS_1, null, UpgradeSprite.CIRCLE_SPRITE, Enchantments.SHARPNESS, 2).setRequirements(new ItemStack(ModItems.LIGHT_SOUL_ESSENCE_POWDER, 4), new ItemStack(Blocks.ENCHANTING_TABLE));
@@ -75,13 +75,13 @@ public class ModUpgrades {
 		registerUpgrade(TOOL_SWITCHING, "tool_switching");
 		registerUpgrade(BOUND_ENCHANTMENTS, "bound_enchantments");
 
-		registerUpgrade(ENCHANTMENT_OBELISK, "enchantment_obelisk");
-
 		registerUpgrade(SHARPNESS_1, "sharpness_1");
 		registerUpgrade(SHARPNESS_2, "sharpness_2");
 		registerUpgrade(SHARPNESS_3, "sharpness_3");
 		registerUpgrade(SHARPNESS_4, "sharpness_4");
 		registerUpgrade(SHARPNESS_5, "sharpness_5");
+
+		registerUpgrade(ENCHANTING_COMPONENT, "enchanting_component");
 	}
 	
 	public static Upgrade registerUpgrade(Upgrade u, String name) {

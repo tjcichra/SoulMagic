@@ -198,6 +198,7 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 			if(this.selectedUpgrade != null && !upgradeable.hasUpgradeUnlocked(item, this.selectedUpgrade)) {
 				for(int r = 0; r < this.selectedUpgrade.getRequirements().length; r++) {
 					itemRenderer.renderGuiItemIcon(this.selectedUpgrade.getRequirements()[r], i + 41 + r * 18, j + this.backgroundHeight - 18);
+					itemRenderer.renderGuiItemOverlay(textRenderer, this.selectedUpgrade.getRequirements()[r], i + 41 + r * 18, j + this.backgroundHeight - 18);
 				}
 			}
 		}

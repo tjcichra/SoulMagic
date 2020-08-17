@@ -6,7 +6,10 @@ import java.util.Map.Entry;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.rainbowluigi.soulmagic.block.entity.SoulEssenceInfuserBlockEntity;
 import com.rainbowluigi.soulmagic.item.EnchantmentTemplateItem;
+import com.rainbowluigi.soulmagic.upgrade.ModUpgrades;
+import com.rainbowluigi.soulmagic.upgrade.Upgrade;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.inventory.Inventory;
@@ -21,12 +24,12 @@ import net.minecraft.world.World;
 
 public class EnchantmentInfusionRecipe extends SoulInfusionRecipe {
 	
-	public EnchantmentInfusionRecipe(Identifier id, String group, DefaultedList<Ingredient> inputs, int progressColor) {
-		super(id, group, inputs, Collections.EMPTY_MAP, progressColor, ItemStack.EMPTY);
+	public EnchantmentInfusionRecipe(Identifier id, String group, DefaultedList<Ingredient> inputs, Upgrade[] upgradesNeeded, int progressColor) {
+		super(id, group, inputs, Collections.EMPTY_MAP, upgradesNeeded, progressColor, ItemStack.EMPTY);
 	}
 	
 	@Override
-	public boolean matches(Inventory sibe, World worldIn) {
+	public boolean matches(SoulEssenceInfuserBlockEntity sibe, World worldIn) {
 		for (int i = 0; i < this.inputs.size(); i++) {
 			if (!this.inputs.get(i).test(sibe.getStack(i))) {
 				return false;
@@ -44,7 +47,7 @@ public class EnchantmentInfusionRecipe extends SoulInfusionRecipe {
 	}
 
 	@Override
-	public ItemStack craft(Inventory sibe) {
+	public ItemStack craft(SoulEssenceInfuserBlockEntity sibe) {
 		ItemStack template = sibe.getStack(0);
 		EnchantmentTemplateItem eti = (EnchantmentTemplateItem) template.getItem();
 		
@@ -59,7 +62,7 @@ public class EnchantmentInfusionRecipe extends SoulInfusionRecipe {
 	}
 
 	@Override
-	public DefaultedList<ItemStack> getRemainingStacks(Inventory inventory) {
+	public DefaultedList<ItemStack> getRemainingStacks(SoulEssenceInfuserBlockEntity inventory) {
 		DefaultedList<ItemStack> defaultedList = super.getRemainingStacks(inventory);
 		defaultedList.set(0, inventory.getStack(0).copy());
 		return defaultedList;
@@ -77,8 +80,9 @@ public class EnchantmentInfusionRecipe extends SoulInfusionRecipe {
 			String s = JsonHelper.getString(json, "group", "");
 			int color = JsonHelper.getInt(json, "color", 0xFFFFFF);
 			DefaultedList<Ingredient> inputs = readIngredients(JsonHelper.getArray(json, "ingredients"));
-			
-			return new EnchantmentInfusionRecipe(recipeId, s, inputs, color);
+			Upgrade[] upgradesNeeded = {ModUpgrades.ENCHANTING_COMPONENT};
+
+			return new EnchantmentInfusionRecipe(recipeId, s, inputs, upgradesNeeded, color);
 		}
 		
 		private static DefaultedList<Ingredient> readIngredients(JsonArray array) {
@@ -103,7 +107,8 @@ public class EnchantmentInfusionRecipe extends SoulInfusionRecipe {
 				inputs.set(j, Ingredient.fromPacket(buffer));
 			}
 			
-			return new EnchantmentInfusionRecipe(recipeId, group, inputs, color);
+			Upgrade[] upgradesNeeded = {ModUpgrades.ENCHANTING_COMPONENT};
+			return new EnchantmentInfusionRecipe(recipeId, group, inputs, upgradesNeeded, color);
 		}
 
 		@Override

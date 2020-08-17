@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 import com.rainbowluigi.soulmagic.block.ModBlocks;
 import com.rainbowluigi.soulmagic.rei.widgets.InfusionCircleWidget;
 import com.rainbowluigi.soulmagic.rei.widgets.SoulEssenceStaffWidget;
+import com.rainbowluigi.soulmagic.rei.widgets.UpgradeRequirementWidget;
 
 import it.unimi.dsi.fastutil.ints.IntList;
 import me.shedaniel.math.Point;
@@ -57,6 +58,10 @@ public class SoulInfusionCategory implements TransferRecipeCategory<SoulInfusion
 		widgets.add(Widgets.createRecipeBase(bounds));
 		widgets.add(new InfusionCircleWidget(new Rectangle(bounds.x + 12, bounds.y + 9, 100, 100), recipeDisplay.progressColor));
 		widgets.add(new SoulEssenceStaffWidget(new Rectangle(bounds.x + 122, bounds.y + 28, 16, 16), recipeDisplay.recipe.soulMap));
+
+		if(recipeDisplay.recipe.getUpgradesNeeded().length > 0) {
+			widgets.add(new UpgradeRequirementWidget(new Rectangle(bounds.x + 122, bounds.y + 12, 16, 16), recipeDisplay.recipe.getUpgradesNeeded()));
+		}
 
 		//Get the list of inputs and add recipe slots with them.
 		List<List<EntryStack>> input = recipeDisplay.getInputEntries();

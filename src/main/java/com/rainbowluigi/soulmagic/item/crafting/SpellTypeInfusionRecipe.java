@@ -6,11 +6,13 @@ import java.util.Map.Entry;
 import com.google.common.collect.Maps;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.rainbowluigi.soulmagic.block.entity.SoulEssenceInfuserBlockEntity;
 import com.rainbowluigi.soulmagic.item.Upgradeable;
 import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
 import com.rainbowluigi.soulmagic.soultype.SoulType;
 import com.rainbowluigi.soulmagic.spelltype.ModSpellTypes;
 import com.rainbowluigi.soulmagic.spelltype.SpellType;
+import com.rainbowluigi.soulmagic.upgrade.Upgrade;
 import com.rainbowluigi.soulmagic.util.SoulGemHelper;
 import com.rainbowluigi.soulmagic.util.SoulUtils;
 
@@ -29,12 +31,12 @@ public class SpellTypeInfusionRecipe extends SoulInfusionRecipe {
 	public SpellType soulType;
 	
 	public SpellTypeInfusionRecipe(Identifier id, String group, DefaultedList<Ingredient> inputs, Map<SoulType, Integer> soulMap, int progressColor, SpellType soulType) {
-		super(id, group, inputs, soulMap, progressColor, ItemStack.EMPTY);
+		super(id, group, inputs, soulMap, new Upgrade[0], progressColor, ItemStack.EMPTY);
 		this.soulType = soulType;
 	}
 	
 	@Override
-	public boolean matches(Inventory sibe, World worldIn) {
+	public boolean matches(SoulEssenceInfuserBlockEntity sibe, World worldIn) {
 		for (int i = 0; i < this.inputs.size(); i++) {
 			if (!this.inputs.get(i).test(sibe.getStack(i))) {
 				return false;
@@ -45,7 +47,7 @@ public class SpellTypeInfusionRecipe extends SoulInfusionRecipe {
 	}
 
 	@Override
-	public ItemStack craft(Inventory sibe) {
+	public ItemStack craft(SoulEssenceInfuserBlockEntity sibe) {
 		ItemStack stack = sibe.getStack(8).copy();
 		SoulGemHelper.setSpellType(stack, this.soulType);
 		

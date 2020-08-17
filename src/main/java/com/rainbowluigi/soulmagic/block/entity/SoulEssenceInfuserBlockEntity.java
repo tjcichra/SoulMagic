@@ -1,5 +1,6 @@
 package com.rainbowluigi.soulmagic.block.entity;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -385,6 +386,18 @@ public class SoulEssenceInfuserBlockEntity extends LockableContainerBlockEntity 
 	@Override
 	public void writeScreenOpeningData(ServerPlayerEntity player, PacketByteBuf buf) {
 		buf.writeBlockPos(this.pos);
+	}
+
+	public List<Upgrade> getSelectedUpgrades() {
+		List<Upgrade> lu = new ArrayList<>();
+
+		for(UpgradeAndSelection u : this.upgrades) {
+			if(u.selected) {
+				lu.add(u.u);
+			}
+		}
+
+		return lu;
 	}
 
 	public static class UpgradeAndSelection {

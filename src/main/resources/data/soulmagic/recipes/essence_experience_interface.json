@@ -1,0 +1,41 @@
+{
+	"type": "soulmagic:soul_essence_infusion",
+	"ingredients": [
+		{
+			"tag": "soulmagic:soul_essence_powders"
+		},
+		{
+			"item": "minecraft:air"
+		},
+		{
+			"item": "minecraft:air"
+		},
+		{
+			"item": "minecraft:ender_eye"
+		},
+		{
+			"item": "minecraft:air"
+		},
+		{
+			"item": "minecraft:gold_ingot"
+		},
+		{
+			"item": "minecraft:air"
+		},
+		{
+			"item": "minecraft:air"
+		},
+		{
+			"item": "minecraft:glass"
+		}
+	],
+	"result": {
+		"item": "soulmagic:essence_experience_interface"
+    },
+    "upgrades": [
+        "soulmagic:enchanting_component"
+    ],
+	"soul": {
+		"soulmagic:light": 30
+	}
+}

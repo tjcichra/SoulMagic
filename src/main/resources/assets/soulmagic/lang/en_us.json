@@ -29,6 +29,10 @@
 	"item.soulmagic.magical_ball_of_yarn": "Magical Ball of Yarn",
 	"item.soulmagic.soul_magic_book": "RL281's Guide to Soul Magic",
 	"item.soulmagic.spirit_lamp": "Spirit Lamp",
+	"item.soulmagic.essence_experience_interface": "Essence-Experience Interface",
+	"item.soulmagic.enchantment_combination_catalyst": "Enchantment Combination Catalyst",
+	"item.soulmagic.enchantment_separation_catalyst": "Enchantment Separation Catalyst",
+	"item.soulmagic.repairing_catalyst": "Repairing Catalyst",
 	
 	"enchantment.soulmagic.soul_stealer": "Soul Stealer",
 	"enchantment.soulmagic.disarming": "Disarming",
@@ -47,9 +51,9 @@
 
 	"text.soulmagic.upgradeable": "Upgradeable",
 	"upgrade.soulmagic.fireball": "Spell: Fireball",
-	"upgrade.desc.soulmagic.fireball": "Allows the soul gem to cast fireballs",
+	"upgrade.desc.soulmagic.fireball": "Allows the soul gem to cast fireballs.",
 	"upgrade.soulmagic.flaming_touch": "Spell: Flaming Touch",
-	"upgrade.desc.soulmagic.flaming_touch": "Allows the soul gem to smelt blocks in the world",
+	"upgrade.desc.soulmagic.flaming_touch": "Allows the soul gem to smelt blocks in the world.",
 	"upgrade.soulmagic.bound_pickaxe": "Spell: Bound Pickaxe",
 	"upgrade.desc.soulmagic.bound_pickaxe": "Summons a magical pickaxe that uses soul essence prevent tool damage.",
 	"upgrade.soulmagic.bound_axe": "Spell: Bound Axe",
@@ -58,6 +62,8 @@
 	"upgrade.desc.soulmagic.bound_shovel": "Summons a magical shovel that uses soul essence prevent tool damage.",
 	"upgrade.soulmagic.bound_sword": "Spell: Bound Sword",
 	"upgrade.desc.soulmagic.bound_sword": "Summons a magical sword that uses soul essence prevent tool damage.",
+	"upgrade.soulmagic.enchanting_component": "Enchanting Component",
+	"upgrade.desc.soulmagic.enchanting_component": "Gives the soul essence infuser enchanting capabilities.",
 	
 	"soul_type.soulmagic.light": "Light",
 	"soul_type.soulmagic.dark": "Dark",
@@ -88,6 +94,9 @@
 	"soulmagic.rei.category.soul_separation": "Soul Separation",
 	"soulmagic.rei.required": "Soul Essence Required:",
 	"soulmagic.rei.soul_amount": "%s: %s",
+	"soulmagic.rei.upgraderequired": "Upgrade Required:",
+	"soulmagic.rei.upgradesrequired": "Upgrades Required:",
+	"soulmagic.rei.upgrade": "%s",
 	"soulmagic.rei.spell": "Spell: %s",
 	"soulmagic.rei.soul_separation_percentage": "%s%%",
 	
