@@ -20,6 +20,7 @@ public class ModRecipes {
 	public static final RecipeSerializer<EnchantmentInfusionRecipe> ENCHANTMENT_INFUSION = new EnchantmentInfusionRecipe.Serializer();
 	public static final RecipeSerializer<SoulSeparatorRecipe> SOUL_ESSENCE_SEPARATION = new SoulSeparatorRecipe.Serializer();
 	public static final SpecialRecipeSerializer<SoulStaffTransferRecipe> SOUL_ESSENCE_STAFF_TRANSFER = new SpecialRecipeSerializer<>(SoulStaffTransferRecipe::new);
+	public static final SpecialRecipeSerializer<EnchantmentCombinationRecipe> ENCHANTMENT_COMBINATION = new SpecialRecipeSerializer<>(EnchantmentCombinationRecipe::new);
 	
 	public static void registerRecipeTypes() {
 		registerRecipeType(SOUL_ESSENCE_INFUSION_TYPE, "soul_essence_infusion");
@@ -33,6 +34,7 @@ public class ModRecipes {
 		registerRecipeSerializer(ENCHANTMENT_INFUSION, "enchantment_infusion");
 		registerRecipeSerializer(SOUL_ESSENCE_SEPARATION, "soul_essence_separation");
 		registerRecipeSerializer(SOUL_ESSENCE_STAFF_TRANSFER, "soul_essence_staff_transfer");
+		registerRecipeSerializer(ENCHANTMENT_COMBINATION, "enchantment_combination");
 	}
 
 	private static void registerRecipeType(RecipeType<?> recipeType, String name) {

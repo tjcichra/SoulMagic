@@ -2,8 +2,10 @@ package com.rainbowluigi.soulmagic.upgrade;
 
 import com.mojang.serialization.Lifecycle;
 import com.rainbowluigi.soulmagic.item.ModItems;
+import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
 import com.rainbowluigi.soulmagic.upgrade.spells.*;
 import com.rainbowluigi.soulmagic.util.Reference;
+import com.rainbowluigi.soulmagic.util.SoulEssenceHelper;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.enchantment.Enchantments;
@@ -44,11 +46,11 @@ public class ModUpgrades {
 
 	public static final Upgrade ENCHANTING_COMPONENT = new Upgrade(-64, -14, null, null, UpgradeSprite.CIRCLE_SPRITE).setRequirements(new ItemStack(ModItems.LIGHT_SOUL_ESSENCE_POWDER, 4), new ItemStack(Blocks.BOOKSHELF, 4), new ItemStack(Blocks.ENCHANTING_TABLE));
 
-	public static final Upgrade SHARPNESS_1 = new EnchantmentUpgrade(-68, 1, null, null, UpgradeSprite.CIRCLE_SPRITE, Enchantments.SHARPNESS, 1).setRequirements(new ItemStack(ModItems.LIGHT_SOUL_ESSENCE_POWDER, 4), new ItemStack(Blocks.ENCHANTING_TABLE));
-	public static final Upgrade SHARPNESS_2 = new EnchantmentUpgrade(-115, 13, SHARPNESS_1, null, UpgradeSprite.CIRCLE_SPRITE, Enchantments.SHARPNESS, 2).setRequirements(new ItemStack(ModItems.LIGHT_SOUL_ESSENCE_POWDER, 4), new ItemStack(Blocks.ENCHANTING_TABLE));
-	public static final Upgrade SHARPNESS_3 = new EnchantmentUpgrade(-157, 25, SHARPNESS_2, null, UpgradeSprite.CIRCLE_SPRITE, Enchantments.SHARPNESS, 3).setRequirements(new ItemStack(ModItems.LIGHT_SOUL_ESSENCE_POWDER, 4), new ItemStack(Blocks.ENCHANTING_TABLE));
-	public static final Upgrade SHARPNESS_4 = new EnchantmentUpgrade(-192, 62, SHARPNESS_3, null, UpgradeSprite.CIRCLE_SPRITE, Enchantments.SHARPNESS, 4).setRequirements(new ItemStack(ModItems.LIGHT_SOUL_ESSENCE_POWDER, 4), new ItemStack(Blocks.ENCHANTING_TABLE));
-	public static final Upgrade SHARPNESS_5 = new EnchantmentUpgrade(-208, 99, SHARPNESS_4, null, UpgradeSprite.CIRCLE_SPRITE, Enchantments.SHARPNESS, 5).setRequirements(new ItemStack(ModItems.LIGHT_SOUL_ESSENCE_POWDER, 4), new ItemStack(Blocks.ENCHANTING_TABLE));
+	public static final Upgrade SHARPNESS_1 = new EnchantmentUpgrade(-68, 1, null, null, UpgradeSprite.CIRCLE_SPRITE, Enchantments.SHARPNESS, 1, SoulEssenceHelper.createMap(ModSoulTypes.DARK, 10)).setRequirements(new ItemStack(ModItems.LIGHT_SOUL_ESSENCE_POWDER, 4), new ItemStack(Blocks.ENCHANTING_TABLE));
+	public static final Upgrade SHARPNESS_2 = new EnchantmentUpgrade(-115, 13, SHARPNESS_1, null, UpgradeSprite.CIRCLE_SPRITE, Enchantments.SHARPNESS, 2, SoulEssenceHelper.createMap(ModSoulTypes.DARK, 10)).setRequirements(new ItemStack(ModItems.LIGHT_SOUL_ESSENCE_POWDER, 4), new ItemStack(Blocks.ENCHANTING_TABLE));
+	public static final Upgrade SHARPNESS_3 = new EnchantmentUpgrade(-157, 25, SHARPNESS_2, null, UpgradeSprite.CIRCLE_SPRITE, Enchantments.SHARPNESS, 3, SoulEssenceHelper.createMap(ModSoulTypes.DARK, 10)).setRequirements(new ItemStack(ModItems.LIGHT_SOUL_ESSENCE_POWDER, 4), new ItemStack(Blocks.ENCHANTING_TABLE));
+	public static final Upgrade SHARPNESS_4 = new EnchantmentUpgrade(-192, 62, SHARPNESS_3, null, UpgradeSprite.CIRCLE_SPRITE, Enchantments.SHARPNESS, 4, SoulEssenceHelper.createMap(ModSoulTypes.DARK, 10)).setRequirements(new ItemStack(ModItems.LIGHT_SOUL_ESSENCE_POWDER, 4), new ItemStack(Blocks.ENCHANTING_TABLE));
+	public static final Upgrade SHARPNESS_5 = new EnchantmentUpgrade(-208, 99, SHARPNESS_4, null, UpgradeSprite.CIRCLE_SPRITE, Enchantments.SHARPNESS, 5, SoulEssenceHelper.createMap(ModSoulTypes.DARK, 10)).setRequirements(new ItemStack(ModItems.LIGHT_SOUL_ESSENCE_POWDER, 4), new ItemStack(Blocks.ENCHANTING_TABLE));
 
 	public static void registerUpgrades() {
 		registerUpgrade(FIREBALL, "fireball");

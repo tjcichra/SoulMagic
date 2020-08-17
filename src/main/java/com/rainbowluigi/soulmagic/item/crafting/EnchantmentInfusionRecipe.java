@@ -8,6 +8,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.rainbowluigi.soulmagic.block.entity.SoulEssenceInfuserBlockEntity;
 import com.rainbowluigi.soulmagic.item.EnchantmentTemplateItem;
+import com.rainbowluigi.soulmagic.soultype.SoulType;
 import com.rainbowluigi.soulmagic.upgrade.ModUpgrades;
 import com.rainbowluigi.soulmagic.upgrade.Upgrade;
 
@@ -59,6 +60,14 @@ public class EnchantmentInfusionRecipe extends SoulInfusionRecipe {
 		}
 
 		return item;
+	}
+
+	@Override
+	public Map<SoulType, Integer> getSoulMap(Inventory inv, World worldIn) {
+		ItemStack template = inv.getStack(0);
+		EnchantmentTemplateItem eti = (EnchantmentTemplateItem) template.getItem();
+
+		return eti.getCost(template);
 	}
 
 	@Override
