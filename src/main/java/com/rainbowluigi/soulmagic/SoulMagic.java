@@ -4,6 +4,7 @@ import com.rainbowluigi.soulmagic.block.ModBlocks;
 import com.rainbowluigi.soulmagic.block.entity.ModBlockEntity;
 import com.rainbowluigi.soulmagic.enchantment.ModEnchantments;
 import com.rainbowluigi.soulmagic.entity.ModEntityTypes;
+import com.rainbowluigi.soulmagic.entity.villager.ModVillagerProfessions;
 import com.rainbowluigi.soulmagic.inventory.ModScreenHandlerTypes;
 import com.rainbowluigi.soulmagic.item.ModItems;
 import com.rainbowluigi.soulmagic.item.crafting.ModRecipes;
@@ -41,6 +42,9 @@ public class SoulMagic implements ModInitializer {
 		ModStatusEffects.registerStatusEffects();
 		ModRecipes.registerRecipeTypes();
 		ModRecipes.registerRecipeSerializers();
+
+		ModVillagerProfessions.registerPointsOfInterest();
+		ModVillagerProfessions.registerVillagerProfessions();
 
 		ModUpgrades.registerUpgrades();
 		ModSoulTypes.registerSoulTypes();

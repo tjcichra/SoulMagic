@@ -5,6 +5,8 @@ import com.rainbowluigi.soulmagic.inventory.AccessoriesInventory;
 import com.rainbowluigi.soulmagic.item.crafting.PlayerAccessories;
 import com.rainbowluigi.soulmagic.item.soulessence.SoulEssenceStaff;
 import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
+import com.rainbowluigi.soulmagic.util.SpellCooldownManager;
+import com.rainbowluigi.soulmagic.util.SpellCooldownProvider;
 
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -25,17 +27,19 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.MathHelper;
 
 @Mixin(PlayerEntity.class)
-public abstract class SoulStaffMixin implements PlayerAccessories {
+public abstract class SoulStaffMixin implements PlayerAccessories, SpellCooldownProvider {
 	
 	@Shadow
 	@Final
 	PlayerInventory inventory;
 	
 	public AccessoriesInventory accessories_inventory = new AccessoriesInventory((PlayerEntity) (Object) this);
+	public SpellCooldownManager spellCooldownManager = new SpellCooldownManager();
 	
 	@Inject(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerInventory;updateItems()V"))
 	public void tickMovement(CallbackInfo info) {
 		this.accessories_inventory.updateItems();
+		this.spellCooldownManager.update();
 	}
 	
 	@Inject(at = @At("TAIL"), method = "onKilledOther")
@@ -80,5 +84,9 @@ public abstract class SoulStaffMixin implements PlayerAccessories {
 	
 	public AccessoriesInventory getAccessories() {
 		return this.accessories_inventory;
+	}
+
+	public SpellCooldownManager getSpellCooldownManager() {
+		return this.spellCooldownManager;
 	}
 }

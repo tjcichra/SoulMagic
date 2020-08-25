@@ -11,6 +11,7 @@ import com.rainbowluigi.soulmagic.spelltype.SpellType;
 import com.rainbowluigi.soulmagic.upgrade.Upgrade;
 import com.rainbowluigi.soulmagic.upgrade.spells.SpellUpgrade;
 import com.rainbowluigi.soulmagic.util.SoulGemHelper;
+import com.rainbowluigi.soulmagic.util.SpellCooldownManager;
 
 import io.netty.buffer.Unpooled;
 import net.fabricmc.api.EnvType;
@@ -90,7 +91,7 @@ public class SoulGemItem extends Item implements SoulEssenceStaffDisplayer, Circ
 		if (SoulGemHelper.getSpellType(stack) != null) {
 			SpellUpgrade s = SoulGemHelper.getCurrentSpell(stack);
 
-			if (s != null) {
+			if (s != null && !SpellCooldownManager.getSpellCooldownManager(player).hasCooldown(s)) {
 				return s.use(world, player, hand);
 			}
 		}

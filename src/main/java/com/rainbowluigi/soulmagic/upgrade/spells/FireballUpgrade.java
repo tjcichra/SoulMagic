@@ -5,6 +5,7 @@ import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
 import com.rainbowluigi.soulmagic.soultype.SoulType;
 import com.rainbowluigi.soulmagic.upgrade.Upgrade;
 import com.rainbowluigi.soulmagic.upgrade.UpgradeSprite;
+import com.rainbowluigi.soulmagic.util.SpellCooldownManager;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -53,7 +54,8 @@ public class FireballUpgrade extends SpellUpgrade {
 			
 			Vec3d vec3d_1 = player.getVelocity();
 			fireball.setVelocity(fireball.getVelocity().add(vec3d_1.x, vec3d_1.y, vec3d_1.z));
-		      
+			
+			SpellCooldownManager.getSpellCooldownManager(player).setCooldown(this, 60);
 			world.spawnEntity(fireball);
 		}
 		
