@@ -61,14 +61,9 @@ public class BarrageEntity extends Entity {
 	}
 
 	@Override
-	public Box getCollisionBox() {
+	public Box getBoundingBox() {
 		Vec3i v = this.d.getVector();
 		return this.getBoundingBox().expand(-Math.abs(v.getX()), 0, -Math.abs(v.getZ()));
-	}
-
-	@Override
-	public Box getHardCollisionBox(Entity collidingEntity) {
-		return this.isAlive() ? this.getBoundingBox() : null;
 	}
 
 	public void setOwner(Entity owner) {

@@ -22,7 +22,6 @@ import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.RayTraceContext;
 import net.minecraft.world.World;
 
 public class SpiritFlameEntity extends Entity {
@@ -72,7 +71,7 @@ public class SpiritFlameEntity extends Entity {
 
 				this.updatePosition(nx, ny, nz);
 
-				HitResult collider = ProjectileUtil.getCollision(this, this::hitEntity, RayTraceContext.ShapeType.COLLIDER);
+				HitResult collider = ProjectileUtil.getCollision(this, this::hitEntity);
 				if (collider.getType() != HitResult.Type.MISS) {
 					this.onCollision(collider);
 				}
@@ -105,7 +104,7 @@ public class SpiritFlameEntity extends Entity {
 		//If the flame is not targeting an entity
 		if(this.targetUUID == null) {
 			//Get a list of entities around it excluding the caster and non-living entities
-			List<Entity> entities = this.world.getEntities(this.getCaster(), this.getBoundingBox().expand(10));
+			List<Entity> entities = this.world.getOtherEntities(this.getCaster(), this.getBoundingBox().expand(10));
 			entities.removeIf((e) -> !(e instanceof LivingEntity) && e.isAlive());
 
 			//If there are entities around it

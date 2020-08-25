@@ -3,11 +3,8 @@ package com.rainbowluigi.soulmagic.rei.widgets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import com.rainbowluigi.soulmagic.rei.SoulMagicPlugin;
-import com.rainbowluigi.soulmagic.soultype.SoulType;
 import com.rainbowluigi.soulmagic.upgrade.Upgrade;
 
 import org.jetbrains.annotations.NotNull;

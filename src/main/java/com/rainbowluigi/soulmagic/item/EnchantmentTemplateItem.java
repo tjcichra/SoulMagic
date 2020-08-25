@@ -90,7 +90,7 @@ public class EnchantmentTemplateItem extends Item implements Upgradeable {
 
 		for (Entry<SoulType, Integer> entry : costMap.entrySet()) {
 			if (entry.getValue() > 0) {
-				tooltip.add(new TranslatableText("" + entry.getValue()).formatted(entry.getKey().getTextColor()));
+				tooltip.add(new TranslatableText("soulmagic.enchantment_template.amount", entry.getKey().getName(), entry.getValue()).formatted(entry.getKey().getTextColor()));
 			}
 		}
 	}

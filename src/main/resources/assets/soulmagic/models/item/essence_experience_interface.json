@@ -1,0 +1,6 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "soulmagic:item/essence_experience_interface"
+    }
+}

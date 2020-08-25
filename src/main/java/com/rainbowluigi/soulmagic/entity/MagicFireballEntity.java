@@ -37,7 +37,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
-import net.minecraft.world.RayTraceContext;
 import net.minecraft.world.World;
 
 public class MagicFireballEntity extends Entity {
@@ -82,7 +81,7 @@ public class MagicFireballEntity extends Entity {
 		this.prevVY = this.getVelocity().y;
 		
 		++this.ticks;
-		HitResult hitResult_1 = ProjectileUtil.getCollision(this, this::method_26958, RayTraceContext.ShapeType.COLLIDER);
+		HitResult hitResult_1 = ProjectileUtil.getCollision(this, this::method_26958);
         if (hitResult_1.getType() != HitResult.Type.MISS) {
            this.onCollision(hitResult_1);
         }

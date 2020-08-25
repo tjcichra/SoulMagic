@@ -21,6 +21,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.MathHelper;
 
 @Mixin(PlayerEntity.class)
@@ -38,7 +39,7 @@ public abstract class SoulStaffMixin implements PlayerAccessories {
 	}
 	
 	@Inject(at = @At("TAIL"), method = "onKilledOther")
-	public void onDeath(LivingEntity killed, CallbackInfo info) {
+	public void onDeath(ServerWorld world, LivingEntity killed, CallbackInfo info) {
 		int level = EnchantmentHelper.getLevel(ModEnchantments.SOUL_STEALER, ((PlayerEntity) (Object) this).getMainHandStack());
 		
 		int amount = MathHelper.nextInt(killed.world.random, 2 + level, 5 + level);

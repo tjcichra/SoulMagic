@@ -55,7 +55,7 @@ public class BuildingStaffItem extends Item implements CircleSelection {
 
 	@Override
 	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-		HitResult result = user.rayTrace(20, 0, false);
+		HitResult result = user.raycast(20, 0, false);
 
 		if(result.getType() == HitResult.Type.BLOCK) {
 			ItemStack stack = user.getStackInHand(hand);

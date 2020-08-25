@@ -13,7 +13,6 @@ import net.minecraft.network.Packet;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.RayTraceContext;
 import net.minecraft.world.World;
 
 public class TendrilEntity extends Entity {
@@ -55,7 +54,7 @@ public class TendrilEntity extends Entity {
 			this.updatePosition(d, e, f);
 		}
 
-		HitResult collider = ProjectileUtil.getCollision(this, this::hitEntity, RayTraceContext.ShapeType.COLLIDER);
+		HitResult collider = ProjectileUtil.getCollision(this, this::hitEntity);
 		if (collider.getType() != HitResult.Type.MISS) {
 			this.onCollision(collider);
 		}

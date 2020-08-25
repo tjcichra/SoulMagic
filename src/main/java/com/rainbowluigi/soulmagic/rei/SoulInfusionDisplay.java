@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 import com.rainbowluigi.soulmagic.item.crafting.SoulInfusionRecipe;
 
 import me.shedaniel.rei.api.EntryStack;
-import me.shedaniel.rei.api.RecipeDisplay;
 import me.shedaniel.rei.api.TransferRecipeDisplay;
 import me.shedaniel.rei.server.ContainerInfo;
 import net.minecraft.item.ItemStack;

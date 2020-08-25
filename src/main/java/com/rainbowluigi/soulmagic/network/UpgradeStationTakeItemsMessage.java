@@ -3,8 +3,6 @@ package com.rainbowluigi.soulmagic.network;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.rainbowluigi.soulmagic.SoulMagic;
-
 import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.network.PacketContext;
 import net.minecraft.item.ItemStack;

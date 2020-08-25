@@ -27,6 +27,6 @@ public class ModBlockEntity {
 	}
 
 	private static Type<?> getType(String name) {
-		return Util.method_29187(TypeReferences.BLOCK_ENTITY, name);
+		return Util.getChoiceType(TypeReferences.BLOCK_ENTITY, name);
 	}
 }

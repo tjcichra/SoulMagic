@@ -2,7 +2,6 @@ package com.rainbowluigi.soulmagic.upgrade.spells;
 
 import java.util.List;
 
-import com.rainbowluigi.soulmagic.SoulMagic;
 import com.rainbowluigi.soulmagic.statuseffects.ModStatusEffects;
 import com.rainbowluigi.soulmagic.upgrade.Upgrade;
 import com.rainbowluigi.soulmagic.upgrade.UpgradeSprite;
@@ -10,7 +9,6 @@ import com.rainbowluigi.soulmagic.upgrade.UpgradeSprite;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
@@ -33,7 +31,7 @@ public class FrostBreathUpgrade extends SpellUpgrade {
 
 	@Override
 	public void usageTick(World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
-		List<Entity> entities = world.getEntities(user, user.getBoundingBox().expand(4));
+		List<Entity> entities = world.getOtherEntities(user, user.getBoundingBox().expand(4));
 
 		for(Entity e : entities) {
 			if(e instanceof LivingEntity) {

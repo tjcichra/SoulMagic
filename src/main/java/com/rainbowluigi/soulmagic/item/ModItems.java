@@ -1,7 +1,5 @@
 package com.rainbowluigi.soulmagic.item;
 
-import java.util.Arrays;
-
 import com.rainbowluigi.soulmagic.SoulMagic;
 import com.rainbowluigi.soulmagic.item.accessory.Accessory;
 import com.rainbowluigi.soulmagic.item.accessory.AccessoryItem;

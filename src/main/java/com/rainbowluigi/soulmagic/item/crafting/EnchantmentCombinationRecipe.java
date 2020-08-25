@@ -1,17 +1,14 @@
 package com.rainbowluigi.soulmagic.item.crafting;
 
 import java.util.Collections;
-import java.util.Map;
 
 import com.rainbowluigi.soulmagic.block.entity.SoulEssenceInfuserBlockEntity;
 import com.rainbowluigi.soulmagic.item.ModItems;
-import com.rainbowluigi.soulmagic.soultype.SoulType;
 import com.rainbowluigi.soulmagic.upgrade.ModUpgrades;
 import com.rainbowluigi.soulmagic.upgrade.Upgrade;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.recipe.Ingredient;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;

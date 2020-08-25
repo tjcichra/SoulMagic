@@ -16,7 +16,6 @@ import com.rainbowluigi.soulmagic.upgrade.Upgrade;
 import com.rainbowluigi.soulmagic.util.SoulGemHelper;
 import com.rainbowluigi.soulmagic.util.SoulUtils;
 
-import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.Ingredient;

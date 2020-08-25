@@ -21,7 +21,7 @@ public class CalmingFluteItem extends Item {
 
 	@Override
 	public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
-		List<Entity> entities = world.getEntities(player, player.getBoundingBox().expand(4));
+		List<Entity> entities = world.getOtherEntities(player, player.getBoundingBox().expand(4));
 
 		for(Entity e : entities) {
 			if(e instanceof LivingEntity) {

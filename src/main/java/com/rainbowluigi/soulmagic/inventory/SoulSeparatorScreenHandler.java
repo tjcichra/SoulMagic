@@ -153,12 +153,14 @@ public class SoulSeparatorScreenHandler extends ScreenHandler {
 			super(inventory, index, x, y);
 		}
 
+		@Override
 		public boolean canInsert(ItemStack stack) {
 			return FuelRegistry.INSTANCE.get(stack.getItem()) != null || stack.getItem() == Items.BUCKET;
 		}
 
-		public int getMaxStackAmount(ItemStack stack) {
-			return stack.getItem() == Items.BUCKET ? 1 : super.getMaxStackAmount(stack);
+		@Override
+		public int getMaxItemCount(ItemStack stack) {
+			return stack.getItem() == Items.BUCKET ? 1 : super.getMaxItemCount(stack);
 		}
 	}
 }

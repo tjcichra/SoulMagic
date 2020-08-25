@@ -2,7 +2,6 @@ package com.rainbowluigi.soulmagic.rei;
 
 import com.rainbowluigi.soulmagic.block.ModBlocks;
 import com.rainbowluigi.soulmagic.client.screen.SoulSeparatorScreen;
-import com.rainbowluigi.soulmagic.inventory.SoulInfuserScreenHandler;
 import com.rainbowluigi.soulmagic.item.crafting.SoulInfusionRecipe;
 import com.rainbowluigi.soulmagic.item.crafting.SoulSeparatorRecipe;
 import com.rainbowluigi.soulmagic.util.Reference;
@@ -13,8 +12,6 @@ import me.shedaniel.rei.api.EntryStack;
 import me.shedaniel.rei.api.REIHelper;
 import me.shedaniel.rei.api.RecipeHelper;
 import me.shedaniel.rei.api.plugins.REIPluginV0;
-import me.shedaniel.rei.plugin.containers.CraftingContainerInfoWrapper;
-import me.shedaniel.rei.server.ContainerInfoHandler;
 import net.minecraft.util.Identifier;
 
 public class SoulMagicPlugin implements REIPluginV0 {

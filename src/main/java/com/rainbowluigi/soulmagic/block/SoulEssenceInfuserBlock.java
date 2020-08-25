@@ -1,6 +1,5 @@
 package com.rainbowluigi.soulmagic.block;
 
-import com.rainbowluigi.soulmagic.SoulMagic;
 import com.rainbowluigi.soulmagic.block.entity.SoulEssenceInfuserBlockEntity;
 import com.rainbowluigi.soulmagic.item.Upgradeable;
 
