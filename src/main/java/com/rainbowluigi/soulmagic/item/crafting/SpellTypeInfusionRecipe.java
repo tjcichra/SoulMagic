@@ -68,7 +68,7 @@ public class SpellTypeInfusionRecipe extends SoulInfusionRecipe {
 
 	@Override
 	public ItemStack getOutput() {
-		ItemStack stack = this.inputs.get(8).getMatchingStacksClient()[0];
+		ItemStack stack = this.inputs.get(8).getMatchingStacks()[0];
 		SoulGemHelper.setSpellType(stack, this.soulType);
 		return stack;
 	}

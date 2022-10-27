@@ -49,7 +49,7 @@ public class SoulSeparatorScreen extends HandledScreen<SoulSeparatorScreenHandle
 		
 		
 		
-		RenderSystem.color4f(1, 1, 1, 1);
+		RenderSystem.setShaderColor(1, 1, 1, 1);
 		
 		
 		this.client.getTextureManager().bindTexture(rl);
@@ -58,13 +58,13 @@ public class SoulSeparatorScreen extends HandledScreen<SoulSeparatorScreenHandle
 		int i = this.sic.getCookProgress();
 		
 		if(i > 0) {
-			RenderSystem.color4f(1, 1, 1, 1);
+			RenderSystem.setShaderColor(1, 1, 1, 1);
 			this.drawTexture(matrix, this.x + 67, this.y + 35, 176, 14, i, 17);
 		}
 
 		int k = this.sic.getBurn();
 		if(k > 0) {
-			RenderSystem.color4f(1, 1, 1, 1);
+			RenderSystem.setShaderColor(1, 1, 1, 1);
 			this.drawTexture(matrix, this.x + 16, this.y + 55 + 11 - k, 176, 12 - k, 14, k + 1);
 		}
 		
@@ -85,7 +85,7 @@ public class SoulSeparatorScreen extends HandledScreen<SoulSeparatorScreenHandle
 				for (SoulType type : ModSoulTypes.SOUL_TYPE) {
 					if (staff.getSoul(ish, client.world, type) > 0) {
 						float[] colors = ColorUtils.colorToFloats(type.getColor());
-						RenderSystem.color4f(colors[0], colors[1], colors[2], 1);
+						RenderSystem.setShaderColor(colors[0], colors[1], colors[2], 1);
 						
 						//double j = ((double) SoulStaffHelper.getSoul(ish, type) / total) * 77;
 						int j = (int) (((double) staff.getSoul(ish, client.world, type) / total) * 58 + 0.5);

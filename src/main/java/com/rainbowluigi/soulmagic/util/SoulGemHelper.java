@@ -11,24 +11,24 @@ import com.rainbowluigi.soulmagic.upgrade.Upgrade;
 import com.rainbowluigi.soulmagic.upgrade.spells.SpellUpgrade;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 
 public class SoulGemHelper {
 
 	public static SpellType getSpellType(ItemStack stack) {
-        if(stack.hasTag() && stack.getTag().contains("spelltype")) {
-            return ModSpellTypes.SPELL_TYPE.get(new Identifier(stack.getTag().getString("spelltype")));
+        if(stack.hasNbt() && stack.getNbt().contains("spelltype")) {
+            return ModSpellTypes.SPELL_TYPE.get(new Identifier(stack.getNbt().getString("spelltype")));
         }
         return null;
     }
 	
 	public static void setSpellType(ItemStack stack, SpellType st) {
-		if(!stack.hasTag()) {
-        	stack.setTag(new CompoundTag());
+		if(!stack.hasNbt()) {
+        	stack.setNbt(new NbtCompound());
         }
 		
-		stack.getTag().putString("spelltype", ModSpellTypes.SPELL_TYPE.getId(st).toString());
+		stack.getNbt().putString("spelltype", ModSpellTypes.SPELL_TYPE.getId(st).toString());
     }
 	
 	public static SpellUpgrade getCurrentSpell(ItemStack stack) {
@@ -41,11 +41,11 @@ public class SoulGemHelper {
 	}
 	
 	public static void setCurrentSpellIndex(ItemStack stack, int index) {
-		if(!stack.hasTag()) {
-			stack.setTag(new CompoundTag());
+		if(!stack.hasNbt()) {
+			stack.setNbt(new NbtCompound());
 		}
 		
-		stack.getTag().putInt("spellindex", index);
+		stack.getNbt().putInt("spellindex", index);
 	}
 	
 	public static List<SpellUpgrade> getCurrentList(ItemStack stack) {
@@ -61,41 +61,41 @@ public class SoulGemHelper {
 	}
 	
 	public static int getCurrentSpellIndex(ItemStack stack) {
-        if(stack.getTag().contains("spellindex")) {
-            return stack.getTag().getInt("spellindex");
+        if(stack.getNbt().contains("spellindex")) {
+            return stack.getNbt().getInt("spellindex");
         }
         return 0;
 	}
 	
 	public static void setActivated(ItemStack gem, boolean activated) {
-		CompoundTag tag = gem.getOrCreateTag();
+		NbtCompound tag = gem.getOrCreateNbt();
 		tag.putBoolean("activated", activated);
 	}
 
 	public static boolean getActivated(ItemStack gem) {
-		if(gem.hasTag() && gem.getTag().contains("activated")) {
-			return gem.getTag().getBoolean("activated");
+		if(gem.hasNbt() && gem.getNbt().contains("activated")) {
+			return gem.getNbt().getBoolean("activated");
 		}
 		return false;
 	}
 
 	public static void toggleActivation(ItemStack gem) {
-		if(gem.hasTag() && gem.getTag().contains("activated")) {
-			gem.getTag().putBoolean("activated", !gem.getTag().getBoolean("activated"));
+		if(gem.hasNbt() && gem.getNbt().contains("activated")) {
+			gem.getNbt().putBoolean("activated", !gem.getNbt().getBoolean("activated"));
 		} else {
-			gem.getOrCreateTag().putBoolean("activated", true);
+			gem.getOrCreateNbt().putBoolean("activated", true);
 		}
 	}
 	
 	public static void setBrace(ItemStack gem, ItemStack brace) {
-		CompoundTag tag = gem.getOrCreateSubTag("brace");
-		brace.toTag(tag);
+		NbtCompound tag = gem.getOrCreateSubNbt("brace");
+		brace.writeNbt(tag);
 	}
 	
 	public static ItemStack getBrace(ItemStack gem) {
-		CompoundTag tag = gem.getSubTag("brace");
+		NbtCompound tag = gem.getSubNbt("brace");
 		if(tag != null) {
-			return ItemStack.fromTag(tag);
+			return ItemStack.fromNbt(tag);
 		}
 		return null;
 	}

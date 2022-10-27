@@ -2,15 +2,15 @@ package com.rainbowluigi.soulmagic.item;
 
 import java.util.List;
 
-import me.sargunvohra.mcmods.autoconfig1u.shadowed.blue.endless.jankson.annotation.Nullable;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 public class BraceItem extends Item {
 
@@ -25,8 +25,8 @@ public class BraceItem extends Item {
 
 	@Environment(EnvType.CLIENT)
 	@Override
-	public void appendTooltip(ItemStack itemStack_1, @Nullable World world_1, List<Text> list, TooltipContext tooltipContext_1) {
-		list.add(new TranslatableText("soulmagic.brace.multiplier", this.MULTIPLIER));
+	public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+		tooltip.add(Text.translatable("soulmagic.brace.multiplier", this.MULTIPLIER));
 	}
 	
 	public int getColor(ItemStack stack) {

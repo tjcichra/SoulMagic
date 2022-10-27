@@ -37,9 +37,9 @@ public class AccessoryScreen extends AbstractInventoryScreen<AccessoriesScreenHa
 	
 	@Override
 	protected void drawBackground(MatrixStack matrix, float float_1, int mouseX, int mouseY) {
-		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 		
-		this.client.getTextureManager().bindTexture(BACKGROUND_TEXTURE);
+		this.client.getTextureManager().bindTexture(OPTIONS_BACKGROUND_TEXTURE);
 		this.drawTexture(matrix, this.x, this.y, 0, 0, this.backgroundWidth, this.backgroundHeight);
 		InventoryScreen.drawEntity(this.x + 32, this.y + 75, 30, (float) (this.x + 32) - mouseX, (float) (this.y + 75 - 50) - mouseY, this.client.player);
 

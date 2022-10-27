@@ -1,11 +1,11 @@
 package com.rainbowluigi.soulmagic.statuseffects;
 
 import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffectType;
+import net.minecraft.entity.effect.StatusEffectCategory;
 
 public class SoulMagicStatusEffect extends StatusEffect {
 
-	public SoulMagicStatusEffect(StatusEffectType type, int color) {
+	public SoulMagicStatusEffect(StatusEffectCategory type, int color) {
 		super(type, color);
 	}
 }

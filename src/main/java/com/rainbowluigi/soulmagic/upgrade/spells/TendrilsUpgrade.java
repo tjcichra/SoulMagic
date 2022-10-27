@@ -28,8 +28,8 @@ public class TendrilsUpgrade extends SpellUpgrade {
 		if(!world.isClient) {
 			TendrilEntity ure = new TendrilEntity(world, player);
 
-			float pitch = player.pitch;
-			float yaw = player.yaw;
+			float pitch = player.getPitch();
+			float yaw = player.getYaw();
 
 			//System.out.println("pitch: " + player.pitch + " yaw: " + player.yaw);
 			

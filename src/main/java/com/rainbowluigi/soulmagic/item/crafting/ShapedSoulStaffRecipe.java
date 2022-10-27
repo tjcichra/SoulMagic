@@ -27,20 +27,18 @@ public class ShapedSoulStaffRecipe extends ShapedRecipe {
 	private final Map<SoulType, Integer> soulMap;
 	
 	public ShapedSoulStaffRecipe(ShapedRecipe srecipe, Map<SoulType, Integer> soulMap) {
-		super(srecipe.getId(), srecipe.getGroup(), srecipe.getWidth(), srecipe.getHeight(), srecipe.getPreviewInputs(), srecipe.getOutput());
+		super(srecipe.getId(), srecipe.getGroup(), srecipe.getWidth(), srecipe.getHeight(), srecipe.getIngredients(), srecipe.getOutput());
 		this.soulMap = soulMap;
 	}
 	
 	@Override
-	public DefaultedList<ItemStack> getRemainingStacks(CraftingInventory inv) {
+	public DefaultedList<ItemStack> getRemainder(CraftingInventory inv) {
 		DefaultedList<ItemStack> nonnulllist = DefaultedList.ofSize(inv.size(), ItemStack.EMPTY);
 
 		for (int i = 0; i < nonnulllist.size(); ++i) {
 			ItemStack stack = inv.getStack(i);
 			
-			if(stack.getItem() instanceof SoulEssenceStaff) {
-				SoulEssenceStaff staff = (SoulEssenceStaff) stack.getItem();
-				
+			if(stack.getItem() instanceof SoulEssenceStaff staff) {
 				for(Entry<SoulType, Integer> e : this.soulMap.entrySet()) {
 					MinecraftClient client = MinecraftClient.getInstance();
 					staff.subtractSoul(stack, client.world, e.getKey(), e.getValue());
@@ -82,16 +80,16 @@ public class ShapedSoulStaffRecipe extends ShapedRecipe {
 				Ingredient ingredient = Ingredient.EMPTY;
 				if (k >= 0 && l >= 0 && k < this.getWidth() && l < this.getHeight()) {
 					if (p_77573_4_) {
-						ingredient = this.getPreviewInputs().get(this.getWidth() - k - 1 + l * this.getWidth());
+						ingredient = this.getIngredients().get(this.getWidth() - k - 1 + l * this.getWidth());
 					} else {
-						ingredient = this.getPreviewInputs().get(k + l * this.getWidth());
+						ingredient = this.getIngredients().get(k + l * this.getWidth());
 					}
 				}
 
 				
 				if (!ingredient.test(craftingInventory.getStack(i + j * craftingInventory.getWidth()))) {
 					return false;
-				} else if(ingredient.getMatchingStacksClient().length > 0 && ingredient.getMatchingStacksClient()[0].getItem() instanceof SoulEssenceStaff) {
+				} else if(ingredient.getMatchingStacks().length > 0 && ingredient.getMatchingStacks()[0].getItem() instanceof SoulEssenceStaff) {
 					ItemStack stack = craftingInventory.getStack(i + j * craftingInventory.getWidth());
 					SoulEssenceStaff staff = (SoulEssenceStaff) stack.getItem();
 					

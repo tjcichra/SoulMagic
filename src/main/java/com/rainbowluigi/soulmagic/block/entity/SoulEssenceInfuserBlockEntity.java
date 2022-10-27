@@ -1,12 +1,5 @@
 package com.rainbowluigi.soulmagic.block.entity;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Optional;
-
 import com.google.common.collect.Maps;
 import com.rainbowluigi.soulmagic.inventory.SoulInfuserScreenHandler;
 import com.rainbowluigi.soulmagic.item.SoulGemItem;
@@ -17,187 +10,243 @@ import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
 import com.rainbowluigi.soulmagic.soultype.SoulType;
 import com.rainbowluigi.soulmagic.upgrade.ModUpgrades;
 import com.rainbowluigi.soulmagic.upgrade.Upgrade;
-
-import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.LockableContainerBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtList;
+import net.minecraft.network.Packet;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.listener.ClientPlayPacketListener;
+import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.recipe.RecipeManager;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.Tickable;
 import net.minecraft.util.collection.DefaultedList;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
-public class SoulEssenceInfuserBlockEntity extends LockableContainerBlockEntity implements SidedInventory, BlockEntityClientSerializable, Tickable, ExtendedScreenHandlerFactory {
+import java.util.*;
+import java.util.Map.Entry;
 
+public class SoulEssenceInfuserBlockEntity extends LockableContainerBlockEntity implements SidedInventory, ExtendedScreenHandlerFactory {
 	private static final int[] TOP_SLOTS = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
 	private static final int[] SIDE_SLOTS = new int[] { 10 };
 	private static final int[] BOTTOM_SLOTS = new int[] { 9 };
 
-	private DefaultedList<ItemStack> inventory;
-	private List<UpgradeAndSelection> upgrades;
+	private static final int CENTER_SLOT = 8;
+	private static final int OUTPUT_SLOT = 9;
+	private static final int STAFF_SLOT = 10;
+
+	private DefaultedList<ItemStack> inventory = DefaultedList.ofSize(11, ItemStack.EMPTY);
+
+	private List<UpgradeAndSelection> upgrades = Collections.emptyList();
 	private int selectorPoints;
 
 	private Map<SoulType, Integer> cookSoulMap = Maps.newHashMap();
 	private Map<SoulType, Integer> recipeSoulMap = Maps.newHashMap();
+
 	private int progressColor = 0xFFFFFF;
 
-	public SoulEssenceInfuserBlockEntity() {
-		super(ModBlockEntity.SOUL_INFUSER);
-		this.inventory = DefaultedList.ofSize(11, ItemStack.EMPTY);
-		this.upgrades = Collections.emptyList();
-		this.selectorPoints = 0;
+	private final RecipeManager.MatchGetter<SoulEssenceInfuserBlockEntity, SoulInfusionRecipe> matchGetter;
+
+	public SoulEssenceInfuserBlockEntity(BlockPos pos, BlockState state) {
+		super(ModBlockEntity.SOUL_INFUSER, pos, state);
+		this.matchGetter = RecipeManager.createCachedMatchGetter(ModRecipes.SOUL_ESSENCE_INFUSION_TYPE);
 	}
 
 	@Override
-	public void fromTag(BlockState state, CompoundTag compound) {
-		super.fromTag(state, compound);
+	public void readNbt(NbtCompound nbt) {
+		super.readNbt(nbt);
+
 		this.inventory = DefaultedList.ofSize(11, ItemStack.EMPTY);
-		this.fromClientTag(compound);
-		Inventories.fromTag(compound, this.inventory);
+		Inventories.readNbt(nbt, this.inventory);
 
-		if(compound.contains("upgrades")) {
-			ListTag t = (ListTag) compound.get("upgrades");
+		NbtCompound cookSoulNbt = nbt.getCompound("cookSoul");
+		for (SoulType st : ModSoulTypes.SOUL_TYPE) {
+			this.cookSoulMap.put(st, cookSoulNbt.getInt(ModSoulTypes.SOUL_TYPE.getId(st).toString()));
+		}
 
-			for(int i = 0; i < t.size(); i++) {
-				CompoundTag tag = (CompoundTag) t.get(i);
+		NbtCompound recipeSoulNbt = nbt.getCompound("recipeSoul");
+		for (SoulType st : ModSoulTypes.SOUL_TYPE) {
+			this.recipeSoulMap.put(st, recipeSoulNbt.getInt(ModSoulTypes.SOUL_TYPE.getId(st).toString()));
+		}
+
+		this.progressColor = nbt.getInt("progressColor");
+
+		NbtList upgradesNbt = (NbtList) nbt.get("upgrades");
+
+		if (upgradesNbt != null) {
+			for (NbtElement nbtElement : upgradesNbt) {
+				NbtCompound tag = (NbtCompound) nbtElement;
 				upgrades.add(new UpgradeAndSelection(ModUpgrades.UPGRADE.get(new Identifier(tag.getString("name"))), tag.getBoolean("selected")));
 			}
 		}
 
-		this.selectorPoints = compound.getInt("selectorPoints");
+		this.selectorPoints = nbt.getInt("selectorPoints");
 	}
 
 	@Override
-	public CompoundTag toTag(CompoundTag compound) {
-		super.toTag(compound);
-		this.toClientTag(compound);
-		Inventories.toTag(compound, this.inventory);
+	protected void writeNbt(NbtCompound nbt) {
+		super.writeNbt(nbt);
+		Inventories.writeNbt(nbt, this.inventory);
+
+		NbtCompound cookSoul = new NbtCompound();
+		for (SoulType st : ModSoulTypes.SOUL_TYPE) {
+			int x = this.cookSoulMap.get(st) != null ? this.cookSoulMap.get(st) : 0;
+			cookSoul.putInt(ModSoulTypes.SOUL_TYPE.getId(st).toString(), x);
+		}
+
+		NbtCompound recipeSoul = new NbtCompound();
+		for (SoulType st : ModSoulTypes.SOUL_TYPE) {
+			// System.out.println("Recipe Soul: " + e);
+			int x = this.recipeSoulMap.get(st) != null ? this.recipeSoulMap.get(st) : 0;
+			recipeSoul.putInt(ModSoulTypes.SOUL_TYPE.getId(st).toString(), x);
+			// recipeSoul.putInt(ModSoulTypes.SOUL_TYPE_REG.getId(e.getKey()).toString(),
+			// e.getValue());
+		}
+
+		nbt.putInt("progressColor", this.progressColor);
+		nbt.put("cookSoul", cookSoul);
+		nbt.put("recipeSoul", recipeSoul);
+
+		nbt.putInt("selectorPoints", this.selectorPoints);
 
 		if(!this.upgrades.isEmpty()) {
-			if(!compound.contains("upgrades")) {
-				ListTag list = new ListTag();
-				compound.put("upgrades", list);
+			if(!nbt.contains("upgrades")) {
+				NbtList list = new NbtList();
+				nbt.put("upgrades", list);
 			}
 
-			ListTag list = (ListTag) compound.get("upgrades");
+			NbtList list = (NbtList) nbt.get("upgrades");
 
 			for(UpgradeAndSelection u : this.upgrades) {
-				CompoundTag upgradeTag = new CompoundTag();
+				NbtCompound upgradeTag = new NbtCompound();
 				upgradeTag.putString("name", ModUpgrades.UPGRADE.getId(u.u).toString());
 				upgradeTag.putBoolean("selected", u.selected);
 				list.add(upgradeTag);
 			}
 		}
-		compound.putInt("selectorPoints", this.selectorPoints);
-		
-		return compound;
+		nbt.putInt("selectorPoints", this.selectorPoints);
 	}
 
-	@Override
-	public void tick() {
-		if (!this.world.isClient) {
-			boolean flag = false;
-
-			if (this.hasCenterItem()) {
-				Optional<SoulInfusionRecipe> irecipe = this.world.getRecipeManager()
-						.getFirstMatch(ModRecipes.SOUL_ESSENCE_INFUSION_TYPE, this, this.world);
-
-				if (irecipe.isPresent()) {
-					flag = true;
-
-					this.recipeSoulMap = irecipe.get().getSoulMap(this, this.world);
-					this.progressColor = irecipe.get().getProgressColor();
-
-					ItemStack staff = this.getStaffCap();
-
-					if (this.canCook(irecipe.get(), staff)) {
-						ItemStack stack = irecipe.get().craft(this);
-
-						if (this.inventory.get(9).isEmpty()) {
-							this.inventory.set(9, stack);
-						} else {
-							this.inventory.get(9).setCount(this.inventory.get(9).getCount() + stack.getCount());
-						}
-
-						this.cookSoulMap.clear();
-						this.sync();
-
-						DefaultedList<ItemStack> results = irecipe.get().getRemainingStacks(this);
-
-						for (int i = 0; i < 9; i++) {
-							ItemStack stackF = this.inventory.get(i);
-
-							if (!stackF.isEmpty()) {
-
-								stackF.decrement(1);
-
-								if (stackF.isEmpty()) {
-									this.inventory.set(i, results.get(i));
-								}
-							}
-						}
-					}
-				}
-			}
-
-			if (!flag && !this.cookSoulMap.isEmpty()) {
-				this.cookSoulMap.clear();
-				this.sync();
-			}
+	public static void tick(World world, BlockPos pos, BlockState state, SoulEssenceInfuserBlockEntity blockEntity) {
+		if (tickCrafting(world, blockEntity)) {
+			//Updates on the client said
+			world.updateListeners(pos, state, state, Block.NOTIFY_LISTENERS);
 		}
 	}
 
-	public boolean hasCenterItem() {
-		return !this.getStack(8).isEmpty();
-	}
+	public static boolean tickCrafting(World world, SoulEssenceInfuserBlockEntity blockEntity) {
+		if (blockEntity.inventory.get(CENTER_SLOT).isEmpty()) {
+			blockEntity.cookSoulMap.clear();
+			return true;
+		}
 
-	public ItemStack getStaffCap() {
-		return this.inventory.get(10).getItem() instanceof SoulEssenceStaff ? this.inventory.get(10) : null;
-	}
-
-	public boolean canCook(SoulInfusionRecipe recipe, ItemStack staff) {
-		if (staff == null) {
+		ItemStack staffStack = blockEntity.inventory.get(STAFF_SLOT);
+		if (!(staffStack.getItem() instanceof SoulEssenceStaff)) {
 			return false;
 		}
 
-		if (!this.inventory.get(9).isEmpty()) {
-			ItemStack stack = this.inventory.get(9);
-			if (!stack.isItemEqualIgnoreDamage(recipe.getOutput())
-					|| stack.getCount() > stack.getMaxCount() - recipe.getOutput().getCount()) {
-				return false;
-			}
+		Optional<SoulInfusionRecipe> optionalRecipe = blockEntity.matchGetter.getFirstMatch(blockEntity, world);
+
+		if (optionalRecipe.isEmpty()) {
+			blockEntity.cookSoulMap.clear();
+			return true;
 		}
 
-		SoulEssenceStaff staff2 = (SoulEssenceStaff) staff.getItem();
+		SoulInfusionRecipe recipe = optionalRecipe.get();
 
-		boolean good = true;
+		blockEntity.recipeSoulMap = recipe.getSoulMap(blockEntity, world);
+		blockEntity.progressColor = recipe.getProgressColor();
 
-		for (Entry<SoulType, Integer> entry : recipe.getSoulMap(this, this.world).entrySet()) {
-			Integer d = this.cookSoulMap.get(entry.getKey());
-			int d2 = d != null ? d : 0;
+		int maxCount = blockEntity.getMaxCountPerStack();
+		if (!canAcceptRecipeOutput(recipe, blockEntity.inventory, maxCount)) {
+			return false;
+		}
 
-			if (d2 < entry.getValue()) {
-				if (staff2.subtractSoul(staff, this.world, entry.getKey(), 1)) {
-					this.cookSoulMap.put(entry.getKey(), d2 + 1);
-					this.sync();
+		if (!useSoulEssence(recipe, staffStack, blockEntity, blockEntity.cookSoulMap, blockEntity.world)) {
+			return true;
+		}
+
+		craft(recipe, blockEntity, blockEntity.inventory);
+		blockEntity.cookSoulMap.clear();
+		return true;
+	}
+
+	public static boolean canAcceptRecipeOutput(SoulInfusionRecipe recipe, DefaultedList<ItemStack> inventory, int inventoryMaxCount) {
+		ItemStack recipeOutput = recipe.getOutput();
+		ItemStack outputSlot = inventory.get(OUTPUT_SLOT);
+		if (outputSlot.isEmpty()) {
+			return true;
+		}
+		if (!outputSlot.isItemEqualIgnoreDamage(recipeOutput)) {
+			return false;
+		}
+		int maxCount = Math.min(outputSlot.getMaxCount(), inventoryMaxCount);
+		return maxCount >= outputSlot.getCount() + recipeOutput.getCount();
+	}
+
+	public static boolean useSoulEssence(SoulInfusionRecipe recipe, ItemStack staffStack, Inventory inventory, Map<SoulType, Integer> cookSoulMap, World world) {
+		if (!(staffStack.getItem() instanceof SoulEssenceStaff staff)) {
+			return false;
+		}
+
+		boolean noSoulEssenceUsed = true;
+
+		for (Entry<SoulType, Integer> entry : recipe.getSoulMap(inventory, world).entrySet()) {
+			SoulType neededSoulType = entry.getKey();
+			Integer neededSoulEssenceForType = entry.getValue();
+
+			Integer currentSoulEssenceForType = cookSoulMap.get(neededSoulType);
+			int normalizeCurrentSoulEssenceForType = currentSoulEssenceForType != null ? currentSoulEssenceForType : 0;
+
+			if (normalizeCurrentSoulEssenceForType < neededSoulEssenceForType) {
+				if (staff.subtractSoul(staffStack, world, neededSoulType, 1)) {
+					cookSoulMap.put(neededSoulType, normalizeCurrentSoulEssenceForType + 1);
 				}
-				good = false;
+				noSoulEssenceUsed = false;
 			}
 		}
 
-		return good;
+		return noSoulEssenceUsed;
+	}
+
+	public static void craft(SoulInfusionRecipe recipe, SoulEssenceInfuserBlockEntity blockEntity, DefaultedList<ItemStack> inventory) {
+		ItemStack craftResult = recipe.craft(blockEntity);
+
+		ItemStack outputSlot = inventory.get(OUTPUT_SLOT);
+		if (outputSlot.isEmpty()) {
+			inventory.set(OUTPUT_SLOT, craftResult);
+		} else if (outputSlot.isOf(craftResult.getItem())) {
+			outputSlot.increment(craftResult.getCount());
+		}
+
+		DefaultedList<ItemStack> results = recipe.getRemainder(blockEntity);
+
+		for (int i = 0; i < 9; i++) {
+			ItemStack stack = inventory.get(i);
+
+			if (!stack.isEmpty()) {
+				stack.decrement(1);
+
+				if (stack.isEmpty()) {
+					inventory.set(i, results.get(i));
+				}
+			}
+		}
 	}
 
 	public void setUpgrades(List<UpgradeAndSelection> upgrades) {
@@ -206,22 +255,6 @@ public class SoulEssenceInfuserBlockEntity extends LockableContainerBlockEntity 
 
 	public void setSelectorPoints(int selectorPoints) {
 		this.selectorPoints = selectorPoints;
-	}
-
-	public Map<SoulType, Integer> getCookSoulMap() {
-		return this.cookSoulMap;
-	}
-
-	public void setCookSoulMap(Map<SoulType, Integer> cookSoulMap) {
-		this.cookSoulMap = cookSoulMap;
-	}
-
-	public Map<SoulType, Integer> getRecipeSoulMap() {
-		return this.recipeSoulMap;
-	}
-
-	public void setRecipeSoulMap(Map<SoulType, Integer> recipeSoulMap) {
-		this.recipeSoulMap = recipeSoulMap;
 	}
 
 	@Override
@@ -262,13 +295,11 @@ public class SoulEssenceInfuserBlockEntity extends LockableContainerBlockEntity 
 	}
 
 	@Override
-	public boolean canPlayerUse(PlayerEntity playerEntity_1) {
+	public boolean canPlayerUse(PlayerEntity player) {
 		if (this.world.getBlockEntity(this.pos) != this) {
 			return false;
-		} else {
-			return playerEntity_1.squaredDistanceTo((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D,
-					(double) this.pos.getZ() + 0.5D) <= 64.0D;
 		}
+		return !(player.squaredDistanceTo((double)this.pos.getX() + 0.5, (double)this.pos.getY() + 0.5, (double)this.pos.getZ() + 0.5) > 64.0);
 	}
 
 	@Override
@@ -311,53 +342,12 @@ public class SoulEssenceInfuserBlockEntity extends LockableContainerBlockEntity 
 
 	@Override
 	protected Text getContainerName() {
-		return new TranslatableText("container.soulmagic.soul_essence_infuser");
+		return Text.translatable("container.soulmagic.soul_essence_infuser");
 	}
 
 	@Override
 	protected ScreenHandler createScreenHandler(int i, PlayerInventory pi) {
 		return new SoulInfuserScreenHandler(i, pi, this);
-	}
-
-	@Override
-	public void fromClientTag(CompoundTag tag) {
-		this.progressColor = tag.getInt("colorProgress");
-		this.selectorPoints = tag.getInt("selectorPoints");
-
-		CompoundTag cookSoul = tag.getCompound("cookSoul");
-
-		for (SoulType st : ModSoulTypes.SOUL_TYPE) {
-			this.cookSoulMap.put(st, cookSoul.getInt(ModSoulTypes.SOUL_TYPE.getId(st).toString()));
-		}
-
-		CompoundTag recipeSoul = tag.getCompound("recipeSoul");
-		for (SoulType st : ModSoulTypes.SOUL_TYPE) {
-			this.recipeSoulMap.put(st, recipeSoul.getInt(ModSoulTypes.SOUL_TYPE.getId(st).toString()));
-		}
-	}
-
-	@Override
-	public CompoundTag toClientTag(CompoundTag tag) {
-		CompoundTag cookSoul = new CompoundTag();
-		for (SoulType st : ModSoulTypes.SOUL_TYPE) {
-			int x = this.cookSoulMap.get(st) != null ? this.cookSoulMap.get(st) : 0;
-			cookSoul.putInt(ModSoulTypes.SOUL_TYPE.getId(st).toString(), x);
-		}
-
-		CompoundTag recipeSoul = new CompoundTag();
-		for (SoulType st : ModSoulTypes.SOUL_TYPE) {
-			// System.out.println("Recipe Soul: " + e);
-			int x = this.recipeSoulMap.get(st) != null ? this.recipeSoulMap.get(st) : 0;
-			recipeSoul.putInt(ModSoulTypes.SOUL_TYPE.getId(st).toString(), x);
-			// recipeSoul.putInt(ModSoulTypes.SOUL_TYPE_REG.getId(e.getKey()).toString(),
-			// e.getValue());
-		}
-
-		tag.putInt("colorProgress", this.progressColor);
-		tag.put("cookSoul", cookSoul);
-		tag.put("recipeSoul", recipeSoul);
-		tag.putInt("selectorPoints", this.selectorPoints);
-		return tag;
 	}
 
 	public int getProgressColor() {
@@ -399,6 +389,17 @@ public class SoulEssenceInfuserBlockEntity extends LockableContainerBlockEntity 
 
 		return lu;
 	}
+
+//	@Nullable
+//	@Override
+//	public Packet<ClientPlayPacketListener> toUpdatePacket() {
+//		return BlockEntityUpdateS2CPacket.create(this);
+//	}
+//
+//	@Override
+//	public NbtCompound toInitialChunkDataNbt() {
+//		return createNbt();
+//	}
 
 	public static class UpgradeAndSelection {
 		private Upgrade u;

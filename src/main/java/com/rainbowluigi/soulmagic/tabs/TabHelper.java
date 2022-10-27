@@ -19,8 +19,8 @@ public class TabHelper {
 		ItemRenderer itemRenderer = client.getItemRenderer();
 
 		itemRenderer.zOffset = 100.0F;
-		RenderSystem.enableLighting();
-		RenderSystem.enableRescaleNormal();
+//		RenderSystem.enableLighting();
+//		RenderSystem.enableRescaleNormal();
 
 		int i = 0;
 		for(Tab t: ModTabs.tabsList) {
@@ -30,7 +30,7 @@ public class TabHelper {
 			}
 		}
 		
-		RenderSystem.disableLighting();
+//		RenderSystem.disableLighting();
 		itemRenderer.zOffset = 0.0F;
 		//this.blitOffset = 0;
 		

@@ -8,8 +8,8 @@ import com.rainbowluigi.soulmagic.upgrade.ModUpgrades;
 import com.rainbowluigi.soulmagic.upgrade.Upgrade;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
@@ -24,11 +24,11 @@ public interface Upgradeable {
 	public default List<Upgrade> getUpgradesUnlocked(ItemStack stack, boolean all) {
 		List<Upgrade> upgrades = new ArrayList<>();
 
-		if(stack.hasTag() && stack.getTag().contains("upgrades")) {
-			ListTag t = (ListTag) stack.getTag().get("upgrades");
+		if(stack.hasNbt() && stack.getNbt().contains("upgrades")) {
+			NbtList t = (NbtList) stack.getNbt().get("upgrades");
 
 			for(int i = 0; i < t.size(); i++) {
-				CompoundTag tag = (CompoundTag) t.get(i);
+				NbtCompound tag = (NbtCompound) t.get(i);
 				Upgrade u = ModUpgrades.UPGRADE.get(new Identifier(tag.getString("name")));
 				boolean selected = tag.getBoolean("selected");
 
@@ -44,11 +44,11 @@ public interface Upgradeable {
 	public default List<UpgradeAndSelection> getUpgradesAndSelectionsUnlocked(ItemStack stack) {
 		List<UpgradeAndSelection> upgrades = new ArrayList<>();
 
-		if(stack.hasTag() && stack.getTag().contains("upgrades")) {
-			ListTag t = (ListTag) stack.getTag().get("upgrades");
+		if(stack.hasNbt() && stack.getNbt().contains("upgrades")) {
+			NbtList t = (NbtList) stack.getNbt().get("upgrades");
 
 			for(int i = 0; i < t.size(); i++) {
-				CompoundTag tag = (CompoundTag) t.get(i);
+				NbtCompound tag = (NbtCompound) t.get(i);
 				Upgrade u = ModUpgrades.UPGRADE.get(new Identifier(tag.getString("name")));
 				boolean selected = tag.getBoolean("selected");
 				upgrades.add(new UpgradeAndSelection(u, selected));
@@ -59,11 +59,11 @@ public interface Upgradeable {
 	}
 
 	public default boolean hasUpgradeUnlocked(ItemStack stack, Upgrade target) {
-		if(stack.hasTag() && stack.getTag().contains("upgrades")) {
-			ListTag t = (ListTag) stack.getTag().get("upgrades");
+		if(stack.hasNbt() && stack.getNbt().contains("upgrades")) {
+			NbtList t = (NbtList) stack.getNbt().get("upgrades");
 
 			for(int i = 0; i < t.size(); i++) {
-				CompoundTag tag = (CompoundTag) t.get(i);
+				NbtCompound tag = (NbtCompound) t.get(i);
 				Upgrade u = ModUpgrades.UPGRADE.get(new Identifier(tag.getString("name")));
 				
 				if(u.equals(target)) {
@@ -76,11 +76,11 @@ public interface Upgradeable {
 	}
 
 	public default boolean hasUpgradeSelected(ItemStack stack, Upgrade target) {
-		if(stack.hasTag() && stack.getTag().contains("upgrades")) {
-			ListTag t = (ListTag) stack.getTag().get("upgrades");
+		if(stack.hasNbt() && stack.getNbt().contains("upgrades")) {
+			NbtList t = (NbtList) stack.getNbt().get("upgrades");
 
 			for(int i = 0; i < t.size(); i++) {
-				CompoundTag tag = (CompoundTag) t.get(i);
+				NbtCompound tag = (NbtCompound) t.get(i);
 				Upgrade u = ModUpgrades.UPGRADE.get(new Identifier(tag.getString("name")));
 				
 				if(u.equals(target)) {
@@ -93,26 +93,26 @@ public interface Upgradeable {
 	}
 
 	public default void addUpgrade(ItemStack stack, Upgrade u) {
-		CompoundTag tag = stack.getOrCreateTag();
+		NbtCompound tag = stack.getOrCreateNbt();
 
 		if(!tag.contains("upgrades")) {
-			ListTag list = new ListTag();
+			NbtList list = new NbtList();
 			tag.put("upgrades", list);
 		}
 
-		ListTag list = (ListTag) tag.get("upgrades");
+		NbtList list = (NbtList) tag.get("upgrades");
 
-		CompoundTag upgradeTag = new CompoundTag();
+		NbtCompound upgradeTag = new NbtCompound();
 		upgradeTag.putString("name", ModUpgrades.UPGRADE.getId(u).toString());
 		list.add(upgradeTag);
 	}
 
 	public default void setUpgradeSelection(ItemStack stack, Upgrade target, boolean selected) {
-		if(stack.hasTag() && stack.getTag().contains("upgrades")) {
-			ListTag t = (ListTag) stack.getTag().get("upgrades");
+		if(stack.hasNbt() && stack.getNbt().contains("upgrades")) {
+			NbtList t = (NbtList) stack.getNbt().get("upgrades");
 
 			for(int i = 0; i < t.size(); i++) {
-				CompoundTag tag = (CompoundTag) t.get(i);
+				NbtCompound tag = (NbtCompound) t.get(i);
 				Upgrade u = ModUpgrades.UPGRADE.get(new Identifier(tag.getString("name")));
 				
 				if(u.equals(target)) {
@@ -123,14 +123,14 @@ public interface Upgradeable {
 	}
 
 	public default int getSelectorPointsNumber(ItemStack stack) {
-		if(stack.hasTag() && stack.getTag().contains("selectorPoints")) {
-			return stack.getTag().getInt("selectorPoints");
+		if(stack.hasNbt() && stack.getNbt().contains("selectorPoints")) {
+			return stack.getNbt().getInt("selectorPoints");
 		}
 		return 0;
 	}
 
 	public default void incrementSelectorPoints(ItemStack stack) {
-		CompoundTag tag = stack.getOrCreateTag();
+		NbtCompound tag = stack.getOrCreateNbt();
 
 		int points = tag.contains("selectorPoints") ? tag.getInt("selectorPoints") : 0;
 

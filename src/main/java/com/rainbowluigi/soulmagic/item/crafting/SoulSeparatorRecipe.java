@@ -48,7 +48,7 @@ public class SoulSeparatorRecipe implements Recipe<Inventory> {
 		inv.getStack(0).decrement(1);
 
 		if (inv.getStack(0).isEmpty()) {
-			inv.setStack(0, this.getRemainingStacks(inv).get(0));
+			inv.setStack(0, this.getRemainder(inv).get(0));
 		}
 		
 		if(!result.isEmpty() && Math.random() <= this.getChance()) {
@@ -76,7 +76,7 @@ public class SoulSeparatorRecipe implements Recipe<Inventory> {
 	}
 	
 	@Override
-	public DefaultedList<Ingredient> getPreviewInputs() {
+	public DefaultedList<Ingredient> getIngredients() {
 		DefaultedList<Ingredient> inputs = DefaultedList.of();
 		inputs.add(this.input);
 		return inputs;
@@ -132,7 +132,7 @@ public class SoulSeparatorRecipe implements Recipe<Inventory> {
 			Ingredient input = Ingredient.fromJson(JsonHelper.getObject(json, "ingredient"));
 			
 			float chance = JsonHelper.getFloat(json, "chance", 0);
-			ItemStack output = JsonHelper.hasElement(json, "result") ? ShapedRecipe.getItemStack(JsonHelper.getObject(json, "result")) : ItemStack.EMPTY;
+			ItemStack output = JsonHelper.hasElement(json, "result") ? ShapedRecipe.outputFromJson(JsonHelper.getObject(json, "result")) : ItemStack.EMPTY;
 			Map<SoulType, int[]> soulMap = SoulUtils.deserializeSoulMap2(JsonHelper.getArray(json, "souls"));
 			int cookTime = JsonHelper.getInt(json, "cookingtime");
 			

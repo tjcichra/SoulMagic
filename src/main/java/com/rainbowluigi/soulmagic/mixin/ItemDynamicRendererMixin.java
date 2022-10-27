@@ -19,12 +19,12 @@ import net.minecraft.item.ItemStack;
 @Mixin(BuiltinModelItemRenderer.class)
 public class ItemDynamicRendererMixin {
 	
-	private final SoulEssenceInfuserBlockEntity renderSoulInfuser = new SoulEssenceInfuserBlockEntity();
+//	private final SoulEssenceInfuserBlockEntity renderSoulInfuser = new SoulEssenceInfuserBlockEntity();
 	
 	@Inject(at = @At(value = "INVOKE"), method = "render", cancellable = true)
 	public void renderSoulMagic(ItemStack stack, ModelTransformation.Mode mode, MatrixStack matrixStack_1, VertexConsumerProvider vertexConsumerProvider_1, int int_1, int int_2, CallbackInfo cb) {
 		if (stack.getItem() == Item.fromBlock(ModBlocks.SOUL_ESSENCE_INFUSER)) {
-			BlockEntityRenderDispatcher.INSTANCE.renderEntity(this.renderSoulInfuser, matrixStack_1, vertexConsumerProvider_1, int_1, int_2);
+//			BlockEntityRenderDispatcher.INSTANCE.renderEntity(this.renderSoulInfuser, matrixStack_1, vertexConsumerProvider_1, int_1, int_2);
 			cb.cancel();
 		}
 	}

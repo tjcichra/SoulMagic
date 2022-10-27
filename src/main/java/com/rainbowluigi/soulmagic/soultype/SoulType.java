@@ -3,7 +3,7 @@ package com.rainbowluigi.soulmagic.soultype;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Util;
 
@@ -28,7 +28,7 @@ public class SoulType {
 	
 	@Environment(EnvType.CLIENT)
 	public Text getName() {
-		return new TranslatableText(this.getTranslationKey());
+		return Text.translatable(this.getTranslationKey());
 	}
 	
 	public String getOrCreateTranslationKey() {

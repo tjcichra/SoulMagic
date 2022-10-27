@@ -6,16 +6,16 @@ import java.util.UUID;
 import com.rainbowluigi.soulmagic.network.EntityRenderMessage;
 import com.rainbowluigi.soulmagic.network.ModNetwork;
 
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import org.jetbrains.annotations.Nullable;
 
-import net.fabricmc.fabric.api.network.ServerSidePacketRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.EntityDamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.hit.EntityHitResult;
@@ -35,7 +35,7 @@ public class SpiritFlameEntity extends Entity {
 
 	public SpiritFlameEntity(World world, double x, double y, double z) {
 		this(ModEntityTypes.SPIRIT_FLAME, world);
-		this.updatePosition(x, y, z);
+		this.setPosition(x, y, z);
 		this.setVelocity(0, 0, 0);
 	}
 
@@ -69,7 +69,7 @@ public class SpiritFlameEntity extends Entity {
 				double ny = this.getY() + v.y;
 				double nz = this.getZ() + v.z;
 
-				this.updatePosition(nx, ny, nz);
+				this.setPosition(nx, ny, nz);
 
 				HitResult collider = ProjectileUtil.getCollision(this, this::hitEntity);
 				if (collider.getType() != HitResult.Type.MISS) {
@@ -77,7 +77,7 @@ public class SpiritFlameEntity extends Entity {
 				}
 				
 			} else if(this.age >= 100) {
-				this.remove();
+				this.remove(RemovalReason.KILLED);
 			}
 		}
 	}
@@ -155,8 +155,8 @@ public class SpiritFlameEntity extends Entity {
 					return;
 				
 				entity.damage(new EntityDamageSource("fire", this.getCaster()), 6);
-				this.dealDamage((LivingEntity) this.getCaster(), entity);
-				this.remove();
+				this.applyDamageEffects((LivingEntity) this.getCaster(), entity);
+				this.remove(RemovalReason.KILLED);
 			}
 		}
 		
@@ -164,7 +164,7 @@ public class SpiritFlameEntity extends Entity {
 
 	@Override
 	public Packet<?> createSpawnPacket() {
-		return ServerSidePacketRegistry.INSTANCE.toPacket(ModNetwork.ENTITY_RENDER, EntityRenderMessage.makePacket(this, this.getCaster() == null ? 0 : this.getCaster().getEntityId()));
+		return ServerPlayNetworking.createS2CPacket(ModNetwork.ENTITY_RENDER, EntityRenderMessage.makePacket(this, this.getCaster() == null ? 0 : this.getCaster().getId()));
 	}
 
 	@Override
@@ -174,7 +174,7 @@ public class SpiritFlameEntity extends Entity {
 
 	@Override
 	//Reads the caster's and target's UUID from NBT
-	protected void readCustomDataFromTag(CompoundTag tag) {
+	protected void readCustomDataFromNbt(NbtCompound tag) {
 		this.casterUUID = tag.getUuid("caster");
 
 		if(tag.contains("target")) {
@@ -184,7 +184,7 @@ public class SpiritFlameEntity extends Entity {
 
 	@Override
 	//Writes the caster's and target's UUID to NBT
-	protected void writeCustomDataToTag(CompoundTag tag) {
+	protected void writeCustomDataToNbt(NbtCompound tag) {
 		tag.putUuid("caster", this.casterUUID);
 
 		if(this.targetUUID != null) {

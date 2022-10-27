@@ -50,7 +50,7 @@ public class SoulInfusionRecipe implements Recipe<SoulEssenceInfuserBlockEntity>
 	}
 	
 	@Override
-	public DefaultedList<Ingredient> getPreviewInputs() {
+	public DefaultedList<Ingredient> getIngredients() {
 		return this.inputs;
 	}
 
@@ -82,7 +82,7 @@ public class SoulInfusionRecipe implements Recipe<SoulEssenceInfuserBlockEntity>
 	
 	@Override
 	@Environment(EnvType.CLIENT)
-	public ItemStack getRecipeKindIcon() {
+	public ItemStack createIcon() {
 		return new ItemStack(ModBlocks.SOUL_ESSENCE_INFUSER);
 	}
 	
@@ -127,7 +127,7 @@ public class SoulInfusionRecipe implements Recipe<SoulEssenceInfuserBlockEntity>
 			int color = JsonHelper.getInt(json, "color", 0xFFFFFF);
 			DefaultedList<Ingredient> inputs = readIngredients(JsonHelper.getArray(json, "ingredients"));
 			
-			ItemStack stack = ShapedRecipe.getItemStack(JsonHelper.getObject(json, "result"));
+			ItemStack stack = ShapedRecipe.outputFromJson(JsonHelper.getObject(json, "result"));
 			Map<SoulType, Integer> soulMap = SoulUtils.deserializeSoulMap(JsonHelper.getObject(json, "soul"));
 
 			JsonArray ja = JsonHelper.getArray(json, "upgrades", new JsonArray());

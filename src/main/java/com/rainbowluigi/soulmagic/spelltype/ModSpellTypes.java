@@ -3,18 +3,19 @@ package com.rainbowluigi.soulmagic.spelltype;
 import java.util.Arrays;
 
 import com.mojang.serialization.Lifecycle;
+import com.rainbowluigi.soulmagic.soultype.SoulType;
 import com.rainbowluigi.soulmagic.upgrade.ModUpgrades;
 import com.rainbowluigi.soulmagic.util.Reference;
 
+import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.DefaultedRegistry;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
 
 public class ModSpellTypes {
-	
-    public static final RegistryKey<Registry<SpellType>> SPELL_TYPE_KEY= RegistryKey.ofRegistry(new Identifier(Reference.MOD_ID, "spell_type"));
-    public static final DefaultedRegistry<SpellType> SPELL_TYPE = new DefaultedRegistry<SpellType>("light", SPELL_TYPE_KEY, Lifecycle.experimental());
+
+	public static final Registry<SpellType> SPELL_TYPE = FabricRegistryBuilder.createSimple(SpellType.class, new Identifier(Reference.MOD_ID, "spell_type")).buildAndRegister();
 
 	public static final SpellType FIERY = new SpellType(0xEA3600, ModUpgrades.FIREBALL, Arrays.asList(ModUpgrades.FIREBALL, ModUpgrades.TRIPLE_FIREBALL, ModUpgrades.FLAMING_TOUCH, ModUpgrades.FLAMING_EDGE));
 	public static final SpellType ICY = new SpellType(0x34EDFF, ModUpgrades.FROST_BREATH, Arrays.asList(ModUpgrades.FROST_BREATH));
@@ -26,8 +27,6 @@ public class ModSpellTypes {
 	public static final SpellType ULTIMATE = new SpellType(0xAAAAAA, ModUpgrades.FIREBALL, Arrays.asList(ModUpgrades.FIREBALL));
 	
 	public static void registerSpellTypes() {
-		//Registry.register(Registry.REGISTRIES, new Identifier(Reference.MOD_ID, "spell_type"), SPELL_TYPE_REG);
-
 		registerSpellType(FIERY, "fiery");
 		registerSpellType(ICY, "icy");
 		registerSpellType(EARTHEN, "earthen");

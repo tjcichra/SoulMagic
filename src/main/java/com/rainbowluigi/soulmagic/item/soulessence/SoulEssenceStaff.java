@@ -5,30 +5,30 @@ import com.rainbowluigi.soulmagic.soultype.SoulType;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.world.World;
 
-//Used for holding soul essence staff and for use by magic items and machines
+//Used for holding soul essence for use by magic items and machines
 //Can add, subtract, and manage soul essence in any way (unlike @SouLEssenceContainer)
 public interface SoulEssenceStaff extends SoulEssenceContainer {
 	
 	//Adds the value of the soul type in the stack, returns the remainder if it overflows
-	public default int addSoul(ItemStack stack, World world, SoulType type, int amount) {
+	default int addSoul(ItemStack stack, World world, SoulType type, int amount) {
 		//If there is no tag
-		if(!stack.hasTag()) {
+		if(!stack.hasNbt()) {
 			//Give the stack one
-			stack.setTag(new CompoundTag());
+			stack.setNbt(new NbtCompound());
 		}
 		
 		//If the stack doesn't have a tag of soul values in it
-		if(!stack.getTag().contains("souls")) {
+		if(!stack.getNbt().contains("souls")) {
 			//Give the stack one
-			stack.getTag().put("souls", new CompoundTag());
+			stack.getNbt().put("souls", new NbtCompound());
 		}
 		
 		//Gets the tag of soul values and get the maximum soul value
-		CompoundTag tag = (CompoundTag) stack.getTag().get("souls");
-		int max = ((SoulEssenceStaff)stack.getItem()).getMaxSoul(stack, world, type);
+		NbtCompound tag = (NbtCompound) stack.getNbt().get("souls");
+		int max = this.getMaxSoul(stack, world, type);
 		
 		//Gets the registry name of the soul type (which is also the key)
 		String s = ModSoulTypes.SOUL_TYPE.getId(type).toString();
@@ -55,9 +55,9 @@ public interface SoulEssenceStaff extends SoulEssenceContainer {
 
     public static boolean hasSoul(PlayerEntity player, World world, Object... objects) {
     	if(!player.isCreative()) {
-	    	for (int i = 0; i < player.inventory.size(); i++) {
-	    		if(player.inventory.getStack(i).getItem() instanceof SoulEssenceStaff) {
-					ItemStack stack = player.inventory.getStack(i);
+	    	for (int i = 0; i < player.getInventory().size(); i++) {
+	    		if(player.getInventory().getStack(i).getItem() instanceof SoulEssenceStaff) {
+					ItemStack stack = player.getInventory().getStack(i);
 					for(int j = 0; j < objects.length; j += 2) {
 						SoulEssenceStaff staff = (SoulEssenceStaff) stack.getItem();
 						//if(staff.getSoul(stack, (SoulType) objects[j]) < (Integer) objects[j + 1]) {
@@ -77,9 +77,9 @@ public interface SoulEssenceStaff extends SoulEssenceContainer {
     
     public static boolean hasAtLeastSoul(PlayerEntity player, World world, Object... objects) {
     	if(!player.isCreative()) {
-	    	for (int i = 0; i < player.inventory.size(); i++) {
-	    		if(player.inventory.getStack(i).getItem() instanceof SoulEssenceStaff) {
-					ItemStack stack = player.inventory.getStack(i);
+	    	for (int i = 0; i < player.getInventory().size(); i++) {
+	    		if(player.getInventory().getStack(i).getItem() instanceof SoulEssenceStaff) {
+					ItemStack stack = player.getInventory().getStack(i);
 					for(int j = 0; j < objects.length; j += 2) {
 						SoulEssenceStaff staff = (SoulEssenceStaff) stack.getItem();
 						//if(staff.getSoul(stack, (SoulType) objects[j]) < (Integer) objects[j + 1]) {

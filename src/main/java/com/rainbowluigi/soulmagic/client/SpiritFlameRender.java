@@ -11,30 +11,31 @@ import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.EntityRenderer;
+import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Matrix3f;
 import net.minecraft.util.math.Matrix4f;
+import net.minecraft.util.math.Vec3f;
 
 @Environment(EnvType.CLIENT)
 public class SpiritFlameRender extends EntityRenderer<SpiritFlameEntity> {
 
 	private static final Identifier TEXTURE = new Identifier(Reference.MOD_ID, "textures/entities/spirit_flame.png");
 	
-	protected SpiritFlameRender(EntityRenderDispatcher entityRenderDispatcher_1) {
-		super(entityRenderDispatcher_1);
+	protected SpiritFlameRender(EntityRendererFactory.Context context) {
+		super(context);
 	}
 	
     @Override
     public void render(SpiritFlameEntity entity, float f1, float f2, MatrixStack matrix, VertexConsumerProvider vertexCP, int i1) {
 		matrix.push();
     	matrix.multiply(this.dispatcher.getRotation());
-    	matrix.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(180.0F));
+    	matrix.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180.0F));
         
     	MatrixStack.Entry matrixStack$Entry_1 = matrix.peek();
-        Matrix4f matrix4f_1 = matrixStack$Entry_1.getModel();
-        Matrix3f matrix3f_1 = matrixStack$Entry_1.getNormal();
+        Matrix4f matrix4f_1 = matrixStack$Entry_1.getPositionMatrix();
+        Matrix3f matrix3f_1 = matrixStack$Entry_1.getNormalMatrix();
         VertexConsumer vertexConsumer_1 = vertexCP.getBuffer(RenderLayer.getEntityTranslucent(TEXTURE));
         renderHelp(vertexConsumer_1, matrix4f_1, matrix3f_1, i1, 0.0F, 0, 0, 1);
         renderHelp(vertexConsumer_1, matrix4f_1, matrix3f_1, i1, 1.0F, 0, 1, 1);

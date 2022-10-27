@@ -25,8 +25,8 @@ public class SoulSeparatorBlock extends BlockWithEntity {
 	}
 
 	@Override
-	public BlockEntity createBlockEntity(BlockView blockView_1) {
-		return new SoulSeparatorBlockEntity();
+	public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+		return new SoulSeparatorBlockEntity(pos, state);
 	}
 
 	@Override

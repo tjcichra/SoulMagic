@@ -40,7 +40,7 @@ public class InfiniteWellBlock extends Block {
 				player.setStackInHand(player.getActiveHand(), new ItemStack(water_bucket));;
 				return ActionResult.PASS;
 			} else {
-				if (!player.inventory.insertStack(new ItemStack(water_bucket))) {
+				if (!player.getInventory().insertStack(new ItemStack(water_bucket))) {
 					player.dropItem(new ItemStack(water_bucket), false);
 				}
 

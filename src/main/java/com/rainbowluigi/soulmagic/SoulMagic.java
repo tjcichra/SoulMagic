@@ -8,6 +8,7 @@ import com.rainbowluigi.soulmagic.entity.villager.ModVillagerProfessions;
 import com.rainbowluigi.soulmagic.inventory.ModScreenHandlerTypes;
 import com.rainbowluigi.soulmagic.item.ModItems;
 import com.rainbowluigi.soulmagic.item.crafting.ModRecipes;
+import com.rainbowluigi.soulmagic.item.soulessence.SoulEssenceStaff;
 import com.rainbowluigi.soulmagic.loot.ModLoot;
 import com.rainbowluigi.soulmagic.network.ModNetwork;
 import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
@@ -17,6 +18,15 @@ import com.rainbowluigi.soulmagic.tabs.ModTabs;
 import com.rainbowluigi.soulmagic.upgrade.ModUpgrades;
 import com.rainbowluigi.soulmagic.util.Reference;
 
+import net.fabricmc.fabric.api.entity.event.v1.ServerEntityCombatEvents;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityGroup;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.math.MathHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -54,5 +64,33 @@ public class SoulMagic implements ModInitializer {
 		ModNetwork.registerClientToServerPackets();
 		ModTabs.registerTabs();
 		ModLoot.handleLoot();
+
+		ServerEntityCombatEvents.AFTER_KILLED_OTHER_ENTITY.register((world, entity, killedEntity) -> {
+			if (!(entity instanceof PlayerEntity playerEntity)) {
+				return;
+			}
+
+			int soulStealerLevel = EnchantmentHelper.getLevel(ModEnchantments.SOUL_STEALER, playerEntity.getMainHandStack());
+			int soulEssenceAmount = MathHelper.nextInt(world.random, 2 + soulStealerLevel, 5 + soulStealerLevel);
+
+			PlayerInventory playerInventory = playerEntity.getInventory();
+
+			for (int i = 0; i < playerInventory.size(); i++) {
+				ItemStack stack = playerInventory.getStack(i);
+
+				if(stack.getItem() instanceof SoulEssenceStaff staff) {
+					if (killedEntity.getGroup() == EntityGroup.UNDEAD) {
+						soulEssenceAmount = staff.addSoul(stack, world, ModSoulTypes.DARK, soulEssenceAmount);
+					} else {
+						soulEssenceAmount = staff.addSoul(stack, world, ModSoulTypes.LIGHT, soulEssenceAmount);
+					}
+
+					if(soulEssenceAmount <= 0) {
+						break;
+					}
+				}
+			}
+			System.out.println("From the event");
+		});
 	}
 }

@@ -71,8 +71,8 @@ public class EnchantmentInfusionRecipe extends SoulInfusionRecipe {
 	}
 
 	@Override
-	public DefaultedList<ItemStack> getRemainingStacks(SoulEssenceInfuserBlockEntity inventory) {
-		DefaultedList<ItemStack> defaultedList = super.getRemainingStacks(inventory);
+	public DefaultedList<ItemStack> getRemainder(SoulEssenceInfuserBlockEntity inventory) {
+		DefaultedList<ItemStack> defaultedList = super.getRemainder(inventory);
 		defaultedList.set(0, inventory.getStack(0).copy());
 		return defaultedList;
 	}

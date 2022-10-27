@@ -5,7 +5,7 @@ import com.rainbowluigi.soulmagic.network.ModNetwork;
 import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
 import com.rainbowluigi.soulmagic.soultype.SoulType;
 
-import net.fabricmc.fabric.api.network.ServerSidePacketRegistry;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -28,7 +28,7 @@ public class SoulArrowEntity extends ArrowEntity {
 	
 	public SoulArrowEntity(World world, double x, double y, double z) {
 		this(ModEntityTypes.SOUL_ARROW_ENTITY, world);
-		this.updatePosition(x, y, z);
+		this.setPosition(x, y, z);
 	}
 
 	public SoulArrowEntity(World world, LivingEntity entity) {
@@ -69,7 +69,7 @@ public class SoulArrowEntity extends ArrowEntity {
 	@Override
 	public Packet<?> createSpawnPacket() {
 		Entity owner = this.getOwner();
-		return ServerSidePacketRegistry.INSTANCE.toPacket(ModNetwork.ENTITY_RENDER, EntityRenderMessage.makePacket(this,  owner == null ? 0 : owner.getEntityId()));
+		return ServerPlayNetworking.createS2CPacket(ModNetwork.ENTITY_RENDER, EntityRenderMessage.makePacket(this,  owner == null ? 0 : owner.getId()));
 	}
 	
 	protected void initDataTracker() {

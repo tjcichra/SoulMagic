@@ -18,7 +18,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundCategory;
@@ -83,7 +83,7 @@ public class SoulLanternItem extends Item implements DyeableItem, SoulEssenceSta
 	}
 	
 	public void removeColor(ItemStack stack) {
-		CompoundTag compoundTag_1 = stack.getSubTag("display");
+		NbtCompound compoundTag_1 = stack.getSubNbt("display");
 		if (compoundTag_1 != null && compoundTag_1.contains("color")) {
 			MinecraftClient client = MinecraftClient.getInstance();
 			compoundTag_1.remove("color");
@@ -93,7 +93,7 @@ public class SoulLanternItem extends Item implements DyeableItem, SoulEssenceSta
 	}
 	
 	public int getColor(ItemStack itemStack_1) {
-		CompoundTag compoundTag_1 = itemStack_1.getSubTag("display");
+		NbtCompound compoundTag_1 = itemStack_1.getSubNbt("display");
 		return compoundTag_1 != null && compoundTag_1.contains("color", 99) ? compoundTag_1.getInt("color") : 0xFF7100;
 	}
 	

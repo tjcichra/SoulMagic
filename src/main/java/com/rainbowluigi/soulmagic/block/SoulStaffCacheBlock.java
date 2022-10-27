@@ -10,11 +10,11 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ItemScatterer;
@@ -30,8 +30,8 @@ public class SoulStaffCacheBlock extends BlockWithEntity {
 	}
 
 	@Override
-	public BlockEntity createBlockEntity(BlockView blockView_1) {
-		return new SoulCacheBlockEntity();
+	public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+		return new SoulCacheBlockEntity(pos, state);
 	}
 
 	@Override
@@ -70,12 +70,12 @@ public class SoulStaffCacheBlock extends BlockWithEntity {
 
 					player.playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS, 0.1F, (worldIn.random.nextFloat() - worldIn.random.nextFloat()) * 0.35F + 0.9F);
 
-					CompoundTag tag = stack.getOrCreateSubTag("cache");
+					NbtCompound tag = stack.getOrCreateSubNbt("cache");
 					tag.putInt("x", pos.getX());
 					tag.putInt("y", pos.getY());
 					tag.putInt("z", pos.getZ());
 
-					player.sendMessage(new TranslatableText("soulmagic.reference_staff.text", pos.getX(), pos.getY(), pos.getZ()), true);
+					player.sendMessage(Text.translatable("soulmagic.reference_staff.text", pos.getX(), pos.getY(), pos.getZ()), true);
 				} else {
 					player.openHandledScreen((NamedScreenHandlerFactory) blockEntity);
 				}

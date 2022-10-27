@@ -8,6 +8,7 @@ import com.rainbowluigi.soulmagic.soultype.SoulType;
 import com.rainbowluigi.soulmagic.util.ItemHelper;
 import com.rainbowluigi.soulmagic.util.Reference;
 
+import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -20,7 +21,6 @@ import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 
 @Mixin(InGameHud.class)
@@ -48,7 +48,7 @@ public class InGameHudMixin extends DrawableHelper {
 		
 		if(timer > 0) {
 			
-			RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+			RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 			this.client.getTextureManager().bindTexture(SOUL_STAFF_TEXTURE);
 			int x = (int) (0.025*timer*timer-1.75*timer+this.scaledWidth+5);
 			this.drawTexture(matrix, x, this.scaledHeight / 2 - 40, 0, 0, 22, 81);
@@ -80,14 +80,14 @@ public class InGameHudMixin extends DrawableHelper {
 								if (staff.getSoul(ish, client.world, type) > 0) {
 									
 									int color = type.getColor();
-									RenderSystem.color4f((color >>> 16) / 255f, (color >>> 8 & 255) / 255f, (color & 255) / 255f, 1);
+									RenderSystem.setShaderColor((color >>> 16) / 255f, (color >>> 8 & 255) / 255f, (color & 255) / 255f, 1);
 									
 									int j = (int) (((double) staff.getSoul(ish, client.world, type) / total) * 71 + 0.5);
 									//this.blit(this.scaledWidth - 18, this.scaledHeight - 5 - j - start, 22, 71 - j - start, 14, j);
 									this.drawTexture(matrix, x + 4, this.scaledHeight / 2 + 36 - j - start, 22, 71 - j - start, 14, j);
 									
 									if(timer >= 30 && this.client.player.isSneaking()) {
-										this.drawCenteredText(matrix, this.client.textRenderer, new TranslatableText("soulmagic.ingame_hud.soul_essence", staff.getSoul(ish, client.world, type)), this.scaledWidth-40, this.scaledHeight / 2 + 36 - j / 2 - start, type.getColor());
+										this.drawCenteredText(matrix, this.client.textRenderer, Text.translatable("soulmagic.ingame_hud.soul_essence", staff.getSoul(ish, client.world, type)), this.scaledWidth-40, this.scaledHeight / 2 + 36 - j / 2 - start, type.getColor());
 										this.client.getTextureManager().bindTexture(SOUL_STAFF_TEXTURE);
 									}
 									

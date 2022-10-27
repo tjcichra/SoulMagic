@@ -21,12 +21,10 @@ import net.minecraft.world.World;
 
 public class FlyingChestItem extends Item implements Accessory {
 
-	private final ModelPart block = new ModelPart(64, 64, 0, 0);
 	public static final Identifier TEXTURE = new Identifier(Reference.MOD_ID, "textures/accessories/flying_chest.png");
 	
-	public FlyingChestItem(Settings item$Settings_1) {
-		super(item$Settings_1);
-		this.block.addCuboid(-15, -11, -4, 8, 8, 8);
+	public FlyingChestItem(Settings settings) {
+		super(settings);
 	}
 
 	@Override
@@ -55,14 +53,5 @@ public class FlyingChestItem extends Item implements Accessory {
 
 	@Override
 	public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, AbstractClientPlayerEntity player, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch, ItemStack stack) {
-		VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutoutNoCull(TEXTURE));
-		matrices.push();
-		//float n = animationProgress * (float)(-(45 + m * 5));
-		//matrices.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(n));
-		//float o = 0.75F * m;
-		//matrices.scale(o, o, o);
-		//matrices.translate(0.0D, (double)(-0.2F + 0.6F * (float)m), 0.0D);
-		this.block.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV);
-		matrices.pop();
 	}
 }

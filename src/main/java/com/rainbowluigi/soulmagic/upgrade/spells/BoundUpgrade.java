@@ -16,7 +16,7 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
@@ -53,11 +53,11 @@ public class BoundUpgrade extends SpellUpgrade {
 			}
 		}
 
-		CompoundTag tag = boundStack.getOrCreateTag();
+		NbtCompound tag = boundStack.getOrCreateNbt();
 		
-		tag.put("soulGem", new CompoundTag());
+		tag.put("soulGem", new NbtCompound());
 		
-		player.getStackInHand(hand).toTag(tag.getCompound("soulGem"));
+		player.getStackInHand(hand).writeNbt(tag.getCompound("soulGem"));
 		
 		player.setStackInHand(hand, boundStack);
 		return new TypedActionResult<ItemStack>(ActionResult.PASS, player.getStackInHand(hand));

@@ -7,8 +7,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.util.collection.DefaultedList;
 
 public class AccessoriesInventory implements Inventory {
@@ -71,12 +71,12 @@ public class AccessoriesInventory implements Inventory {
 		return true;
 	}
 
-	public ListTag serialize(ListTag list) {
+	public NbtList serialize(NbtList list) {
 		for (int i = 0; i < this.accessories.size(); ++i) {
 			if (!this.accessories.get(i).isEmpty()) {
-				CompoundTag tag = new CompoundTag();
+				NbtCompound tag = new NbtCompound();
 				tag.putByte("Slot", (byte) i);
-				this.accessories.get(i).toTag(tag);
+				this.accessories.get(i).writeNbt(tag);
 				list.add(tag);
 			}
 		}
@@ -84,14 +84,14 @@ public class AccessoriesInventory implements Inventory {
 		return list;
 	}
 
-	public void deserialize(ListTag list) {
+	public void deserialize(NbtList list) {
 		this.accessories.clear();
 
 		for (int i = 0; i < list.size(); ++i) {
-			CompoundTag tag = list.getCompound(i);
+			NbtCompound tag = list.getCompound(i);
 			
 			int slot = tag.getByte("Slot");
-			ItemStack stack = ItemStack.fromTag(tag);
+			ItemStack stack = ItemStack.fromNbt(tag);
 			if (!stack.isEmpty()) {
 				this.accessories.set(slot, stack);
 			}

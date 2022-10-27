@@ -10,7 +10,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.FoodComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -29,24 +29,24 @@ public class FoodCharmItem extends Item implements Accessory {
 		if (entity instanceof PlayerEntity) {
 			PlayerEntity player = (PlayerEntity) entity;
 
-			if (!stack.hasTag() || (stack.getTag().contains("hunger") ? stack.getTag().getInt("hunger") : 0) < 50) {
-				for (int i = 0; i < player.inventory.size(); i++) {
-					if (player.inventory.getStack(i).isFood()) {
-						ItemStack foodStack = player.inventory.getStack(i);
+			if (!stack.hasNbt() || (stack.getNbt().contains("hunger") ? stack.getNbt().getInt("hunger") : 0) < 50) {
+				for (int i = 0; i < player.getInventory().size(); i++) {
+					if (player.getInventory().getStack(i).isFood()) {
+						ItemStack foodStack = player.getInventory().getStack(i);
 						FoodComponent foodComponent = foodStack.getItem().getFoodComponent();
 
 						if (foodComponent.getStatusEffects().isEmpty()) {
-							if (!stack.hasTag()) {
-								stack.setTag(new CompoundTag());
+							if (!stack.hasNbt()) {
+								stack.setNbt(new NbtCompound());
 							}
 
-							int hunger = stack.getTag().contains("hunger") ? stack.getTag().getInt("hunger") : 0;
-							float saturationModifier = stack.getTag().contains("saturationModifier")
-									? stack.getTag().getFloat("saturationModifier")
+							int hunger = stack.getNbt().contains("hunger") ? stack.getNbt().getInt("hunger") : 0;
+							float saturationModifier = stack.getNbt().contains("saturationModifier")
+									? stack.getNbt().getFloat("saturationModifier")
 									: 0;
 
-							stack.getTag().putInt("hunger", hunger + foodComponent.getHunger());
-							stack.getTag().putFloat("saturationModifier",
+							stack.getNbt().putInt("hunger", hunger + foodComponent.getHunger());
+							stack.getNbt().putFloat("saturationModifier",
 									saturationModifier + foodComponent.getSaturationModifier());
 
 							// world.playSound((PlayerEntity) null, player.getX(), player.getY(),
@@ -59,10 +59,10 @@ public class FoodCharmItem extends Item implements Accessory {
 			}
 
 			if (player.getHungerManager().isNotFull()) {
-				if (stack.hasTag() && stack.getTag().contains("hunger")
-						&& stack.getTag().contains("saturationModifier")) {
-					int hunger = stack.getTag().getInt("hunger");
-					float saturationModifier = stack.getTag().getFloat("saturationModifier");
+				if (stack.hasNbt() && stack.getNbt().contains("hunger")
+						&& stack.getNbt().contains("saturationModifier")) {
+					int hunger = stack.getNbt().getInt("hunger");
+					float saturationModifier = stack.getNbt().getFloat("saturationModifier");
 
 					if (hunger > 0) {
 						int hungerConsumed = Math.min(hunger, 20 - player.getHungerManager().getFoodLevel());
@@ -72,8 +72,8 @@ public class FoodCharmItem extends Item implements Accessory {
 
 						player.getHungerManager().add(hungerConsumed, saturationConsumed);
 
-						stack.getTag().putInt("hunger", hunger - hungerConsumed);
-						stack.getTag().putFloat("saturationModifier", saturationModifier - saturationConsumed);
+						stack.getNbt().putInt("hunger", hunger - hungerConsumed);
+						stack.getNbt().putFloat("saturationModifier", saturationModifier - saturationConsumed);
 
 						player.incrementStat(Stats.USED.getOrCreateStat(stack.getItem()));
 						world.playSound((PlayerEntity) null, player.getX(), player.getY(), player.getZ(),
@@ -92,7 +92,7 @@ public class FoodCharmItem extends Item implements Accessory {
 	@Environment(EnvType.CLIENT)
 	@Override
 	public void appendTooltip(ItemStack stack, World world_1, List<Text> list, TooltipContext tooltipContext_1) {
-		if(stack.hasTag()) {
+		if(stack.hasNbt()) {
 			//int hunger = stack.getTag().contains("hunger") ? stack.getTag().getInt("hunger") : 0;
 			//float saturationModifier = stack.getTag().contains("saturationModifier") ? stack.getTag().getFloat("saturationModifier") : 0;
 			

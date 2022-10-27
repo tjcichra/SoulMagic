@@ -13,7 +13,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
@@ -29,7 +29,7 @@ public class CreativeSoulEssenceStaffItem extends Item implements SoulEssenceSta
     public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
 		for(SoulType st : ModSoulTypes.SOUL_TYPE) {
 			if (this.getSoul(stack, world, st) > 0) {
-				tooltip.add(new TranslatableText("soulmagic.soul_essence_staff.amount", st.getName(), this.getSoul(stack, world, st), this.getMaxSoul(stack, world, st)).formatted(st.getTextColor()));
+				tooltip.add(Text.translatable("soulmagic.soul_essence_staff.amount", st.getName(), this.getSoul(stack, world, st), this.getMaxSoul(stack, world, st)).formatted(st.getTextColor()));
 			}
 		}
 	}

@@ -57,4 +57,26 @@ public class ColorUtils {
 		
 		return new float[] {red, green, blue};
 	}
+
+	public static int intsToColor(int red, int green, int blue) {
+		int rgb = red;
+		rgb = (rgb << 8) + green;
+		return (rgb << 8) + blue;
+	}
+
+	public static int getRedFromColor(int color) {
+		return (color >> 16) & 0xFF;
+	}
+
+	public static int getGreenFromColor(int color) {
+		return (color >> 8) & 0xFF;
+	}
+
+	public static int getBlueFromColor(int color) {
+		return (color) & 0xFF;
+	}
+
+	public static int getColorBetweenTwoColors(double ratio, int firstColor, int secondColor) {
+		return (int) Math.abs((ratio * secondColor) + ((1 - ratio) * firstColor));
+	}
 }

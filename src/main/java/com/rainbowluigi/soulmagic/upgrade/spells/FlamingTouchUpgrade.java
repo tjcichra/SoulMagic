@@ -1,7 +1,5 @@
 package com.rainbowluigi.soulmagic.upgrade.spells;
 
-import java.util.Random;
-
 import com.rainbowluigi.soulmagic.item.Upgradeable;
 import com.rainbowluigi.soulmagic.item.soulessence.SoulEssenceStaff;
 import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
@@ -27,6 +25,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 
 public class FlamingTouchUpgrade extends SpellUpgrade {

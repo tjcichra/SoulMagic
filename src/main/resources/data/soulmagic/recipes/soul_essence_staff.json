@@ -13,7 +13,7 @@
 			"item": "minecraft:gold_ingot"
 		},
 		"S": {
-			"item": "minecraft:soul_sand"
+			"tag": "c:soul_ground"
 		}
 	},
 	"result": {

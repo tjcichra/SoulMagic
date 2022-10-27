@@ -3,6 +3,7 @@ package com.rainbowluigi.soulmagic.inventory;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 
@@ -28,6 +29,11 @@ public class FlyingChestScreenHandler extends ScreenHandler {
 	    for (int x = 0; x < 9; ++x) {
 	        this.addSlot(new Slot(pInv, x, 8 + x * 18, 142));
 	    }
+	}
+
+	@Override
+	public ItemStack transferSlot(PlayerEntity player, int index) {
+		return null;
 	}
 
 	@Override

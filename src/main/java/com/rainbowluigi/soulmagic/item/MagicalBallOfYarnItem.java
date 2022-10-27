@@ -14,16 +14,17 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.DyeableItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.particle.DustParticleEffect;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3f;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.World;
 
@@ -36,31 +37,31 @@ public class MagicalBallOfYarnItem extends Item implements DyeableItem {
 	@Environment(EnvType.CLIENT)
 	@Override
 	public void appendTooltip(ItemStack stack, World world_1, List<Text> list, TooltipContext tooltipContext_1) {
-		if(stack.hasTag() && stack.getTag().contains("origin")) {
-			CompoundTag origin = stack.getSubTag("origin");
-			list.add(new TranslatableText("soulmagic.magical_ball_of_yarn.text", origin.getInt("x"), origin.getInt("y"), origin.getInt("z")));
+		if(stack.hasNbt() && stack.getNbt().contains("origin")) {
+			NbtCompound origin = stack.getSubNbt("origin");
+			list.add(Text.translatable("soulmagic.magical_ball_of_yarn.text", origin.getInt("x"), origin.getInt("y"), origin.getInt("z")));
 		}
 	}
 	
 	@Override
 	public int getColor(ItemStack itemStack_1) {
-		CompoundTag compoundTag_1 = itemStack_1.getSubTag("display");
+		NbtCompound compoundTag_1 = itemStack_1.getSubNbt("display");
 		return compoundTag_1 != null && compoundTag_1.contains("color", 99) ? compoundTag_1.getInt("color") : 0xFFFFFF;
 	}
 	
 	@Override
 	public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
 		
-		if(selected && world.isClient && stack.hasTag() && stack.getTag().contains("path")) {
-			ListTag tag = (ListTag) stack.getTag().get("path");
-			CompoundTag tag2 = null;
+		if(selected && world.isClient && stack.hasNbt() && stack.getNbt().contains("path")) {
+			NbtList tag = (NbtList) stack.getNbt().get("path");
+			NbtCompound tag2 = null;
 			int color = this.getColor(stack);
 			
-			DustParticleEffect particle = new DustParticleEffect((color >>> 16) / 255f, (color >>> 8 & 255) / 255f, (color & 255) / 255f, 1);
+			DustParticleEffect particle = new DustParticleEffect(new Vec3f((color >>> 16) / 255f, (color >>> 8 & 255) / 255f, (color & 255) / 255f), 1);
 			
 			
 			for(int i = 0; i < tag.size(); i++) {
-				tag2 = (CompoundTag) tag.get(i);
+				tag2 = (NbtCompound) tag.get(i);
 				
 				world.addParticle(particle, tag2.getInt("x") + 0.5,  tag2.getInt("y") + 0.5,  tag2.getInt("z") + 0.5, 0.0D, 0.0D, 0.0D);
 			}
@@ -72,20 +73,20 @@ public class MagicalBallOfYarnItem extends Item implements DyeableItem {
 		ItemStack stack = player.getStackInHand(hand);
 		
 		if(player.isSneaking()) {
-			CompoundTag tag = stack.getOrCreateSubTag("origin");
+			NbtCompound tag = stack.getOrCreateSubNbt("origin");
 			tag.putInt("x", (int) player.getX());
 			tag.putInt("y", (int) player.getY());
 			tag.putInt("z", (int) player.getZ());
 			
 			if(!world.isClient) {
 				player.playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS, 0.1F, (world.random.nextFloat() - world.random.nextFloat()) * 0.35F + 0.9F);
-				player.sendMessage(new TranslatableText("soulmagic.magical_ball_of_yarn.text", (int) player.getX(), (int) player.getY(), (int) player.getZ()), true);
+				player.sendMessage(Text.translatable("soulmagic.magical_ball_of_yarn.text", (int) player.getX(), (int) player.getY(), (int) player.getZ()), true);
 			}
 		} else {
 			Thread t = new Thread(() ->  {
-				if(!world.isClient && stack.hasTag() && stack.getTag().contains("origin")) {
+				if(!world.isClient && stack.hasNbt() && stack.getNbt().contains("origin")) {
 					
-					CompoundTag tag = stack.getSubTag("origin");
+					NbtCompound tag = stack.getSubNbt("origin");
 					
 					Node startNode = new Node((int) player.getX(), (int) player.getY(), (int) player.getZ(), null, 0);
 					Node goalNode = new Node(tag.getInt("x"), tag.getInt("y"), tag.getInt("z"), null, 0);
@@ -116,11 +117,11 @@ public class MagicalBallOfYarnItem extends Item implements DyeableItem {
 							//System.out.println("ddddddddddd");
 							if(succNode.equals(goalNode)) {
 								Node pnode = succNode;
-								ListTag list = new ListTag();
+								NbtList list = new NbtList();
 								
 								//System.out.println("------------------------------------------");
 								while(pnode != null) {
-									CompoundTag posTag = new CompoundTag();
+									NbtCompound posTag = new NbtCompound();
 									posTag.putInt("x", pnode.x);
 									posTag.putInt("y", pnode.y);
 									posTag.putInt("z", pnode.z);
@@ -130,7 +131,7 @@ public class MagicalBallOfYarnItem extends Item implements DyeableItem {
 									//System.out.println(pnode.pos);
 									pnode = pnode.parent;
 								}
-								stack.getTag().put("path", list);
+								stack.getNbt().put("path", list);
 								//return TypedActionResult.success(player.getStackInHand(hand));
 								return;
 							}

@@ -40,8 +40,8 @@ public class FireballUpgrade extends SpellUpgrade {
 			
 			MagicFireballEntity fireball = new MagicFireballEntity(world, player);
 			
-			float pitch = player.pitch;
-			float yaw = player.yaw;
+			float pitch = player.getPitch();
+			float yaw = player.getYaw();
 			//System.out.println("pitch: " + player.pitch + " yaw: " + player.yaw);
 			float float_3 = 1.0F;
 			float float_4 = 0.3F;

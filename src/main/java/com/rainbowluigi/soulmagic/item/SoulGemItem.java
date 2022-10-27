@@ -16,7 +16,7 @@ import com.rainbowluigi.soulmagic.util.SpellCooldownManager;
 import io.netty.buffer.Unpooled;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
@@ -27,7 +27,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
@@ -171,10 +171,10 @@ public class SoulGemItem extends Item implements SoulEssenceStaffDisplayer, Circ
 			// NetworkHandler.MOD_CHANNEL.sendToServer(new SelectSpellMessage(index));
 			PacketByteBuf pbb = new PacketByteBuf(Unpooled.buffer());
 			pbb.writeInt(index);
-			ClientSidePacketRegistry.INSTANCE.sendToServer(ModNetwork.SOUL_GEM_INDEX, pbb);
+			ClientPlayNetworking.send(ModNetwork.SOUL_GEM_INDEX, pbb);
 
 			MinecraftClient client = MinecraftClient.getInstance();
-			client.player.sendMessage(new TranslatableText("soulmagic.select_spell", SoulGemHelper.getCurrentList(stack).get(index).getSpellName()), true);
+			client.player.sendMessage(Text.translatable("soulmagic.select_spell", SoulGemHelper.getCurrentList(stack).get(index).getSpellName()), true);
 		}
 	}
 

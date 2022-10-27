@@ -27,11 +27,7 @@ public class SoulInfuserScreenHandler extends ScreenHandler {
 		this.addSlot(new Slot(inv, 6, 45, 58));
 		this.addSlot(new Slot(inv, 7, 57, 35));
 		this.addSlot(new Slot(inv, 8, 80, 58));
-		this.addSlot(new Slot(inv, 9, 148, 58) {
-			public boolean canInsert(ItemStack stack) {
-				return false;
-			}
-		});
+		this.addSlot(new Slot(inv, 9, 148, 58));
 		
 		this.addSlot(new Slot(inv, 10, 8, 100) {
 			public boolean canInsert(ItemStack stack) {

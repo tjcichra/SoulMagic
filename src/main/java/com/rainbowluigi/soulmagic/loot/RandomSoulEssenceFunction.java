@@ -1,26 +1,31 @@
 package com.rainbowluigi.soulmagic.loot;
 
-import java.util.Random;
-
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
+import com.mojang.logging.LogUtils;
 import com.rainbowluigi.soulmagic.item.soulessence.SoulEssenceContainer;
 import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
-
 import net.minecraft.item.ItemStack;
-import net.minecraft.loot.LootTableRange;
-import net.minecraft.loot.LootTableRanges;
+import net.minecraft.item.Items;
 import net.minecraft.loot.condition.LootCondition;
 import net.minecraft.loot.context.LootContext;
+import net.minecraft.loot.context.LootContextParameter;
 import net.minecraft.loot.function.ConditionalLootFunction;
 import net.minecraft.loot.function.LootFunction;
 import net.minecraft.loot.function.LootFunctionType;
+import net.minecraft.loot.provider.number.LootNumberProvider;
+import net.minecraft.util.JsonHelper;
+import org.slf4j.Logger;
+
+import java.util.Set;
 
 public class RandomSoulEssenceFunction extends ConditionalLootFunction {
-	private final LootTableRange range;
+	private static final Logger LOGGER = LogUtils.getLogger();
 
-	protected RandomSoulEssenceFunction(LootCondition[] conditions, LootTableRange range) {
+	private final LootNumberProvider range;
+
+	protected RandomSoulEssenceFunction(LootCondition[] conditions, LootNumberProvider range) {
 		super(conditions);
 		this.range = range;
 	}
@@ -31,48 +36,57 @@ public class RandomSoulEssenceFunction extends ConditionalLootFunction {
 	}
 
 	@Override
+	public Set<LootContextParameter<?>> getRequiredParameters() {
+		return this.range.getRequiredParameters();
+	}
+
+	@Override
 	protected ItemStack process(ItemStack stack, LootContext context) {
-		Random random = context.getRandom();
+		if (!(stack.getItem() instanceof SoulEssenceContainer)) {
+			LOGGER.warn("Could not add soul essence to {} as it cannot store soul essence", stack);
+			return stack;
+		}
+
 		SoulEssenceContainer sec = (SoulEssenceContainer) stack.getItem();
 
-		sec.setSoul(stack, context.getWorld(), ModSoulTypes.LIGHT, this.range.next(random));
-		sec.setSoul(stack, context.getWorld(), ModSoulTypes.DARK, this.range.next(random));
+		sec.setSoul(stack, context.getWorld(), ModSoulTypes.LIGHT, this.range.nextInt(context));
+		sec.setSoul(stack, context.getWorld(), ModSoulTypes.DARK, this.range.nextInt(context));
 
 		return stack;
 	}
 
-	public static RandomSoulEssenceFunction.Builder builder(LootTableRange range) {
-		return new RandomSoulEssenceFunction.Builder(range);
+	public static Builder builder(LootNumberProvider range) {
+		return new Builder(range);
 	}
 
-	public static class Serializer extends ConditionalLootFunction.Serializer<RandomSoulEssenceFunction> {
+	public static class Builder extends ConditionalLootFunction.Builder<Builder> {
+		private final LootNumberProvider range;
 
-		@Override
-		public void toJson(JsonObject jsonObject, RandomSoulEssenceFunction enchantWithLevelsLootFunction, JsonSerializationContext jsonSerializationContext) {
-			super.toJson(jsonObject, enchantWithLevelsLootFunction, jsonSerializationContext);
-			jsonObject.add("amount", LootTableRanges.toJson(enchantWithLevelsLootFunction.range, jsonSerializationContext));
-		}
-
-		@Override
-		public RandomSoulEssenceFunction fromJson(JsonObject jsonObject, JsonDeserializationContext jsonDeserializationContext, LootCondition[] lootConditions) {
-			LootTableRange lootTableRange = LootTableRanges.fromJson(jsonObject.get("amount"), jsonDeserializationContext);
-			return new RandomSoulEssenceFunction(lootConditions, lootTableRange);
-		}
-	}
-
-	public static class Builder extends ConditionalLootFunction.Builder<RandomSoulEssenceFunction.Builder> {
-		private final LootTableRange range;
-
-		public Builder(LootTableRange range) {
+		public Builder(LootNumberProvider range) {
 			this.range = range;
 		}
 
-		protected RandomSoulEssenceFunction.Builder getThisBuilder() {
+		@Override
+		protected Builder getThisBuilder() {
 			return this;
 		}
 
 		public LootFunction build() {
 			return new RandomSoulEssenceFunction(this.getConditions(), this.range);
+		}
+	}
+
+	public static class Serializer extends ConditionalLootFunction.Serializer<RandomSoulEssenceFunction> {
+		@Override
+		public void toJson(JsonObject jsonObject, RandomSoulEssenceFunction enchantWithLevelsLootFunction, JsonSerializationContext jsonSerializationContext) {
+			super.toJson(jsonObject, enchantWithLevelsLootFunction, jsonSerializationContext);
+			jsonObject.add("amount", jsonSerializationContext.serialize(enchantWithLevelsLootFunction.range));
+		}
+
+		@Override
+		public RandomSoulEssenceFunction fromJson(JsonObject jsonObject, JsonDeserializationContext jsonDeserializationContext, LootCondition[] lootConditions) {
+			LootNumberProvider lootNumberProvider = JsonHelper.deserialize(jsonObject, "amount", jsonDeserializationContext, LootNumberProvider.class);
+			return new RandomSoulEssenceFunction(lootConditions, lootNumberProvider);
 		}
 	}
 }

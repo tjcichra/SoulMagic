@@ -12,7 +12,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.text.MutableText;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
@@ -59,7 +60,7 @@ public class SpellUpgrade extends Upgrade {
 
 	@Environment(EnvType.CLIENT)
 	public MutableText getSpellName() {
-		return new TranslatableText(this.getOrCreateSpellTranslationKey());
+		return Text.translatable(this.getOrCreateSpellTranslationKey());
 	}
 
 	public String getOrCreateSpellTranslationKey() {

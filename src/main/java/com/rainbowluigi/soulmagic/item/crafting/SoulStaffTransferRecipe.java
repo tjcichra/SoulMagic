@@ -39,7 +39,7 @@ public class SoulStaffTransferRecipe extends SoulSeparatorRecipe {
 	}
 	
 	@Override
-	public DefaultedList<Ingredient> getPreviewInputs() {
+	public DefaultedList<Ingredient> getIngredients() {
 		return DefaultedList.of();
 	}
 

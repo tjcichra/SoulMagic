@@ -23,8 +23,8 @@ public class BoundAxeItem extends AxeItem implements SoulEssenceStaffDisplayer {
 	@Override
 	public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
 		ItemStack stack = player.getStackInHand(hand);
-		if(stack.hasTag() && stack.getTag().contains("soulGem")) {
-			ItemStack gem = ItemStack.fromTag(stack.getTag().getCompound("soulGem"));
+		if(stack.hasNbt() && stack.getNbt().contains("soulGem")) {
+			ItemStack gem = ItemStack.fromNbt(stack.getNbt().getCompound("soulGem"));
 			player.setStackInHand(hand, gem);
 		}
 		return new TypedActionResult<ItemStack>(ActionResult.PASS, stack);

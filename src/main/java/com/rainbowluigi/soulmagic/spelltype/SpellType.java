@@ -7,7 +7,7 @@ import com.rainbowluigi.soulmagic.upgrade.Upgrade;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.util.Util;
 
 public class SpellType {
@@ -29,7 +29,7 @@ public class SpellType {
 	
 	@Environment(EnvType.CLIENT)
 	public Text getName() {
-		return new TranslatableText(this.getTranslationKey());
+		return Text.translatable(this.getTranslationKey());
 	}
 	
 	public String getOrCreateTranslationKey() {

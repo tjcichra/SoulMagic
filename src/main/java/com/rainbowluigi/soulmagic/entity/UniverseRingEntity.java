@@ -3,11 +3,11 @@ package com.rainbowluigi.soulmagic.entity;
 import com.rainbowluigi.soulmagic.network.EntityRenderMessage;
 import com.rainbowluigi.soulmagic.network.ModNetwork;
 
-import net.fabricmc.fabric.api.network.ServerSidePacketRegistry;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.world.World;
 
@@ -21,7 +21,7 @@ public class UniverseRingEntity extends Entity {
 	
 	public UniverseRingEntity(World world, double x, double y, double z) {
 		this(ModEntityTypes.UNIVERSE_RING, world);
-		this.updatePosition(x, y, z);
+		this.setPosition(x, y, z);
 		this.setVelocity(0, 0, 0);
 	}
 
@@ -38,7 +38,7 @@ public class UniverseRingEntity extends Entity {
 
 	@Override
 	public Packet<?> createSpawnPacket() {
-		return ServerSidePacketRegistry.INSTANCE.toPacket(ModNetwork.ENTITY_RENDER, EntityRenderMessage.makePacket(this, 0));
+		return ServerPlayNetworking.createS2CPacket(ModNetwork.ENTITY_RENDER, EntityRenderMessage.makePacket(this, 0));
 	}
 
 	@Override
@@ -47,12 +47,12 @@ public class UniverseRingEntity extends Entity {
 	}
 
 	@Override
-	protected void readCustomDataFromTag(CompoundTag var1) {
+	protected void readCustomDataFromNbt(NbtCompound var1) {
 		
 	}
 
 	@Override
-	protected void writeCustomDataToTag(CompoundTag var1) {
+	protected void writeCustomDataToNbt(NbtCompound var1) {
 		
 	}
 }

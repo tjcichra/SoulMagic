@@ -15,17 +15,18 @@ import com.rainbowluigi.soulmagic.upgrade.Upgrade;
 import com.rainbowluigi.soulmagic.upgrade.UpgradeSprite;
 import com.rainbowluigi.soulmagic.util.Reference;
 
-import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.Tessellator;
+import net.minecraft.client.render.VertexFormat;
 import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Matrix4f;
@@ -48,8 +49,11 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 	private Upgrade selectedUpgrade = null;
 	private ButtonWidget unlockButton;
 
-	public UpgradeStationScreen(UpgradeStationScreenHandler container_1, PlayerInventory playerInventory_1, Text text_1) {
-		super(container_1, playerInventory_1, text_1);
+	private PlayerInventory playerInventory;
+
+	public UpgradeStationScreen(UpgradeStationScreenHandler container_1, PlayerInventory playerInventory, Text text_1) {
+		super(container_1, playerInventory, text_1);
+		this.playerInventory = playerInventory;
 	}
 
 	public ItemStack getStack() {
@@ -63,7 +67,7 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 		this.x = (this.width - this.backgroundWidth) / 2;
 		this.y = (this.height - this.backgroundHeight) / 2;
 
-		this.unlockButton = new ButtonWidget(this.x + 10, this.y + this.backgroundHeight - 24, 40, 20, new TranslatableText("unlock"), (buttonWidgetx) -> {
+		this.unlockButton = new ButtonWidget(this.x + 10, this.y + this.backgroundHeight - 24, 40, 20, Text.translatable("unlock"), (buttonWidgetx) -> {
 			if(!this.getStack().isEmpty() && this.selectedUpgrade != null) {
 				ItemStack stack = this.getStack();
 				Upgradeable u = (Upgradeable) stack.getItem();
@@ -72,9 +76,9 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 					if(this.selectedUpgrade.getPrev() == null || u.hasUpgradeUnlocked(stack, this.selectedUpgrade.getPrev())) {
 						if(tryToTakeItems()) {
 							u.addUpgrade(stack, this.selectedUpgrade);
-							ClientSidePacketRegistry.INSTANCE.sendToServer(ModNetwork.UPGRADE_STATION, UpgradeStationMessage.makePacket(stack));
+							ClientPlayNetworking.send(ModNetwork.UPGRADE_STATION, UpgradeStationMessage.makePacket(stack));
 							if(!this.playerInventory.player.isCreative()) {
-								ClientSidePacketRegistry.INSTANCE.sendToServer(ModNetwork.UPGRADE_STATION_TAKE_ITEMS, UpgradeStationTakeItemsMessage.makePacket(this.selectedUpgrade.getRequirements()));
+								ClientPlayNetworking.send(ModNetwork.UPGRADE_STATION_TAKE_ITEMS, UpgradeStationTakeItemsMessage.makePacket(this.selectedUpgrade.getRequirements()));
 							}
 						}
 					}
@@ -85,7 +89,7 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 								u.setUpgradeSelection(stack, this.selectedUpgrade, true);
 								u.onSelection(stack, this.client.world, this.selectedUpgrade);
 								//u.setUpgradeSelection(stack, this.selectedUpgrade, !u.hasUpgradeSelected(stack, this.selectedUpgrade));
-								ClientSidePacketRegistry.INSTANCE.sendToServer(ModNetwork.UPGRADE_STATION, UpgradeStationMessage.makePacket(stack));
+								ClientPlayNetworking.send(ModNetwork.UPGRADE_STATION, UpgradeStationMessage.makePacket(stack));
 								this.playerInventory.player.totalExperience -= 1;
 							}
 						}
@@ -101,21 +105,21 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 						if(isGood) {
 							u.setUpgradeSelection(stack, this.selectedUpgrade, false);
 							u.onUnselection(stack, this.client.world, this.selectedUpgrade);
-							ClientSidePacketRegistry.INSTANCE.sendToServer(ModNetwork.UPGRADE_STATION, UpgradeStationMessage.makePacket(stack));
+							ClientPlayNetworking.send(ModNetwork.UPGRADE_STATION, UpgradeStationMessage.makePacket(stack));
 						}
 					}
 				}
 			}
 		});
 
-		this.addButton(this.unlockButton);
-		this.addButton(new ButtonWidget(this.x + this.backgroundWidth - 50, this.y + this.backgroundHeight - 24, 40, 20, new TranslatableText("add select point"), (buttonWidgetx) -> {
+		this.addDrawable(this.unlockButton);
+		this.addDrawable(new ButtonWidget(this.x + this.backgroundWidth - 50, this.y + this.backgroundHeight - 24, 40, 20, Text.translatable("add select point"), (buttonWidgetx) -> {
 			if(!this.getStack().isEmpty()) {
 				ItemStack stack = this.getStack();
 				Upgradeable u = (Upgradeable) stack.getItem();
 				u.incrementSelectorPoints(stack);
 
-				ClientSidePacketRegistry.INSTANCE.sendToServer(ModNetwork.UPGRADE_STATION, UpgradeStationMessage.makePacket(stack));
+				ClientPlayNetworking.send(ModNetwork.UPGRADE_STATION, UpgradeStationMessage.makePacket(stack));
 			}
 		}));
 	}
@@ -165,7 +169,7 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 		int i = this.x;
 		int j = this.y;
 
-		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 		this.client.getTextureManager().bindTexture(BORDER_TEXTURE);
 		this.drawTexture(matrices, i, j, 0, 0, 204, 166);
 		this.client.getTextureManager().bindTexture(TEXTURE);
@@ -178,11 +182,11 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 		if(item.getItem() instanceof Upgradeable) {
 			Upgradeable upgradeable = (Upgradeable) item.getItem();
 
-			this.drawCenteredString(matrices, textRenderer, "" + upgradeable.getSelectorPointsNumber(item), x, y, 0xFFFFFF);
+			this.drawCenteredText(matrices, textRenderer, "" + upgradeable.getSelectorPointsNumber(item), x, y, 0xFFFFFF);
 
 			List<Upgrade> upgrades = upgradeable.getPossibleUpgrades(item);
 
-			RenderSystem.enableRescaleNormal();
+//			RenderSystem.enableRescaleNormal();
 			for(Upgrade u : upgrades) {
 				//if(u.equals(ModUpgrades.FLAMING_TOUCH))
 				this.drawLineToPrev(matrices, u, upgradeable);
@@ -228,7 +232,7 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 	}
 
 	public void drawLineToPrev(MatrixStack matrices, Upgrade u, Upgradeable upgradeable) {
-		Matrix4f matrix = matrices.peek().getModel();
+		Matrix4f matrix = matrices.peek().getPositionMatrix();
 		int x = this.innerXPointToActualXPoint(u.getX());
 		int y = this.innerYPointToActualYPoint(u.getY());
 
@@ -254,7 +258,7 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 		RenderSystem.disableTexture();
 		
 
-		bb.begin(1, VertexFormats.POSITION_COLOR);
+		bb.begin(VertexFormat.DrawMode.LINES, VertexFormats.POSITION_COLOR);
 		RenderSystem.lineWidth(6f);
 		bb.vertex(matrix, (float)prevX, (float)prevY, 0.0F).color(g, h, k, f).next();
 		bb.vertex(matrix, (float)x, (float)y, 0.0F).color(g, h, k, f).next();

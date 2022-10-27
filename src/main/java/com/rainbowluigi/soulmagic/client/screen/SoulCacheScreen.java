@@ -43,7 +43,7 @@ public class SoulCacheScreen extends HandledScreen<SoulCacheScreenHandler> {
 		
 		
 		
-		RenderSystem.color4f(1, 1, 1, 1);
+		RenderSystem.setShaderColor(1, 1, 1, 1);
 		
 		
 		this.client.getTextureManager().bindTexture(rl);

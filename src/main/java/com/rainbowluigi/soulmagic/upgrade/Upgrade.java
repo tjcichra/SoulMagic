@@ -4,7 +4,8 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.MutableText;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.util.Util;
 
 public class Upgrade {
@@ -58,7 +59,7 @@ public class Upgrade {
 
 	@Environment(EnvType.CLIENT)
 	public MutableText getName() {
-		return new TranslatableText(this.getOrCreateTranslationKey());
+		return Text.translatable(this.getOrCreateTranslationKey());
 	}
 
 	public String getOrCreateTranslationKey() {
@@ -71,7 +72,7 @@ public class Upgrade {
 
 	@Environment(EnvType.CLIENT)
 	public MutableText getDesc() {
-		return new TranslatableText(this.getOrCreateDescTranslationKey());
+		return Text.translatable(this.getOrCreateDescTranslationKey());
 	}
 
 	public String getOrCreateDescTranslationKey() {

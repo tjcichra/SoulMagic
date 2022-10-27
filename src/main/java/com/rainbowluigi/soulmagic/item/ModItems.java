@@ -10,7 +10,7 @@ import com.rainbowluigi.soulmagic.item.bound.BoundAxeItem;
 import com.rainbowluigi.soulmagic.item.bound.BoundPickaxeItem;
 import com.rainbowluigi.soulmagic.item.bound.BoundShovelItem;
 import com.rainbowluigi.soulmagic.item.bound.BoundSwordItem;
-import com.rainbowluigi.soulmagic.item.soulessence.BaseSoulEssenceStaffItem;
+import com.rainbowluigi.soulmagic.item.soulessence.SoulEssenceStaffItem;
 import com.rainbowluigi.soulmagic.item.soulessence.CreativeSoulEssenceStaffItem;
 import com.rainbowluigi.soulmagic.item.soulessence.ReferenceStaffItem;
 import com.rainbowluigi.soulmagic.item.soulessence.SoulEssenceOrbItem;
@@ -23,7 +23,7 @@ import net.minecraft.util.registry.Registry;
 
 public class ModItems {
 	
-	public static final Item SOUL_ESSENCE_STAFF = new BaseSoulEssenceStaffItem(50, new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
+	public static final Item SOUL_ESSENCE_STAFF = new SoulEssenceStaffItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
 	public static final Item CREATIVE_SOUL_ESSENCE_STAFF = new CreativeSoulEssenceStaffItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
 	public static final Item SOUL_ESSENCE_ORB = new SoulEssenceOrbItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));
 	public static final Item SOUL_GEM = new SoulGemItem(new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP));

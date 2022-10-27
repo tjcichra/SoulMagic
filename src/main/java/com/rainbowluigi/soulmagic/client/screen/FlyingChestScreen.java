@@ -29,7 +29,7 @@ public class FlyingChestScreen extends HandledScreen<FlyingChestScreenHandler> {
 
 	@Override
 	protected void drawBackground(MatrixStack matrix, float float_1, int int_1, int int_2) {
-		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 		this.client.getTextureManager().bindTexture(TEXTURE);
 		int int_3 = (this.width - this.backgroundWidth) / 2;
 		int int_4 = (this.height - this.backgroundHeight) / 2;

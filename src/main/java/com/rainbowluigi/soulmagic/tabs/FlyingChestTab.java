@@ -5,7 +5,7 @@ import com.rainbowluigi.soulmagic.network.FlyingChestOpenMessage;
 import com.rainbowluigi.soulmagic.network.ModNetwork;
 import com.rainbowluigi.soulmagic.util.ItemHelper;
 
-import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
@@ -30,6 +30,6 @@ public class FlyingChestTab extends Tab {
 
     @Override
     public void whenClicked(PlayerEntity player, World world) {
-        ClientSidePacketRegistry.INSTANCE.sendToServer(ModNetwork.FLYING_CHEST_OPEN, FlyingChestOpenMessage.makePacket(ItemHelper.findAccessorySlot(player, ModItems.FLYING_CHEST)));
+        ClientPlayNetworking.send(ModNetwork.FLYING_CHEST_OPEN, FlyingChestOpenMessage.makePacket(ItemHelper.findAccessorySlot(player, ModItems.FLYING_CHEST)));
     }
 }

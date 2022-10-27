@@ -4,8 +4,9 @@ import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
 import com.rainbowluigi.soulmagic.soultype.SoulType;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 //Used for items that can hold soul essence but can't have soul essence added to it (only subtracted from)
 //Any items that implement this class can't be used by magic items or machines (other than the soul separator)
@@ -13,11 +14,11 @@ import net.minecraft.world.World;
 public interface SoulEssenceContainer {
 	
 	//Get the value of the soul type in the container stack
-	public default int getSoul(ItemStack stack, World world, SoulType type) {
+	public default int getSoul(ItemStack stack, @Nullable World world, SoulType type) {
 		//Checks if the container stack has a compound tag and if it has a tag of "souls" in it
-		if(stack.hasTag() && stack.getTag().contains("souls")) {
+		if(stack.hasNbt() && stack.getNbt().contains("souls")) {
 			//Gets the tag with all the soul values in it
-			CompoundTag tag = (CompoundTag) stack.getTag().get("souls");
+			NbtCompound tag = (NbtCompound) stack.getNbt().get("souls");
 			
 			//Gets the registry name of the soul type (which is also the key)
 			String s = ModSoulTypes.SOUL_TYPE.getId(type).toString();
@@ -32,21 +33,21 @@ public interface SoulEssenceContainer {
 	}
 
 	//Set the value of the soul type in the container stack
-	public default void setSoul(ItemStack stack, World world, SoulType type, int amount) {
+	public default void setSoul(ItemStack stack, @Nullable World world, SoulType type, int amount) {
 		//If there is no tag
-		if(!stack.hasTag()) {
+		if(!stack.hasNbt()) {
 			//Give the container stack one
-			stack.setTag(new CompoundTag());
+			stack.setNbt(new NbtCompound());
 		}
 		
 		//If the container doesn't have a tag of soul values in it
-		if(!stack.getTag().contains("souls")) {
+		if(!stack.getNbt().contains("souls")) {
 			//Give the container stack one
-			stack.getTag().put("souls", new CompoundTag());
+			stack.getNbt().put("souls", new NbtCompound());
 		}
 		
 		//Get the tag of soul values and get the max soul value.
-		CompoundTag tag = (CompoundTag) stack.getTag().get("souls");
+		NbtCompound tag = (NbtCompound) stack.getNbt().get("souls");
 		int max = ((SoulEssenceContainer)stack.getItem()).getMaxSoul(stack, world, type);
 		
 		//If the amount is greater than the container stack can hold, make the amount the max.
@@ -59,22 +60,22 @@ public interface SoulEssenceContainer {
 	}
 
 	//Get the value of the maximum soul essence per soul type in the stack
-	public int getMaxSoul(ItemStack stack, World world, SoulType type);
+	public int getMaxSoul(ItemStack stack, @Nullable World world, SoulType type);
 
 	//Optional function if you want your max soul essence value to be variable
-	public default void setMaxSoul(ItemStack stack, World world, SoulType type, int amount) {
+	public default void setMaxSoul(ItemStack stack, @Nullable World world, SoulType type, int amount) {
 
 	}
 
 	//Subtracts the value of the soul type in the container stack, return if that amount can be subtracted or not.
-	public default boolean subtractSoul(ItemStack stack, World world, SoulType type, int amount) {
+	public default boolean subtractSoul(ItemStack stack, @Nullable World world, SoulType type, int amount) {
 		//If there is no tag or the container stack doesn't have a "souls" tag, return false
-		if(!stack.hasTag() || !stack.getTag().contains("souls")) {
+		if(!stack.hasNbt() || !stack.getNbt().contains("souls")) {
 			return false;
 		}
 		
 		//Gets the tag with all the soul values in it
-		CompoundTag tag = (CompoundTag) stack.getTag().get("souls");
+		NbtCompound tag = (NbtCompound) stack.getNbt().get("souls");
 		
 		//Gets the registry name of the soul type (which is also the key)
 		String s = ModSoulTypes.SOUL_TYPE.getId(type).toString();

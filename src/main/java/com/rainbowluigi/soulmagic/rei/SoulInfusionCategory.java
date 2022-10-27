@@ -1,70 +1,61 @@
 package com.rainbowluigi.soulmagic.rei;
 
-import java.util.List;
-
 import com.google.common.collect.Lists;
 import com.rainbowluigi.soulmagic.block.ModBlocks;
 import com.rainbowluigi.soulmagic.rei.widgets.InfusionCircleWidget;
 import com.rainbowluigi.soulmagic.rei.widgets.SoulEssenceStaffWidget;
-import com.rainbowluigi.soulmagic.rei.widgets.UpgradeRequirementWidget;
-
-import it.unimi.dsi.fastutil.ints.IntList;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
-import me.shedaniel.rei.api.EntryStack;
-import me.shedaniel.rei.api.TransferRecipeCategory;
-import me.shedaniel.rei.api.widgets.Widgets;
-import me.shedaniel.rei.gui.entries.RecipeEntry;
-import me.shedaniel.rei.gui.entries.SimpleRecipeEntry;
-import me.shedaniel.rei.gui.widget.Widget;
-import net.minecraft.client.resource.language.I18n;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Identifier;
+import me.shedaniel.rei.api.client.gui.Renderer;
+import me.shedaniel.rei.api.client.gui.widgets.Widget;
+import me.shedaniel.rei.api.client.gui.widgets.Widgets;
+import me.shedaniel.rei.api.client.registry.display.DisplayCategory;
+import me.shedaniel.rei.api.common.category.CategoryIdentifier;
+import me.shedaniel.rei.api.common.entry.EntryIngredient;
+import me.shedaniel.rei.api.common.util.EntryStacks;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.text.Text;
+
+import java.util.List;
 
 //The REI category of all soul infusion recipes (including spell infusion recipes)
-public class SoulInfusionCategory implements TransferRecipeCategory<SoulInfusionDisplay> {
+@Environment(EnvType.CLIENT)
+public class SoulInfusionCategory implements DisplayCategory<SoulInfusionDisplay> {
 
-	//Returns idenifier of the category
 	@Override
-	public Identifier getIdentifier() {
-		return SoulMagicPlugin.SOUL_INFUSION;
+	public CategoryIdentifier<? extends SoulInfusionDisplay> getCategoryIdentifier() {
+		return SoulMagicClientPlugin.SOUL_INFUSION;
 	}
 
 	//Sets up the icon of the category
 	@Override
-	public EntryStack getLogo() {
+	public Renderer getIcon() {
 		//Just have a picture of the soul infuser block as the icon
-		return EntryStack.create(new ItemStack(ModBlocks.SOUL_ESSENCE_INFUSER));
+		return EntryStacks.of(ModBlocks.SOUL_ESSENCE_INFUSER);
 	}
 
 	//Returns display name of the category
 	@Override
-	public String getCategoryName() {
-		return I18n.translate("soulmagic.rei.category.soul_infusion");
-	}
-
-	//Handles "villager-style" crafting display
-	@Override
-	public RecipeEntry getSimpleRenderer(SoulInfusionDisplay recipe) {
-		return SimpleRecipeEntry.create(recipe::getInputEntries, recipe::getOutputEntries);
+	public Text getTitle() {
+		return Text.translatable("soulmagic.rei.category.soul_infusion");
 	}
 
 	//Sets up the display of the recipes in the category
 	@Override
-	public List<Widget> setupDisplay(SoulInfusionDisplay recipeDisplay, Rectangle bounds) {
+	public List<Widget> setupDisplay(SoulInfusionDisplay display, Rectangle bounds) {
 		//Create list of widgets and add the recipe base (square box) and the infusion circle
 		List<Widget> widgets = Lists.newArrayList();
 		widgets.add(Widgets.createRecipeBase(bounds));
-		widgets.add(new InfusionCircleWidget(new Rectangle(bounds.x + 12, bounds.y + 9, 100, 100), recipeDisplay.progressColor));
-		widgets.add(new SoulEssenceStaffWidget(new Rectangle(bounds.x + 122, bounds.y + 28, 16, 16), recipeDisplay.recipe.soulMap));
+		widgets.add(new InfusionCircleWidget(new Rectangle(bounds.x + 12, bounds.y + 9, 100, 100), display.getProgressColor()));
+		widgets.add(new SoulEssenceStaffWidget(new Rectangle(bounds.x + 122, bounds.y + 28, 16, 16), display.getSoulCost()));
 
-		if(recipeDisplay.recipe.getUpgradesNeeded().length > 0) {
-			widgets.add(new UpgradeRequirementWidget(new Rectangle(bounds.x + 122, bounds.y + 12, 16, 16), recipeDisplay.recipe.getUpgradesNeeded()));
-		}
+//		if(recipeDisplay.recipe.getUpgradesNeeded().length > 0) {
+//			widgets.add(new UpgradeRequirementWidget(new Rectangle(bounds.x + 122, bounds.y + 12, 16, 16), recipeDisplay.recipe.getUpgradesNeeded()));
+//		}
 
 		//Get the list of inputs and add recipe slots with them.
-		List<List<EntryStack>> input = recipeDisplay.getInputEntries();
+		List<EntryIngredient> input = display.getInputEntries();
 		widgets.add(Widgets.createSlot(new Point(bounds.x + 54, bounds.y + 16)).entries(input.get(0)).markInput());
 		widgets.add(Widgets.createSlot(new Point(bounds.x + 77, bounds.y + 28)).entries(input.get(1)).markInput());
 		widgets.add(Widgets.createSlot(new Point(bounds.x + 89, bounds.y + 51)).entries(input.get(2)).markInput());
@@ -81,7 +72,7 @@ public class SoulInfusionCategory implements TransferRecipeCategory<SoulInfusion
 
 		//Add recipe slot with the output
 		widgets.add(Widgets.createResultSlotBackground(new Point(bounds.x + 122, bounds.y + 51)));
-		widgets.add(Widgets.createSlot(new Point(bounds.x + 122, bounds.y + 51)).entries(recipeDisplay.getOutputEntries()).disableBackground().markOutput());
+		widgets.add(Widgets.createSlot(new Point(bounds.x + 122, bounds.y + 51)).entries(display.getOutputEntries().get(0)).disableBackground().markOutput());
 		//Return all the widgets
 		return widgets;
 	}
@@ -90,11 +81,5 @@ public class SoulInfusionCategory implements TransferRecipeCategory<SoulInfusion
 	@Override
 	public int getDisplayHeight() {
 		return 118;
-	}
-
-	//Handles the rendered red slots when using auto-transer
-	@Override
-	public void renderRedSlots(MatrixStack matrices, List<Widget> widgets, Rectangle bounds, SoulInfusionDisplay display, IntList redSlots) {
-		// TODO Setup automatic insert of items when desired
 	}
 }

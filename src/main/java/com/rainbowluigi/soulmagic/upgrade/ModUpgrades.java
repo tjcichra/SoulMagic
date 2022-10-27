@@ -3,10 +3,12 @@ package com.rainbowluigi.soulmagic.upgrade;
 import com.mojang.serialization.Lifecycle;
 import com.rainbowluigi.soulmagic.item.ModItems;
 import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
+import com.rainbowluigi.soulmagic.spelltype.SpellType;
 import com.rainbowluigi.soulmagic.upgrade.spells.*;
 import com.rainbowluigi.soulmagic.util.Reference;
 import com.rainbowluigi.soulmagic.util.SoulEssenceHelper;
 
+import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.minecraft.block.Blocks;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.ItemStack;
@@ -17,8 +19,8 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
 
 public class ModUpgrades {
-	public static final RegistryKey<Registry<Upgrade>> UPGRADE_KEY= RegistryKey.ofRegistry(new Identifier(Reference.MOD_ID, "upgrade"));
-	public static final DefaultedRegistry<Upgrade> UPGRADE = new DefaultedRegistry<Upgrade>(new Identifier(Reference.MOD_ID, "fireball").toString(), UPGRADE_KEY, Lifecycle.experimental());
+
+	public static final Registry<Upgrade> UPGRADE = FabricRegistryBuilder.createSimple(Upgrade.class, new Identifier(Reference.MOD_ID, "upgrade")).buildAndRegister();
 
 	public static final Upgrade FIREBALL = new FireballUpgrade(-32, -8, null, FireballUpgrade.ICON, UpgradeSprite.GEM_SPRITE).setRequirements(new ItemStack(Items.POTATO), new ItemStack(Items.ACACIA_BOAT), new ItemStack(Blocks.JUKEBOX));
 	public static final Upgrade TRIPLE_FIREBALL = new Upgrade(-64, -14, FIREBALL, null, UpgradeSprite.CIRCLE_SPRITE).setRequirements(new ItemStack(Items.STICK), new ItemStack(Blocks.QUARTZ_BRICKS));

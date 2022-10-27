@@ -1,12 +1,15 @@
 package com.rainbowluigi.soulmagic.network;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import io.netty.buffer.Unpooled;
-import net.fabricmc.fabric.api.network.PacketContext;
+import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.network.ServerPlayNetworkHandler;
+import net.minecraft.server.network.ServerPlayerEntity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class UpgradeStationTakeItemsMessage {
 	
@@ -20,23 +23,21 @@ public class UpgradeStationTakeItemsMessage {
 
 		return pbb;
 	}
-	
-	public static void handle(PacketContext context, PacketByteBuf buffer) {
-		int num = buffer.readInt();
+
+	public static void handle(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+		int num = buf.readInt();
 		List<ItemStack> list = new ArrayList<>();
 
 		for(int i = 0; i < num; i++) {
-			list.add(buffer.readItemStack());
+			list.add(buf.readItemStack());
 		}
 
-		context.getTaskQueue().execute(() -> {
-			for(ItemStack requirement : list) {
-				for(ItemStack stack : context.getPlayer().inventory.main) {
-					if(stack.isItemEqual(requirement) && stack.getCount() >= requirement.getCount()) {
-						stack.decrement(requirement.getCount());
-					}
+		for(ItemStack requirement : list) {
+			for(ItemStack stack : player.getInventory().main) {
+				if(stack.isItemEqual(requirement) && stack.getCount() >= requirement.getCount()) {
+					stack.decrement(requirement.getCount());
 				}
 			}
-		});
+		}
 	}
 }

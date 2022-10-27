@@ -15,9 +15,9 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
@@ -44,7 +44,7 @@ public class BuildingStaffItem extends Item implements CircleSelection {
 			ItemStack stack = context.getStack();
 			BlockState state = context.getWorld().getBlockState(context.getBlockPos());
 
-			CompoundTag tag = stack.getOrCreateTag();
+			NbtCompound tag = stack.getOrCreateNbt();
 			tag.putString("block", Registry.BLOCK.getId(state.getBlock()).toString());
 
 			return ActionResult.SUCCESS;
@@ -60,8 +60,8 @@ public class BuildingStaffItem extends Item implements CircleSelection {
 		if(result.getType() == HitResult.Type.BLOCK) {
 			ItemStack stack = user.getStackInHand(hand);
 
-			if(stack.hasTag() && stack.getTag().contains("block")) {
-				Block block = Registry.BLOCK.get(new Identifier(stack.getTag().getString("block")));
+			if(stack.hasNbt() && stack.getNbt().contains("block")) {
+				Block block = Registry.BLOCK.get(new Identifier(stack.getNbt().getString("block")));
 				List<ItemStack> invStack = ItemHelper.findAllItem(user, block);
 				
 				if(user.isCreative() || !invStack.isEmpty()) {
@@ -133,8 +133,8 @@ public class BuildingStaffItem extends Item implements CircleSelection {
 	@Environment(EnvType.CLIENT)
 	@Override
 	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
-		if(stack.hasTag() && stack.getTag().contains("block")) {
-			Block block = Registry.BLOCK.get(new Identifier(stack.getTag().getString("block")));
+		if(stack.hasNbt() && stack.getNbt().contains("block")) {
+			Block block = Registry.BLOCK.get(new Identifier(stack.getNbt().getString("block")));
 			tooltip.add(block.getName());
 		}
 	}
@@ -144,7 +144,7 @@ public class BuildingStaffItem extends Item implements CircleSelection {
 		List<CircleSelectionEntry> l = new ArrayList<>();
 
 		for(int i = 0; i < this.maxMode; i++) {
-			l.add(new CircleSelectionEntry(new TranslatableText(strings[i]), new UpgradeSprite(UpgradeSprite.baseTexture, 0, 0, 32, 32)));
+			l.add(new CircleSelectionEntry(Text.translatable(strings[i]), new UpgradeSprite(UpgradeSprite.baseTexture, 0, 0, 32, 32)));
 		}
 
 		return l;

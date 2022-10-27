@@ -24,8 +24,11 @@
     "client": [
       "com.rainbowluigi.soulmagic.client.SoulMagicClient"
     ],
-    "rei_plugins": [
-      "com.rainbowluigi.soulmagic.rei.SoulMagicPlugin"
+    "rei_server": [
+      "com.rainbowluigi.soulmagic.rei.SoulMagicServerPlugin"
+    ],
+    "rei_client": [
+      "com.rainbowluigi.soulmagic.rei.SoulMagicClientPlugin"
     ]
   },
   "mixins": [

@@ -19,7 +19,7 @@ public class SoulMagicBookItem extends Item {
 	@Override
 	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
 		MinecraftClient mc = MinecraftClient.getInstance();
-		mc.openScreen(new SoulMagicBookScreen());
+		mc.setScreen(new SoulMagicBookScreen());
 		return TypedActionResult.pass(user.getStackInHand(hand));
 	}
 }

@@ -20,7 +20,7 @@ import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.world.World;
 
 public class EnchantmentTemplateItem extends Item implements Upgradeable {
@@ -90,7 +90,7 @@ public class EnchantmentTemplateItem extends Item implements Upgradeable {
 
 		for (Entry<SoulType, Integer> entry : costMap.entrySet()) {
 			if (entry.getValue() > 0) {
-				tooltip.add(new TranslatableText("soulmagic.enchantment_template.amount", entry.getKey().getName(), entry.getValue()).formatted(entry.getKey().getTextColor()));
+				tooltip.add(Text.translatable("soulmagic.enchantment_template.amount", entry.getKey().getName(), entry.getValue()).formatted(entry.getKey().getTextColor()));
 			}
 		}
 	}

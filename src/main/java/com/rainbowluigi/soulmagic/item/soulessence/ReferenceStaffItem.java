@@ -12,9 +12,9 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -29,7 +29,7 @@ public class ReferenceStaffItem extends Item implements SoulEssenceStaff {
     public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
 		for(SoulType st : ModSoulTypes.SOUL_TYPE) {
 			if (this.getSoul(stack, world, st) > 0) {
-				tooltip.add(new TranslatableText("soulmagic.soul_essence_staff.amount", st.getName(), this.getSoul(stack, world, st), this.getMaxSoul(stack, world, st)).formatted(st.getTextColor()));
+				tooltip.add(Text.translatable("soulmagic.soul_essence_staff.amount", st.getName(), this.getSoul(stack, world, st), this.getMaxSoul(stack, world, st)).formatted(st.getTextColor()));
 			}
 		}
 	}
@@ -123,7 +123,7 @@ public class ReferenceStaffItem extends Item implements SoulEssenceStaff {
     }
 	
 	public SoulCacheBlockEntity getInventory(ItemStack stack, World world) {
-		CompoundTag tag = stack.getSubTag("cache");
+		NbtCompound tag = stack.getSubNbt("cache");
 		
 		if(tag != null) {
 			BlockEntity be = world.getBlockEntity(new BlockPos(tag.getInt("x"), tag.getInt("y"), tag.getInt("z")));

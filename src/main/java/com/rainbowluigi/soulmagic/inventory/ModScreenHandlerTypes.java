@@ -3,7 +3,7 @@ package com.rainbowluigi.soulmagic.inventory;
 import com.rainbowluigi.soulmagic.client.screen.AccessoryScreen;
 import com.rainbowluigi.soulmagic.client.screen.FlyingChestScreen;
 import com.rainbowluigi.soulmagic.client.screen.SoulCacheScreen;
-import com.rainbowluigi.soulmagic.client.screen.SoulInfuserScreen;
+import com.rainbowluigi.soulmagic.client.screen.SoulEssenceInfuserScreen;
 import com.rainbowluigi.soulmagic.client.screen.SoulSeparatorScreen;
 import com.rainbowluigi.soulmagic.client.screen.UpgradeStationScreen;
 import com.rainbowluigi.soulmagic.util.ItemHelper;
@@ -11,14 +11,15 @@ import com.rainbowluigi.soulmagic.util.PacketBufferUtils;
 import com.rainbowluigi.soulmagic.util.Reference;
 
 import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry;
+import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
 import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.text.Text;
@@ -37,7 +38,7 @@ public class ModScreenHandlerTypes {
 
 		//Soul Infuser Stuff
 		SOUL_ESSENCE_INFUSER = registerScreenHandler("soul_essence_infuser", SoulInfuserScreenHandler::new);
-		registerScreen(SOUL_ESSENCE_INFUSER, SoulInfuserScreen::new);
+		registerScreen(SOUL_ESSENCE_INFUSER, SoulEssenceInfuserScreen::new);
 
 		// Soul Separator Stuff
 		SOUL_ESSENCE_SEPARATOR = registerScreenHandler("soul_essence_separator", SoulSeparatorScreenHandler::new);
@@ -63,9 +64,9 @@ public class ModScreenHandlerTypes {
 					SimpleInventory chestInv = new SimpleInventory(27);
 					chestInv.addListener(new FlyingChestInventory(stack));
 
-					if (stack.hasTag()) {
-						CompoundTag tag = stack.getTag();
-						ListTag invNBT = (ListTag) tag.get("Items");
+					if (stack.hasNbt()) {
+						NbtCompound tag = stack.getNbt();
+						NbtList invNBT = (NbtList) tag.get("Items");
 						FlyingChestInventory.readTags(invNBT, chestInv);
 					}
 

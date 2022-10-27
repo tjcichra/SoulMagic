@@ -1,5 +1,6 @@
 package com.rainbowluigi.soulmagic.entity;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 import com.rainbowluigi.soulmagic.item.ModItems;
@@ -7,7 +8,7 @@ import com.rainbowluigi.soulmagic.network.EntityRenderMessage;
 import com.rainbowluigi.soulmagic.network.ModNetwork;
 import com.rainbowluigi.soulmagic.util.ItemHelper;
 
-import net.fabricmc.fabric.api.network.ServerSidePacketRegistry;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -19,12 +20,11 @@ import net.minecraft.entity.MovementType;
 import net.minecraft.entity.damage.EntityDamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.tag.BlockTags;
-import net.minecraft.util.collection.ReusableStream;
 import net.minecraft.util.crash.CrashException;
 import net.minecraft.util.crash.CrashReport;
 import net.minecraft.util.crash.CrashReportSection;
@@ -56,7 +56,7 @@ public class MagicFireballEntity extends Entity {
 	
 	public MagicFireballEntity(World world, double x, double y, double z) {
 		this(ModEntityTypes.MAGIC_FIREBALL, world);
-		this.updatePosition(x, y, z);
+		this.setPosition(x, y, z);
 		this.setVelocity(0, 0, 0);
 	}
 
@@ -98,10 +98,10 @@ public class MagicFireballEntity extends Entity {
 		if (this.world.isClient) {
 			this.noClip = false;
 		} else {
-			this.noClip = !this.world.doesNotCollide(this);
+			this.noClip = !this.world.isSpaceEmpty(this);
 		}
 
-		if (!this.onGround || squaredHorizontalLength(this.getVelocity()) > 9.999999747378752E-6D) {
+		if (!this.onGround || this.getVelocity().horizontalLengthSquared() > 9.999999747378752E-6D) {
 			this.move(MovementType.SELF, this.getVelocity());
 			//float float_1 = 0.98F;
 
@@ -124,7 +124,7 @@ public class MagicFireballEntity extends Entity {
 		}
 		
 		if(this.ticks >= 120) {
-			this.remove();
+			this.remove(RemovalReason.KILLED);
 		}
 		if(this.isTouchingWater()) {
 			this.playSound(SoundEvents.BLOCK_FIRE_EXTINGUISH, 1, 1);
@@ -139,10 +139,10 @@ public class MagicFireballEntity extends Entity {
 		return false;
 	}
 	
-	protected void fall(double double_1, boolean boolean_1, BlockState blockState_1, BlockPos blockPos_1) {
+	protected void fall(double double_1, boolean boolean_1, BlockState state, BlockPos landedPosition) {
 		if (boolean_1) {
 			if (this.fallDistance > 0.0F) {
-				blockState_1.getBlock().onLandedUpon(this.world, blockPos_1, this, this.fallDistance);
+				state.getBlock().onLandedUpon(this.world, state, landedPosition, this, this.fallDistance);
 				this.getVelocity().multiply(1, -1, 1);
 				
 			}
@@ -163,8 +163,8 @@ public class MagicFireballEntity extends Entity {
 				
 				entity.damage(new EntityDamageSource("fire", this.entity), 6);
 				entity.setOnFireFor(3);
-				this.dealDamage(this.entity, entity);
-				this.remove();
+				this.applyDamageEffects(this.entity, entity);
+				this.remove(RemovalReason.KILLED);
 			}
 		}
 		
@@ -177,23 +177,23 @@ public class MagicFireballEntity extends Entity {
 
 	@Override
 	public Packet<?> createSpawnPacket() {
-		return ServerSidePacketRegistry.INSTANCE.toPacket(ModNetwork.ENTITY_RENDER, EntityRenderMessage.makePacket(this, 0));
+		return ServerPlayNetworking.createS2CPacket(ModNetwork.ENTITY_RENDER, EntityRenderMessage.makePacket(this, 0));
 	}
 
 	@Override
-	protected void readCustomDataFromTag(CompoundTag var1) {
+	protected void readCustomDataFromNbt(NbtCompound var1) {
 		
 	}
 
 	@Override
-	protected void writeCustomDataToTag(CompoundTag var1) {
+	protected void writeCustomDataToNbt(NbtCompound var1) {
 		
 	}
 	
 	public void move(MovementType movementType_1, Vec3d vec3d_1) {
 		if (this.noClip) {
 			this.setBoundingBox(this.getBoundingBox().offset(vec3d_1));
-			this.moveToBoundingBoxCenter();
+//			this.moveToBoundingBoxCenter();
 		} else {
 			if (movementType_1 == MovementType.PISTON) {
 				vec3d_1 = this.adjustMovementForPiston(vec3d_1);
@@ -213,7 +213,7 @@ public class MagicFireballEntity extends Entity {
 			Vec3d vec3d_2 = this.adjustMovementForCollisions(vec3d_1);
 			if (vec3d_2.lengthSquared() > 1.0E-7D) {
 				this.setBoundingBox(this.getBoundingBox().offset(vec3d_2));
-				this.moveToBoundingBoxCenter();
+//				this.moveToBoundingBoxCenter();
 			}
 
 			this.world.getProfiler().pop();
@@ -231,7 +231,7 @@ public class MagicFireballEntity extends Entity {
 				BlockPos blockPos_2 = blockPos_1.down(1);
 				BlockState blockState_2 = this.world.getBlockState(blockPos_2);
 				Block block_1 = blockState_2.getBlock();
-				if (block_1.isIn(BlockTags.FENCES) || block_1.isIn(BlockTags.WALLS)
+				if (blockState_2.isIn(BlockTags.FENCES) || blockState_2.isIn(BlockTags.WALLS)
 						|| block_1 instanceof FenceGateBlock) {
 					blockState_1 = blockState_2;
 					blockPos_1 = blockPos_2;
@@ -254,10 +254,10 @@ public class MagicFireballEntity extends Entity {
 			}
 
 			if (this.onGround && !this.bypassesSteppingEffects()) {
-				block_2.onSteppedOn(this.world, blockPos_1, this);
+				block_2.onSteppedOn(this.world, blockPos_1, blockState_1, this);
 			}
 
-			if (this.canClimb() && !this.hasVehicle()) {
+			if (!this.hasVehicle()) {
 				double double_1 = vec3d_2.x;
 				double double_2 = vec3d_2.y;
 				double double_3 = vec3d_2.z;
@@ -266,9 +266,9 @@ public class MagicFireballEntity extends Entity {
 				}
 
 				this.horizontalSpeed = (float) ((double) this.horizontalSpeed
-						+ (double) MathHelper.sqrt(squaredHorizontalLength(vec3d_2)) * 0.6D);
+						+ (double) MathHelper.sqrt((float) vec3d_2.horizontalLengthSquared()) * 0.6f);
 				this.distanceTraveled = (float) ((double) this.distanceTraveled
-						+ (double) MathHelper.sqrt(double_1 * double_1 + double_2 * double_2 + double_3 * double_3)
+						+ (double) MathHelper.sqrt((float) (double_1 * double_1 + double_2 * double_2 + double_3 * double_3))
 								* 0.6D);
 				if (this.distanceTraveled > this.nextStepDistance && !blockState_1.isAir()) {
 					this.nextStepDistance = this.calculateNextStepSoundDistance();
@@ -278,8 +278,8 @@ public class MagicFireballEntity extends Entity {
 								: this;
 						float float_1 = entity_1 == this ? 0.35F : 0.4F;
 						Vec3d vec3d_4 = entity_1.getVelocity();
-						float float_2 = MathHelper.sqrt(vec3d_4.x * vec3d_4.x * 0.20000000298023224D
-								+ vec3d_4.y * vec3d_4.y + vec3d_4.z * vec3d_4.z * 0.20000000298023224D) * float_1;
+						float float_2 = MathHelper.sqrt((float) (vec3d_4.x * vec3d_4.x * 0.20000000298023224f
+														+ vec3d_4.y * vec3d_4.y + vec3d_4.z * vec3d_4.z * 0.20000000298023224f)) * float_1;
 						if (float_2 > 1.0F) {
 							float_2 = 1.0F;
 						}
@@ -289,7 +289,7 @@ public class MagicFireballEntity extends Entity {
 						this.playStepSound(blockPos_1, blockState_1);
 					}
 				} else if (this.distanceTraveled > this.aerialStepDelta && this.hasWings() && blockState_1.isAir()) {
-					this.aerialStepDelta = this.playFlySound(this.distanceTraveled);
+//					this.aerialStepDelta = this.addFlapEffects(this.distanceTraveled);
 				}
 			}
 
@@ -327,36 +327,31 @@ public class MagicFireballEntity extends Entity {
 		}
 	}
 	
-	private Vec3d adjustMovementForCollisions(Vec3d vec3d_1) {
-	      Box box_1 = this.getBoundingBox();
-	      ShapeContext entityContext_1 = ShapeContext.of(this);
-	      VoxelShape voxelShape_1 = this.world.getWorldBorder().asVoxelShape();
-	      Stream<VoxelShape> stream_1 = VoxelShapes.matchesAnywhere(voxelShape_1, VoxelShapes.cuboid(box_1.contract(1.0E-7D)), BooleanBiFunction.AND) ? Stream.empty() : Stream.of(voxelShape_1);
-	      Stream<VoxelShape> stream_2 = this.world.getEntityCollisions(this, box_1.stretch(vec3d_1), (entity_1) -> {
-			return true;
-		 });
-	      ReusableStream<VoxelShape> reusableStream_1 = new ReusableStream<VoxelShape>(Stream.concat(stream_2, stream_1));
-	      Vec3d vec3d_2 = vec3d_1.lengthSquared() == 0.0D ? vec3d_1 : adjustMovementForCollisions(this, vec3d_1, box_1, this.world, entityContext_1, reusableStream_1);
-	      boolean boolean_1 = vec3d_1.x != vec3d_2.x;
-	      boolean boolean_2 = vec3d_1.y != vec3d_2.y;
-	      boolean boolean_3 = vec3d_1.z != vec3d_2.z;
-	      boolean boolean_4 = this.onGround || boolean_2 && vec3d_1.y < 0.0D;
-	      if (this.stepHeight > 0.0F && boolean_4 && (boolean_1 || boolean_3)) {
-	         Vec3d vec3d_3 = adjustMovementForCollisions(this, new Vec3d(vec3d_1.x, (double)this.stepHeight, vec3d_1.z), box_1, this.world, entityContext_1, reusableStream_1);
-	         Vec3d vec3d_4 = adjustMovementForCollisions(this, new Vec3d(0.0D, (double)this.stepHeight, 0.0D), box_1.stretch(vec3d_1.x, 0.0D, vec3d_1.z), this.world, entityContext_1, reusableStream_1);
+	private Vec3d adjustMovementForCollisions(Vec3d movement) {
+		boolean bl4;
+		Box box = this.getBoundingBox();
+		List<VoxelShape> list = this.world.getEntityCollisions(this, box.stretch(movement));
+		Vec3d vec3d = movement.lengthSquared() == 0.0 ? movement : Entity.adjustMovementForCollisions(this, movement, box, this.world, list);
+		boolean bl = movement.x != vec3d.x;
+		boolean bl2 = movement.y != vec3d.y;
+		boolean bl3 = movement.z != vec3d.z;
+		boolean bl5 = bl4 = this.onGround || bl2 && movement.y < 0.0;
+		if (this.stepHeight > 0.0f && bl4 && (bl || bl3)) {
+	         Vec3d vec3d_3 = adjustMovementForCollisions(this, new Vec3d(movement.x, (double)this.stepHeight, movement.z), box, this.world, list);
+	         Vec3d vec3d_4 = adjustMovementForCollisions(this, new Vec3d(0.0D, (double)this.stepHeight, 0.0D), box.stretch(movement.x, 0.0D, movement.z), this.world, list);
 	         if (vec3d_4.y < (double)this.stepHeight) {
-	            Vec3d vec3d_5 = adjustMovementForCollisions(this, new Vec3d(vec3d_1.x, 0.0D, vec3d_1.z), box_1.offset(vec3d_4), this.world, entityContext_1, reusableStream_1).add(vec3d_4);
-	            if (squaredHorizontalLength(vec3d_5) > squaredHorizontalLength(vec3d_3)) {
+	            Vec3d vec3d_5 = adjustMovementForCollisions(this, new Vec3d(movement.x, 0.0D, movement.z), box.offset(vec3d_4), this.world, list).add(vec3d_4);
+	            if (vec3d_5.horizontalLengthSquared() > vec3d_3.horizontalLengthSquared()) {
 	               vec3d_3 = vec3d_5;
 	            }
 	         }
 
-	         if (squaredHorizontalLength(vec3d_3) > squaredHorizontalLength(vec3d_2)) {
-	            return vec3d_3.add(adjustMovementForCollisions(this, new Vec3d(0.0D, -vec3d_3.y + vec3d_1.y, 0.0D), box_1.offset(vec3d_3), this.world, entityContext_1, reusableStream_1));
+	         if (vec3d_3.horizontalLengthSquared() > vec3d_4.horizontalLengthSquared()) {
+	            return vec3d_3.add(adjustMovementForCollisions(this, new Vec3d(0.0D, -vec3d_3.y + movement.y, 0.0D), box.offset(vec3d_3), this.world, list));
 	         }
-	      }
+		}
 
-	      return vec3d_2;
+	      return vec3d;
 	   }
 	
 	public void setVelocity(double double_1, double double_2, double double_3, float float_1, float float_2) {

@@ -8,6 +8,7 @@ import com.rainbowluigi.soulmagic.soultype.SoulType;
 import com.rainbowluigi.soulmagic.util.ItemHelper;
 import com.rainbowluigi.soulmagic.util.SoulQuiverHelper;
 
+import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -22,7 +23,6 @@ import net.minecraft.item.BowItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
@@ -62,7 +62,7 @@ public class BowItemMixin implements SoulEssenceStaffDisplayer {
 			if(quiver != null) {
 				SoulQuiverHelper.incrementType(quiver);
 				SoulType st = SoulQuiverHelper.getSoulType(quiver);
-				player.sendMessage(new TranslatableText("soulmagic.soul_quiver.text", st.getName()).formatted(st.getTextColor()), true);
+				player.sendMessage(Text.translatable("soulmagic.soul_quiver.text", st.getName()).formatted(st.getTextColor()), true);
 				
 				if(!world.isClient)
 					player.playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS, 0.1F, (world.random.nextFloat() - world.random.nextFloat()) * 0.35F + 0.9F);

@@ -6,6 +6,7 @@ import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.model.BookModel;
+import net.minecraft.client.render.entity.model.EntityModelLayers;
 import net.minecraft.client.util.NarratorManager;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
@@ -13,7 +14,7 @@ import net.minecraft.util.Identifier;
 public class SoulMagicBookScreen extends Screen {
 
 	private static final Identifier BOOK_TEXTURE = new Identifier("textures/entity/enchanting_table_book.png");
-	private static final BookModel BOOK_MODEL = new BookModel();
+	private final BookModel BOOK_MODEL = new BookModel(this.client.getEntityModelLoader().getModelPart(EntityModelLayers.BOOK));
 	
 	public SoulMagicBookScreen() {
 		super(NarratorManager.EMPTY);
@@ -24,8 +25,8 @@ public class SoulMagicBookScreen extends Screen {
 		//BOOK_MODEL.setPageAngles(0.0F, l, m, g);
 		matrices.push();
 		VertexConsumerProvider.Immediate immediate = VertexConsumerProvider.immediate(Tessellator.getInstance().getBuffer());
-		VertexConsumer vertexConsumer = immediate.getBuffer(BOOK_MODEL.getLayer(BOOK_TEXTURE));
-		BOOK_MODEL.render(matrices, vertexConsumer, 15728880, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+		VertexConsumer vertexConsumer = immediate.getBuffer(this.BOOK_MODEL.getLayer(BOOK_TEXTURE));
+		this.BOOK_MODEL.render(matrices, vertexConsumer, 15728880, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
 		immediate.draw();
 		matrices.pop();
 	}

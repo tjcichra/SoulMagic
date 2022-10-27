@@ -1,6 +1,7 @@
 package com.rainbowluigi.soulmagic.block;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 import com.rainbowluigi.soulmagic.SoulMagic;
 import com.rainbowluigi.soulmagic.item.UpgradeableBlockItem;
@@ -20,11 +21,11 @@ import net.minecraft.util.registry.Registry;
 public class ModBlocks {
 	
 	public static final Block SOUL_ESSENCE_INFUSER = new SoulEssenceInfuserBlock(FabricBlockSettings.of(Material.STONE).nonOpaque().strength(3.5f, 3.5f));
-	public static final BlockItem SOUL_ESSENCE_INFUSER_ITEM = new UpgradeableBlockItem(SOUL_ESSENCE_INFUSER, new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP), Arrays.asList(ModUpgrades.ENCHANTING_COMPONENT));
+	public static final BlockItem SOUL_ESSENCE_INFUSER_ITEM = new UpgradeableBlockItem(SOUL_ESSENCE_INFUSER, new Item.Settings().maxCount(1).group(SoulMagic.ITEM_GROUP), Collections.singletonList(ModUpgrades.ENCHANTING_COMPONENT));
 	public static final Block SOUL_SEPARATOR = new SoulSeparatorBlock(FabricBlockSettings.of(Material.STONE).strength(3.5f, 3.5f));
 	public static final Block UPGRADE_STATION = new UpgradeStationBlock(FabricBlockSettings.of(Material.STONE).strength(3.5f, 3.5f));
 	public static final Block SOUL_CACHE = new UpgradeStationBlock(FabricBlockSettings.of(Material.WOOD).strength(3.5f, 3.5f));
-	public static final Block SOUL_FLAME = new SoulFlameBlock(FabricBlockSettings.of(Material.SUPPORTED).noCollision().breakInstantly().lightLevel(14).sounds(BlockSoundGroup.WOOL));
+	public static final Block SOUL_FLAME = new SoulFlameBlock(FabricBlockSettings.of(Material.DECORATION).noCollision().breakInstantly().luminance(14).sounds(BlockSoundGroup.WOOL));
 	public static final Block INFINITE_WELL = new InfiniteWellBlock(FabricBlockSettings.of(Material.STONE));
 
 	public static void registerBlocks() {

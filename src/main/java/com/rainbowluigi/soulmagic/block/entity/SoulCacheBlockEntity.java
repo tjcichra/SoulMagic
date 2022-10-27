@@ -12,13 +12,14 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.util.collection.DefaultedList;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 
 public class SoulCacheBlockEntity extends LockableContainerBlockEntity
@@ -28,23 +29,22 @@ public class SoulCacheBlockEntity extends LockableContainerBlockEntity
 
 	private DefaultedList<ItemStack> inventory;
 
-	public SoulCacheBlockEntity() {
-		super(ModBlockEntity.SOUL_INFUSER);
+	public SoulCacheBlockEntity(BlockPos pos, BlockState state) {
+		super(ModBlockEntity.SOUL_INFUSER, pos, state);
 		this.inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
 	}
 
 	@Override
-	public void fromTag(BlockState state, CompoundTag compound) {
-		super.fromTag(state, compound);
+	public void readNbt(NbtCompound nbt) {
+		super.readNbt(nbt);
 		this.inventory = DefaultedList.ofSize(this.size(), ItemStack.EMPTY);
-		Inventories.fromTag(compound, this.inventory);
+		Inventories.readNbt(nbt, this.inventory);
 	}
 
 	@Override
-	public CompoundTag toTag(CompoundTag compound) {
-		super.toTag(compound);
-		Inventories.toTag(compound, this.inventory);
-		return compound;
+	protected void writeNbt(NbtCompound nbt) {
+		super.writeNbt(nbt);
+		Inventories.writeNbt(nbt, this.inventory);
 	}
 
 	@Override
@@ -121,7 +121,7 @@ public class SoulCacheBlockEntity extends LockableContainerBlockEntity
 
 	@Override
 	protected Text getContainerName() {
-		return new TranslatableText("container.soulmagic.soul_cache");
+		return Text.translatable("container.soulmagic.soul_cache");
 	}
 
 	@Override

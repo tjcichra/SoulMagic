@@ -1,5 +1,5 @@
 {
-    "parent": "builtin/entity",
+    "parent": "soulmagic:block/soul_essence_infuser",
     "display": {
         "gui": {
             "rotation": [ 30, 45, 0 ],

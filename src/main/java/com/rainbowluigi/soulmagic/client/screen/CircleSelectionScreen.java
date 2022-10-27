@@ -38,13 +38,13 @@ public class CircleSelectionScreen extends Screen {
 			int index = this.getHoveredSpellIndex();
 
 			this.selection.onSelection(index, this.stack);
-			this.onClose();
+			this.close();
 		}
 		return super.keyReleased(keyCode, somethingelse, somethingelse2);
 	}
 
 	@Override
-	public boolean isPauseScreen() {
+	public boolean shouldPause() {
 		return false;
 	}
 
@@ -64,7 +64,7 @@ public class CircleSelectionScreen extends Screen {
 				int x =  (int) (this.range * Math.sin(angle * i));
 				int y =  (int) (-this.range * Math.cos(angle * i));
 				
-				RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+				RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 				this.client.getTextureManager().bindTexture(sprite.getTexture());
 				//SoulMagic.LOGGER.info("hello");
 				this.drawTexture(matrix, (this.width / 2) + x - (sprite.getLength() / 2), (this.height / 2) + y - (sprite.getHeight() / 2), sprite.getTextureX(), sprite.getTextureY(), sprite.getLength(), sprite.getHeight());

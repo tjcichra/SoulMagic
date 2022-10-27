@@ -14,9 +14,9 @@ import net.minecraft.item.ItemStack;
 public class ItemHelper {
 
 	public static ItemStack findItem(PlayerEntity player, ItemConvertible item) {
-		for (int i = 0; i < player.inventory.size(); i++) {
-			if(player.inventory.getStack(i).getItem().equals(item.asItem())) {
-				return player.inventory.getStack(i);
+		for (int i = 0; i < player.getInventory().size(); i++) {
+			if(player.getInventory().getStack(i).getItem().equals(item.asItem())) {
+				return player.getInventory().getStack(i);
 			}
 		}
 		return null;
@@ -25,9 +25,9 @@ public class ItemHelper {
 	public static List<ItemStack> findAllItem(PlayerEntity player, ItemConvertible item) {
 		List<ItemStack> list = new ArrayList<>();
 
-		for (int i = 0; i < player.inventory.size(); i++) {
-			if(player.inventory.getStack(i).getItem().equals(item.asItem())) {
-				list.add(player.inventory.getStack(i));
+		for (int i = 0; i < player.getInventory().size(); i++) {
+			if(player.getInventory().getStack(i).getItem().equals(item.asItem())) {
+				list.add(player.getInventory().getStack(i));
 			}
 		}
 		return list;
