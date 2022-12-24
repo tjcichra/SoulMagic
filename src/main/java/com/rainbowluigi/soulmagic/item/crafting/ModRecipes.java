@@ -16,7 +16,6 @@ public class ModRecipes {
 	
 	public static final RecipeSerializer<ShapedSoulStaffRecipe> SOUL_ESSENCE_STAFF_SHAPED = new ShapedSoulStaffRecipe.Serializer();
 	public static final RecipeSerializer<SoulInfusionRecipe> SOUL_ESSENCE_INFUSION = new SoulInfusionRecipe.Serializer();
-	public static final RecipeSerializer<SpellTypeInfusionRecipe> SPELL_INFUSION = new SpellTypeInfusionRecipe.Serializer();
 	public static final RecipeSerializer<EnchantmentInfusionRecipe> ENCHANTMENT_INFUSION = new EnchantmentInfusionRecipe.Serializer();
 	public static final RecipeSerializer<SoulSeparatorRecipe> SOUL_ESSENCE_SEPARATION = new SoulSeparatorRecipe.Serializer();
 	public static final SpecialRecipeSerializer<SoulStaffTransferRecipe> SOUL_ESSENCE_STAFF_TRANSFER = new SpecialRecipeSerializer<>(SoulStaffTransferRecipe::new);
@@ -30,7 +29,6 @@ public class ModRecipes {
 	public static void registerRecipeSerializers() {
 		registerRecipeSerializer(SOUL_ESSENCE_STAFF_SHAPED, "soul_essence_staff_shaped");
 		registerRecipeSerializer(SOUL_ESSENCE_INFUSION, "soul_essence_infusion");
-		registerRecipeSerializer(SPELL_INFUSION, "spell_infusion");
 		registerRecipeSerializer(ENCHANTMENT_INFUSION, "enchantment_infusion");
 		registerRecipeSerializer(SOUL_ESSENCE_SEPARATION, "soul_essence_separation");
 		registerRecipeSerializer(SOUL_ESSENCE_STAFF_TRANSFER, "soul_essence_staff_transfer");
@@ -47,7 +45,7 @@ public class ModRecipes {
 	
 	public static class RecipeTypeImpl<T extends Recipe<?>> implements RecipeType<T> {
 		
-		private String name;
+		private final String name;
 		
 		public RecipeTypeImpl(String name) {
 			this.name = name;

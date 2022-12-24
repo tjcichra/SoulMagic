@@ -1,18 +1,13 @@
 package com.rainbowluigi.soulmagic.item;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.rainbowluigi.soulmagic.item.soulessence.SoulEssenceStaffDisplayer;
 import com.rainbowluigi.soulmagic.network.ModNetwork;
 import com.rainbowluigi.soulmagic.soultype.SoulType;
-import com.rainbowluigi.soulmagic.spelltype.ModSpellTypes;
-import com.rainbowluigi.soulmagic.spelltype.SpellType;
+import com.rainbowluigi.soulmagic.upgrade.ModUpgrades;
 import com.rainbowluigi.soulmagic.upgrade.Upgrade;
 import com.rainbowluigi.soulmagic.upgrade.spells.SpellUpgrade;
 import com.rainbowluigi.soulmagic.util.SoulGemHelper;
 import com.rainbowluigi.soulmagic.util.SpellCooldownManager;
-
 import io.netty.buffer.Unpooled;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -27,34 +22,21 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableTextContent;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
-import net.minecraft.util.UseAction;
+import net.minecraft.util.*;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SoulGemItem extends Item implements SoulEssenceStaffDisplayer, CircleSelection, Upgradeable {
 
 	public SoulGemItem(Item.Settings settings) {
 		super(settings);
 
-		// this.addPropertyGetter(new Identifier("brace"), (stack, world, player) -> {
-		// return SoulGemHelper.getBrace(stack) != null ? 1 : 0;
-		// });
-	}
-
-	@Override
-	public String getTranslationKey(ItemStack stack) {
-		SpellType st = SoulGemHelper.getSpellType(stack);
-		String name = super.getTranslationKey(stack);
-
-		if (st != null) {
-			return name + "." + st.getTranslationKey();
-		}
-		return name;
+//		 this.addPropertyGetter(new Identifier("brace"), (stack, world, player) -> {
+//		 return SoulGemHelper.getBrace(stack) != null ? 1 : 0;
+//		 });
 	}
 
 	@Override
@@ -63,24 +45,6 @@ public class SoulGemItem extends Item implements SoulEssenceStaffDisplayer, Circ
 		if (this.isIn(group)) {
 			// Add the empty soul gem
 			items.add(new ItemStack(this));
-
-			for (SpellType st : ModSpellTypes.SPELL_TYPE) {
-				ItemStack stack = new ItemStack(this);
-				SoulGemHelper.setSpellType(stack, st);
-				this.addUpgrade(stack, st.getBaseUpgrade());
-				this.incrementSelectorPoints(stack);
-				this.setUpgradeSelection(stack, st.getBaseUpgrade(), true);
-				items.add(stack);
-
-				ItemStack stack2 = new ItemStack(this);
-				SoulGemHelper.setSpellType(stack2, st);
-				for (Upgrade u : this.getPossibleUpgrades(stack2)) {
-					this.addUpgrade(stack2, u);
-					this.incrementSelectorPoints(stack2);
-					this.setUpgradeSelection(stack2, u, true);
-				}
-				items.add(stack2);
-			}
 		}
 	}
 
@@ -88,12 +52,10 @@ public class SoulGemItem extends Item implements SoulEssenceStaffDisplayer, Circ
 	public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
 		ItemStack stack = player.getStackInHand(hand);
 
-		if (SoulGemHelper.getSpellType(stack) != null) {
-			SpellUpgrade s = SoulGemHelper.getCurrentSpell(stack);
+		SpellUpgrade s = SoulGemHelper.getCurrentSpell(stack);
 
-			if (s != null && !SpellCooldownManager.getSpellCooldownManager(player).hasCooldown(s)) {
-				return s.use(world, player, hand);
-			}
+		if (s != null && !SpellCooldownManager.getSpellCooldownManager(player).hasCooldown(s)) {
+			return s.use(world, player, hand);
 		}
 
 		return super.use(world, player, hand);
@@ -103,12 +65,10 @@ public class SoulGemItem extends Item implements SoulEssenceStaffDisplayer, Circ
 	public ActionResult useOnBlock(ItemUsageContext iuc) {
 		ItemStack stack = iuc.getPlayer().getStackInHand(iuc.getHand());
 
-		if (SoulGemHelper.getSpellType(stack) != null) {
-			SpellUpgrade s = SoulGemHelper.getCurrentSpell(stack);
+		SpellUpgrade s = SoulGemHelper.getCurrentSpell(stack);
 
-			if (s != null) {
-				return s.useOnBlock(iuc);
-			}
+		if (s != null) {
+			return s.useOnBlock(iuc);
 		}
 
 		return super.useOnBlock(iuc);
@@ -117,7 +77,7 @@ public class SoulGemItem extends Item implements SoulEssenceStaffDisplayer, Circ
 	@Override
 	@Environment(EnvType.CLIENT)
 	public void appendTooltip(ItemStack stack, World world, List<Text> list, TooltipContext tooltipContext) {
-		if (SoulGemHelper.getSpellType(stack) != null && SoulGemHelper.getCurrentSpell(stack) != null) {
+		if (SoulGemHelper.getCurrentSpell(stack) != null) {
 			list.add(SoulGemHelper.getCurrentSpell(stack).getSpellName().formatted(Formatting.GRAY));
 		}
 		super.appendTooltip(stack, world, list, tooltipContext);
@@ -125,7 +85,7 @@ public class SoulGemItem extends Item implements SoulEssenceStaffDisplayer, Circ
 
 	@Override
 	public SoulType[] getSoulTypesToShow(ItemStack stack, PlayerEntity player) {
-		if (SoulGemHelper.getSpellType(stack) != null && SoulGemHelper.getCurrentSpell(stack) != null) {
+		if (SoulGemHelper.getCurrentSpell(stack) != null) {
 			return SoulGemHelper.getCurrentSpell(stack).getSoulTypesToShow();
 		}
 		return null;
@@ -133,8 +93,20 @@ public class SoulGemItem extends Item implements SoulEssenceStaffDisplayer, Circ
 
 	@Override
 	public List<Upgrade> getPossibleUpgrades(ItemStack stack) {
-		SpellType type = SoulGemHelper.getSpellType(stack);
-		return type != null ? type.getPossibleUpgrades() : new ArrayList<>();
+		return List.of(
+				ModUpgrades.FIREBALL,
+				ModUpgrades.TRIPLE_FIREBALL,
+				ModUpgrades.FLAMING_TOUCH,
+				ModUpgrades.FLAMING_EDGE,
+				ModUpgrades.FROST_BREATH,
+				ModUpgrades.BOUND_PICKAXE,
+				ModUpgrades.BOUND_AXE,
+				ModUpgrades.BOUND_SHOVEL,
+				ModUpgrades.BOUND_SWORD,
+				ModUpgrades.BOUND_SCYTHE,
+				ModUpgrades.TOOL_SWITCHING,
+				ModUpgrades.BOUND_ENCHANTMENTS
+		);
 	}
 
 	@Override
@@ -180,35 +152,29 @@ public class SoulGemItem extends Item implements SoulEssenceStaffDisplayer, Circ
 
 	@Override
 	public int getMaxUseTime(ItemStack stack) {
-		if (SoulGemHelper.getSpellType(stack) != null) {
-			SpellUpgrade s = SoulGemHelper.getCurrentSpell(stack);
+		SpellUpgrade s = SoulGemHelper.getCurrentSpell(stack);
 
-			if (s != null) {
-				return s.getMaxUseTime(stack);
-			}
+		if (s != null) {
+			return s.getMaxUseTime(stack);
 		}
 
 		return super.getMaxUseTime(stack);
 	}
 
 	public void usageTick(World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
-		if (SoulGemHelper.getSpellType(stack) != null) {
-			SpellUpgrade s = SoulGemHelper.getCurrentSpell(stack);
+		SpellUpgrade s = SoulGemHelper.getCurrentSpell(stack);
 
-			if (s != null) {
-				s.usageTick(world, user, stack, remainingUseTicks);
-			}
+		if (s != null) {
+			s.usageTick(world, user, stack, remainingUseTicks);
 		}
 	}
 
 	@Override
 	public UseAction getUseAction(ItemStack stack) {
-		if (SoulGemHelper.getSpellType(stack) != null) {
-			SpellUpgrade s = SoulGemHelper.getCurrentSpell(stack);
+		SpellUpgrade s = SoulGemHelper.getCurrentSpell(stack);
 
-			if (s != null) {
-				return s.getUseAction(stack);
-			}
+		if (s != null) {
+			return s.getUseAction(stack);
 		}
 
 		return super.getUseAction(stack);

@@ -1,17 +1,9 @@
 package com.rainbowluigi.soulmagic.inventory;
 
-import com.rainbowluigi.soulmagic.client.screen.AccessoryScreen;
-import com.rainbowluigi.soulmagic.client.screen.FlyingChestScreen;
-import com.rainbowluigi.soulmagic.client.screen.SoulCacheScreen;
-import com.rainbowluigi.soulmagic.client.screen.SoulEssenceInfuserScreen;
-import com.rainbowluigi.soulmagic.client.screen.SoulSeparatorScreen;
-import com.rainbowluigi.soulmagic.client.screen.UpgradeStationScreen;
 import com.rainbowluigi.soulmagic.util.ItemHelper;
 import com.rainbowluigi.soulmagic.util.PacketBufferUtils;
 import com.rainbowluigi.soulmagic.util.Reference;
-
 import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry;
-import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
 import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
@@ -24,37 +16,30 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 
 public class ModScreenHandlerTypes {
 
 	public static ScreenHandlerType<SoulInfuserScreenHandler> SOUL_ESSENCE_INFUSER;
 	public static ScreenHandlerType<SoulSeparatorScreenHandler> SOUL_ESSENCE_SEPARATOR;
 	public static ScreenHandlerType<SoulCacheScreenHandler> SOUL_STAFF_CACHE;
-	public static ScreenHandlerType<UpgradeStationScreenHandler> UPGRADE_STATION;
-	public static ScreenHandlerType<AccessoriesScreenHandler> ACCESSORIES;
+	public static ScreenHandlerType<UpgradeStationScreenHandler> UPGRADE_STATION = new ScreenHandlerType<>(UpgradeStationScreenHandler::new);
+	public static ScreenHandlerType<AccessoriesScreenHandler> ACCESSORIES = new ScreenHandlerType<>(AccessoriesScreenHandler::new);
 	public static ScreenHandlerType<FlyingChestScreenHandler> FLYING_CHEST;
 
 	public static void registerScreenHandlerTypes() {
 
 		//Soul Infuser Stuff
 		SOUL_ESSENCE_INFUSER = registerScreenHandler("soul_essence_infuser", SoulInfuserScreenHandler::new);
-		registerScreen(SOUL_ESSENCE_INFUSER, SoulEssenceInfuserScreen::new);
 
 		// Soul Separator Stuff
 		SOUL_ESSENCE_SEPARATOR = registerScreenHandler("soul_essence_separator", SoulSeparatorScreenHandler::new);
-		registerScreen(SOUL_ESSENCE_SEPARATOR, SoulSeparatorScreen::new);
 
 		// Soul Cache Stuff
 		SOUL_STAFF_CACHE = registerScreenHandler("soul_cache", SoulCacheScreenHandler::new);
-		registerScreen(SOUL_STAFF_CACHE, SoulCacheScreen::new);
 
-		//Upgrade Station
-		UPGRADE_STATION = ScreenHandlerRegistry.registerSimple(new Identifier(Reference.MOD_ID, "upgrade_station"), UpgradeStationScreenHandler::new);
-		registerScreen(UPGRADE_STATION, UpgradeStationScreen::new);
-
-		// Accessory Stuff
-		ACCESSORIES = ScreenHandlerRegistry.registerSimple(new Identifier(Reference.MOD_ID, "accessories"), AccessoriesScreenHandler::new);
-		registerScreen(ACCESSORIES, AccessoryScreen::new);
+		registerScreenHandlerType(UPGRADE_STATION, "upgrade_station");
+		registerScreenHandlerType(ACCESSORIES, "accessories");
 
 		// Flying Chest Stuff
 		FLYING_CHEST = ScreenHandlerRegistry.registerExtended(new Identifier(Reference.MOD_ID, "flying_chest"),
@@ -73,7 +58,10 @@ public class ModScreenHandlerTypes {
 					return new FlyingChestScreenHandler(syncId, inv, chestInv);
 				});
 
-		registerScreen(FLYING_CHEST, FlyingChestScreen::new);
+	}
+
+	private static void registerScreenHandlerType(ScreenHandlerType<?> screenHandlerType, String name) {
+		Registry.register(Registry.SCREEN_HANDLER, new Identifier(Reference.MOD_ID, name), screenHandlerType);
 	}
 
 	public static <T extends ScreenHandler, S extends BlockEntity> ScreenHandlerType<T> registerScreenHandler(String name, BlockEntityScreenHandlerFactory<T, S> f) {
@@ -94,12 +82,12 @@ public class ModScreenHandlerTypes {
 	}
 
 	@FunctionalInterface
-	static interface BlockEntityScreenHandlerFactory<T extends ScreenHandler, S extends BlockEntity> {
+	interface BlockEntityScreenHandlerFactory<T extends ScreenHandler, S extends BlockEntity> {
 		T create(int syncId, PlayerInventory playerInv, S inv);
 	}
 
 	@FunctionalInterface
-	static interface ScreenFactory<T extends HandledScreen<S>, S extends ScreenHandler> {
+	interface ScreenFactory<T extends HandledScreen<S>, S extends ScreenHandler> {
 		T create(S screenHandler, PlayerInventory playerInv, Text text);
 	}
 }

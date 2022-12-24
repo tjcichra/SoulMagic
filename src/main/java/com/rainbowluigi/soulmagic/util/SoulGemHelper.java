@@ -1,35 +1,17 @@
 package com.rainbowluigi.soulmagic.util;
 
+import com.rainbowluigi.soulmagic.item.Upgradeable;
+import com.rainbowluigi.soulmagic.upgrade.Upgrade;
+import com.rainbowluigi.soulmagic.upgrade.spells.SpellUpgrade;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import com.rainbowluigi.soulmagic.SoulMagic;
-import com.rainbowluigi.soulmagic.item.Upgradeable;
-import com.rainbowluigi.soulmagic.spelltype.ModSpellTypes;
-import com.rainbowluigi.soulmagic.spelltype.SpellType;
-import com.rainbowluigi.soulmagic.upgrade.Upgrade;
-import com.rainbowluigi.soulmagic.upgrade.spells.SpellUpgrade;
-
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.util.Identifier;
-
 public class SoulGemHelper {
 
-	public static SpellType getSpellType(ItemStack stack) {
-        if(stack.hasNbt() && stack.getNbt().contains("spelltype")) {
-            return ModSpellTypes.SPELL_TYPE.get(new Identifier(stack.getNbt().getString("spelltype")));
-        }
-        return null;
-    }
-	
-	public static void setSpellType(ItemStack stack, SpellType st) {
-		if(!stack.hasNbt()) {
-        	stack.setNbt(new NbtCompound());
-        }
-		
-		stack.getNbt().putString("spelltype", ModSpellTypes.SPELL_TYPE.getId(st).toString());
-    }
+	private static final String SPELL_INDEX_KEY = "spellindex";
 	
 	public static SpellUpgrade getCurrentSpell(ItemStack stack) {
 		int spellIndex = getCurrentSpellIndex(stack);
@@ -45,7 +27,7 @@ public class SoulGemHelper {
 			stack.setNbt(new NbtCompound());
 		}
 		
-		stack.getNbt().putInt("spellindex", index);
+		stack.getNbt().putInt(SPELL_INDEX_KEY, index);
 	}
 	
 	public static List<SpellUpgrade> getCurrentList(ItemStack stack) {
@@ -61,10 +43,7 @@ public class SoulGemHelper {
 	}
 	
 	public static int getCurrentSpellIndex(ItemStack stack) {
-        if(stack.getNbt().contains("spellindex")) {
-            return stack.getNbt().getInt("spellindex");
-        }
-        return 0;
+		return NBTHelper.getIntFromNbt(stack.getNbt(), SPELL_INDEX_KEY, 0);
 	}
 	
 	public static void setActivated(ItemStack gem, boolean activated) {
@@ -73,10 +52,7 @@ public class SoulGemHelper {
 	}
 
 	public static boolean getActivated(ItemStack gem) {
-		if(gem.hasNbt() && gem.getNbt().contains("activated")) {
-			return gem.getNbt().getBoolean("activated");
-		}
-		return false;
+		return NBTHelper.getBooleanFromNbt(gem.getNbt(), "activated", false);
 	}
 
 	public static void toggleActivation(ItemStack gem) {

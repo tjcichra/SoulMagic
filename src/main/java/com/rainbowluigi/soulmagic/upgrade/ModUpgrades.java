@@ -1,22 +1,17 @@
 package com.rainbowluigi.soulmagic.upgrade;
 
-import com.mojang.serialization.Lifecycle;
 import com.rainbowluigi.soulmagic.item.ModItems;
 import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
-import com.rainbowluigi.soulmagic.spelltype.SpellType;
 import com.rainbowluigi.soulmagic.upgrade.spells.*;
 import com.rainbowluigi.soulmagic.util.Reference;
 import com.rainbowluigi.soulmagic.util.SoulEssenceHelper;
-
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.minecraft.block.Blocks;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.DefaultedRegistry;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryKey;
 
 public class ModUpgrades {
 

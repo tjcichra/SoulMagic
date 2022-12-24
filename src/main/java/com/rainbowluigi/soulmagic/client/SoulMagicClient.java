@@ -1,19 +1,12 @@
 package com.rainbowluigi.soulmagic.client;
 
-import com.rainbowluigi.soulmagic.block.ModBlocks;
 import com.rainbowluigi.soulmagic.block.entity.ModBlockEntity;
-import com.rainbowluigi.soulmagic.client.screen.CircleSelectionScreen;
+import com.rainbowluigi.soulmagic.client.screen.*;
 import com.rainbowluigi.soulmagic.entity.ModEntityTypes;
 import com.rainbowluigi.soulmagic.item.BraceItem;
 import com.rainbowluigi.soulmagic.item.CircleSelection;
 import com.rainbowluigi.soulmagic.item.ModItems;
-import com.rainbowluigi.soulmagic.item.soulessence.SoulEssenceStaff;
 import com.rainbowluigi.soulmagic.network.ModNetwork;
-import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
-import com.rainbowluigi.soulmagic.soultype.SoulType;
-import com.rainbowluigi.soulmagic.spelltype.ModSpellTypes;
-import com.rainbowluigi.soulmagic.spelltype.SpellType;
-import com.rainbowluigi.soulmagic.util.ColorUtils;
 import com.rainbowluigi.soulmagic.util.Reference;
 import com.rainbowluigi.soulmagic.util.SoulGemHelper;
 import com.rainbowluigi.soulmagic.util.SoulQuiverHelper;
@@ -21,28 +14,23 @@ import io.netty.buffer.Unpooled;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
-import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.item.DyeableItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
 
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.List;
+import static com.rainbowluigi.soulmagic.inventory.ModScreenHandlerTypes.*;
 
 @Environment(EnvType.CLIENT)
 public class SoulMagicClient implements ClientModInitializer {
@@ -56,6 +44,13 @@ public class SoulMagicClient implements ClientModInitializer {
 	
 	@Override
 	public void onInitializeClient() {
+		HandledScreens.register(SOUL_ESSENCE_INFUSER, SoulEssenceInfuserScreen::new);
+		HandledScreens.register(SOUL_ESSENCE_SEPARATOR, SoulSeparatorScreen::new);
+		HandledScreens.register(SOUL_STAFF_CACHE, SoulCacheScreen::new);
+		HandledScreens.register(UPGRADE_STATION, UpgradeStationScreen::new);
+		HandledScreens.register(ACCESSORIES, AccessoryScreen::new);
+		HandledScreens.register(FLYING_CHEST, FlyingChestScreen::new);
+
 		EntityRendererRegistry.register(ModEntityTypes.MAGIC_FIREBALL, MagicFireballRender::new);
 		EntityRendererRegistry.register(ModEntityTypes.UNIVERSE_RING, BlankRender::new);
 		EntityRendererRegistry.register(ModEntityTypes.BARRAGE, BlankRender::new);
@@ -81,15 +76,15 @@ public class SoulMagicClient implements ClientModInitializer {
 		
 		ColorProviderRegistry.ITEM.register((stack, tint) -> {
 			if(tint == 0) {
-				SpellType st = SoulGemHelper.getSpellType(stack);
-				
-				if(st != null) {
-					if(st != ModSpellTypes.ULTIMATE) {
-						return st.getColor();
-					} else {
-						return Color.HSBtoRGB(System.currentTimeMillis() % 10000 / 9999f, 1, 1);
-					}
-				}
+//				SpellType st = SoulGemHelper.getSpellType(stack);
+//
+//				if(st != null) {
+//					if(st != ModSpellTypes.ULTIMATE) {
+//						return st.getColor();
+//					} else {
+//						return Color.HSBtoRGB(System.currentTimeMillis() % 10000 / 9999f, 1, 1);
+//					}
+//				}
 			} else {
 				ItemStack brace = SoulGemHelper.getBrace(stack);
 				

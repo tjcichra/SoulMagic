@@ -2,7 +2,7 @@
 	"item.soulmagic.soul_essence_staff": "Soul Essence Staff",
 	"item.soulmagic.creative_soul_essence_staff": "Creative Soul Essence Staff",
 	"item.soulmagic.soul_essence_orb": "Soul Essence Orb",
-	"item.soulmagic.soul_gem": "Empty Soul Gem",
+	"item.soulmagic.soul_gem": "Soul Gem",
 	"item.soulmagic.soul_gem.spell_type.soulmagic.fiery": "Fiery Soul Gem",
 	"item.soulmagic.soul_gem.spell_type.soulmagic.icy": "Icy Soul Gem",
 	"item.soulmagic.soul_gem.spell_type.soulmagic.earthen": "Earthen Soul Gem",
@@ -91,6 +91,7 @@
 	"soulmagic.reference_staff.text": "Referencing soul cache at (%s, %s, %s).",
 	"soulmagic.ingame_hud.soul_essence": "%s",
 	"soulmagic.enchantment_template.amount": "%s: %s",
+	"soulmagic.upgrade_station.not_upgradeable": "%s is not upgradeable",
 	
 	"soulmagic.rei.category.soul_infusion": "Soul Infusion",
 	"soulmagic.rei.category.soul_separation": "Soul Separation",

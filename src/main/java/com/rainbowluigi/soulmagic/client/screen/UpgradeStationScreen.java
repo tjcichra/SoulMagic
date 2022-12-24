@@ -1,9 +1,5 @@
 package com.rainbowluigi.soulmagic.client.screen;
 
-import java.awt.Color;
-import java.util.Arrays;
-import java.util.List;
-
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.rainbowluigi.soulmagic.SoulMagic;
 import com.rainbowluigi.soulmagic.inventory.UpgradeStationScreenHandler;
@@ -14,114 +10,125 @@ import com.rainbowluigi.soulmagic.network.UpgradeStationTakeItemsMessage;
 import com.rainbowluigi.soulmagic.upgrade.Upgrade;
 import com.rainbowluigi.soulmagic.upgrade.UpgradeSprite;
 import com.rainbowluigi.soulmagic.util.Reference;
-
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.render.BufferBuilder;
-import net.minecraft.client.render.Tessellator;
-import net.minecraft.client.render.VertexFormat;
-import net.minecraft.client.render.VertexFormats;
+import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Matrix4f;
 
+import java.awt.*;
+import java.util.Arrays;
+import java.util.List;
+
 public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHandler> {
-	
 	private static final Identifier TEXTURE = new Identifier(Reference.MOD_ID, "textures/gui/container/upgrade_station.png");
 	private static final Identifier BORDER_TEXTURE = new Identifier(Reference.MOD_ID, "textures/gui/container/upgrade_station_border.png");
 
-	protected int backgroundWidth = 204;
+	protected int backgroundWidth;
 
-	private int innerLength = 500;
-	private int innerHeight = 500;
-	private int innerDisplayLength = 182;
-	private int innerDisplayHeight = 128;
+	// The total length of the "spacy" area
+	private final int innerLength = 1080;
+	// The total height of the "spacy" area
+	private final int innerHeight = 1080;
 
-	private int innerX = -innerDisplayLength / 2;
-	private int innerY = -innerDisplayHeight / 2;
+	// The length of the window of the "spacy" area
+	private final int windowLength = 182;
+	// The height of the window of the "spacy" area
+	private final int windowHeight = 128;
+	// The x position of the "spacy area" relative to the left window border
+	private int innerX = (innerLength / 2) - (windowLength / 2);
+	// The y position of the "spacy area" relative to the top window border
+	private int innerY = (innerHeight / 2) - (windowHeight / 2);
+
+	private boolean movingTab;
 
 	private Upgrade selectedUpgrade = null;
-	private ButtonWidget unlockButton;
 
-	private PlayerInventory playerInventory;
+	private final PlayerInventory playerInventory;
 
-	public UpgradeStationScreen(UpgradeStationScreenHandler container_1, PlayerInventory playerInventory, Text text_1) {
-		super(container_1, playerInventory, text_1);
+	public UpgradeStationScreen(UpgradeStationScreenHandler handler, PlayerInventory playerInventory, Text title) {
+		super(handler, playerInventory, title);
 		this.playerInventory = playerInventory;
+		this.backgroundWidth = 204;
 	}
 
 	public ItemStack getStack() {
 		//return this.handler.getSlot(0).getStack();
-		return this.playerInventory.getMainHandStack();
+		return this.playerInventory.getMainHandStack(); //TODO Remove this
 	}
 
 	@Override
 	public void init() {
 		super.init();
 		this.x = (this.width - this.backgroundWidth) / 2;
-		this.y = (this.height - this.backgroundHeight) / 2;
 
-		this.unlockButton = new ButtonWidget(this.x + 10, this.y + this.backgroundHeight - 24, 40, 20, Text.translatable("unlock"), (buttonWidgetx) -> {
-			if(!this.getStack().isEmpty() && this.selectedUpgrade != null) {
-				ItemStack stack = this.getStack();
-				Upgradeable u = (Upgradeable) stack.getItem();
+		//u.setUpgradeSelection(stack, this.selectedUpgrade, !u.hasUpgradeSelected(stack, this.selectedUpgrade));
 
-				if(!u.hasUpgradeUnlocked(stack, this.selectedUpgrade)) {
-					if(this.selectedUpgrade.getPrev() == null || u.hasUpgradeUnlocked(stack, this.selectedUpgrade.getPrev())) {
-						if(tryToTakeItems()) {
-							u.addUpgrade(stack, this.selectedUpgrade);
-							ClientPlayNetworking.send(ModNetwork.UPGRADE_STATION, UpgradeStationMessage.makePacket(stack));
-							if(!this.playerInventory.player.isCreative()) {
-								ClientPlayNetworking.send(ModNetwork.UPGRADE_STATION_TAKE_ITEMS, UpgradeStationTakeItemsMessage.makePacket(this.selectedUpgrade.getRequirements()));
-							}
-						}
-					}
-				} else {
-					if(!u.hasUpgradeSelected(stack, this.selectedUpgrade)) {
-						if(u.getUpgradesSelected(stack).size() < u.getSelectorPointsNumber(stack)) {
-							if(this.selectedUpgrade.getPrev() == null || u.hasUpgradeSelected(stack, this.selectedUpgrade.getPrev())) {
-								u.setUpgradeSelection(stack, this.selectedUpgrade, true);
-								u.onSelection(stack, this.client.world, this.selectedUpgrade);
-								//u.setUpgradeSelection(stack, this.selectedUpgrade, !u.hasUpgradeSelected(stack, this.selectedUpgrade));
-								ClientPlayNetworking.send(ModNetwork.UPGRADE_STATION, UpgradeStationMessage.makePacket(stack));
-								this.playerInventory.player.totalExperience -= 1;
-							}
-						}
-					} else {
-						boolean isGood = true;
+		this.addDrawableChild(new ButtonWidget(this.x + 10, this.y + this.backgroundHeight - 24, 40, 20, Text.translatable("unlock"), this::unlockUpgrade));
+		this.addDrawableChild(new ButtonWidget(this.x + this.backgroundWidth - 50, this.y + this.backgroundHeight - 24, 40, 20, Text.translatable("add select point"), this::addSelectPoint));
+	}
 
-						for(Upgrade currentu : u.getUpgradesSelected(stack)) {
-							if(isGood && currentu.getPrev() != null && currentu.getPrev().equals(this.selectedUpgrade)) {
-								isGood = false;
-							}
-						}
+	public void unlockUpgrade(ButtonWidget buttonWidgetx) {
+		if (!this.getStack().isEmpty() && this.selectedUpgrade != null) {
+			ItemStack stack = this.getStack();
+			Upgradeable u = (Upgradeable) stack.getItem();
 
-						if(isGood) {
-							u.setUpgradeSelection(stack, this.selectedUpgrade, false);
-							u.onUnselection(stack, this.client.world, this.selectedUpgrade);
-							ClientPlayNetworking.send(ModNetwork.UPGRADE_STATION, UpgradeStationMessage.makePacket(stack));
+			if (!u.hasUpgradeUnlocked(stack, this.selectedUpgrade)) {
+				if (this.selectedUpgrade.getPrev() == null || u.hasUpgradeUnlocked(stack, this.selectedUpgrade.getPrev())) {
+					if (tryToTakeItems()) {
+						u.addUpgrade(stack, this.selectedUpgrade);
+						ClientPlayNetworking.send(ModNetwork.UPGRADE_STATION, UpgradeStationMessage.makePacket(stack));
+						if (!this.playerInventory.player.isCreative()) {
+							ClientPlayNetworking.send(ModNetwork.UPGRADE_STATION_TAKE_ITEMS, UpgradeStationTakeItemsMessage.makePacket(this.selectedUpgrade.getRequirements()));
 						}
 					}
 				}
-			}
-		});
+			} else {
+				if (!u.hasUpgradeSelected(stack, this.selectedUpgrade)) {
+					if (u.getUpgradesSelected(stack).size() < u.getSelectorPointsNumber(stack)) {
+						if (this.selectedUpgrade.getPrev() == null || u.hasUpgradeSelected(stack, this.selectedUpgrade.getPrev())) {
+							u.setUpgradeSelection(stack, this.selectedUpgrade, true);
+							u.onSelection(stack, this.client.world, this.selectedUpgrade);
+							//u.setUpgradeSelection(stack, this.selectedUpgrade, !u.hasUpgradeSelected(stack, this.selectedUpgrade));
+							ClientPlayNetworking.send(ModNetwork.UPGRADE_STATION, UpgradeStationMessage.makePacket(stack));
+							this.playerInventory.player.totalExperience -= 1;
+						}
+					}
+				} else {
+					boolean isGood = true;
 
-		this.addDrawable(this.unlockButton);
-		this.addDrawable(new ButtonWidget(this.x + this.backgroundWidth - 50, this.y + this.backgroundHeight - 24, 40, 20, Text.translatable("add select point"), (buttonWidgetx) -> {
-			if(!this.getStack().isEmpty()) {
-				ItemStack stack = this.getStack();
-				Upgradeable u = (Upgradeable) stack.getItem();
-				u.incrementSelectorPoints(stack);
+					for (Upgrade currentu : u.getUpgradesSelected(stack)) {
+						if (currentu.getPrev() != null && currentu.getPrev().equals(this.selectedUpgrade)) {
+							isGood = false;
+							break;
+						}
+					}
 
-				ClientPlayNetworking.send(ModNetwork.UPGRADE_STATION, UpgradeStationMessage.makePacket(stack));
+					if (isGood) {
+						u.setUpgradeSelection(stack, this.selectedUpgrade, false);
+						u.onUnselection(stack, this.client.world, this.selectedUpgrade);
+						ClientPlayNetworking.send(ModNetwork.UPGRADE_STATION, UpgradeStationMessage.makePacket(stack));
+					}
+				}
 			}
-		}));
+		}
+	}
+
+	// IDEA: Item that could add 3 or 5 "select points" to an item. Can only be used once.
+	public void addSelectPoint(ButtonWidget buttonWidgetx) {
+		if (!this.getStack().isEmpty()) {
+			ItemStack stack = this.getStack();
+			Upgradeable u = (Upgradeable) stack.getItem();
+			u.incrementSelectorPoints(stack);
+
+			ClientPlayNetworking.send(ModNetwork.UPGRADE_STATION, UpgradeStationMessage.makePacket(stack));
+		}
 	}
 
 	public boolean tryToTakeItems() {
@@ -129,7 +136,7 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 			return true;
 		}
 
-		boolean good = false;
+		boolean good;
 
 		for(ItemStack requirement : this.selectedUpgrade.getRequirements()) {
 			good = false;
@@ -169,20 +176,18 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 		int i = this.x;
 		int j = this.y;
 
+		RenderSystem.setShader(GameRenderer::getPositionTexShader);
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-		this.client.getTextureManager().bindTexture(BORDER_TEXTURE);
-		this.drawTexture(matrices, i, j, 0, 0, 204, 166);
-		this.client.getTextureManager().bindTexture(TEXTURE);
-		
-		this.drawTexture(matrices, i + 11, j + 11, this.innerX + this.innerLength / 2, this.innerY + this.innerHeight / 2, this.innerDisplayLength, this.innerDisplayHeight);
 
-		
+		RenderSystem.setShaderTexture(0, BORDER_TEXTURE);
+		this.drawTexture(matrices, i, j, 0, 0, 204, 166);
+
+		RenderSystem.setShaderTexture(0, TEXTURE);
+		drawTexture(matrices, i + 11, j + 11, this.innerX, this.innerY, this.windowLength, this.windowHeight, this.innerLength, this.innerHeight); //CLEAR!
 
 		ItemStack item = this.getStack();
-		if(item.getItem() instanceof Upgradeable) {
-			Upgradeable upgradeable = (Upgradeable) item.getItem();
-
-			this.drawCenteredText(matrices, textRenderer, "" + upgradeable.getSelectorPointsNumber(item), x, y, 0xFFFFFF);
+		if(item.getItem() instanceof Upgradeable upgradeable) {
+			drawCenteredText(matrices, textRenderer, "" + upgradeable.getSelectorPointsNumber(item), x, y, 0xFFFFFF);
 
 			List<Upgrade> upgrades = upgradeable.getPossibleUpgrades(item);
 
@@ -216,7 +221,7 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 			int x = this.innerXPointToActualXPoint(u.getX() - 8);
 			int y = this.innerYPointToActualYPoint(u.getY() - 8);
 
-			this.client.getTextureManager().bindTexture(s.getTexture());
+			RenderSystem.setShaderTexture(0, s.getTexture());
 			drawTexture(matrices, x, y, 16, 16, s.getTextureX(), s.getTextureY(), 32, 32, 256, 256);
 		}
 	}
@@ -227,7 +232,7 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 		int x = this.innerXPointToActualXPoint(u.getX() - s.getLength() / 2);
 		int y = this.innerYPointToActualYPoint(u.getY() - s.getHeight() / 2);
 
-		this.client.getTextureManager().bindTexture(s.getTexture());
+		RenderSystem.setShaderTexture(0, s.getTexture());
 		this.drawTexture(matrices, x, y, s.getTextureX(), s.getTextureY(), s.getLength(), s.getHeight());
 	}
 
@@ -289,18 +294,24 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 
 	@Override
 	public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
-		boolean b = super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
+		if (button != 0) {
+			this.movingTab = false;
+			return false;
+		} else {
+			if (!this.movingTab) {
+				this.movingTab = true;
+			} else {
+				this.innerX = (int) MathHelper.clamp(this.innerX - deltaX, 0, this.innerLength - this.windowLength); //CLEAR
+				this.innerY = (int) MathHelper.clamp(this.innerY - deltaY, 0, this.innerHeight - this.windowHeight); //CLEAR
+			}
 
-		this.innerX = (int) MathHelper.clamp(this.innerX - deltaX, -(this.innerLength / 2), (this.innerLength / 2) - this.innerDisplayLength);
-		this.innerY = (int) MathHelper.clamp(this.innerY - deltaY, -(this.innerHeight / 2), (this.innerHeight / 2) - this.innerDisplayHeight);
-		return b;
+			return true;
+		}
 	}
 
 	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
 		boolean b = super.mouseClicked(mouseX, mouseY, button);
-
-		SoulMagic.LOGGER.info(this.actualXPointToInnerXPoint((int) mouseX) + " " + this.actualYPointToInnerYPoint((int) mouseY));
 
 		ItemStack item = this.getStack();
 		if(item.getItem() instanceof Upgradeable) {
@@ -329,8 +340,6 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 	@Override
 	protected void drawMouseoverTooltip(MatrixStack matrices, int mouseX, int mouseY) {
 		super.drawMouseoverTooltip(matrices, mouseX, mouseY);
-
-		//SoulMagic.LOGGER.info(mouseX + " " + mouseY);
 
 		ItemStack item = this.getStack();
 		if(item.getItem() instanceof Upgradeable) {

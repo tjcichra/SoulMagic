@@ -22,7 +22,7 @@ public class UpgradeStationScreenHandler extends ScreenHandler {
 
 	@Override
 	public ItemStack transferSlot(PlayerEntity player, int index) {
-		return null;
+		return ItemStack.EMPTY;
 	}
 
 	@Override

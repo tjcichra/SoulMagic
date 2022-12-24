@@ -4,8 +4,7 @@
 	"compatibilityLevel": "JAVA_8",
 	"mixins": [
 		"SoulStaffMixin",
-		"BowItemMixin",
-		"AnvilContainerMixin"
+		"BowItemMixin"
 	],
 	"client": [
 		"ItemRendererMixin",

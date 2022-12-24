@@ -1,14 +1,10 @@
 package com.rainbowluigi.soulmagic.block.entity;
 
-import com.mojang.datafixers.types.Type;
 import com.rainbowluigi.soulmagic.block.ModBlocks;
 import com.rainbowluigi.soulmagic.util.Reference;
-
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.datafixer.TypeReferences;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.Util;
 import net.minecraft.util.registry.Registry;
 
 public class ModBlockEntity {
