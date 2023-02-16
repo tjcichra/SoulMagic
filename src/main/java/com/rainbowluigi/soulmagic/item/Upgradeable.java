@@ -1,12 +1,8 @@
 package com.rainbowluigi.soulmagic.item;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.rainbowluigi.soulmagic.block.entity.SoulEssenceInfuserBlockEntity.UpgradeAndSelection;
 import com.rainbowluigi.soulmagic.upgrade.ModUpgrades;
 import com.rainbowluigi.soulmagic.upgrade.Upgrade;
-
 import com.rainbowluigi.soulmagic.util.NBTHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -15,147 +11,150 @@ import net.minecraft.nbt.NbtList;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public interface Upgradeable {
 
-	String SELECTOR_POINTS = "selectorPoints";
-	
-	List<Upgrade> getPossibleUpgrades(ItemStack stack);
+    String SELECTOR_POINTS = "selectorPoints";
 
-	default List<Upgrade> getUpgradesSelected(ItemStack stack) {
-		return this.getUpgradesUnlocked(stack, false);
-	}
+    List<Upgrade> getPossibleUpgrades(ItemStack stack);
 
-	default List<Upgrade> getUpgradesUnlocked(ItemStack stack, boolean all) {
-		List<Upgrade> upgrades = new ArrayList<>();
+    default List<Upgrade> getUpgradesSelected(ItemStack stack) {
+        return this.getUpgradesUnlocked(stack, false);
+    }
 
-		if(stack.hasNbt() && stack.getNbt().contains("upgrades")) {
-			NbtList t = (NbtList) stack.getNbt().get("upgrades");
+    default List<Upgrade> getUpgradesUnlocked(ItemStack stack, boolean all) {
+        List<Upgrade> upgrades = new ArrayList<>();
 
-			for (NbtElement nbtElement : t) {
-				NbtCompound tag = (NbtCompound) nbtElement;
-				Upgrade u = ModUpgrades.UPGRADE.get(new Identifier(tag.getString("name")));
-				boolean selected = tag.getBoolean("selected");
+        if (stack.hasNbt() && stack.getNbt().contains("upgrades")) {
+            NbtList t = (NbtList) stack.getNbt().get("upgrades");
 
-				if (all || selected) {
-					upgrades.add(u);
-				}
-			}
-		}
+            for (NbtElement nbtElement : t) {
+                NbtCompound tag = (NbtCompound) nbtElement;
+                Upgrade u = ModUpgrades.UPGRADE.get(new Identifier(tag.getString("name")));
+                boolean selected = tag.getBoolean("selected");
 
-		return upgrades;
-	}
+                if (all || selected) {
+                    upgrades.add(u);
+                }
+            }
+        }
 
-	default List<UpgradeAndSelection> getUpgradesAndSelectionsUnlocked(ItemStack stack) {
-		List<UpgradeAndSelection> upgrades = new ArrayList<>();
+        return upgrades;
+    }
 
-		if(stack.hasNbt() && stack.getNbt().contains("upgrades")) {
-			NbtList t = (NbtList) stack.getNbt().get("upgrades");
+    default List<UpgradeAndSelection> getUpgradesAndSelectionsUnlocked(ItemStack stack) {
+        List<UpgradeAndSelection> upgrades = new ArrayList<>();
 
-			for (NbtElement nbtElement : t) {
-				NbtCompound tag = (NbtCompound) nbtElement;
-				Upgrade u = ModUpgrades.UPGRADE.get(new Identifier(tag.getString("name")));
-				boolean selected = tag.getBoolean("selected");
-				upgrades.add(new UpgradeAndSelection(u, selected));
-			}
-		}
+        if (stack.hasNbt() && stack.getNbt().contains("upgrades")) {
+            NbtList t = (NbtList) stack.getNbt().get("upgrades");
 
-		return upgrades;
-	}
+            for (NbtElement nbtElement : t) {
+                NbtCompound tag = (NbtCompound) nbtElement;
+                Upgrade u = ModUpgrades.UPGRADE.get(new Identifier(tag.getString("name")));
+                boolean selected = tag.getBoolean("selected");
+                upgrades.add(new UpgradeAndSelection(u, selected));
+            }
+        }
 
-	default boolean hasUpgradeUnlocked(ItemStack stack, Upgrade target) {
-		if(stack.hasNbt() && stack.getNbt().contains("upgrades")) {
-			NbtList t = (NbtList) stack.getNbt().get("upgrades");
+        return upgrades;
+    }
 
-			for (NbtElement nbtElement : t) {
-				NbtCompound tag = (NbtCompound) nbtElement;
-				Upgrade u = ModUpgrades.UPGRADE.get(new Identifier(tag.getString("name")));
+    default boolean hasUpgradeUnlocked(ItemStack stack, Upgrade target) {
+        if (stack.hasNbt() && stack.getNbt().contains("upgrades")) {
+            NbtList t = (NbtList) stack.getNbt().get("upgrades");
 
-				if (u.equals(target)) {
-					return true;
-				}
-			}
-		}
+            for (NbtElement nbtElement : t) {
+                NbtCompound tag = (NbtCompound) nbtElement;
+                Upgrade u = ModUpgrades.UPGRADE.get(new Identifier(tag.getString("name")));
 
-		return false;
-	}
+                if (u.equals(target)) {
+                    return true;
+                }
+            }
+        }
 
-	default boolean hasUpgradeSelected(ItemStack stack, Upgrade target) {
-		if(stack.hasNbt() && stack.getNbt().contains("upgrades")) {
-			NbtList t = (NbtList) stack.getNbt().get("upgrades");
+        return false;
+    }
 
-			for (NbtElement nbtElement : t) {
-				NbtCompound tag = (NbtCompound) nbtElement;
-				Upgrade u = ModUpgrades.UPGRADE.get(new Identifier(tag.getString("name")));
+    default boolean hasUpgradeSelected(ItemStack stack, Upgrade target) {
+        if (stack.hasNbt() && stack.getNbt().contains("upgrades")) {
+            NbtList t = (NbtList) stack.getNbt().get("upgrades");
 
-				if (u.equals(target)) {
-					return tag.contains("selected") && tag.getBoolean("selected");
-				}
-			}
-		}
+            for (NbtElement nbtElement : t) {
+                NbtCompound tag = (NbtCompound) nbtElement;
+                Upgrade u = ModUpgrades.UPGRADE.get(new Identifier(tag.getString("name")));
 
-		return false;
-	}
+                if (u.equals(target)) {
+                    return tag.contains("selected") && tag.getBoolean("selected");
+                }
+            }
+        }
 
-	default void addUpgrade(ItemStack stack, Upgrade u) {
-		NbtCompound tag = stack.getOrCreateNbt();
+        return false;
+    }
 
-		if(!tag.contains("upgrades")) {
-			NbtList list = new NbtList();
-			tag.put("upgrades", list);
-		}
+    default void addUpgrade(ItemStack stack, Upgrade u) {
+        NbtCompound tag = stack.getOrCreateNbt();
 
-		NbtList list = (NbtList) tag.get("upgrades");
+        if (!tag.contains("upgrades")) {
+            NbtList list = new NbtList();
+            tag.put("upgrades", list);
+        }
 
-		NbtCompound upgradeTag = new NbtCompound();
-		upgradeTag.putString("name", ModUpgrades.UPGRADE.getId(u).toString());
-		list.add(upgradeTag);
-	}
+        NbtList list = (NbtList) tag.get("upgrades");
 
-	default void setUpgradeSelection(ItemStack stack, Upgrade target, boolean selected) {
-		if(stack.hasNbt() && stack.getNbt().contains("upgrades")) {
-			NbtList t = (NbtList) stack.getNbt().get("upgrades");
+        NbtCompound upgradeTag = new NbtCompound();
+        upgradeTag.putString("name", ModUpgrades.UPGRADE.getId(u).toString());
+        list.add(upgradeTag);
+    }
 
-			for (NbtElement nbtElement : t) {
-				NbtCompound tag = (NbtCompound) nbtElement;
-				Upgrade u = ModUpgrades.UPGRADE.get(new Identifier(tag.getString("name")));
+    default void setUpgradeSelection(ItemStack stack, Upgrade target, boolean selected) {
+        if (stack.hasNbt() && stack.getNbt().contains("upgrades")) {
+            NbtList t = (NbtList) stack.getNbt().get("upgrades");
 
-				if (u.equals(target)) {
-					tag.putBoolean("selected", selected);
-				}
-			}
-		}
-	}
+            for (NbtElement nbtElement : t) {
+                NbtCompound tag = (NbtCompound) nbtElement;
+                Upgrade u = ModUpgrades.UPGRADE.get(new Identifier(tag.getString("name")));
 
-	default int getSelectorPointsNumber(ItemStack stack) {
-		if(stack.hasNbt() && stack.getNbt().contains(SELECTOR_POINTS)) {
-			return stack.getNbt().getInt(SELECTOR_POINTS);
-		}
-		return 0;
-	}
+                if (u.equals(target)) {
+                    tag.putBoolean("selected", selected);
+                }
+            }
+        }
+    }
 
-	default void incrementSelectorPoints(ItemStack stack) {
-		NbtCompound tag = stack.getOrCreateNbt();
+    default int getSelectorPointsNumber(ItemStack stack) {
+        if (stack.hasNbt() && stack.getNbt().contains(SELECTOR_POINTS)) {
+            return stack.getNbt().getInt(SELECTOR_POINTS);
+        }
+        return 0;
+    }
 
-		int points = NBTHelper.getIntFromNbt(tag, SELECTOR_POINTS, 0);
+    default void incrementSelectorPoints(ItemStack stack) {
+        NbtCompound tag = stack.getOrCreateNbt();
 
-		if(points < this.getMaxSelectorPoints(stack)) {
-			tag.putInt(SELECTOR_POINTS, points + 1);
-		}
-	}
+        int points = NBTHelper.getIntFromNbt(tag, SELECTOR_POINTS, 0);
 
-	default int getSelectorPointsUsed(ItemStack stack) {
-		return this.getUpgradesSelected(stack).size();
-	}
+        if (points < this.getMaxSelectorPoints(stack)) {
+            tag.putInt(SELECTOR_POINTS, points + 1);
+        }
+    }
 
-	default int getMaxSelectorPoints(ItemStack stack) {
-		return this.getPossibleUpgrades(stack).size();
-	}
+    default int getSelectorPointsUsed(ItemStack stack) {
+        return this.getUpgradesSelected(stack).size();
+    }
 
-	default void onSelection(ItemStack stack, World w, Upgrade u) {
+    default int getMaxSelectorPoints(ItemStack stack) {
+        return this.getPossibleUpgrades(stack).size();
+    }
 
-	}
+    default void onSelection(ItemStack stack, World w, Upgrade u) {
 
-	default void onUnselection(ItemStack stack, World w, Upgrade u) {
+    }
 
-	}
+    default void onUnselection(ItemStack stack, World w, Upgrade u) {
+
+    }
 }

@@ -15,8 +15,12 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 
 public class SoulEssenceStaffWidget extends WidgetWithBounds {
     //Widget requires the bounds of the recipe display and soul essence cost
@@ -58,12 +62,12 @@ public class SoulEssenceStaffWidget extends WidgetWithBounds {
         this.drawTexture(matrices, bounds.x, bounds.y, 200, 0, bounds.width, bounds.height);
 
         //If the widget has the mouse hovered over it
-        if(this.containsMouse(mouseX, mouseY)) {
+        if (this.containsMouse(mouseX, mouseY)) {
             //Create a list of text to represent the required soul essence cost
             List<Text> tooltips = new ArrayList<>();
             tooltips.add(Text.translatable("soulmagic.rei.required"));
             //Loop through the soul types and their amount required
-            for(Entry<SoulType, Integer> e : this.soulCost.entrySet()) {
+            for (Entry<SoulType, Integer> e : this.soulCost.entrySet()) {
                 tooltips.add(Text.translatable("soulmagic.rei.soul_amount", e.getKey().getName(), e.getValue()).formatted(e.getKey().getTextColor()));
             }
 

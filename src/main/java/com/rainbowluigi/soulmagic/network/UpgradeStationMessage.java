@@ -11,14 +11,14 @@ import net.minecraft.util.Hand;
 
 public class UpgradeStationMessage {
 
-	public static PacketByteBuf makePacket(ItemStack stack) {
-		PacketByteBuf pbb = new PacketByteBuf(Unpooled.buffer());
-		pbb.writeItemStack(stack);
-		return pbb;
-	}
+    public static PacketByteBuf makePacket(ItemStack stack) {
+        PacketByteBuf pbb = new PacketByteBuf(Unpooled.buffer());
+        pbb.writeItemStack(stack);
+        return pbb;
+    }
 
-	public static void handle(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
-		ItemStack stack = buf.readItemStack();
-		player.setStackInHand(Hand.MAIN_HAND, stack);
-	}
+    public static void handle(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+        ItemStack stack = buf.readItemStack();
+        player.setStackInHand(Hand.MAIN_HAND, stack);
+    }
 }

@@ -15,9 +15,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.RotationAxis;
-import org.joml.Quaternionf;
 
-@Environment(value= EnvType.CLIENT)
+@Environment(value = EnvType.CLIENT)
 public class BlockEntitySpecialRendererSoulInfuser implements BlockEntityRenderer<SoulEssenceInfuserBlockEntity> {
     private double[][] points = {{1, 0.5}, {1.37, 0.63}, {1.5, 1}, {1.37, 1.37}, {1, 1.5}, {0.63, 1.37}, {0.5, 1}, {0.63, 0.63}};
 
@@ -33,7 +32,6 @@ public class BlockEntitySpecialRendererSoulInfuser implements BlockEntityRendere
         int horizontal = direction.getHorizontal();
 
         matrices.push();
-
 
 
 //        double offset = Math.sin((entity.getWorld().getTime() + tickDelta) / 8.0) / 4.0;

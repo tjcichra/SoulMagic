@@ -12,16 +12,16 @@ import net.minecraft.registry.Registry;
 
 public class ModLoot {
 
-	public static final LootFunctionType RANDOM_SOUL_ESSENCE = new LootFunctionType(new RandomSoulEssenceFunction.Serializer());
-	
-	public static void handleLoot() {
-		Registry.register(Registries.LOOT_FUNCTION_TYPE, "random_soul_essence", RANDOM_SOUL_ESSENCE);
+    public static final LootFunctionType RANDOM_SOUL_ESSENCE = new LootFunctionType(new RandomSoulEssenceFunction.Serializer());
 
-		LootTableEvents.MODIFY.register((resourceManager, manager, id, builder, source) -> {
-			if(id.equals(LootTables.SIMPLE_DUNGEON_CHEST)) {
-				LootPool soulEssenceOrbPool = LootPool.builder().rolls(UniformLootNumberProvider.create(0, 1)).with(ItemEntry.builder(ModItems.SOUL_ESSENCE_ORB)).apply(RandomSoulEssenceFunction.builder(UniformLootNumberProvider.create(100, 200))).build();
-				builder.pool(soulEssenceOrbPool);
-			}
-		});
-	}
+    public static void handleLoot() {
+        Registry.register(Registries.LOOT_FUNCTION_TYPE, "random_soul_essence", RANDOM_SOUL_ESSENCE);
+
+        LootTableEvents.MODIFY.register((resourceManager, manager, id, builder, source) -> {
+            if (id.equals(LootTables.SIMPLE_DUNGEON_CHEST)) {
+                LootPool soulEssenceOrbPool = LootPool.builder().rolls(UniformLootNumberProvider.create(0, 1)).with(ItemEntry.builder(ModItems.SOUL_ESSENCE_ORB)).apply(RandomSoulEssenceFunction.builder(UniformLootNumberProvider.create(100, 200))).build();
+                builder.pool(soulEssenceOrbPool);
+            }
+        });
+    }
 }

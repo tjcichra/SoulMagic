@@ -17,29 +17,29 @@ import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
 public class SoulMagicClientPlugin implements REIClientPlugin {
-	//The identifiers for the categories
-	public static final CategoryIdentifier<SoulInfusionDisplay> SOUL_INFUSION = CategoryIdentifier.of(Reference.MOD_ID, "plugins/soul_infusion");
+    //The identifiers for the categories
+    public static final CategoryIdentifier<SoulInfusionDisplay> SOUL_INFUSION = CategoryIdentifier.of(Reference.MOD_ID, "plugins/soul_infusion");
 
-	@Override
-	public void registerCategories(CategoryRegistry registry) {
-		registry.add(new SoulInfusionCategory());
+    @Override
+    public void registerCategories(CategoryRegistry registry) {
+        registry.add(new SoulInfusionCategory());
 
-		registry.addWorkstations(SOUL_INFUSION, EntryStacks.of(ModBlocks.SOUL_ESSENCE_INFUSER));
-	}
+        registry.addWorkstations(SOUL_INFUSION, EntryStacks.of(ModBlocks.SOUL_ESSENCE_INFUSER));
+    }
 
-	@Override
-	public void registerDisplays(DisplayRegistry registry) {
-		registry.registerRecipeFiller(SoulInfusionRecipe.class, ModRecipes.SOUL_ESSENCE_INFUSION_TYPE, SoulInfusionDisplay::new);
-	}
+    @Override
+    public void registerDisplays(DisplayRegistry registry) {
+        registry.registerRecipeFiller(SoulInfusionRecipe.class, ModRecipes.SOUL_ESSENCE_INFUSION_TYPE, SoulInfusionDisplay::new);
+    }
 
-	//States where the display textures are
-	private static final Identifier DISPLAY_TEXTURE = new Identifier(Reference.MOD_ID, "textures/gui/rei/display.png");
-	private static final Identifier DISPLAY_TEXTURE_DARK = new Identifier(Reference.MOD_ID, "textures/gui/rei/dark_display.png");
+    //States where the display textures are
+    private static final Identifier DISPLAY_TEXTURE = new Identifier(Reference.MOD_ID, "textures/gui/rei/display.png");
+    private static final Identifier DISPLAY_TEXTURE_DARK = new Identifier(Reference.MOD_ID, "textures/gui/rei/dark_display.png");
 
-	//Returns which display texture to use depending on what the current theme is
-	public static Identifier getDisplayTexture(boolean dark) {
-		return dark ? DISPLAY_TEXTURE_DARK : DISPLAY_TEXTURE;
-	}
+    //Returns which display texture to use depending on what the current theme is
+    public static Identifier getDisplayTexture(boolean dark) {
+        return dark ? DISPLAY_TEXTURE_DARK : DISPLAY_TEXTURE;
+    }
 //
 //	@Override
 //	public Identifier getPluginIdentifier() {
@@ -82,8 +82,8 @@ public class SoulMagicClientPlugin implements REIClientPlugin {
 //		recipeHelper.registerScreenClickArea(new Rectangle(63, 31, 46, 25), SoulSeparatorScreen.class, SOUL_SEPARATION);
 //	}
 
-	@Override
-	public void registerTransferHandlers(TransferHandlerRegistry registry) {
-		registry.register(new SoulEssenceTransferHandler());
-	}
+    @Override
+    public void registerTransferHandlers(TransferHandlerRegistry registry) {
+        registry.register(new SoulEssenceTransferHandler());
+    }
 }

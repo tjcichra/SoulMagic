@@ -1,18 +1,17 @@
 package com.rainbowluigi.soulmagic.item;
 
-import java.util.List;
-
 import com.rainbowluigi.soulmagic.upgrade.UpgradeSprite;
-
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
+
+import java.util.List;
 
 public interface CircleSelection {
 
     public List<CircleSelectionEntry> getEntries(ItemStack stack);
 
     public void onSelection(int index, ItemStack stack);
- 
+
     public static class CircleSelectionEntry {
         private Text name;
         private UpgradeSprite sprite;

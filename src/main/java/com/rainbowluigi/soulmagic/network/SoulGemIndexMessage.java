@@ -10,12 +10,12 @@ import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 public class SoulGemIndexMessage {
-	
-	public static void handle(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
-		ItemStack stack = player.getMainHandStack();
-		if(stack.getItem() instanceof SoulGemItem) {
-			SoulGemHelper.setCurrentSpellIndex(stack, buf.readInt());
-			SoulGemHelper.setActivated(stack, false);
-		}
-	}
+
+    public static void handle(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+        ItemStack stack = player.getMainHandStack();
+        if (stack.getItem() instanceof SoulGemItem) {
+            SoulGemHelper.setCurrentSpellIndex(stack, buf.readInt());
+            SoulGemHelper.setActivated(stack, false);
+        }
+    }
 }

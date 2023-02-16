@@ -19,22 +19,22 @@ import org.joml.Matrix4f;
 @Environment(EnvType.CLIENT)
 public class MagicFireballRender extends EntityRenderer<MagicFireballEntity> {
 
-	private static final Identifier TEXTURE = new Identifier(Reference.MOD_ID, "textures/entities/magic_fireball.png");
-	
-	protected MagicFireballRender(EntityRendererFactory.Context context) {
-		super(context);
-	}
-	
+    private static final Identifier TEXTURE = new Identifier(Reference.MOD_ID, "textures/entities/magic_fireball.png");
+
+    protected MagicFireballRender(EntityRendererFactory.Context context) {
+        super(context);
+    }
+
     @Override
     public void render(MagicFireballEntity entity, float f1, float f2, MatrixStack matrix, VertexConsumerProvider vertexCP, int i1) {
-		matrix.push();
-    	matrix.multiply(this.dispatcher.getRotation());
-    	matrix.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180.0F));
-    	
-    	float size = entity.ticks < 100 ? 0.75f : -0.0375f * entity.ticks + 4.5f;
-    	matrix.scale(size, size, size);
-        
-    	MatrixStack.Entry matrixStack$Entry_1 = matrix.peek();
+        matrix.push();
+        matrix.multiply(this.dispatcher.getRotation());
+        matrix.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180.0F));
+
+        float size = entity.ticks < 100 ? 0.75f : -0.0375f * entity.ticks + 4.5f;
+        matrix.scale(size, size, size);
+
+        MatrixStack.Entry matrixStack$Entry_1 = matrix.peek();
         Matrix4f matrix4f_1 = matrixStack$Entry_1.getPositionMatrix();
         Matrix3f matrix3f_1 = matrixStack$Entry_1.getNormalMatrix();
         VertexConsumer vertexConsumer_1 = vertexCP.getBuffer(RenderLayer.getEntityTranslucent(TEXTURE));
@@ -42,7 +42,7 @@ public class MagicFireballRender extends EntityRenderer<MagicFireballEntity> {
         renderHelp(vertexConsumer_1, matrix4f_1, matrix3f_1, i1, 1.0F, 0, 1, 1);
         renderHelp(vertexConsumer_1, matrix4f_1, matrix3f_1, i1, 1.0F, 1, 1, 0);
         renderHelp(vertexConsumer_1, matrix4f_1, matrix3f_1, i1, 0.0F, 1, 0, 0);
-        
+
         matrix.pop();
         super.render(entity, f1, f2, matrix, vertexCP, i1);
         
@@ -92,13 +92,13 @@ public class MagicFireballRender extends EntityRenderer<MagicFireballEntity> {
             super.render(entity, f1, f2, matrix, vertexCP, i1);
     	//}*/
     }
-    
-    private static void renderHelp(VertexConsumer vertexConsumer_1, Matrix4f matrix4f_1, Matrix3f matrix3f_1, int int_1, float float_1, int int_2, int int_3, int int_4) {
-        vertexConsumer_1.vertex(matrix4f_1, float_1 - 0.5F, (float)int_2 - 0.25F, 0.0F).color(255, 255, 255, 255).texture((float)int_3, (float)int_4).overlay(OverlayTexture.DEFAULT_UV).light(int_1).normal(matrix3f_1, 0.0F, 1.0F, 0.0F).next();
-     }
 
-	@Override
-	public Identifier getTexture(MagicFireballEntity var1) {
-		return TEXTURE;
-	}
+    private static void renderHelp(VertexConsumer vertexConsumer_1, Matrix4f matrix4f_1, Matrix3f matrix3f_1, int int_1, float float_1, int int_2, int int_3, int int_4) {
+        vertexConsumer_1.vertex(matrix4f_1, float_1 - 0.5F, (float) int_2 - 0.25F, 0.0F).color(255, 255, 255, 255).texture((float) int_3, (float) int_4).overlay(OverlayTexture.DEFAULT_UV).light(int_1).normal(matrix3f_1, 0.0F, 1.0F, 0.0F).next();
+    }
+
+    @Override
+    public Identifier getTexture(MagicFireballEntity var1) {
+        return TEXTURE;
+    }
 }

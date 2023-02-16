@@ -8,19 +8,19 @@ import net.minecraft.world.World;
 
 public class PacketBufferUtils {
 
-	public static <T extends BlockEntity> T getBlockEntity(PacketByteBuf pb, PlayerEntity player) {
-		BlockPos bp = pb.readBlockPos();
-		
-		World w = player.world;
-		
-		if(w.isChunkLoaded(bp)) {
-			@SuppressWarnings("unchecked")
-			T be = (T) w.getBlockEntity(bp);
-			
-			if(be != null) {
-				return be;
-			}
-		}
-		return null;
-	}
+    public static <T extends BlockEntity> T getBlockEntity(PacketByteBuf pb, PlayerEntity player) {
+        BlockPos bp = pb.readBlockPos();
+
+        World w = player.world;
+
+        if (w.isChunkLoaded(bp)) {
+            @SuppressWarnings("unchecked")
+            T be = (T) w.getBlockEntity(bp);
+
+            if (be != null) {
+                return be;
+            }
+        }
+        return null;
+    }
 }

@@ -12,7 +12,7 @@ import net.minecraft.item.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 
-@Environment(value= EnvType.CLIENT)
+@Environment(value = EnvType.CLIENT)
 public class SoulStaffColorProvider {
     private static final int NO_COLOR = 0xFFFFFF;
     private static final int EMPTY_STAFF_COLOR = 0x5b442a;

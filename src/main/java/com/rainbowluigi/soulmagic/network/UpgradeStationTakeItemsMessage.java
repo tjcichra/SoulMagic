@@ -12,32 +12,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UpgradeStationTakeItemsMessage {
-	
-	public static PacketByteBuf makePacket(ItemStack[] requirements) {
-		PacketByteBuf pbb = new PacketByteBuf(Unpooled.buffer());
-		pbb.writeInt(requirements.length);
-		
-		for(ItemStack stack : requirements) {
-			pbb.writeItemStack(stack);
-		}
 
-		return pbb;
-	}
+    public static PacketByteBuf makePacket(ItemStack[] requirements) {
+        PacketByteBuf pbb = new PacketByteBuf(Unpooled.buffer());
+        pbb.writeInt(requirements.length);
 
-	public static void handle(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
-		int num = buf.readInt();
-		List<ItemStack> list = new ArrayList<>();
+        for (ItemStack stack : requirements) {
+            pbb.writeItemStack(stack);
+        }
 
-		for(int i = 0; i < num; i++) {
-			list.add(buf.readItemStack());
-		}
+        return pbb;
+    }
 
-		for(ItemStack requirement : list) {
-			for(ItemStack stack : player.getInventory().main) {
-				if(stack.isItemEqual(requirement) && stack.getCount() >= requirement.getCount()) {
-					stack.decrement(requirement.getCount());
-				}
-			}
-		}
-	}
+    public static void handle(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+        int num = buf.readInt();
+        List<ItemStack> list = new ArrayList<>();
+
+        for (int i = 0; i < num; i++) {
+            list.add(buf.readItemStack());
+        }
+
+        for (ItemStack requirement : list) {
+            for (ItemStack stack : player.getInventory().main) {
+                if (stack.isItemEqual(requirement) && stack.getCount() >= requirement.getCount()) {
+                    stack.decrement(requirement.getCount());
+                }
+            }
+        }
+    }
 }

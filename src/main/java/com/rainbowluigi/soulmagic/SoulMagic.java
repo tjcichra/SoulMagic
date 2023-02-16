@@ -37,104 +37,104 @@ import org.apache.logging.log4j.Logger;
 
 public class SoulMagic implements ModInitializer {
 
-	public static final ItemGroup ITEM_GROUP = FabricItemGroup.builder(new Identifier(Reference.MOD_ID, "creative_tab")).icon(() -> new ItemStack(ModItems.SOUL_ESSENCE_STAFF)).build();
+    public static final ItemGroup ITEM_GROUP = FabricItemGroup.builder(new Identifier(Reference.MOD_ID, "creative_tab")).icon(() -> new ItemStack(ModItems.SOUL_ESSENCE_STAFF)).build();
 
-	public static final Logger LOGGER = LogManager.getLogger();
-	
-	@Override
-	public void onInitialize() {
-		ModItems.registerItems();
-		ModBlocks.registerBlocks();
-		ModEnchantments.registerEnchantments();
-		ModEntityTypes.registerEntityTypes();
-		ModBlockEntity.registerBlockEntityTypes();
-		ModStatusEffects.registerStatusEffects();
-		ModRecipes.registerRecipeTypes();
-		ModRecipes.registerRecipeSerializers();
+    public static final Logger LOGGER = LogManager.getLogger();
 
-		ModVillagerProfessions.registerPointsOfInterest();
-		ModVillagerProfessions.registerVillagerProfessions();
+    @Override
+    public void onInitialize() {
+        ModItems.registerItems();
+        ModBlocks.registerBlocks();
+        ModEnchantments.registerEnchantments();
+        ModEntityTypes.registerEntityTypes();
+        ModBlockEntity.registerBlockEntityTypes();
+        ModStatusEffects.registerStatusEffects();
+        ModRecipes.registerRecipeTypes();
+        ModRecipes.registerRecipeSerializers();
 
-		ModUpgrades.registerUpgrades();
-		ModSoulTypes.registerSoulTypes();
+        ModVillagerProfessions.registerPointsOfInterest();
+        ModVillagerProfessions.registerVillagerProfessions();
 
-		ModScreenHandlerTypes.registerScreenHandlerTypes();
-		ModNetwork.registerClientToServerPackets();
-		ModTabs.registerTabs();
-		ModLoot.handleLoot();
+        ModUpgrades.registerUpgrades();
+        ModSoulTypes.registerSoulTypes();
 
-		ModStats.registerStats();
+        ModScreenHandlerTypes.registerScreenHandlerTypes();
+        ModNetwork.registerClientToServerPackets();
+        ModTabs.registerTabs();
+        ModLoot.handleLoot();
 
-		ServerEntityCombatEvents.AFTER_KILLED_OTHER_ENTITY.register((world, entity, killedEntity) -> {
-			if (!(entity instanceof PlayerEntity playerEntity)) {
-				return;
-			}
+        ModStats.registerStats();
 
-			int soulStealerLevel = EnchantmentHelper.getLevel(ModEnchantments.SOUL_STEALER, playerEntity.getMainHandStack());
-			int soulEssenceAmount = MathHelper.nextInt(world.random, 2 + soulStealerLevel, 5 + soulStealerLevel);
+        ServerEntityCombatEvents.AFTER_KILLED_OTHER_ENTITY.register((world, entity, killedEntity) -> {
+            if (!(entity instanceof PlayerEntity playerEntity)) {
+                return;
+            }
 
-			PlayerInventory playerInventory = playerEntity.getInventory();
+            int soulStealerLevel = EnchantmentHelper.getLevel(ModEnchantments.SOUL_STEALER, playerEntity.getMainHandStack());
+            int soulEssenceAmount = MathHelper.nextInt(world.random, 2 + soulStealerLevel, 5 + soulStealerLevel);
 
-			for (int i = 0; i < playerInventory.size(); i++) {
-				ItemStack stack = playerInventory.getStack(i);
+            PlayerInventory playerInventory = playerEntity.getInventory();
 
-				if(stack.getItem() instanceof SoulEssenceStaff staff) {
-					if (killedEntity.getGroup() == EntityGroup.UNDEAD) {
-						soulEssenceAmount = staff.addSoul(stack, world, ModSoulTypes.DARK, soulEssenceAmount);
-					} else {
-						soulEssenceAmount = staff.addSoul(stack, world, ModSoulTypes.LIGHT, soulEssenceAmount);
-					}
+            for (int i = 0; i < playerInventory.size(); i++) {
+                ItemStack stack = playerInventory.getStack(i);
 
-					if(soulEssenceAmount <= 0) {
-						break;
-					}
-				}
-			}
-		});
+                if (stack.getItem() instanceof SoulEssenceStaff staff) {
+                    if (killedEntity.getGroup() == EntityGroup.UNDEAD) {
+                        soulEssenceAmount = staff.addSoul(stack, world, ModSoulTypes.DARK, soulEssenceAmount);
+                    } else {
+                        soulEssenceAmount = staff.addSoul(stack, world, ModSoulTypes.LIGHT, soulEssenceAmount);
+                    }
 
-		ItemGroupEvents.modifyEntriesEvent(ITEM_GROUP).register((content) -> {
-			// Blocks
-			content.add(ModBlocks.SOUL_ESSENCE_INFUSER);
-			content.add(ModBlocks.SOUL_SEPARATOR);
-			content.add(ModBlocks.UPGRADE_STATION);
-			content.add(ModBlocks.SOUL_CACHE);
-			content.add(ModBlocks.INFINITE_WELL);
+                    if (soulEssenceAmount <= 0) {
+                        break;
+                    }
+                }
+            }
+        });
 
-			// Items
-			((SoulEssenceStaffItem) ModItems.SOUL_ESSENCE_STAFF).addToCreativeMenu(content);
-			((CreativeSoulEssenceStaffItem) ModItems.CREATIVE_SOUL_ESSENCE_STAFF).addToCreativeMenu(content);
-			((SoulEssenceOrbItem) ModItems.SOUL_ESSENCE_ORB).addToCreativeMenu(content);
-			content.add(ModItems.SOUL_GEM);
-			content.add(ModItems.SOUL_ESSENCE_QUIVER);
-			content.add(ModItems.SOUL_ESSENCE_LANTERN);
-			content.add(ModItems.FOOD_CHARM);
-			content.add(ModItems.REFERENCE_STAFF);
-			content.add(ModItems.EARRING);
-			content.add(ModItems.RING_OF_RECKLESSNESS);
-			content.add(ModItems.BUILDING_STAFF);
-			content.add(ModItems.CALMING_FLUTE);
-			content.add(ModItems.AMULET_OF_BLINDED_RAGE);
-			content.add(ModItems.UNIVERSE_RING);
-			content.add(ModItems.FLYING_CHEST);
-			content.add(ModItems.MAGICAL_BALL_OF_YARN);
-			content.add(ModItems.SOUL_MAGIC_BOOK);
-			content.add(ModItems.SPIRIT_LAMP);
-			content.add(ModItems.ESSENCE_EXPERIENCE_INTERFACE);
-			content.add(ModItems.ENCHANTMENT_COMBINATION_CATALYST);
-			content.add(ModItems.ENCHANTMENT_SEPARATION_CATALYST);
-			content.add(ModItems.REPAIRING_CATALYST);
-			content.add(ModItems.WEAPON_ENCHANTMENT_TEMPLATE);
-			content.add(ModItems.LIGHT_SOUL_ESSENCE_POWDER);
-			content.add(ModItems.DARK_SOUL_ESSENCE_POWDER);
-			content.add(ModItems.PRIDEFUL_SOUL_ESSENCE_POWDER);
-			content.add(ModItems.LIGHT_SOUL_ESSENCE_INGOT);
-			content.add(ModItems.DARK_SOUL_ESSENCE_INGOT);
-			content.add(ModItems.PRIDEFUL_SOUL_ESSENCE_INGOT);
-			content.add(ModItems.IRON_BRACE);
-			content.add(ModItems.LIGHT_SOUL_BRACE);
-			content.add(ModItems.DARK_SOUL_BRACE);
-			content.add(ModItems.PRIDEFUL_SOUL_BRACE);
-			content.add(ModItems.CREATIVE_BRACE);
-		});
-	}
+        ItemGroupEvents.modifyEntriesEvent(ITEM_GROUP).register((content) -> {
+            // Blocks
+            content.add(ModBlocks.SOUL_ESSENCE_INFUSER);
+            content.add(ModBlocks.SOUL_SEPARATOR);
+            content.add(ModBlocks.UPGRADE_STATION);
+            content.add(ModBlocks.SOUL_CACHE);
+            content.add(ModBlocks.INFINITE_WELL);
+
+            // Items
+            ((SoulEssenceStaffItem) ModItems.SOUL_ESSENCE_STAFF).addToCreativeMenu(content);
+            ((CreativeSoulEssenceStaffItem) ModItems.CREATIVE_SOUL_ESSENCE_STAFF).addToCreativeMenu(content);
+            ((SoulEssenceOrbItem) ModItems.SOUL_ESSENCE_ORB).addToCreativeMenu(content);
+            content.add(ModItems.SOUL_GEM);
+            content.add(ModItems.SOUL_ESSENCE_QUIVER);
+            content.add(ModItems.SOUL_ESSENCE_LANTERN);
+            content.add(ModItems.FOOD_CHARM);
+            content.add(ModItems.REFERENCE_STAFF);
+            content.add(ModItems.EARRING);
+            content.add(ModItems.RING_OF_RECKLESSNESS);
+            content.add(ModItems.BUILDING_STAFF);
+            content.add(ModItems.CALMING_FLUTE);
+            content.add(ModItems.AMULET_OF_BLINDED_RAGE);
+            content.add(ModItems.UNIVERSE_RING);
+            content.add(ModItems.FLYING_CHEST);
+            content.add(ModItems.MAGICAL_BALL_OF_YARN);
+            content.add(ModItems.SOUL_MAGIC_BOOK);
+            content.add(ModItems.SPIRIT_LAMP);
+            content.add(ModItems.ESSENCE_EXPERIENCE_INTERFACE);
+            content.add(ModItems.ENCHANTMENT_COMBINATION_CATALYST);
+            content.add(ModItems.ENCHANTMENT_SEPARATION_CATALYST);
+            content.add(ModItems.REPAIRING_CATALYST);
+            content.add(ModItems.WEAPON_ENCHANTMENT_TEMPLATE);
+            content.add(ModItems.LIGHT_SOUL_ESSENCE_POWDER);
+            content.add(ModItems.DARK_SOUL_ESSENCE_POWDER);
+            content.add(ModItems.PRIDEFUL_SOUL_ESSENCE_POWDER);
+            content.add(ModItems.LIGHT_SOUL_ESSENCE_INGOT);
+            content.add(ModItems.DARK_SOUL_ESSENCE_INGOT);
+            content.add(ModItems.PRIDEFUL_SOUL_ESSENCE_INGOT);
+            content.add(ModItems.IRON_BRACE);
+            content.add(ModItems.LIGHT_SOUL_BRACE);
+            content.add(ModItems.DARK_SOUL_BRACE);
+            content.add(ModItems.PRIDEFUL_SOUL_BRACE);
+            content.add(ModItems.CREATIVE_BRACE);
+        });
+    }
 }

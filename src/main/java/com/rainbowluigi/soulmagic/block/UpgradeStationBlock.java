@@ -18,37 +18,37 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class UpgradeStationBlock extends Block {
-	private static final Text TITLE = Text.translatable("container.soulmagic.upgrading");
+    private static final Text TITLE = Text.translatable("container.soulmagic.upgrading");
 
-	public UpgradeStationBlock(Block.Settings settings) {
-		super(settings);
-	}
+    public UpgradeStationBlock(Block.Settings settings) {
+        super(settings);
+    }
 
-	@Override
-	@SuppressWarnings("deprecation")
-	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-		if (world.isClient) {
-			return ActionResult.SUCCESS;
-		}
+    @Override
+    @SuppressWarnings("deprecation")
+    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+        if (world.isClient) {
+            return ActionResult.SUCCESS;
+        }
 
-		player.incrementStat(ModStats.INTERACT_WITH_UPGRADE_STATION);
+        player.incrementStat(ModStats.INTERACT_WITH_UPGRADE_STATION);
 
-		ItemStack stack = player.getStackInHand(hand);
-		if (!(stack.getItem() instanceof Upgradeable)) {
-			if (!stack.isEmpty()) {
-				player.sendMessage(Text.translatable("soulmagic.upgrade_station.not_upgradeable", stack.getName()));
-			}
+        ItemStack stack = player.getStackInHand(hand);
+        if (!(stack.getItem() instanceof Upgradeable)) {
+            if (!stack.isEmpty()) {
+                player.sendMessage(Text.translatable("soulmagic.upgrade_station.not_upgradeable", stack.getName()));
+            }
 
-			return ActionResult.FAIL;
-		}
+            return ActionResult.FAIL;
+        }
 
-		player.openHandledScreen(state.createScreenHandlerFactory(world, pos));
-		return ActionResult.CONSUME;
-	}
+        player.openHandledScreen(state.createScreenHandlerFactory(world, pos));
+        return ActionResult.CONSUME;
+    }
 
-	@Override
-	@SuppressWarnings("deprecation")
-	public NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
-		return new SimpleNamedScreenHandlerFactory((syncId, playerInventory, player) -> new UpgradeStationScreenHandler(syncId, playerInventory, ScreenHandlerContext.create(world, pos)), TITLE);
-	}
+    @Override
+    @SuppressWarnings("deprecation")
+    public NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
+        return new SimpleNamedScreenHandlerFactory((syncId, playerInventory, player) -> new UpgradeStationScreenHandler(syncId, playerInventory, ScreenHandlerContext.create(world, pos)), TITLE);
+    }
 }

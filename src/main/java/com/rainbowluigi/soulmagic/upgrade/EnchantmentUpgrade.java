@@ -1,10 +1,9 @@
 package com.rainbowluigi.soulmagic.upgrade;
 
-import java.util.Map;
-
 import com.rainbowluigi.soulmagic.soultype.SoulType;
-
 import net.minecraft.enchantment.Enchantment;
+
+import java.util.Map;
 
 public class EnchantmentUpgrade extends Upgrade {
 

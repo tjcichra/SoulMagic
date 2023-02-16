@@ -29,117 +29,117 @@ import java.util.List;
 
 public class BuildingStaffItem extends Item implements CircleSelection {
 
-	private final int maxMode = 3;
-	private final String[] strings = {"text.soulmagic.bluidtoplayer", "text.soulmagic.buildfromplayer", "text.soulmagic.expandhorizontally"};
+    private final int maxMode = 3;
+    private final String[] strings = {"text.soulmagic.bluidtoplayer", "text.soulmagic.buildfromplayer", "text.soulmagic.expandhorizontally"};
 
-	public BuildingStaffItem(Settings settings) {
-		super(settings);
-	}
+    public BuildingStaffItem(Settings settings) {
+        super(settings);
+    }
 
-	@Override
-	public ActionResult useOnBlock(ItemUsageContext context) {
-		if(context.getPlayer() != null && context.getPlayer().isSneaking()) {
-			ItemStack stack = context.getStack();
-			BlockState state = context.getWorld().getBlockState(context.getBlockPos());
+    @Override
+    public ActionResult useOnBlock(ItemUsageContext context) {
+        if (context.getPlayer() != null && context.getPlayer().isSneaking()) {
+            ItemStack stack = context.getStack();
+            BlockState state = context.getWorld().getBlockState(context.getBlockPos());
 
-			NbtCompound tag = stack.getOrCreateNbt();
-			tag.putString("block", Registries.BLOCK.getId(state.getBlock()).toString());
+            NbtCompound tag = stack.getOrCreateNbt();
+            tag.putString("block", Registries.BLOCK.getId(state.getBlock()).toString());
 
-			return ActionResult.SUCCESS;
-		}
+            return ActionResult.SUCCESS;
+        }
 
-		return ActionResult.PASS;
-	}
+        return ActionResult.PASS;
+    }
 
-	@Override
-	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-		HitResult result = user.raycast(20, 0, false);
+    @Override
+    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+        HitResult result = user.raycast(20, 0, false);
 
-		if(result.getType() == HitResult.Type.BLOCK) {
-			ItemStack stack = user.getStackInHand(hand);
+        if (result.getType() == HitResult.Type.BLOCK) {
+            ItemStack stack = user.getStackInHand(hand);
 
-			if(stack.hasNbt() && stack.getNbt().contains("block")) {
-				Block block = Registries.BLOCK.get(new Identifier(stack.getNbt().getString("block")));
-				List<ItemStack> invStack = ItemHelper.findAllItem(user, block);
-				
-				if(user.isCreative() || !invStack.isEmpty()) {
-					BlockState state = block.getDefaultState();
+            if (stack.hasNbt() && stack.getNbt().contains("block")) {
+                Block block = Registries.BLOCK.get(new Identifier(stack.getNbt().getString("block")));
+                List<ItemStack> invStack = ItemHelper.findAllItem(user, block);
 
-					BlockHitResult blockresult = (BlockHitResult) result;
-					Direction face = blockresult.getSide();
-					BlockPos pos = blockresult.getBlockPos();
+                if (user.isCreative() || !invStack.isEmpty()) {
+                    BlockState state = block.getDefaultState();
 
-					int count = switch (face.getAxis()) {
-						case X -> (int) (user.getX() - pos.getX());
-						case Y -> (int) (user.getY() - pos.getY());
-						case Z -> (int) (user.getZ() - pos.getZ());
-					};
+                    BlockHitResult blockresult = (BlockHitResult) result;
+                    Direction face = blockresult.getSide();
+                    BlockPos pos = blockresult.getBlockPos();
 
-					count = Math.abs(count);
+                    int count = switch (face.getAxis()) {
+                        case X -> (int) (user.getX() - pos.getX());
+                        case Y -> (int) (user.getY() - pos.getY());
+                        case Z -> (int) (user.getZ() - pos.getZ());
+                    };
 
-					for(int i = 1; i <= count; i++) {
-						if(user.isCreative() || hasItem(invStack)) {
-							BlockPos placedpos = pos.offset(face, i);
-							
-							if(world.getBlockState(placedpos).isAir() && state.canPlaceAt(world, placedpos)) {
-								world.setBlockState(placedpos, state);
-								if(!user.isCreative()) {
-									decrementItem(invStack);
-								}
-							}
-						} else {
-							return TypedActionResult.fail(user.getStackInHand(hand));
-						}
-					}
+                    count = Math.abs(count);
 
-					return TypedActionResult.success(user.getStackInHand(hand));
-				}
-			}
-		}
+                    for (int i = 1; i <= count; i++) {
+                        if (user.isCreative() || hasItem(invStack)) {
+                            BlockPos placedpos = pos.offset(face, i);
 
-		return TypedActionResult.fail(user.getStackInHand(hand));
-	}
+                            if (world.getBlockState(placedpos).isAir() && state.canPlaceAt(world, placedpos)) {
+                                world.setBlockState(placedpos, state);
+                                if (!user.isCreative()) {
+                                    decrementItem(invStack);
+                                }
+                            }
+                        } else {
+                            return TypedActionResult.fail(user.getStackInHand(hand));
+                        }
+                    }
 
-	public boolean hasItem(List<ItemStack> list) {
-		for(ItemStack stack : list) {
-			if(!stack.isEmpty()) {
-				return true;
-			}
-		}
-		return false;
-	}
+                    return TypedActionResult.success(user.getStackInHand(hand));
+                }
+            }
+        }
 
-	public void decrementItem(List<ItemStack> list) {
-		for(ItemStack stack : list) {
-			if(!stack.isEmpty()) {
-				stack.decrement(1);
-				return;
-			}
-		}
-	}
+        return TypedActionResult.fail(user.getStackInHand(hand));
+    }
 
-	@Environment(EnvType.CLIENT)
-	@Override
-	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
-		if(stack.hasNbt() && stack.getNbt().contains("block")) {
-			Block block = Registries.BLOCK.get(new Identifier(stack.getNbt().getString("block")));
-			tooltip.add(block.getName());
-		}
-	}
+    public boolean hasItem(List<ItemStack> list) {
+        for (ItemStack stack : list) {
+            if (!stack.isEmpty()) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-	@Override
-	public List<CircleSelectionEntry> getEntries(ItemStack stack) {
-		List<CircleSelectionEntry> l = new ArrayList<>();
+    public void decrementItem(List<ItemStack> list) {
+        for (ItemStack stack : list) {
+            if (!stack.isEmpty()) {
+                stack.decrement(1);
+                return;
+            }
+        }
+    }
 
-		for(int i = 0; i < this.maxMode; i++) {
-			l.add(new CircleSelectionEntry(Text.translatable(strings[i]), new UpgradeSprite(UpgradeSprite.baseTexture, 0, 0, 32, 32)));
-		}
+    @Environment(EnvType.CLIENT)
+    @Override
+    public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
+        if (stack.hasNbt() && stack.getNbt().contains("block")) {
+            Block block = Registries.BLOCK.get(new Identifier(stack.getNbt().getString("block")));
+            tooltip.add(block.getName());
+        }
+    }
 
-		return l;
-	}
+    @Override
+    public List<CircleSelectionEntry> getEntries(ItemStack stack) {
+        List<CircleSelectionEntry> l = new ArrayList<>();
 
-	@Override
-	public void onSelection(int index, ItemStack stack) {
+        for (int i = 0; i < this.maxMode; i++) {
+            l.add(new CircleSelectionEntry(Text.translatable(strings[i]), new UpgradeSprite(UpgradeSprite.baseTexture, 0, 0, 32, 32)));
+        }
 
-	}
+        return l;
+    }
+
+    @Override
+    public void onSelection(int index, ItemStack stack) {
+
+    }
 }

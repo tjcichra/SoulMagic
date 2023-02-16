@@ -3,11 +3,10 @@ package com.rainbowluigi.soulmagic.tabs;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.world.World;
 
 public class Tab {
-    
+
     private ItemStack icon;
     private Text text;
 
@@ -29,6 +28,6 @@ public class Tab {
     }
 
     public void whenClicked(PlayerEntity player, World world) {
-        
+
     }
 }

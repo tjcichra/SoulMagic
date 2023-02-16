@@ -3,7 +3,6 @@ package com.rainbowluigi.soulmagic.client.screen;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.rainbowluigi.soulmagic.inventory.SoulInfuserScreenHandler;
 import com.rainbowluigi.soulmagic.util.Reference;
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
@@ -15,31 +14,31 @@ import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
 public class SoulEssenceInfuserScreen extends HandledScreen<SoulInfuserScreenHandler> {
-	private static final Identifier TEXTURE = new Identifier(Reference.MOD_ID, "textures/gui/container/soul_infuser.png");
-	
-	public SoulEssenceInfuserScreen(SoulInfuserScreenHandler handler, PlayerInventory inventory, Text title) {
-		super(handler, inventory, title);
-		this.backgroundHeight = 211;
-		this.playerInventoryTitleY = this.backgroundHeight - 93;
-	}
-	
-	@Override
-	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-		this.renderBackground(matrices);
-		super.render(matrices, mouseX, mouseY, delta);
-		this.drawMouseoverTooltip(matrices, mouseX, mouseY);
-	}
+    private static final Identifier TEXTURE = new Identifier(Reference.MOD_ID, "textures/gui/container/soul_infuser.png");
 
-	@Override
-	public void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
-		RenderSystem.setShader(GameRenderer::getPositionTexProgram);
-		RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
-		RenderSystem.setShaderTexture(0, TEXTURE);
-		int i = (this.width - this.backgroundWidth) / 2;
-		int j = (this.height - this.backgroundHeight) / 2;
-		this.drawTexture(matrices, i, j, 0, 0, this.backgroundWidth, this.backgroundHeight);
+    public SoulEssenceInfuserScreen(SoulInfuserScreenHandler handler, PlayerInventory inventory, Text title) {
+        super(handler, inventory, title);
+        this.backgroundHeight = 211;
+        this.playerInventoryTitleY = this.backgroundHeight - 93;
+    }
 
-		int cookProgress = this.getScreenHandler().getCookProgress();
+    @Override
+    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+        this.renderBackground(matrices);
+        super.render(matrices, mouseX, mouseY, delta);
+        this.drawMouseoverTooltip(matrices, mouseX, mouseY);
+    }
+
+    @Override
+    public void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
+        RenderSystem.setShader(GameRenderer::getPositionTexProgram);
+        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+        RenderSystem.setShaderTexture(0, TEXTURE);
+        int i = (this.width - this.backgroundWidth) / 2;
+        int j = (this.height - this.backgroundHeight) / 2;
+        this.drawTexture(matrices, i, j, 0, 0, this.backgroundWidth, this.backgroundHeight);
+
+        int cookProgress = this.getScreenHandler().getCookProgress();
 //		System.out.println("cookProgress: " + cookProgress);
 //
 //		if(i > 0) {
@@ -79,10 +78,10 @@ public class SoulEssenceInfuserScreen extends HandledScreen<SoulInfuserScreenHan
 				}
 			}
 		}*/
-	}
-	
-	@Override
-	public boolean isClickOutsideBounds(double double_1, double double_2, int int_1, int int_2, int int_3) {
-		return double_1 < (double) int_1 || double_2 < (double) int_2 || double_1 >= (double) (int_1 + this.backgroundWidth) || double_2 >= (double) (int_2 + this.backgroundHeight);
-	}
+    }
+
+    @Override
+    public boolean isClickOutsideBounds(double double_1, double double_2, int int_1, int int_2, int int_3) {
+        return double_1 < (double) int_1 || double_2 < (double) int_2 || double_1 >= (double) (int_1 + this.backgroundWidth) || double_2 >= (double) (int_2 + this.backgroundHeight);
+    }
 }

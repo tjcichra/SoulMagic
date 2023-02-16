@@ -3,9 +3,7 @@ package com.rainbowluigi.soulmagic.item.soulessence;
 import com.rainbowluigi.soulmagic.soultype.ModSoulTypes;
 import com.rainbowluigi.soulmagic.soultype.SoulType;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsageContext;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.util.ActionResult;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -61,7 +59,7 @@ public interface SoulEssenceContainer {
     }
 
     //Get the value of the maximum soul essence per soul type in the stack
-	int getMaxSoul(ItemStack stack, @Nullable World world, SoulType type);
+    int getMaxSoul(ItemStack stack, @Nullable World world, SoulType type);
 
     //Optional function if you want your max soul essence value to be variable
     default void setMaxSoul(ItemStack stack, @Nullable World world, SoulType type, int amount) {

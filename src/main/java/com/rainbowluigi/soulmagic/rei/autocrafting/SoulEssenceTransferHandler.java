@@ -1,8 +1,6 @@
 package com.rainbowluigi.soulmagic.rei.autocrafting;
 
 import com.rainbowluigi.soulmagic.rei.SoulInfusionDisplay;
-import dev.architectury.networking.NetworkManager;
-import io.netty.buffer.Unpooled;
 import me.shedaniel.rei.api.client.registry.transfer.TransferHandler;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.display.Display;
@@ -15,7 +13,6 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
 
 @Environment(EnvType.CLIENT)

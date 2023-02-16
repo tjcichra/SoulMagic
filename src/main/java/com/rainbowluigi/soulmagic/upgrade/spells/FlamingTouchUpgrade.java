@@ -8,7 +8,6 @@ import com.rainbowluigi.soulmagic.upgrade.ModUpgrades;
 import com.rainbowluigi.soulmagic.upgrade.Upgrade;
 import com.rainbowluigi.soulmagic.upgrade.UpgradeSprite;
 import com.rainbowluigi.soulmagic.util.SoulGemHelper;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -30,85 +29,85 @@ import net.minecraft.world.World;
 
 public class FlamingTouchUpgrade extends SpellUpgrade {
 
-	public static final UpgradeSprite ICON = new UpgradeSprite(UpgradeSprite.baseTexture, 32, 0, 32, 32);
-	private SoulType[] types = new SoulType[] {ModSoulTypes.LIGHT, ModSoulTypes.DARK};
-	
-	public FlamingTouchUpgrade(int x, int y, Upgrade prev, UpgradeSprite icon, UpgradeSprite s) {
-		super(x, y, prev, icon, s);
-	}
+    public static final UpgradeSprite ICON = new UpgradeSprite(UpgradeSprite.baseTexture, 32, 0, 32, 32);
+    private SoulType[] types = new SoulType[]{ModSoulTypes.LIGHT, ModSoulTypes.DARK};
 
-	@Override
-	public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
-		ItemStack gem = player.getStackInHand(hand);
-		Upgradeable u = (Upgradeable) gem.getItem();
+    public FlamingTouchUpgrade(int x, int y, Upgrade prev, UpgradeSprite icon, UpgradeSprite s) {
+        super(x, y, prev, icon, s);
+    }
 
-		if(u.hasUpgradeSelected(gem, ModUpgrades.FLAMING_EDGE)) {
-			SoulGemHelper.toggleActivation(gem);
-		}
+    @Override
+    public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+        ItemStack gem = player.getStackInHand(hand);
+        Upgradeable u = (Upgradeable) gem.getItem();
 
-		return super.use(world, player, hand);
-	}
+        if (u.hasUpgradeSelected(gem, ModUpgrades.FLAMING_EDGE)) {
+            SoulGemHelper.toggleActivation(gem);
+        }
 
-	@Override
-	public ActionResult useOnBlock(ItemUsageContext iuc) {
-		ItemStack gem = iuc.getStack();
-		Upgradeable u = (Upgradeable) gem.getItem();
+        return super.use(world, player, hand);
+    }
 
-		if(!u.hasUpgradeSelected(gem, ModUpgrades.FLAMING_EDGE)) {
-			World w = iuc.getWorld();
-			if(SoulEssenceStaff.hasSoul(iuc.getPlayer(), w, ModSoulTypes.LIGHT, 5, ModSoulTypes.DARK, 5)) {
-				BlockState state = w.getBlockState(iuc.getBlockPos());
-				SimpleInventory inv = new SimpleInventory(new ItemStack(state.getBlock()));
-				
-				SmeltingRecipe irecipe = w.getRecipeManager().getFirstMatch(RecipeType.SMELTING, inv, w).orElse(null);
-				
-				if(irecipe != null) {
-					ItemStack result = irecipe.craft(inv);
-					
-					Block block = Block.getBlockFromItem(result.getItem());
-					
-					if (!result.isEmpty() && block != Blocks.AIR) {
-						w.setBlockState(iuc.getBlockPos(), block.getDefaultState());
-						
-						w.playSound(null, iuc.getBlockPos(), SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 1f, MathHelper.nextFloat(w.random, 0.5f, 1));
-			
-						Random random = w.random;
-						double d0 = 0.0625D;
-			
-						for (int i = 0; i < 12; ++i) {
-							double d1 = (double) ((float) iuc.getBlockPos().getX() + random.nextFloat());
-							double d2 = (double) ((float) iuc.getBlockPos().getY() + random.nextFloat());
-							double d3 = (double) ((float) iuc.getBlockPos().getZ() + random.nextFloat());
-			
-							if (i == 0 && !w.getBlockState(iuc.getBlockPos().up()).isOpaque())
-								d2 = (double) iuc.getBlockPos().getY() + d0 + 1.0D;
-							if (i == 1 && !w.getBlockState(iuc.getBlockPos().down(1)).isOpaque())
-								d2 = (double) iuc.getBlockPos().getY() - d0;
-							if (i == 2 && !w.getBlockState(iuc.getBlockPos().south()).isOpaque())
-								d3 = (double) iuc.getBlockPos().getZ() + d0 + 1.0D;
-							if (i == 3 && !w.getBlockState(iuc.getBlockPos().north()).isOpaque())
-								d3 = (double) iuc.getBlockPos().getZ() - d0;
-							if (i == 4 && !w.getBlockState(iuc.getBlockPos().east()).isOpaque())
-								d1 = (double) iuc.getBlockPos().getX() + d0 + 1.0D;
-							if (i == 5 && !w.getBlockState(iuc.getBlockPos().west()).isOpaque())
-								d1 = (double) iuc.getBlockPos().getX() - d0;
-			
-							if (d1 < (double) iuc.getBlockPos().getX() || d1 > (double) (iuc.getBlockPos().getX() + 1) || d2 < 0.0D
-									|| d2 > (double) (iuc.getBlockPos().getY() + 1) || d3 < (double) iuc.getBlockPos().getZ() || d3 > (double) (iuc.getBlockPos().getZ() + 1))
-									w.addParticle(ParticleTypes.FLAME, d1, d2, d3, 0.0D, 0.0D, 0.0D);
-						}
-						
-						return ActionResult.SUCCESS;
-					}
-				}
-			}
-		}
+    @Override
+    public ActionResult useOnBlock(ItemUsageContext iuc) {
+        ItemStack gem = iuc.getStack();
+        Upgradeable u = (Upgradeable) gem.getItem();
 
-		return ActionResult.PASS;
-	}
-	
-	@Override
-	public SoulType[] getSoulTypesToShow() {
-		return types;
-	}
+        if (!u.hasUpgradeSelected(gem, ModUpgrades.FLAMING_EDGE)) {
+            World w = iuc.getWorld();
+            if (SoulEssenceStaff.hasSoul(iuc.getPlayer(), w, ModSoulTypes.LIGHT, 5, ModSoulTypes.DARK, 5)) {
+                BlockState state = w.getBlockState(iuc.getBlockPos());
+                SimpleInventory inv = new SimpleInventory(new ItemStack(state.getBlock()));
+
+                SmeltingRecipe irecipe = w.getRecipeManager().getFirstMatch(RecipeType.SMELTING, inv, w).orElse(null);
+
+                if (irecipe != null) {
+                    ItemStack result = irecipe.craft(inv);
+
+                    Block block = Block.getBlockFromItem(result.getItem());
+
+                    if (!result.isEmpty() && block != Blocks.AIR) {
+                        w.setBlockState(iuc.getBlockPos(), block.getDefaultState());
+
+                        w.playSound(null, iuc.getBlockPos(), SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 1f, MathHelper.nextFloat(w.random, 0.5f, 1));
+
+                        Random random = w.random;
+                        double d0 = 0.0625D;
+
+                        for (int i = 0; i < 12; ++i) {
+                            double d1 = (double) ((float) iuc.getBlockPos().getX() + random.nextFloat());
+                            double d2 = (double) ((float) iuc.getBlockPos().getY() + random.nextFloat());
+                            double d3 = (double) ((float) iuc.getBlockPos().getZ() + random.nextFloat());
+
+                            if (i == 0 && !w.getBlockState(iuc.getBlockPos().up()).isOpaque())
+                                d2 = (double) iuc.getBlockPos().getY() + d0 + 1.0D;
+                            if (i == 1 && !w.getBlockState(iuc.getBlockPos().down(1)).isOpaque())
+                                d2 = (double) iuc.getBlockPos().getY() - d0;
+                            if (i == 2 && !w.getBlockState(iuc.getBlockPos().south()).isOpaque())
+                                d3 = (double) iuc.getBlockPos().getZ() + d0 + 1.0D;
+                            if (i == 3 && !w.getBlockState(iuc.getBlockPos().north()).isOpaque())
+                                d3 = (double) iuc.getBlockPos().getZ() - d0;
+                            if (i == 4 && !w.getBlockState(iuc.getBlockPos().east()).isOpaque())
+                                d1 = (double) iuc.getBlockPos().getX() + d0 + 1.0D;
+                            if (i == 5 && !w.getBlockState(iuc.getBlockPos().west()).isOpaque())
+                                d1 = (double) iuc.getBlockPos().getX() - d0;
+
+                            if (d1 < (double) iuc.getBlockPos().getX() || d1 > (double) (iuc.getBlockPos().getX() + 1) || d2 < 0.0D
+                                    || d2 > (double) (iuc.getBlockPos().getY() + 1) || d3 < (double) iuc.getBlockPos().getZ() || d3 > (double) (iuc.getBlockPos().getZ() + 1))
+                                w.addParticle(ParticleTypes.FLAME, d1, d2, d3, 0.0D, 0.0D, 0.0D);
+                        }
+
+                        return ActionResult.SUCCESS;
+                    }
+                }
+            }
+        }
+
+        return ActionResult.PASS;
+    }
+
+    @Override
+    public SoulType[] getSoulTypesToShow() {
+        return types;
+    }
 }

@@ -1,8 +1,6 @@
 package com.rainbowluigi.soulmagic.soultype;
 
-import com.mojang.serialization.Lifecycle;
 import com.rainbowluigi.soulmagic.util.Reference;
-
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.SimpleRegistry;
@@ -18,12 +16,12 @@ public class ModSoulTypes {
     public static final SoulType DARK = new SoulType(0x3D2E4C, Formatting.DARK_GRAY);
 
     public static void registerSoulTypes() {
-    	registerSoulType(LIGHT, "light");
-    	registerSoulType(PRIDEFUL, "prideful");
-    	registerSoulType(DARK, "dark");
+        registerSoulType(LIGHT, "light");
+        registerSoulType(PRIDEFUL, "prideful");
+        registerSoulType(DARK, "dark");
     }
 
     private static void registerSoulType(SoulType st, String name) {
-    	Registry.register(SOUL_TYPE, new Identifier(Reference.MOD_ID, name), st);
+        Registry.register(SOUL_TYPE, new Identifier(Reference.MOD_ID, name), st);
     }
 }

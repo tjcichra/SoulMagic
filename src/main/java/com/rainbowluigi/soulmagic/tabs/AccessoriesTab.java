@@ -1,10 +1,6 @@
 package com.rainbowluigi.soulmagic.tabs;
 
-import com.rainbowluigi.soulmagic.item.ModItems;
-import com.rainbowluigi.soulmagic.network.FlyingChestOpenMessage;
 import com.rainbowluigi.soulmagic.network.ModNetwork;
-
-import com.rainbowluigi.soulmagic.util.ItemHelper;
 import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.entity.player.PlayerEntity;
@@ -15,12 +11,12 @@ import net.minecraft.world.World;
 
 public class AccessoriesTab extends Tab {
 
-	public AccessoriesTab() {
-		super(new ItemStack(Items.DIAMOND_CHESTPLATE), "container.soulmagic.accessories");
-	}
+    public AccessoriesTab() {
+        super(new ItemStack(Items.DIAMOND_CHESTPLATE), "container.soulmagic.accessories");
+    }
 
-	@Override
-	public void whenClicked(PlayerEntity player, World world) {
-		ClientPlayNetworking.send(ModNetwork.ACCESSORIES_OPEN, new PacketByteBuf(Unpooled.buffer()));
-	}
+    @Override
+    public void whenClicked(PlayerEntity player, World world) {
+        ClientPlayNetworking.send(ModNetwork.ACCESSORIES_OPEN, new PacketByteBuf(Unpooled.buffer()));
+    }
 }

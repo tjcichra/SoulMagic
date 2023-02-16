@@ -15,27 +15,27 @@ import net.minecraft.village.VillagerProfession;
 import net.minecraft.world.poi.PointOfInterestType;
 
 public class ModVillagerProfessions {
-	
-	public static RegistryKey<PointOfInterestType> SOUL_TINKERE_POI = RegistryKey.of(RegistryKeys.POINT_OF_INTEREST_TYPE, new Identifier(Reference.MOD_ID, "soul_tinkerer_poi"));
 
-	public static VillagerProfession SOUL_TINKERER = VillagerProfessionBuilder.create().id(new Identifier(Reference.MOD_ID, "soul_tinkerer")).workstation(SOUL_TINKERE_POI).build();
+    public static RegistryKey<PointOfInterestType> SOUL_TINKERE_POI = RegistryKey.of(RegistryKeys.POINT_OF_INTEREST_TYPE, new Identifier(Reference.MOD_ID, "soul_tinkerer_poi"));
 
-	public static void registerPointsOfInterest() {
-		registerPointOfInterest(SOUL_TINKERE_POI, ModBlocks.SOUL_ESSENCE_INFUSER, 1, 1);
-	}
+    public static VillagerProfession SOUL_TINKERER = VillagerProfessionBuilder.create().id(new Identifier(Reference.MOD_ID, "soul_tinkerer")).workstation(SOUL_TINKERE_POI).build();
 
-	private static void registerPointOfInterest(RegistryKey<PointOfInterestType> key, Block block, int ticketCount, int searchDistance) {
-		ImmutableSet<BlockState> states = ImmutableSet.copyOf(block.getStateManager().getStates());
-		PointOfInterestType pointOfInterestType = new PointOfInterestType(states, ticketCount, searchDistance);
+    public static void registerPointsOfInterest() {
+        registerPointOfInterest(SOUL_TINKERE_POI, ModBlocks.SOUL_ESSENCE_INFUSER, 1, 1);
+    }
 
-		Registry.register(Registries.POINT_OF_INTEREST_TYPE, key, pointOfInterestType);
-	}
+    private static void registerPointOfInterest(RegistryKey<PointOfInterestType> key, Block block, int ticketCount, int searchDistance) {
+        ImmutableSet<BlockState> states = ImmutableSet.copyOf(block.getStateManager().getStates());
+        PointOfInterestType pointOfInterestType = new PointOfInterestType(states, ticketCount, searchDistance);
 
-	public static void registerVillagerProfessions() {
-		registerVillagerProfession(SOUL_TINKERER, "soul_tinkerer");
-	}
+        Registry.register(Registries.POINT_OF_INTEREST_TYPE, key, pointOfInterestType);
+    }
 
-	private static void registerVillagerProfession(VillagerProfession profession, String name) {
-		Registry.register(Registries.VILLAGER_PROFESSION, new Identifier(Reference.MOD_ID, name), profession);
-	}
+    public static void registerVillagerProfessions() {
+        registerVillagerProfession(SOUL_TINKERER, "soul_tinkerer");
+    }
+
+    private static void registerVillagerProfession(VillagerProfession profession, String name) {
+        Registry.register(Registries.VILLAGER_PROFESSION, new Identifier(Reference.MOD_ID, name), profession);
+    }
 }

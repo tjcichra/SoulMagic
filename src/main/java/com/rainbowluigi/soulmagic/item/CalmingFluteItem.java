@@ -1,9 +1,5 @@
 package com.rainbowluigi.soulmagic.item;
 
-import java.util.List;
-
-import com.rainbowluigi.soulmagic.SoulMagic;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -13,22 +9,24 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
+import java.util.List;
+
 public class CalmingFluteItem extends Item {
 
-	public CalmingFluteItem(Settings settings) {
-		super(settings);
-	}
+    public CalmingFluteItem(Settings settings) {
+        super(settings);
+    }
 
-	@Override
-	public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
-		List<Entity> entities = world.getOtherEntities(player, player.getBoundingBox().expand(4));
+    @Override
+    public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+        List<Entity> entities = world.getOtherEntities(player, player.getBoundingBox().expand(4));
 
-		for(Entity e : entities) {
-			if(e instanceof LivingEntity le) {
-				le.setAttacking(null);
-			}
-		}
+        for (Entity e : entities) {
+            if (e instanceof LivingEntity le) {
+                le.setAttacking(null);
+            }
+        }
 
-		return TypedActionResult.pass(player.getStackInHand(hand));
-	}
+        return TypedActionResult.pass(player.getStackInHand(hand));
+    }
 }
