@@ -1,10 +1,6 @@
 package com.rainbowluigi.soulmagic.item;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.rainbowluigi.soulmagic.block.ModBlocks;
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
@@ -20,13 +16,15 @@ import net.minecraft.particle.DustParticleEffect;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3f;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.World;
+import org.joml.Vector3f;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MagicalBallOfYarnItem extends Item implements DyeableItem {
 
@@ -57,7 +55,7 @@ public class MagicalBallOfYarnItem extends Item implements DyeableItem {
 			NbtCompound tag2 = null;
 			int color = this.getColor(stack);
 			
-			DustParticleEffect particle = new DustParticleEffect(new Vec3f((color >>> 16) / 255f, (color >>> 8 & 255) / 255f, (color & 255) / 255f), 1);
+			DustParticleEffect particle = new DustParticleEffect(new Vector3f((color >>> 16) / 255f, (color >>> 8 & 255) / 255f, (color & 255) / 255f), 1);
 			
 			
 			for(int i = 0; i < tag.size(); i++) {

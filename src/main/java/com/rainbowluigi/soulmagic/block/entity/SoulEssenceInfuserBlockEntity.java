@@ -23,10 +23,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
-import net.minecraft.network.Packet;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.network.listener.ClientPlayPacketListener;
-import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.recipe.RecipeManager;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -36,7 +33,6 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.Map.Entry;
@@ -192,7 +188,7 @@ public class SoulEssenceInfuserBlockEntity extends LockableContainerBlockEntity 
 		if (outputSlot.isEmpty()) {
 			return true;
 		}
-		if (!outputSlot.isItemEqualIgnoreDamage(recipeOutput)) {
+		if (!outputSlot.isItemEqual(recipeOutput)) {
 			return false;
 		}
 		int maxCount = Math.min(outputSlot.getMaxCount(), inventoryMaxCount);

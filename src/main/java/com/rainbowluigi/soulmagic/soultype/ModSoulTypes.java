@@ -4,16 +4,14 @@ import com.mojang.serialization.Lifecycle;
 import com.rainbowluigi.soulmagic.util.Reference;
 
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.SimpleRegistry;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.DefaultedRegistry;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryKey;
-import net.minecraft.util.registry.SimpleRegistry;
 
 public class ModSoulTypes {
 
-    public static final Registry<SoulType> SOUL_TYPE = FabricRegistryBuilder.createSimple(SoulType.class, new Identifier(Reference.MOD_ID, "soul_type")).buildAndRegister();
+    public static final SimpleRegistry<SoulType> SOUL_TYPE = FabricRegistryBuilder.createSimple(SoulType.class, new Identifier(Reference.MOD_ID, "soul_type")).buildAndRegister();
 
     public static final SoulType LIGHT = new SoulType(0xEEC56A, Formatting.YELLOW);
     public static final SoulType PRIDEFUL = new SoulType(0xFF55FF, Formatting.LIGHT_PURPLE);

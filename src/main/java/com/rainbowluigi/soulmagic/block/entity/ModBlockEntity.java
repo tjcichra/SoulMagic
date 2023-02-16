@@ -4,8 +4,9 @@ import com.rainbowluigi.soulmagic.block.ModBlocks;
 import com.rainbowluigi.soulmagic.util.Reference;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 public class ModBlockEntity {
 	
@@ -20,6 +21,6 @@ public class ModBlockEntity {
 	}
 
 	private static void registerBlockEntityType(BlockEntityType<?> blockEntityType, String name) {
-		Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(Reference.MOD_ID, name), blockEntityType);
+		Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier(Reference.MOD_ID, name), blockEntityType);
 	}
 }

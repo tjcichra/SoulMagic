@@ -1,0 +1,5 @@
+{
+  "name": "Soul Essence",
+  "description": "Information about soul essence",
+  "icon": "soulmagic:soul_essence_staff{souls: {'soulmagic:prideful': 100, 'soulmagic:dark': 100, 'soulmagic:light': 100}}"
+}

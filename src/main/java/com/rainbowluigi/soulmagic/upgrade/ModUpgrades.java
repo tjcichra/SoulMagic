@@ -10,12 +10,13 @@ import net.minecraft.block.Blocks;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.SimpleRegistry;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 public class ModUpgrades {
 
-	public static final Registry<Upgrade> UPGRADE = FabricRegistryBuilder.createSimple(Upgrade.class, new Identifier(Reference.MOD_ID, "upgrade")).buildAndRegister();
+	public static final SimpleRegistry<Upgrade> UPGRADE = FabricRegistryBuilder.createSimple(Upgrade.class, new Identifier(Reference.MOD_ID, "upgrade")).buildAndRegister();
 
 	public static final Upgrade FIREBALL = new FireballUpgrade(-32, -8, null, FireballUpgrade.ICON, UpgradeSprite.GEM_SPRITE).setRequirements(new ItemStack(Items.POTATO), new ItemStack(Items.ACACIA_BOAT), new ItemStack(Blocks.JUKEBOX));
 	public static final Upgrade TRIPLE_FIREBALL = new Upgrade(-64, -14, FIREBALL, null, UpgradeSprite.CIRCLE_SPRITE).setRequirements(new ItemStack(Items.STICK), new ItemStack(Blocks.QUARTZ_BRICKS));
@@ -38,8 +39,8 @@ public class ModUpgrades {
 	public static final Upgrade TOOL_SWITCHING = new Upgrade(-34, 38, null, null, UpgradeSprite.GEM_SPRITE).setRequirements(new ItemStack(Items.POTATO), new ItemStack(Items.ACACIA_BOAT), new ItemStack(Blocks.JUKEBOX));
 	public static final Upgrade BOUND_ENCHANTMENTS = new Upgrade(34, 38, null, null, UpgradeSprite.GEM_SPRITE).setRequirements(new ItemStack(Items.POTATO), new ItemStack(Items.ACACIA_BOAT), new ItemStack(Blocks.JUKEBOX));
 
-	public static final Upgrade SOUL_ESSENCE_STAFF_INCREASE_1 = new Upgrade(32, -32, null, null, UpgradeSprite.CIRCLE_SPRITE).setRequirements(new ItemStack(Blocks.ACACIA_PLANKS));
-	public static final Upgrade SOUL_ESSENCE_STAFF_INCREASE_2 = new Upgrade( 0, -16, SOUL_ESSENCE_STAFF_INCREASE_1, null, UpgradeSprite.CIRCLE_SPRITE).setRequirements(new ItemStack(Blocks.ACACIA_PLANKS));
+	public static final Upgrade SOUL_ESSENCE_STAFF_INCREASE_1 = new Upgrade(540, 480, null, null, UpgradeSprite.CIRCLE_SPRITE).setRequirements(new ItemStack(Blocks.ACACIA_PLANKS));
+	public static final Upgrade SOUL_ESSENCE_STAFF_INCREASE_2 = new Upgrade( 540, 530, SOUL_ESSENCE_STAFF_INCREASE_1, null, UpgradeSprite.CIRCLE_SPRITE).setRequirements(new ItemStack(Blocks.ACACIA_PLANKS));
 
 	public static final Upgrade ENCHANTING_COMPONENT = new Upgrade(-64, -14, null, null, UpgradeSprite.CIRCLE_SPRITE).setRequirements(new ItemStack(ModItems.LIGHT_SOUL_ESSENCE_POWDER, 4), new ItemStack(Blocks.BOOKSHELF, 4), new ItemStack(Blocks.ENCHANTING_TABLE));
 

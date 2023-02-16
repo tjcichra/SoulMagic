@@ -17,6 +17,7 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.ShapedRecipe;
+import net.minecraft.recipe.book.CraftingRecipeCategory;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.collection.DefaultedList;
@@ -27,7 +28,7 @@ public class ShapedSoulStaffRecipe extends ShapedRecipe {
 	private final Map<SoulType, Integer> soulMap;
 	
 	public ShapedSoulStaffRecipe(ShapedRecipe srecipe, Map<SoulType, Integer> soulMap) {
-		super(srecipe.getId(), srecipe.getGroup(), srecipe.getWidth(), srecipe.getHeight(), srecipe.getIngredients(), srecipe.getOutput());
+		super(srecipe.getId(), srecipe.getGroup(), CraftingRecipeCategory.MISC, srecipe.getWidth(), srecipe.getHeight(), srecipe.getIngredients(), srecipe.getOutput());
 		this.soulMap = soulMap;
 	}
 	

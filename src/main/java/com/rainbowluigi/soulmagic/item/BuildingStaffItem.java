@@ -1,11 +1,7 @@
 package com.rainbowluigi.soulmagic.item;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.rainbowluigi.soulmagic.upgrade.UpgradeSprite;
 import com.rainbowluigi.soulmagic.util.ItemHelper;
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.Block;
@@ -16,8 +12,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.Registries;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
@@ -26,13 +22,15 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BuildingStaffItem extends Item implements CircleSelection {
 
-	private int maxMode = 3;
-	private String[] strings = {"text.soulmagic.bluidtoplayer", "text.soulmagic.buildfromplayer", "text.soulmagic.expandhorizontally"};
+	private final int maxMode = 3;
+	private final String[] strings = {"text.soulmagic.bluidtoplayer", "text.soulmagic.buildfromplayer", "text.soulmagic.expandhorizontally"};
 
 	public BuildingStaffItem(Settings settings) {
 		super(settings);
@@ -40,12 +38,12 @@ public class BuildingStaffItem extends Item implements CircleSelection {
 
 	@Override
 	public ActionResult useOnBlock(ItemUsageContext context) {
-		if(context.getPlayer().isSneaking()) {
+		if(context.getPlayer() != null && context.getPlayer().isSneaking()) {
 			ItemStack stack = context.getStack();
 			BlockState state = context.getWorld().getBlockState(context.getBlockPos());
 
 			NbtCompound tag = stack.getOrCreateNbt();
-			tag.putString("block", Registry.BLOCK.getId(state.getBlock()).toString());
+			tag.putString("block", Registries.BLOCK.getId(state.getBlock()).toString());
 
 			return ActionResult.SUCCESS;
 		}
@@ -61,7 +59,7 @@ public class BuildingStaffItem extends Item implements CircleSelection {
 			ItemStack stack = user.getStackInHand(hand);
 
 			if(stack.hasNbt() && stack.getNbt().contains("block")) {
-				Block block = Registry.BLOCK.get(new Identifier(stack.getNbt().getString("block")));
+				Block block = Registries.BLOCK.get(new Identifier(stack.getNbt().getString("block")));
 				List<ItemStack> invStack = ItemHelper.findAllItem(user, block);
 				
 				if(user.isCreative() || !invStack.isEmpty()) {
@@ -71,21 +69,11 @@ public class BuildingStaffItem extends Item implements CircleSelection {
 					Direction face = blockresult.getSide();
 					BlockPos pos = blockresult.getBlockPos();
 
-					int count;
-
-					switch(face.getAxis()) {
-						case X:
-							count = (int) (user.getX() - pos.getX());
-							break;
-						case Y:
-							count = (int) (user.getY() - pos.getY());
-							break;
-						case Z:
-							count = (int) (user.getZ() - pos.getZ());
-							break;
-						default:
-							count = 0;
-					}
+					int count = switch (face.getAxis()) {
+						case X -> (int) (user.getX() - pos.getX());
+						case Y -> (int) (user.getY() - pos.getY());
+						case Z -> (int) (user.getZ() - pos.getZ());
+					};
 
 					count = Math.abs(count);
 
@@ -100,11 +88,11 @@ public class BuildingStaffItem extends Item implements CircleSelection {
 								}
 							}
 						} else {
-							TypedActionResult.fail(user.getStackInHand(hand));
+							return TypedActionResult.fail(user.getStackInHand(hand));
 						}
 					}
 
-					TypedActionResult.success(user.getStackInHand(hand));
+					return TypedActionResult.success(user.getStackInHand(hand));
 				}
 			}
 		}
@@ -134,7 +122,7 @@ public class BuildingStaffItem extends Item implements CircleSelection {
 	@Override
 	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
 		if(stack.hasNbt() && stack.getNbt().contains("block")) {
-			Block block = Registry.BLOCK.get(new Identifier(stack.getNbt().getString("block")));
+			Block block = Registries.BLOCK.get(new Identifier(stack.getNbt().getString("block")));
 			tooltip.add(block.getName());
 		}
 	}

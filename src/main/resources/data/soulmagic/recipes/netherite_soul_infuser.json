@@ -5,25 +5,25 @@
 			"item": "minecraft:netherite_scrap"
 		},
 		{
-			"item": "minecraft:air"
+			"item": "minecraft:sponge"
 		},
 		{
-			"item": "minecraft:air"
-		},
-		{
-			"item": "minecraft:netherite_scrap"
-		},
-		{
-			"item": "minecraft:air"
+			"item": "minecraft:sponge"
 		},
 		{
 			"item": "minecraft:netherite_scrap"
 		},
 		{
-			"item": "minecraft:air"
+			"item": "minecraft:sponge"
 		},
 		{
-			"item": "minecraft:air"
+			"item": "minecraft:netherite_scrap"
+		},
+		{
+			"item": "minecraft:sponge"
+		},
+		{
+			"item": "minecraft:sponge"
 		},
 		{
 			"item": "minecraft:gold_block"

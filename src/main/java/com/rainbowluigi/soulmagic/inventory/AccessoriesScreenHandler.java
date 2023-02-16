@@ -74,7 +74,7 @@ public class AccessoriesScreenHandler extends ScreenHandler {
 	}
 
 	@Override
-	public ItemStack transferSlot(PlayerEntity playerIn, int fromSlot) {
+	public ItemStack quickMove(PlayerEntity playerIn, int fromSlot) {
 		ItemStack previous = ItemStack.EMPTY;
 		Slot slot = this.getSlot(fromSlot);
 

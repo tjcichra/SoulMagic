@@ -5,9 +5,6 @@ import com.rainbowluigi.soulmagic.block.entity.SoulEssenceInfuserBlockEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.ChestBlock;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
@@ -15,11 +12,10 @@ import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Quaternion;
-import net.minecraft.util.math.Vec3f;
+import net.minecraft.util.math.RotationAxis;
+import org.joml.Quaternionf;
 
 @Environment(value= EnvType.CLIENT)
 public class BlockEntitySpecialRendererSoulInfuser implements BlockEntityRenderer<SoulEssenceInfuserBlockEntity> {
@@ -67,7 +63,7 @@ public class BlockEntitySpecialRendererSoulInfuser implements BlockEntityRendere
 //            System.out.println(quaternion);
 //            quaternion.getY();
 
-            matrices.multiply(new Quaternion(Vec3f.NEGATIVE_Y, -quaternion, true));
+            matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180));
             MinecraftClient.getInstance().getItemRenderer().renderItem(centerItemStack, ModelTransformation.Mode.GROUND, light, overlay, matrices, vertexConsumers, 0);
             matrices.pop();
         }

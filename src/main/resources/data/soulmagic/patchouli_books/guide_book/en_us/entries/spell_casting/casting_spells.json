@@ -1,0 +1,16 @@
+{
+  "name": "Casting Spells",
+  "icon": "minecraft:air",
+  "category": "soulmagic:spell_casting",
+  "priority": true,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "To cast spells, you will need $(l:soulmagic:soul_essence)soul essence$(/l) and a $(l:soulmagic:spell_casting/soul_gem)Soul Gem$(/l). To add spells to the Soul Gem you need to use the Upgrade Station."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "soulmagic:empty_soul_gem"
+    }
+  ]
+}

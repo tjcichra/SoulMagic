@@ -7,6 +7,7 @@ import com.rainbowluigi.soulmagic.network.EntityRenderMessage;
 import com.rainbowluigi.soulmagic.network.ModNetwork;
 
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.network.listener.ClientPlayPacketListener;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.entity.Entity;
@@ -140,7 +141,7 @@ public class SpiritFlameEntity extends Entity {
 	}
 
 	protected boolean hitEntity(Entity entity) {
-		if (!entity.isSpectator() && entity.isAlive() && entity.collides()) {
+		if (!entity.isSpectator() && entity.isAlive() /*&& entity.collides()*/) {
 			return true;
 		}
 		return false;
@@ -163,7 +164,7 @@ public class SpiritFlameEntity extends Entity {
 	}
 
 	@Override
-	public Packet<?> createSpawnPacket() {
+	public Packet<ClientPlayPacketListener> createSpawnPacket() {
 		return ServerPlayNetworking.createS2CPacket(ModNetwork.ENTITY_RENDER, EntityRenderMessage.makePacket(this, this.getCaster() == null ? 0 : this.getCaster().getId()));
 	}
 

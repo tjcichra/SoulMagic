@@ -1,10 +1,11 @@
 package com.rainbowluigi.soulmagic.stats;
 
 import com.rainbowluigi.soulmagic.util.Reference;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.stat.StatFormatter;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 public class ModStats {
 
@@ -15,7 +16,7 @@ public class ModStats {
 
     private static Identifier registerStat(String name) {
         Identifier id = new Identifier(Reference.MOD_ID, name);
-        Registry.register(Registry.CUSTOM_STAT, id, id);
+        Registry.register(Registries.CUSTOM_STAT, id, id);
         Stats.CUSTOM.getOrCreateStat(id, StatFormatter.DEFAULT);
         return id;
     }

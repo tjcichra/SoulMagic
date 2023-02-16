@@ -1,0 +1,11 @@
+{
+  "name": "Soul Essence Lantern",
+  "icon": "soulmagic:soul_essence_lantern",
+  "category": "soulmagic:soul_essence",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Hold me closer"
+    }
+  ]
+}

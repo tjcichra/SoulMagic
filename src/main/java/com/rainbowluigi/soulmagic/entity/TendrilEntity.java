@@ -10,6 +10,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
+import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Vec3d;
@@ -61,7 +62,7 @@ public class TendrilEntity extends Entity {
 	}
 
 	protected boolean hitEntity(Entity entity) {
-		if (!entity.isSpectator() && entity.isAlive() && entity.collides()) {
+		if (!entity.isSpectator() && entity.isAlive() /*&& entity.collides()*/) {
 			return true;
 		}
 		return false;
@@ -74,7 +75,6 @@ public class TendrilEntity extends Entity {
 
 				if (entity instanceof TendrilEntity || entity instanceof PlayerEntity)
 					return;
-				System.out.println("ds");
 				this.grapping = true;
 				entity.setVelocity(0, 0, 0);
 			}
@@ -83,7 +83,7 @@ public class TendrilEntity extends Entity {
 	}
 
 	@Override
-	public Packet<?> createSpawnPacket() {
+	public Packet<ClientPlayPacketListener> createSpawnPacket() {
 		return ServerPlayNetworking.createS2CPacket(ModNetwork.ENTITY_RENDER, EntityRenderMessage.makePacket(this, 0));
 	}
 

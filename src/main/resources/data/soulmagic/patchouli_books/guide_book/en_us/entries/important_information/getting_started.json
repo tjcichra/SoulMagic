@@ -1,0 +1,16 @@
+{
+  "name": "Getting Started",
+  "icon": "minecraft:air",
+  "category": "soulmagic:important_information",
+  "priority": true,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Welcome to the world of Soul Magic! To get started you are going to need $(l:soulmagic:soul_essence)soul essence$(/l). To get some, you will first need to craft a $(l:soulmagic:soul_essence/soul_essence_staff)Soul Essence Staff$(/l). If you kill some mobs with the soul staff in your inventory it will fill up with soul essence."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "You can make numerous devices that use and produce soul essence such as the $(l:soulmagic:soul_essence/soul_essence_lantern)Soul Essence Lantern$(/l). However, the main purpose of soul essence is for creating and casting spells. To create spells,"
+    }
+  ]
+}

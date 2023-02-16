@@ -2,6 +2,7 @@ package com.rainbowluigi.soulmagic.client;
 
 import com.rainbowluigi.soulmagic.block.entity.ModBlockEntity;
 import com.rainbowluigi.soulmagic.client.screen.*;
+import com.rainbowluigi.soulmagic.client.screen.upgradeworkbench.UpgradeStationScreen;
 import com.rainbowluigi.soulmagic.entity.ModEntityTypes;
 import com.rainbowluigi.soulmagic.item.BraceItem;
 import com.rainbowluigi.soulmagic.item.CircleSelection;

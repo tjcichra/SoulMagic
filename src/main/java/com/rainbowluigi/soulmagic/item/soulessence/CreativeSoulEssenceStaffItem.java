@@ -7,6 +7,7 @@ import com.rainbowluigi.soulmagic.soultype.SoulType;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroupEntries;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.Item;
@@ -33,19 +34,15 @@ public class CreativeSoulEssenceStaffItem extends Item implements SoulEssenceSta
 			}
 		}
 	}
-	
-	@Override
-	public void appendStacks(ItemGroup group, DefaultedList<ItemStack> items) {
-		if (this.isIn(group)) {
-			ItemStack stack = new ItemStack(this);
-			
-			for(SoulType st : ModSoulTypes.SOUL_TYPE) {
-				MinecraftClient client = MinecraftClient.getInstance();
-				this.setSoul(stack, client.world, st, this.getMaxSoul(stack, client.world, st));
-			}
-			
-			items.add(stack);
+
+	public void addToCreativeMenu(FabricItemGroupEntries entries) {
+		MinecraftClient client = MinecraftClient.getInstance();
+		ItemStack stack = new ItemStack(this);
+		for(SoulType st : ModSoulTypes.SOUL_TYPE) {
+			this.setSoul(stack, client.world, st, this.getMaxSoul(stack, client.world, st));
 		}
+
+		entries.add(stack);
     }
 
 	@Override

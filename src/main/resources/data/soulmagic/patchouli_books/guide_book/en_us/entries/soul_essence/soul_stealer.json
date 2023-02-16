@@ -1,0 +1,15 @@
+{
+  "name": "Soul Stealer",
+  "icon": "minecraft:enchanted_book",
+  "category": "soulmagic:soul_essence",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Soul Stealer is an enchantment that will gather more soul essence when you kill a mob. It can be obtained by enchanting a sword or by applying an enchanted book with Soul Stealer on a sword or axe using an anvil."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Without the enchantment, killing a mob gathers 2-5 soul essence.$(br2)With Soul Stealer I, killing a mob gathers 3-6 soul essence.$(br2)With Soul Stealer II, killing a mob gathers 4-7 soul essence.$(br2)With Soul Stealer III, killing a mob gathers 5-8 soul essence."
+    }
+  ]
+}

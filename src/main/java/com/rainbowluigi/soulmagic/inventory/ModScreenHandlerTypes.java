@@ -12,11 +12,12 @@ import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 public class ModScreenHandlerTypes {
 
@@ -61,7 +62,7 @@ public class ModScreenHandlerTypes {
 	}
 
 	private static void registerScreenHandlerType(ScreenHandlerType<?> screenHandlerType, String name) {
-		Registry.register(Registry.SCREEN_HANDLER, new Identifier(Reference.MOD_ID, name), screenHandlerType);
+		Registry.register(Registries.SCREEN_HANDLER, new Identifier(Reference.MOD_ID, name), screenHandlerType);
 	}
 
 	public static <T extends ScreenHandler, S extends BlockEntity> ScreenHandlerType<T> registerScreenHandler(String name, BlockEntityScreenHandlerFactory<T, S> f) {

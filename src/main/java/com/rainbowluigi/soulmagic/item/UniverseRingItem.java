@@ -22,7 +22,6 @@ public class UniverseRingItem extends Item {
 		if(!world.isClient) {
 			UniverseRingEntity ure = new UniverseRingEntity(world, player);
 			Vec3d cam = player.getCameraPosVec(1);
-			System.out.println(cam);
 			world.spawnEntity(ure);
 		}
 		return new TypedActionResult<ItemStack>(ActionResult.PASS, player.getStackInHand(hand));

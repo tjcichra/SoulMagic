@@ -7,6 +7,7 @@ import com.rainbowluigi.soulmagic.soultype.SoulType;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroupEntries;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.Item;
@@ -23,30 +24,15 @@ public class SoulEssenceOrbItem extends Item implements SoulEssenceContainer {
         super(settings);
     }
 
-    @Environment(EnvType.CLIENT)
-	@Override
-    public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
+	public void addToCreativeMenu(FabricItemGroupEntries entries) {
+		MinecraftClient client = MinecraftClient.getInstance();
+		ItemStack stack = new ItemStack(this);
 		for(SoulType st : ModSoulTypes.SOUL_TYPE) {
-			if (this.getSoul(stack, world, st) > 0) {
-				tooltip.add(Text.translatable("soulmagic.soul_essence_orb.amount", st.getName(), this.getSoul(stack, world, st)).formatted(st.getTextColor()));
-			}
+			this.setSoul(stack, client.world, st, this.getMaxSoul(stack, client.world, st));
 		}
+
+		entries.add(stack);
 	}
-
-    @Override
-	public void appendStacks(ItemGroup group, DefaultedList<ItemStack> items) {
-        MinecraftClient client = MinecraftClient.getInstance();
-
-		if (this.isIn(group)) {
-			ItemStack stack = new ItemStack(this);
-			
-			for(SoulType st : ModSoulTypes.SOUL_TYPE) {
-				this.setSoul(stack, client.world, st, this.getMaxSoul(stack, client.world, st));
-			}
-			
-			items.add(stack);
-		}
-    }
 
     //Fixed at 1000, this may change somehow to have no limit
     @Override

@@ -1,0 +1,19 @@
+{
+  "name": "Soul Essence Staff",
+  "icon": "soulmagic:soul_essence_staff",
+  "category": "soulmagic:soul_essence",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "A Soul Essence Staff is used for gathering and storing soul essence. When you kill a mob while a Soul Essence Staff is in your inventory, soul essence from the mob will be stored in the staff. Undead mobs give dark soul essence, living mobs give light soul essence, and Soulos gives prideful soul essence."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Soul Essence Staffs by default hold 100 of each type of soul essence. This can be increased with an $(l:soulmagic:miscellaneous/upgrade_workbench)Upgrade Workbench$(/l).$(br2)Killing a mob gathers 2-5 soul essence. This can be increased be with the $(l:soulmagic:soul_essence/soul_stealer)Soul Stealer$(/l) enchantment.$(br2)Soul Essence Staffs are used in certain crafting recipes and devices that require soul essence. Casting spells uses soul essence as well."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "soulmagic:soul_essence_staff"
+    }
+  ]
+}

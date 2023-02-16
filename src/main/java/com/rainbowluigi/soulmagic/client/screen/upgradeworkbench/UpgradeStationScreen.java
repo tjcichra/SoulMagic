@@ -1,7 +1,6 @@
-package com.rainbowluigi.soulmagic.client.screen;
+package com.rainbowluigi.soulmagic.client.screen.upgradeworkbench;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.rainbowluigi.soulmagic.SoulMagic;
 import com.rainbowluigi.soulmagic.inventory.UpgradeStationScreenHandler;
 import com.rainbowluigi.soulmagic.item.Upgradeable;
 import com.rainbowluigi.soulmagic.network.ModNetwork;
@@ -11,6 +10,7 @@ import com.rainbowluigi.soulmagic.upgrade.Upgrade;
 import com.rainbowluigi.soulmagic.upgrade.UpgradeSprite;
 import com.rainbowluigi.soulmagic.util.Reference;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.render.*;
@@ -20,11 +20,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Matrix4f;
+import org.joml.Matrix4f;
 
 import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHandler> {
 	private static final Identifier TEXTURE = new Identifier(Reference.MOD_ID, "textures/gui/container/upgrade_station.png");
@@ -42,9 +43,9 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 	// The height of the window of the "spacy" area
 	private final int windowHeight = 128;
 	// The x position of the "spacy area" relative to the left window border
-	private int innerX = (innerLength / 2) - (windowLength / 2);
+	private double innerX = (innerLength / 2) - (windowLength / 2);
 	// The y position of the "spacy area" relative to the top window border
-	private int innerY = (innerHeight / 2) - (windowHeight / 2);
+	private double innerY = (innerHeight / 2) - (windowHeight / 2);
 
 	private boolean movingTab;
 
@@ -70,8 +71,8 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 
 		//u.setUpgradeSelection(stack, this.selectedUpgrade, !u.hasUpgradeSelected(stack, this.selectedUpgrade));
 
-		this.addDrawableChild(new ButtonWidget(this.x + 10, this.y + this.backgroundHeight - 24, 40, 20, Text.translatable("unlock"), this::unlockUpgrade));
-		this.addDrawableChild(new ButtonWidget(this.x + this.backgroundWidth - 50, this.y + this.backgroundHeight - 24, 40, 20, Text.translatable("add select point"), this::addSelectPoint));
+		this.addDrawableChild(ButtonWidget.builder(Text.translatable("unlock"), this::unlockUpgrade).dimensions(this.x + 10, this.y + this.backgroundHeight - 24, 40, 20).build());
+		this.addDrawableChild(ButtonWidget.builder(Text.translatable("add select point"), this::addSelectPoint).dimensions(this.x + this.backgroundWidth - 50, this.y + this.backgroundHeight - 24, 40, 20).build());
 	}
 
 	public void unlockUpgrade(ButtonWidget buttonWidgetx) {
@@ -176,14 +177,14 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 		int i = this.x;
 		int j = this.y;
 
-		RenderSystem.setShader(GameRenderer::getPositionTexShader);
+		RenderSystem.setShader(GameRenderer::getPositionTexProgram);
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 
 		RenderSystem.setShaderTexture(0, BORDER_TEXTURE);
 		this.drawTexture(matrices, i, j, 0, 0, 204, 166);
 
 		RenderSystem.setShaderTexture(0, TEXTURE);
-		drawTexture(matrices, i + 11, j + 11, this.innerX, this.innerY, this.windowLength, this.windowHeight, this.innerLength, this.innerHeight); //CLEAR!
+		drawTexture(matrices, i + 11, j + 11, (float) this.innerX, (float) this.innerY, this.windowLength, this.windowHeight, this.innerLength, this.innerHeight); //CLEAR!
 
 		ItemStack item = this.getStack();
 		if(item.getItem() instanceof Upgradeable upgradeable) {
@@ -202,7 +203,7 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 				this.drawUpgradeIcon(matrices, u);
 			}
 
-			itemRenderer.renderGuiItemIcon(item, this.innerXPointToActualXPoint(0) - 8, this.innerYPointToActualYPoint(0) - 8);
+			itemRenderer.renderGuiItemIcon(item, this.innerXPointToActualXPoint(innerLength / 2) - 8, this.innerYPointToActualYPoint(innerHeight / 2) - 8);
 
 			if(this.selectedUpgrade != null && !upgradeable.hasUpgradeUnlocked(item, this.selectedUpgrade)) {
 				for(int r = 0; r < this.selectedUpgrade.getRequirements().length; r++) {
@@ -297,16 +298,16 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 		if (button != 0) {
 			this.movingTab = false;
 			return false;
-		} else {
-			if (!this.movingTab) {
-				this.movingTab = true;
-			} else {
-				this.innerX = (int) MathHelper.clamp(this.innerX - deltaX, 0, this.innerLength - this.windowLength); //CLEAR
-				this.innerY = (int) MathHelper.clamp(this.innerY - deltaY, 0, this.innerHeight - this.windowHeight); //CLEAR
-			}
-
-			return true;
 		}
+
+		if (!this.movingTab) {
+			this.movingTab = true;
+		} else {
+			this.innerX = MathHelper.clamp(this.innerX - deltaX, 0, this.innerLength - this.windowLength); //CLEAR
+			this.innerY = MathHelper.clamp(this.innerY - deltaY, 0, this.innerHeight - this.windowHeight); //CLEAR
+		}
+
+		return true;
 	}
 
 	@Override
@@ -358,18 +359,24 @@ public class UpgradeStationScreen extends HandledScreen<UpgradeStationScreenHand
 	}
 
 	public int actualXPointToInnerXPoint(int actualX) {
-		return actualX - this.x + this.innerX;
+		return (int) (actualX - this.x + this.innerX);
 	}
 
 	public int innerXPointToActualXPoint(int innerXPoint) {
-		return innerXPoint + this.x - this.innerX;
+		return (int) (innerXPoint + this.x - this.innerX);
 	}
 
 	public int actualYPointToInnerYPoint(int actualY) {
-		return actualY - this.y + this.innerY;
+		return (int) (actualY - this.y + this.innerY);
 	}
 
 	public int innerYPointToActualYPoint(int innerYPoint) {
-		return innerYPoint + this.y - this.innerY;
+		return (int) (innerYPoint + this.y - this.innerY);
+	}
+
+	private ButtonWidget createButton(Text text, Supplier<Screen> screenSupplier) {
+		return ButtonWidget.builder(text, (button) -> {
+			this.client.setScreen(screenSupplier.get());
+		}).width(98).build();
 	}
 }

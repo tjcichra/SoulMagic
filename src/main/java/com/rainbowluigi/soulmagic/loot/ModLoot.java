@@ -7,14 +7,15 @@ import net.minecraft.loot.LootTables;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.function.LootFunctionType;
 import net.minecraft.loot.provider.number.UniformLootNumberProvider;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 
 public class ModLoot {
 
 	public static final LootFunctionType RANDOM_SOUL_ESSENCE = new LootFunctionType(new RandomSoulEssenceFunction.Serializer());
 	
 	public static void handleLoot() {
-		Registry.register(Registry.LOOT_FUNCTION_TYPE, "random_soul_essence", RANDOM_SOUL_ESSENCE);
+		Registry.register(Registries.LOOT_FUNCTION_TYPE, "random_soul_essence", RANDOM_SOUL_ESSENCE);
 
 		LootTableEvents.MODIFY.register((resourceManager, manager, id, builder, source) -> {
 			if(id.equals(LootTables.SIMPLE_DUNGEON_CHEST)) {

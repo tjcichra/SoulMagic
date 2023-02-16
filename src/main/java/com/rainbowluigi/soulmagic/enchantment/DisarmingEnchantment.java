@@ -6,8 +6,8 @@ import net.minecraft.entity.EquipmentSlot;
 
 public class DisarmingEnchantment extends Enchantment {
 
-	protected DisarmingEnchantment(Rarity weight, EnchantmentTarget type, EquipmentSlot[] slotTypes) {
-		super(weight, type, slotTypes);
+	protected DisarmingEnchantment(Enchantment.Rarity rarity, EnchantmentTarget enchantmentTarget, EquipmentSlot ... equipmentSlots) {
+		super(rarity, enchantmentTarget, equipmentSlots);
 	}
 
 	@Override

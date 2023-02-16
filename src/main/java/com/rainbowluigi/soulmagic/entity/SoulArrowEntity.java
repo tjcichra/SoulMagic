@@ -16,6 +16,7 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.network.Packet;
+import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.world.World;
 
 public class SoulArrowEntity extends ArrowEntity {
@@ -67,7 +68,7 @@ public class SoulArrowEntity extends ArrowEntity {
 	}
 	
 	@Override
-	public Packet<?> createSpawnPacket() {
+	public Packet<ClientPlayPacketListener> createSpawnPacket() {
 		Entity owner = this.getOwner();
 		return ServerPlayNetworking.createS2CPacket(ModNetwork.ENTITY_RENDER, EntityRenderMessage.makePacket(this,  owner == null ? 0 : owner.getId()));
 	}

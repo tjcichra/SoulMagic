@@ -12,9 +12,9 @@ import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Matrix3f;
-import net.minecraft.util.math.Matrix4f;
-import net.minecraft.util.math.Vec3f;
+import net.minecraft.util.math.RotationAxis;
+import org.joml.Matrix3f;
+import org.joml.Matrix4f;
 
 @Environment(EnvType.CLIENT)
 public class MagicFireballRender extends EntityRenderer<MagicFireballEntity> {
@@ -29,7 +29,7 @@ public class MagicFireballRender extends EntityRenderer<MagicFireballEntity> {
     public void render(MagicFireballEntity entity, float f1, float f2, MatrixStack matrix, VertexConsumerProvider vertexCP, int i1) {
 		matrix.push();
     	matrix.multiply(this.dispatcher.getRotation());
-    	matrix.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180.0F));
+    	matrix.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180.0F));
     	
     	float size = entity.ticks < 100 ? 0.75f : -0.0375f * entity.ticks + 4.5f;
     	matrix.scale(size, size, size);

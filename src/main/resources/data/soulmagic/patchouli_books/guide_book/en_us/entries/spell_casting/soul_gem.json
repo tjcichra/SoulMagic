@@ -1,0 +1,15 @@
+{
+  "name": "Soul Gem",
+  "icon": "soulmagic:soul_gem",
+  "category": "soulmagic:spell_casting",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "To cast spells, you will need to create a soul gem. You can use "
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "soulmagic:empty_soul_gem"
+    }
+  ]
+}

@@ -24,9 +24,7 @@ public class CalmingFluteItem extends Item {
 		List<Entity> entities = world.getOtherEntities(player, player.getBoundingBox().expand(4));
 
 		for(Entity e : entities) {
-			if(e instanceof LivingEntity) {
-				LivingEntity le = (LivingEntity) e;
-				SoulMagic.LOGGER.info(le);
+			if(e instanceof LivingEntity le) {
 				le.setAttacking(null);
 			}
 		}

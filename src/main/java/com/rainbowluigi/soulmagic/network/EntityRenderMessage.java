@@ -11,11 +11,8 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.network.ServerPlayNetworkHandler;
-import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.registry.Registry;
 
 import java.util.UUID;
 
@@ -24,7 +21,7 @@ public class EntityRenderMessage {
 		PacketByteBuf pbb = new PacketByteBuf(Unpooled.buffer());
 		pbb.writeVarInt(e.getId());
 		pbb.writeUuid(e.getUuid());
-		pbb.writeVarInt(Registry.ENTITY_TYPE.getRawId(e.getType()));
+		pbb.writeVarInt(Registries.ENTITY_TYPE.getRawId(e.getType()));
 		pbb.writeDouble(e.getX());
 		pbb.writeDouble(e.getY());
 		pbb.writeDouble(e.getZ());
@@ -40,7 +37,7 @@ public class EntityRenderMessage {
 	public static void handle(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
 		int id = buf.readVarInt();
 		UUID uuid = buf.readUuid();
-		EntityType<?> entityTypeId = Registry.ENTITY_TYPE.get(buf.readVarInt());
+		EntityType<?> entityTypeId = Registries.ENTITY_TYPE.get(buf.readVarInt());
 		double x = buf.readDouble();
 		double y = buf.readDouble();
 		double z = buf.readDouble();

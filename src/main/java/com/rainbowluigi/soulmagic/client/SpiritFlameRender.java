@@ -9,14 +9,13 @@ import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Matrix3f;
-import net.minecraft.util.math.Matrix4f;
-import net.minecraft.util.math.Vec3f;
+import net.minecraft.util.math.RotationAxis;
+import org.joml.Matrix3f;
+import org.joml.Matrix4f;
 
 @Environment(EnvType.CLIENT)
 public class SpiritFlameRender extends EntityRenderer<SpiritFlameEntity> {
@@ -31,7 +30,7 @@ public class SpiritFlameRender extends EntityRenderer<SpiritFlameEntity> {
     public void render(SpiritFlameEntity entity, float f1, float f2, MatrixStack matrix, VertexConsumerProvider vertexCP, int i1) {
 		matrix.push();
     	matrix.multiply(this.dispatcher.getRotation());
-    	matrix.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180.0F));
+    	matrix.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180.0F));
         
     	MatrixStack.Entry matrixStack$Entry_1 = matrix.peek();
         Matrix4f matrix4f_1 = matrixStack$Entry_1.getPositionMatrix();

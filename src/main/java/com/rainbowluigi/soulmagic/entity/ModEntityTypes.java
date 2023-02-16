@@ -6,8 +6,9 @@ import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 public class ModEntityTypes {
 
@@ -28,6 +29,6 @@ public class ModEntityTypes {
 	}
 
 	private static void registerEntityType(EntityType<?> entityType, String name) {
-		Registry.register(Registry.ENTITY_TYPE, new Identifier(Reference.MOD_ID, name), entityType);
+		Registry.register(Registries.ENTITY_TYPE, new Identifier(Reference.MOD_ID, name), entityType);
 	}
 }

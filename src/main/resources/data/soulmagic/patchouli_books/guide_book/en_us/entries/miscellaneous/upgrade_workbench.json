@@ -1,0 +1,31 @@
+{
+  "name": "Upgrade Workbench",
+  "icon": "minecraft:bookshelf",
+  "category": "soulmagic:miscellaneous",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "An Upgrade Workbench is used for upgrading devices and for adding spells to spell gems. Anything that can be upgraded will have \"$(8)Upgradeable$()\" in its tooltip (like a Soul Essence Staff).$(br2)To create an Upgrade Workbench, build the pictured structure and right click one of the blocks with a Soul Essence Staff."
+    },
+    {
+      "type": "patchouli:multiblock",
+      "name": "Upgrade Workbench",
+      "multiblock": {
+        "pattern": [
+          [
+            "CC"
+          ],
+          [
+            "0B"
+          ]
+        ],
+        "mapping": {
+          "C": "#minecraft:wool_carpets",
+          "0": "#minecraft:planks",
+          "B": "#c:bookshelves"
+        }
+      },
+      "text": "Creating an Upgrade Workbench requires 10 light soul essence and 10 dark soul essence."
+    }
+  ]
+}

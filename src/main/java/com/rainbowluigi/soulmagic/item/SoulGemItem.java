@@ -40,15 +40,6 @@ public class SoulGemItem extends Item implements SoulEssenceStaffDisplayer, Circ
 	}
 
 	@Override
-	public void appendStacks(ItemGroup group, DefaultedList<ItemStack> items) {
-		// If it is in the right group
-		if (this.isIn(group)) {
-			// Add the empty soul gem
-			items.add(new ItemStack(this));
-		}
-	}
-
-	@Override
 	public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
 		ItemStack stack = player.getStackInHand(hand);
 
